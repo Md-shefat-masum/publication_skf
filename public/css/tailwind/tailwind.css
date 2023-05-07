@@ -39,6 +39,16 @@
 .right-0{
     right: 0px
 }
+.order-1{
+    -webkit-box-ordinal-group: 2;
+        -ms-flex-order: 1;
+            order: 1
+}
+.order-2{
+    -webkit-box-ordinal-group: 3;
+        -ms-flex-order: 2;
+            order: 2
+}
 .mx-auto{
     margin-left: auto;
     margin-right: auto
@@ -50,6 +60,10 @@
 .my-3{
     margin-top: 0.75rem;
     margin-bottom: 0.75rem
+}
+.my-5{
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem
 }
 .mb-0{
     margin-bottom: 0px
@@ -98,6 +112,18 @@
 }
 .mt-5{
     margin-top: 1.25rem
+}
+.mb-40{
+    margin-bottom: 10rem
+}
+.mt-80{
+    margin-top: 20rem
+}
+.mt-60{
+    margin-top: 15rem
+}
+.mb-20{
+    margin-bottom: 5rem
 }
 .flex{
     display: -webkit-box;
@@ -343,6 +369,10 @@
 .text-black{
     --tw-text-opacity: 1;
     color: rgb(0 0 0 / var(--tw-text-opacity))
+}
+.text-white{
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255 / var(--tw-text-opacity))
 }
 .underline{
     text-decoration-line: underline
