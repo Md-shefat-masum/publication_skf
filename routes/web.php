@@ -22,12 +22,16 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::group(['prefix' => '', 'namespace' => "Livewire"], function () {
-    Route::get('/', "ShowPosts");
+    Route::get('/', "Frontend\Home");
+    Route::get('category_product', "Frontend\CategoryProduct")->name('category_product');
+    Route::get('product_details', "Frontend\ProductDetails")->name('product_details');
     Route::get('/login', "Login");
     Route::get('/register', "Register");
 });
 
 Route::group( ['prefix'=>'','namespace' => "Controllers" ],function(){
+    // Route::get('/','WebsiteController@home');
+    // Route::get('/category_product','WebsiteController@category_product');
     Route::get('/website','WebsiteController@website');
 });
 

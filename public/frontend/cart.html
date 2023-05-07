@@ -1,0 +1,629 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Koparion – Book Shop HTML5 Template</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
+
+    <!-- all css here -->
+    <!-- bootstrap v3.3.6 css -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- animate css -->
+    <link rel="stylesheet" href="css/animate.css">
+    <!-- meanmenu css -->
+    <link rel="stylesheet" href="css/meanmenu.min.css">
+    <!-- owl.carousel css -->
+    <link rel="stylesheet" href="css/owl.carousel.css">
+    <!-- font-awesome css -->
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <!-- flexslider.css-->
+    <link rel="stylesheet" href="css/flexslider.css">
+    <!-- chosen.min.css-->
+    <link rel="stylesheet" href="css/chosen.min.css">
+    <!-- style css -->
+    <link rel="stylesheet" href="style.css">
+    <!-- responsive css -->
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- modernizr css -->
+    <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pace-js@latest/pace.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@latest/pace-theme-default.min.css">
+    <script>
+        Pace.start();
+        Pace.options = {
+            restartOnRequestAfter: true
+        }
+        const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+            onOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        });
+        window.toaster = function toaster(icon, message){
+            Toast.fire({
+                icon: icon,
+                title: message,
+            })
+        }
+        window.finalEnlishToBanglaNumber = { '0': '০', '1': '১', '2': '২', '3': '৩', '4': '৪', '5': '৫', '6': '৬', '7': '৭', '8': '৮', '9': '৯' };
+
+        String.prototype.getDigitBanglaFromEnglish = function () {
+            var retStr = this;
+            for (var x in finalEnlishToBanglaNumber) {
+                retStr = retStr.replace(new RegExp(x, 'g'), finalEnlishToBanglaNumber[x]);
+            }
+            return retStr;
+        };
+    </script>
+</head>
+
+<body class="cart">
+	<!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+	<!-- Add your site or application content here -->
+	<!-- header-area-start -->
+    <header>
+        <!-- header-mid-area-start -->
+        <div class="header-mid-area py-3">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-5 col-12">
+                        <div class="header-search">
+                            <form action="#">
+                                <input type="text" placeholder="Search entire store here..." />
+                                <a href="#"><i class="fa fa-search"></i></a>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-4 col-12">
+                        <div class="logo-area text-center logo-xs-mrg">
+                            <a href="index.html"><img src="https://htmldemo.net/boighor/boighor/images/logo/logo.png"
+                                    alt="logo" /></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-12">
+                        <div class="my-cart">
+                            <ul>
+                                <li><a href="#"><i class="fa fa-shopping-cart"></i>ক্রয় তালিকা</a>
+                                    <span>2</span>
+                                    <div class="mini-cart-sub">
+                                        <div class="cart-product">
+                                            <div class="single-cart">
+                                                <div class="cart-img">
+                                                    <a href="#"><img src="https://www.prossodprokashon.com/uploads/file_manager/fm_image_350x500_10641555585e9bf1679119704.jpeg" alt="book" /></a>
+                                                </div>
+                                                <div class="cart-info">
+                                                    <h5><a href="#" class="hind-siliguri">ইখওয়ানুল মুসলিমিনের ইতিহাস</a></h5>
+                                                    <p class="solaiman">১ x ৫৮৮</p>
+                                                </div>
+                                                <div class="cart-icon">
+                                                    <a href="#"><i class="fa fa-remove"></i></a>
+                                                </div>
+                                            </div>
+                                            <div class="single-cart">
+                                                <div class="cart-img">
+                                                    <a href="#"><img src="https://www.prossodprokashon.com/uploads/file_manager/fm_image_350x500_1063d8087bc78281675102331.jpg" alt="book" /></a>
+                                                </div>
+                                                <div class="cart-info">
+                                                    <h5><a href="#" class="hind-siliguri">আল কুদস</a></h5>
+                                                    <p class="solaiman">১ x 70</p>
+                                                </div>
+                                                <div class="cart-icon">
+                                                    <a href="#"><i class="fa fa-remove"></i></a>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="cart-totals">
+                                            <h5>Total <span class="hind-siliguri">৬৫৮</span></h5>
+                                        </div>
+                                        <div class="cart-bottom">
+                                            <a class="view-cart solaiman font-15" href="cart.html">ক্রয় তালিকা দেখুন</a>
+                                            <a class="solaiman font-15" href="checkout.html">এখনই কিনুন</a>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- header-mid-area-end -->
+        <!-- main-menu-area-start -->
+        <div class="main-menu-area d-md-none d-none d-lg-block sticky-header-1" id="header-sticky">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="menu-area">
+                            <nav>
+                                <ul id="menu-main-menu-1" class="menu">
+                                    <li class="menu-item">
+                                        <a href="index.html">
+                                            <span class="menu-label-level-0">হোম</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="category-page.html">
+                                            <span class="menu-label-level-0">ইসলামী সাহিত্য</span>
+                                        </a>
+                                        <div class="sub-menu">
+											<ul>
+												<li><a href="#">দাওয়াতী বই</a></li>
+												<li><a href="#">অন্যান্য বই</a></li>
+												<li><a href="#">সাইন্স সিরিজ</a></li>
+											</ul>
+										</div>
+                                    </li>
+
+                                    <li class="menu-item">
+                                        <a href="category-page.html">
+                                            <span class="menu-label-level-0">সাংগঠনিক উপকরণ</span>
+                                        </a>
+                                        <div class="sub-menu">
+											<ul>
+												<li><a href="#">ফর্ম</a></li>
+												<li><a href="#">রেজিস্টার খাতা</a></li>
+												<li><a href="#">অন্যান্য</a></li>
+											</ul>
+										</div>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="category-page.html">
+                                            <span class="menu-label-level-0">দাওয়াতী উপকরণ</span>
+                                        </a>
+                                        <div class="sub-menu">
+											<ul>
+												<li><a href="#">ফর্ম</a></li>
+												<li><a href="#">পোস্টার</a></li>
+												<li><a href="#">স্টীকার</a></li>
+												<li><a href="#">পতাকা</a></li>
+												<li><a href="#">চাবির রিং</a></li>
+												<li><a href="#">টি-শার্ট</a></li>
+												<li><a href="#">অন্যান্য</a></li>
+											</ul>
+										</div>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="category-page.html">
+                                            <span class="menu-label-level-0">নববর্ষ প্রকাশনা</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="category-page.html">
+                                            <span class="menu-label-level-0">সুভেনির</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="category-page.html">
+                                            <span class="menu-label-level-0">পোস্টার</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="category-page.html">
+                                            <span class="menu-label-level-0">প্রি-অর্ডার</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="blog.html">
+                                            <span class="menu-label-level-0">গ্যালারী</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="profile.html">
+                                            <span class="menu-label-level-0">একাউন্ট</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="profile.html">
+                                            <span class="menu-label-level-0">পরামর্শ</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="profile.html">
+                                            <span class="menu-label-level-0">যোগাযোগ</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- main-menu-area-end -->
+        <!-- mobile-menu-area-start -->
+        <div class="mobile-menu-area d-lg-none d-block fix">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="mobile-menu">
+                            <nav>
+                                <ul id="menu-main-menu-1" class="menu">
+                                    <li class="menu-item">
+                                        <a href="index.html">
+                                            <span class="menu-label-level-0">হোম</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="category-page.html">
+                                            <span class="menu-label-level-0">ইসলামী সাহিত্য</span>
+                                        </a>
+                                        <div class="sub-menu">
+											<ul>
+												<li><a href="#">দাওয়াতী বই</a></li>
+												<li><a href="#">অন্যান্য বই</a></li>
+												<li><a href="#">সাইন্স সিরিজ</a></li>
+											</ul>
+										</div>
+                                    </li>
+
+                                    <li class="menu-item">
+                                        <a href="category-page.html">
+                                            <span class="menu-label-level-0">রেজিস্টার খাতা</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="category-page.html">
+                                            <span class="menu-label-level-0">ফর্ম</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="category-page.html">
+                                            <span class="menu-label-level-0">নববর্ষ প্রকাশনা</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="category-page.html">
+                                            <span class="menu-label-level-0">সুভেনির</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="category-page.html">
+                                            <span class="menu-label-level-0">পোস্টার</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="category-page.html">
+                                            <span class="menu-label-level-0">প্রি-অর্ডার</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="blog.html">
+                                            <span class="menu-label-level-0">গ্যালারী</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="profile.html">
+                                            <span class="menu-label-level-0">একাউন্ট</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- mobile-menu-area-end -->
+    </header>
+    <!-- header-area-end -->
+	<!-- breadcrumbs-area-start -->
+	<div class="breadcrumbs-area mb-70">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="breadcrumbs-menu">
+						<ul>
+							<li><a href="#">Home</a></li>
+							<li><a href="#" class="active">cart</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- breadcrumbs-area-end -->
+	<!-- entry-header-area-start -->
+	<div class="entry-header-area">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="entry-header-title">
+						<h2>Cart</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- entry-header-area-end -->
+	<!-- cart-main-area-start -->
+	<div class="cart-main-area mb-70">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<form action="#">
+						<div class="table-content table-responsive mb-15 border-1">
+							<table>
+								<thead>
+									<tr>
+										<th class="product-thumbnail">Image</th>
+										<th class="product-name">Product</th>
+										<th class="product-price">Price</th>
+										<th class="product-quantity">Quantity</th>
+										<th class="product-subtotal">Total</th>
+										<th class="product-remove">Remove</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="product-thumbnail"><a href="#"><img src="https://www.prossodprokashon.com/uploads/file_manager/fm_image_350x500_10616e680c89e4a1634625548.jpg"
+													alt="man" /></a></td>
+										<td class="product-name"><a href="#" class="hind-siliguri">কারফিউড নাইট</a></td>
+										<td class="product-price"><span class="amount solaiman">৳ ২৬৬</span></td>
+										<td class="product-quantity"><input type="number" value="1"></td>
+										<td class="product-subtotal solaiman">৳ ২৬৬</td>
+										<td class="product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
+									</tr>
+									<tr>
+										<td class="product-thumbnail"><a href="#"><img src="https://www.prossodprokashon.com/uploads/file_manager/fm_image_350x500_10630202c613b031661076166.jpg"
+													alt="man" /></a></td>
+										<td class="product-name"><a href="#">কুরআনের সান্নিধ্যে</a></td>
+										<td class="product-price"><span class="amount solaiman">৳ ৭০</span></td>
+										<td class="product-quantity"><input type="number" value="1"></td>
+										<td class="product-subtotal solaiman">৳ ৭০</td>
+										<td class="product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-8 col-md-6 col-12">
+					<div class="buttons-cart mb-30">
+						<ul>
+							<li><a href="#">Update Cart</a></li>
+							<li><a href="checkout.html">Continue Shopping</a></li>
+						</ul>
+					</div>
+					<div class="coupon">
+						<h3>Coupon</h3>
+						<p>Enter your coupon code if you have one.</p>
+						<form action="#">
+							<input type="text" placeholder="Coupon code">
+							<a href="#">Apply Coupon</a>
+						</form>
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-6 col-12">
+					<div class="cart_totals">
+						<h2>Cart Totals</h2>
+						<table>
+							<tbody>
+								<tr class="cart-subtotal">
+									<th>Subtotal</th>
+									<td>
+										<span class="amount solaiman">৳ ৩৩৬</span>
+									</td>
+								</tr>
+								<tr class="shipping">
+									<th>Shipping</th>
+									<td>
+										<ul id="shipping_method">
+											<li>
+												<input type="radio">
+												<label>
+													Flat Rate:
+													<span class="amount solaiman">৳ ৪০</span>
+												</label>
+											</li>
+											<li>
+												<input type="radio">
+												<label> Free Shipping </label>
+											</li>
+										</ul>
+										<a href="#">Calculate Shipping</a>
+									</td>
+								</tr>
+								<tr class="order-total">
+									<th>Total</th>
+									<td>
+										<strong>
+											<span class="amount solaiman">৳ ৩৭৬</span>
+										</strong>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="wc-proceed-to-checkout">
+							<a href="checkout.html" class="solaiman">Proceed to Checkout</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- cart-main-area-end -->
+	<!-- footer-area-start -->
+	<footer class="mt-5">
+        <!-- footer-mid-start -->
+        <div class="footer-mid ptb-50">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-md-12">
+                        
+                        <ul>
+                            <li id="custom_html-2">
+                                <div>
+                                    <img src="https://htmldemo.net/boighor/boighor/images/logo/logo.png" alt="" title="">
+                                    <p class="mt-3 text-white">
+                                        Bookstore is a leading book shop in Bangladesh. We offer thousands of
+                                        islamic, general and academic books at a discounted price. We provide good
+                                        packaging with low shipping cost all over the Bangladesh.
+                                    </p>
+                                </div>
+                            </li>
+                            
+                        </ul>
+                        
+                    </div>
+
+                    <div class="col-lg-8 col-md-12">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-12">
+                                <div class="single-footer br-2 xs-mb">
+                                    <div class="footer-title mb-20">
+                                        <h3 class="hind-siliguri">প্রয়োজনীয় লিংক</h3>
+                                    </div>
+                                    <div class="footer-mid-menu">
+                                        <ul>
+                                            <li><a class="hind-siliguri" href="/contact/">যোগাযোগ করুন</a></li>
+                                            <li><a class="hind-siliguri" target="_blank"
+                                                    href="#" rel="noopener">ব্লগ</a></li>
+                                            <li><a class="hind-siliguri" href="/cart/">শপিং ব্যাগ</a></li>
+                                            <li><a class="hind-siliguri"
+                                                    href="/frequently-asked-questions/">প্রশ্নোত্তর</a></li>
+                                            <li><a class="hind-siliguri" href="/how-to-buy">কিভাবে কেনাকাটা করবেন ?</a>
+                                            </li>
+                                            <li><a class="hind-siliguri" href="/terms">শর্তাবলী</a></li>
+                                            <li><a class="hind-siliguri" href="/refund-policy">রিফান্ড নীতিমালা</a></li>
+                                            <li><a class="hind-siliguri" href="/privacy-policy">প্রাইভেসী পলিসি</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-12">
+                                <div class="single-footer br-2 xs-mb">
+                                    <div class="footer-title mb-20">
+                                        <h3>জনপ্রিয়</h3>
+                                    </div>
+                                    <div class="footer-mid-menu">
+                                        <ul>
+                                            <li><a class="hind-siliguri" href="/wishlist">আপনার পছন্দের তালিকা</a></li>
+                                            <li><a class="hind-siliguri" href="/general-books/">জেনারেল ও অ্যাকাডেমিক
+                                                    বই</a></li>
+                                            <li><a class="hind-siliguri"
+                                                    href="/cat/books/author/dr-khandkar-abdullah-jahangir/">ড. খোন্দকার
+                                                    আব্দুল্লাহ জাহাঙ্গীর এর বই</a></li>
+                                            <li><a class="hind-siliguri"
+                                                    href="/cat/books/author/%e0%a6%86%e0%a6%b0%e0%a6%bf%e0%a6%ab-%e0%a6%86%e0%a6%9c%e0%a6%be%e0%a6%a6/">আরিফ
+                                                    আজাদ এর বই</a></li>
+                                            <li><a class="hind-siliguri" href="/preorder">প্রি-অর্ডার
+                                                </a></li>
+                                            <li><a class="hind-siliguri" href="/cat/home-product/প্যাকেজ/">প্যাকেজ
+                                                </a></li>
+                                            <li><a class="hind-siliguri"
+                                                    href="/cat/books/subject/electronics-product/">ইলেকট্রনিক্স</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-12">
+                                <div class="single-footer br-2 xs-mb">
+                                    <div class="footer-title mb-20">
+                                        <h3 class="hind-siliguri">যোগাযোগ</h3>
+                                    </div>
+                                    <div class="footer-mid-menu">
+                                        <ul>
+                                            <li style="margin-bottom:10px" class="text-white">
+                                                <i class="fa fa-map-marker"></i>&nbsp;Head Office: <br><span>House 310,
+                                                    Road 21</span> <br>
+                                                <span>Mohakhali DOHS, Dhaka-1206</span>
+                                            </li>
+                                            <li class="text-white">
+                                                <i class="fa fa-mobile"></i>&nbsp;Phone:<br><a
+                                                    href="tel:+8801799925050">017-9992-5050</a> <a
+                                                    href="tel:+8809678771365">096-7877-1365</a>
+                                            </li>
+                                            <li class="text-white">
+                                                <i
+                                                    class="fa fa-envelope-o"></i>&nbsp;&nbsp;<span>sales@bookstore.com</span>
+                                            </li>
+
+                                        </ul>
+                                        <!-- <ul>
+                                            <li><a href="contact.html">Addresses</a></li>
+                                            <li><a href="#">Credit slips </a></li>
+                                            <li><a href="#"> Orders</a></li>
+                                            <li><a href="#">Personal info</a></li>
+                                        </ul> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- footer-mid-end -->
+        <!-- footer-bottom-start -->
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row bt-2">
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="copy-right-area">
+                            <p>&copy; 2022 <strong> Koparion </strong> Mede with ❤️ by <a href="https://techparkit.org/"
+                                    target="_blank"><strong>Techpark It</strong></a></p>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="payment-img text-end">
+                            <a href="#"><img src="img/1.png" alt="payment" /></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- footer-bottom-end -->
+
+    </footer>
+
+
+	<!-- all js here -->
+	<!-- jquery latest version -->
+	<script src="js/vendor/jquery-1.12.4.min.js"></script>
+
+
+	<!-- bootstrap js -->
+	<script src="js/bootstrap.min.js"></script>
+	<!-- owl.carousel js -->
+	<script src="js/owl.carousel.min.js"></script>
+	<!-- meanmenu js -->
+	<script src="js/jquery.meanmenu.js"></script>
+	<!-- wow js -->
+	<script src="js/wow.min.js"></script>
+	<!-- jquery.parallax-1.1.3.js -->
+	<script src="js/jquery.parallax-1.1.3.js"></script>
+	<!-- jquery.countdown.min.js -->
+	<script src="js/jquery.countdown.min.js"></script>
+	<!-- jquery.flexslider.js -->
+	<script src="js/jquery.flexslider.js"></script>
+	<!-- chosen.jquery.min.js -->
+	<script src="js/chosen.jquery.min.js"></script>
+	<!-- jquery.counterup.min.js -->
+	<script src="js/jquery.counterup.min.js"></script>
+	<!-- waypoints.min.js -->
+	<script src="js/waypoints.min.js"></script>
+	<!-- plugins js -->
+	<script src="js/plugins.js"></script>
+	<!-- main js -->
+	<script src="js/main.js"></script>
+</body>
+
+
+</html>
