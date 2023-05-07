@@ -129,6 +129,10 @@ function slider_reboot() {
     })
 }
 
+function add_to_cart() {
+    window.toaster('success', "Product Added to cart!")
+}
+
 document.addEventListener("turbolinks:load", function(event) {
     if (window.dom_load_count > 1 && !window.dom_load_navigating) {
         window.livewire.restart();

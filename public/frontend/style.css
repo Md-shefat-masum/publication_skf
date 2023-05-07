@@ -222,7 +222,15 @@ a:hover {
     border: 1px solid #f07c29;
     padding: 10px 20px;
 }
-
+.header-search form a i{ 
+    line-height: 42px;
+}
+.product-addto-links a i{
+    line-height: 45px;
+}
+/* i {
+    padding-top: 10px;
+} */
 .submit_btn {
     background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
     border: 1px solid #eceff8;
