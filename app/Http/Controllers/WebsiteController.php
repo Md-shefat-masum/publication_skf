@@ -87,4 +87,8 @@ class WebsiteController extends Controller
         $response = Http::get($url.'?chat_id='.$parameters['chat_id'].'&text='.$parameters['text']);
         return $response->json();
     }
+    public function pos()
+    {
+        return view('pos');
+    }
 }
