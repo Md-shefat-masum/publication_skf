@@ -294,7 +294,7 @@ export default {
                         subtotal: parseInt(Math.random()*10000),
                         shipping: parseInt(Math.random()*100),
                         paid: 2000,
-                        payment_status: parseInt(Math.random()*10) % 2==0?'due':'paid',
+                        payment_status: ['due','paid','pertially-paid','due','paid','pertially-paid','due','paid','pertially-paid'][index],
                         status: ['pending','accepted','processing','delivered','canceled'][index],
                         created_at: new Date().toDateString() + ' ' + new Date().toLocaleTimeString(),
                         products: [

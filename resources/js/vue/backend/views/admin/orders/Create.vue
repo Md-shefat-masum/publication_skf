@@ -19,19 +19,19 @@
                                 <button class="btn btn-outline-adn"><i class="fa fa-search"></i></button>
                             </div>
                             <div class="row py-3">
-                                <div class="col-lg-3" v-for="item in data" :key="item.id">
+                                <div class="col-lg-3" v-for="item in products.data" :key="item.id">
                                     <div class="card h-100 d-flex flex-column justify-between" >
-                                        <img :src="item.image" class="img-fluid" alt=""/>
-                                        <h6 style="flex:1" class="mt-2 mb-0">{{ item.title }}</h6>
-                                        <button class="btn btn-sm btn-outline-info">Add</button>
+                                        <img :src="item.thumb_image" class="img-fluid" alt=""/>
+                                        <h6 style="flex:1" class="mt-2 mb-0">{{ item.product_name }}</h6>
+                                        <button class="btn mb-2 btn-sm btn-outline-info">Add</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-5">
-                            <div class="border border-1 borde-info p-1 rounded-sm mb-2">
+                            <div class="border border-1 position-sticky top-0 borde-info p-1 rounded-sm mb-2">
                                 <table class="table ">
-                                    <thead>
+                                    <thead class="position-static">
                                         <tr>
                                             <th>Title</th>
                                             <th style="width: 130px;">Qty</th>
@@ -63,7 +63,8 @@
                                 <form action="" class="mt-3">
                                     <div class="form-group mb-2">
                                         <label for="" class="mb-1">Select Customer</label>
-                                        <input type="text" class="form-control">
+                                        <!-- <input type="text" class="form-control"> -->
+                                        <user-management-modal ></user-management-modal>
                                     </div>
                                     <div class="d-flex gap-1 flex-wrap">
                                         <button type="submit" class="btn btn-outline-info" >
@@ -97,14 +98,15 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import InputField from '../../components/InputField.vue'
+import UserManagementModal from '../../users/components/UserManagementModal.vue';
 /** store and route prefix for export object use */
 import PageSetup from './PageSetup';
 const {route_prefix, store_prefix} = PageSetup;
 
 export default {
-    components: { InputField },
+    components: { InputField, UserManagementModal },
     data: function(){
         return {
             /** store prefix for JSX */
@@ -142,13 +144,20 @@ export default {
             ]
         }
     },
-    created: function () {},
+    created: function () {
+        this.fetch_production_products();
+    },
     methods: {
-        ...mapActions([`store_${store_prefix}`]),
+        ...mapActions([`store_${store_prefix}`,`fetch_production_products`]),
         call_store: function(name, params=null){
             this[name](params)
         },
     },
+    computed: {
+        ...mapGetters({
+            'products': "get_production_products",
+        })
+    }
 };
 </script>
 

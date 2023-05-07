@@ -11,6 +11,7 @@ use Database\Seeders\Product\ProductSeeder;
 use Database\Seeders\Product\PoroductionSeeder;
 use Database\Seeders\Product\PoroductTranslatorSeeder;
 use Database\Seeders\Product\PoroductWriterSeeder;
+use Database\Seeders\Settings\SettingTitleSeeder;
 use Database\Seeders\User\UserSeeder;
 use Illuminate\Database\Seeder;
 
@@ -42,6 +43,7 @@ class DatabaseSeeder extends Seeder
             PoroductionDesignerSeeder::class,
             PoroductionSeeder::class,
 
+            SettingTitleSeeder::class,
         ]);
     }
 }

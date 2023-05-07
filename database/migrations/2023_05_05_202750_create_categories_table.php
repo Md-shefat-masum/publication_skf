@@ -17,9 +17,9 @@ class CreateCategoriesTable extends Migration
             $table->id();
             $table->string("name", 100)->nullable();
             $table->string("name_english", 100)->nullable();
-            $table->integer("parent_id")->nullable();
+            $table->integer("parent_id")->default(0);
             $table->string("url", 100)->nullable();
-            $table->tinyInteger("is_top_category")->default("0");
+            $table->tinyInteger("is_top_category")->default(0);
             $table->string("category_image", 100)->nullable();
             $table->text("description")->nullable();
 
