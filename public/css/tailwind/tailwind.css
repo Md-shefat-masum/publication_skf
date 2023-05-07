@@ -30,6 +30,9 @@
 .fixed{
     position: fixed
 }
+.absolute{
+    position: absolute
+}
 .relative{
     position: relative
 }
@@ -49,6 +52,9 @@
         -ms-flex-order: 2;
             order: 2
 }
+.float-right{
+    float: right
+}
 .mx-auto{
     margin-left: auto;
     margin-right: auto
@@ -64,6 +70,10 @@
 .my-5{
     margin-top: 1.25rem;
     margin-bottom: 1.25rem
+}
+.my-2{
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem
 }
 .mb-0{
     margin-bottom: 0px
@@ -125,6 +135,24 @@
 .mb-20{
     margin-bottom: 5rem
 }
+.ml-5{
+    margin-left: 1.25rem
+}
+.mt-20{
+    margin-top: 5rem
+}
+.mt-10{
+    margin-top: 2.5rem
+}
+.ml-auto{
+    margin-left: auto
+}
+.block{
+    display: block
+}
+.inline-block{
+    display: inline-block
+}
 .flex{
     display: -webkit-box;
     display: -ms-flexbox;
@@ -168,6 +196,15 @@
 }
 .max-w-6xl{
     max-width: 72rem
+}
+.flex-shrink{
+    -ms-flex-negative: 1;
+        flex-shrink: 1
+}
+.transform{
+    -webkit-transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+        -ms-transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+            transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))
 }
 .cursor-pointer{
     cursor: pointer
@@ -264,6 +301,9 @@
 .p-1{
     padding: 0.25rem
 }
+.p-4{
+    padding: 1rem
+}
 .py-4{
     padding-top: 1rem;
     padding-bottom: 1rem
@@ -306,11 +346,17 @@
 .text-center{
     text-align: center
 }
+.text-right{
+    text-align: right
+}
 .text-start{
     text-align: start
 }
 .text-end{
     text-align: end
+}
+.align-middle{
+    vertical-align: middle
 }
 .text-sm{
     font-size: 0.875rem;
@@ -390,9 +436,35 @@
     -webkit-box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
             box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)
 }
+.outline{
+    outline-style: solid
+}
+.grayscale{
+    --tw-grayscale: grayscale(100%);
+    -webkit-filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+            filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)
+}
 .filter{
     -webkit-filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
             filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)
+}
+.transition{
+    -webkit-transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, -webkit-box-shadow, -webkit-transform, -webkit-filter, -webkit-backdrop-filter;
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, -webkit-box-shadow, -webkit-transform, -webkit-filter, -webkit-backdrop-filter;
+    -o-transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-box-shadow, -webkit-transform, -webkit-filter, -webkit-backdrop-filter;
+    -webkit-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+         -o-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    -webkit-transition-duration: 150ms;
+         -o-transition-duration: 150ms;
+            transition-duration: 150ms
+}
+.ease-in-out{
+    -webkit-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+         -o-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1)
 }
 @media (prefers-color-scheme: dark){
     .dark\:bg-gray-900{

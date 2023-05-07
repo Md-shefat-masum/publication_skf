@@ -6,32 +6,37 @@
                 <left-nav-list-item :to="'BranchDashboard'" :text="'Analytics'" />
             </left-nav-list-group>
 
-            <left-nav-list-group :role_permissions="['branch']" :icon="`fa fa-list`" :text="`Test`" :alert_count="0">
+            <!-- <left-nav-list-group :role_permissions="['branch']" :icon="`fa fa-list`" :text="`Test`" :alert_count="0">
                 <left-nav-list-item :to="'BranchTestPage1'" :text="'All'" />
                 <left-nav-list-item :to="'BranchTestPage2'" :text="'test2'" />
-            </left-nav-list-group>
+            </left-nav-list-group> -->
 
             <li class="navigation-header">
                 <span data-i18n="Apps &amp; Pages">managements</span>
             </li>
 
-            <left-nav-list-group :role_permissions="['branch']" :icon="`fa fa-list`" :text="`Inventory`" :alert_count="0">
+            <left-nav-list-group :role_permissions="['branch']" :icon="`fa fa-list`" :text="`Orders`" :alert_count="0">
+                <left-nav-list-item :to="'AllBranchOrder'" :text="'All Orders'" />
+                <left-nav-list-item :to="'CreateBranchOrder'" :text="'Create Order'" />
+            </left-nav-list-group>
+
+            <!-- <left-nav-list-group :role_permissions="['branch']" :icon="`fa fa-list`" :text="`Inventory`" :alert_count="0">
                 <left-nav-list-item :to="'AllBranchProduct'" :text="'All'" />
                 <left-nav-list-item :to="'BestSelling'" :text="'Best Sales'" />
                 <left-nav-list-item :to="'BestSelling'" :text="'Import Products'" />
-            </left-nav-list-group>
+            </left-nav-list-group> -->
 
-            <left-nav-list-group :role_permissions="['branch']" :icon="`fa fa-list`" :text="`Sales`" :alert_count="0">
+            <!-- <left-nav-list-group :role_permissions="['branch']" :icon="`fa fa-list`" :text="`Sales`" :alert_count="0">
                 <left-nav-list-item :to="'AllBranchCustomerOrder'" :text="'All Customers'" />
                 <left-nav-list-item :to="'AllBranchCustomers'" :text="'Create Customers'" />
                 <left-nav-list-item :to="'CreateBranchCustomerOrder'" :text="'Create Order'" />
-            </left-nav-list-group>
+            </left-nav-list-group> -->
 
-            <left-nav-list-group :role_permissions="['branch']" :icon="`fa fa-list`" :text="`Accounts`" :alert_count="0">
+            <!-- <left-nav-list-group :role_permissions="['branch']" :icon="`fa fa-list`" :text="`Accounts`" :alert_count="0">
                 <left-nav-list-item :to="'AllBranchCustomerOrder'" :text="'Incomes'" />
                 <left-nav-list-item :to="'AllBranchCustomers'" :text="'Expenses'" />
                 <left-nav-list-item :to="'CreateBranchCustomerOrder'" :text="'Categories'" />
-            </left-nav-list-group>
+            </left-nav-list-group> -->
 
             <li class="nav-item">
                 <a @click.prevent="fetch_logout()" class="d-flex align-items-center" href="#">
