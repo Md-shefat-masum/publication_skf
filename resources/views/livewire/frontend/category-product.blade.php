@@ -25,10 +25,6 @@
                 let page = 1;
                 let category_id = 2;
 
-                function add_to_cart() {
-                    window.toaster('success', "Product Added to cart!")
-                }
-
                 function load_category() {
                     Pace.restart()
                     fetch(`https://www.prossodprokashon.com/api/get-all-category`)
@@ -41,7 +37,7 @@
                             post.forEach(element => {
                                 console.log(element);
                                 category_section.innerHTML += `
-                            <li style="margin: 0px; margin-bottom: 10px;"><a href="#" onclick="load_product(${element.id}, 1)">${element.name}</a></li>
+                            <li style="margin: 0px; margin-bottom: 10px;"><a href="javascript:void(0)" onclick="load_product(${element.id}, 1)">${element.name}</a></li>
                             `;
 
                             });
