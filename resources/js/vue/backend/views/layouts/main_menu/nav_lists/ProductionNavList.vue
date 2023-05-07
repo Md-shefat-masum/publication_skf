@@ -1,5 +1,5 @@
 <template>
-    <div @mouseover="mouseover" @mouseleave="mouseleave">
+    <div @mouseover="mouseover" @mouseleave="mouseleave" class="pb-4">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
 
             <left-nav-list-group :role_permissions="['production']" :icon="`fa fa-home`" :text="`Dashboard`" :alert_count="0">
@@ -26,12 +26,6 @@
                 <left-nav-list-item :to="'AllProductionPaper'" :text="'Paper'" />
                 <left-nav-list-item :to="'AllProductionPrinting'" :text="'Print'" />
                 <left-nav-list-item :to="'AllProductionBinding'" :text="'Binding'" />
-            </left-nav-list-group>
-
-            <left-nav-list-group :role_permissions="['production']" :icon="`fa fa-list`" :text="`Accounts`" :alert_count="0">
-                <left-nav-list-item :to="'AllProductionAccount'" :text="'Income & expenses'" />
-                <left-nav-list-item :to="'AllProductionAccountCategory'" :text="'Categories'" />
-                <left-nav-list-item :to="'AllProductionAccountBank'" :text="'Accounts'" />
             </left-nav-list-group>
 
             <li class="nav-item">

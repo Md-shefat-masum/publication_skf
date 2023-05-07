@@ -81,23 +81,22 @@
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
-                        <!-- <tr v-for="item in this[`get_${store_prefix}s`].data" :key="item.id"> -->
-                        <tr v-for="item in data" :key="item.id">
+                        <tr v-for="item in this[`get_${store_prefix}s`].data" :key="item.id">
                             <td>
                                 <input v-if="check_if_data_is_selected(item)" :data-id="item.id" checked @change="call_store(`set_selected_${store_prefix}s`,item)" type="checkbox" class="form-check-input">
                                 <input v-else @change="call_store(`set_selected_${store_prefix}s`,item)" type="checkbox" class="form-check-input">
                             </td>
                             <td>{{ parseInt(Math.random()*100) }}</td>
                             <td>
-                                <img style="height: 60px;" :src="item.image" alt="">
+                                <img style="height: 60px;" :src="item.thumb_image" alt="">
                             </td>
                             <td>
                                 <span class="text-warning cursor_pointer" @click.prevent="call_store(`set_${store_prefix}`,item)">
-                                    {{ item.title }}
+                                    {{ item.product_name }}
                                 </span>
                             </td>
-                            <td>{{ parseInt(Math.random()*100000) }}</td>
-                            <td>{{ parseInt(Math.random()*100000)  }}</td>
+                            <td>{{ item.sales_price }}</td>
+                            <td>{{ item.cost  }}</td>
                             <td>{{ parseInt(Math.random()*100000) }}</td>
                             <td>
                                 <span class="badge bg-label-success me-1">avaiable</span>
@@ -208,28 +207,6 @@ export default {
         return {
             store_prefix,
             route_prefix,
-            data: [
-                {
-                    title: 'ক্যারিয়ার বিকশিত জীবনের দ্বার',
-                    image: 'http://almari.info/uploads/product/product_main_image/dh2QioXn122GuTfvBBcrEkDKM0XAEiG2z63zwRKC.png',
-                    status: 'avaialbe',
-                },
-                {
-                    title: 'বিষয়ভিত্তিক আয়াত ও হাদিস সংকলন (ছোটো)',
-                    image: 'http://almari.info/uploads/product/product_main_image/PWGp7nvai1IYlG3xbEt8WBmV6nZ7V0Rmc3FeM2eP.jpeg',
-                    status: 'avaialbe',
-                },
-                {
-                    title: 'এসো আলোর পথে',
-                    image: 'http://almari.info/uploads/product/product_main_image/juRgRV0pxxjFkulEA4flJI1UAKSr966a9JFgyKyb.jpeg',
-                    status: 'avaialbe',
-                },
-                {
-                    title: 'বর্ণমালা',
-                    image: 'http://almari.info/uploads/product/product_main_image/1SNDUyvzYwCSyXJHOSAtiVCYj8DinhqVjGEuuwXK.jpeg',
-                    status: 'avaialbe',
-                },
-            ]
         }
     },
     created: function(){

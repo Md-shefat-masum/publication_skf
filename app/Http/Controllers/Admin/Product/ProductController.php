@@ -149,7 +149,7 @@ class ProductController extends Controller
 
     public function product_stock_set($supplier_id = null, $product_id, $purchase_date, $qty)
     {
-        ProductStock::create([
+        ProductStockLog::create([
             'supplier_id' => $supplier_id,
             'product_id' => $product_id,
             'purchase_date' => $purchase_date,

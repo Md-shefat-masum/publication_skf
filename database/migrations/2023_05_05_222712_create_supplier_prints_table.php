@@ -16,7 +16,7 @@ class CreateSupplierPrintsTable extends Migration
         Schema::create('supplier_prints', function (Blueprint $table) {
             $table->id();
             $table->string("company_name", 45)->nullable();
-            $table->integer("print_cost")->nullable();
+            $table->float("print_cost")->nullable();
             $table->integer("total_page")->nullable();
             $table->float("per_page_cost")->nullable();
             $table->date("contact_date")->nullable();
