@@ -52,8 +52,8 @@
                                         <h5>Total <span class="hind-siliguri">৬৫৮</span></h5>
                                     </div>
                                     <div class="cart-bottom">
-                                        <a class="view-cart solaiman font-15" href="cart.html">ক্রয় তালিকা দেখুন</a>
-                                        <a class="solaiman font-15" href="checkout.html">এখনই কিনুন</a>
+                                        <a class="view-cart solaiman font-15" href="{{ route('cart') }}">ক্রয় তালিকা দেখুন</a>
+                                        <a class="solaiman font-15" href="{{ route('checkout') }}">এখনই কিনুন</a>
                                     </div>
                                 </div>
                             </li>
