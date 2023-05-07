@@ -2903,15 +2903,15 @@
                         <div class="ant-page-header-heading">
                             <div class="ant-page-header-heading-left">
                                 <div class="ant-page-header-back">
-                                    <div role="button" tabindex="0" class="ant-page-header-back-button" aria-label="Back" style="border: 0px; background: transparent; padding: 0px; line-height: inherit; display: inline-block;">
-                                        <span role="img" aria-label="arrow-left" class="anticon anticon-arrow-left">
-                                            <svg focusable="false" class="" data-icon="arrow-left" width="1em" height="1em" fill="currentColor" aria-hidden="true" viewBox="64 64 896 896">
-                                                <path
-                                                    d="M872 474H286.9l350.2-304c5.6-4.9 2.2-14-5.2-14h-88.5c-3.9 0-7.6 1.4-10.5 3.9L155 487.8a31.96 31.96 0 000 48.3L535.1 866c1.5 1.3 3.3 2 5.2 2h91.5c7.4 0 10.8-9.2 5.2-14L286.9 550H872c4.4 0 8-3.6 8-8v-60c0-4.4-3.6-8-8-8z"
-                                                ></path>
-                                            </svg>
-                                        </span>
-                                    </div>
+                                    <a href="/">
+                                        <div role="button" tabindex="0" class="ant-page-header-back-button" aria-label="Back" style="border: 0px; background: transparent; padding: 0px; line-height: inherit; display: inline-block;">
+                                            <span role="img" aria-label="arrow-left" class="anticon anticon-arrow-left">
+                                                <svg focusable="false" class="" data-icon="arrow-left" width="1em" height="1em" fill="currentColor" aria-hidden="true" viewBox="64 64 896 896">
+                                                    <path d="M872 474H286.9l350.2-304c5.6-4.9 2.2-14-5.2-14h-88.5c-3.9 0-7.6 1.4-10.5 3.9L155 487.8a31.96 31.96 0 000 48.3L535.1 866c1.5 1.3 3.3 2 5.2 2h91.5c7.4 0 10.8-9.2 5.2-14L286.9 550H872c4.4 0 8-3.6 8-8v-60c0-4.4-3.6-8-8-8z"></path>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                    </a>
                                 </div>
                                 <!---->
                                 <span class="ant-page-header-heading-title" title="POS">POS</span>
