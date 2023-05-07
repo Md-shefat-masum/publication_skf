@@ -25,4 +25,35 @@ class Product extends Model
             }
         });
     }
+
+    public function related_image()
+    {
+        return $this->hasMany(ProductImage::class, 'product_id');
+    }
+
+    public function discount()
+    {
+        return $this->hasOne(DiscountProduct::class);
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class)->withTimestamps();
+    }
+
+    public function stocks()
+    {
+        return $this->hasMany(ProductStockLog::class,'product_id');
+    }
+
+    public function sales()
+    {
+        // return $this->hasMany(OrderDetails::class,'product_id');
+        return $this->hasMany(ProductStockLog::class,'product_id');
+    }
+
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class, 'brand_id');
+    }
 }

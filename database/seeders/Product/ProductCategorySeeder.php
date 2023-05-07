@@ -73,6 +73,5 @@ class ProductCategorySeeder extends Seeder
                 "search_keywords" => $item["name_english"].' '.$item["name"],
             ]);
         }
-
     }
 }

@@ -5,7 +5,12 @@ namespace Database\Seeders;
 use Database\Seeders\Account\AccountCategorySeeder;
 use Database\Seeders\Account\AccountCategoryTypeSeeder;
 use Database\Seeders\Account\AccountLogSeeder;
+use Database\Seeders\Product\PoroductionDesignerSeeder;
 use Database\Seeders\Product\ProductCategorySeeder;
+use Database\Seeders\Product\ProductSeeder;
+use Database\Seeders\Product\PoroductionSeeder;
+use Database\Seeders\Product\PoroductTranslatorSeeder;
+use Database\Seeders\Product\PoroductWriterSeeder;
 use Database\Seeders\User\UserSeeder;
 use Illuminate\Database\Seeder;
 
@@ -30,6 +35,13 @@ class DatabaseSeeder extends Seeder
             AccountLogSeeder::class,
 
             ProductCategorySeeder::class,
+            PoroductWriterSeeder::class,
+            PoroductTranslatorSeeder::class,
+            ProductSeeder::class,
+
+            PoroductionDesignerSeeder::class,
+            PoroductionSeeder::class,
+
         ]);
     }
 }

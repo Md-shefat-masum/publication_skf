@@ -32,14 +32,14 @@ class CreateProductsTable extends Migration
             $table->string("depth",10)->nullable();
             $table->longText("description")->nullable();
             $table->longText("specification")->nullable();
-            $table->string("thumb_image",50)->nullable();
+            $table->string("thumb_image",100)->nullable();
             $table->text("search_keywords")->nullable();
             $table->string("page_title",100)->nullable();
             $table->string("meta_description",100)->nullable();
             $table->text("custom_fields")->nullable();
 
             $table->bigInteger('creator')->unsigned()->nullable();
-            $table->string('slug',50)->nullable();
+            $table->string('slug',100)->nullable();
             $table->tinyInteger('status')->unsigned()->default(1);
 
             $table->timestamps();
