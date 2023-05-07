@@ -27,14 +27,13 @@ Route::group(['prefix' => '', 'namespace' => "Livewire"], function () {
     Route::get('product_details', "Frontend\ProductDetails")->name('product_details');
     Route::get('cart', "Frontend\Cart")->name('cart');
     Route::get('checkout', "Frontend\Checkout")->name('checkout');
+    Route::get('invoice', "Frontend\Invoice")->name('invoice');
     Route::get('/login', "Login");
     Route::get('/register', "Register");
 });
 
 Route::group( ['prefix'=>'','namespace' => "Controllers" ],function(){
-    // Route::get('/','WebsiteController@home');
     Route::post('/checkout','WebsiteController@checkout');
-    
 });
 
 Route::get('/dashboard', function () {
