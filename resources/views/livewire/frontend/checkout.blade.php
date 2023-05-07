@@ -279,6 +279,26 @@
 															<td class="price text-right">
 																৳ 266</td>
 														</tr>
+
+                                                        <tr>
+															<td class="name">
+																<a href="javascript:void(0)" class="hind-siliguri">আল কুদস</a>
+																<div class="options"></div>
+															</td>
+															<td class="price"><span>৳ 70</span> <span> x </span> <span>1</span></td>
+															<td class="price text-right">
+																৳ 70</td>
+														</tr>
+
+                                                        <tr>
+															<td class="name">
+																<a href="javascript:void(0)" class="hind-siliguri">দুঃখ-কষ্টের হিকমত</a>
+																<div class="options"></div>
+															</td>
+															<td class="price"><span>৳ 119</span> <span> x </span> <span>1</span></td>
+															<td class="price text-right">
+																৳ 119</td>
+														</tr>
 														
 
 														<tr class="total">
@@ -286,7 +306,7 @@
 																<strong>Sub-Total:</strong></td>
 															<input type="hidden" name="cart_total"
 																value="" id="cart_total">
-															<td class="text-right"><span class="amount">৳ 266</span></td>
+															<td class="text-right"><span class="amount">৳ 455</span></td>
 														</tr>
 														<tr class="total">
 															<td colspan="2" class="text-right">
@@ -299,7 +319,7 @@
 															</td>
 															<input type="hidden" name="order_total"
 																value="" id="order_total">
-															<td class="text-right"><span class="amount">৳ 304</span></td>
+															<td class="text-right"><span class="amount">৳ 495</span></td>
 														</tr>
 													</tbody>
 												</table>

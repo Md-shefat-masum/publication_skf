@@ -4,6 +4,7 @@
     <title>{{$title??''}}</title>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta property="og:title" content="{{$title??''}}" />
     <meta property="og:site_name" content="{{$title??''}}" />
     <meta property="og:description" content="{{$title??''}}" />

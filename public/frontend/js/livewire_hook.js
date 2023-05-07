@@ -90,21 +90,7 @@ function closeModal() {
     }, 500);
 }
 
-window.dom_load_count = 1;
-window.dom_load_navigating = false;
-window.onpopstate = function(event) {
-    console.log("location: " + document.location);
-    window.location.href = document.location
-    window.dom_load_navigating = true;
-    // document
-    //     .querySelectorAll(".page-link")
-    //     .forEach(i =>
-    //         i.addEventListener(
-    //             "click",
-    //             () => (window.dom_load_navigating = false)
-    //         )
-    //     );
-};
+
 
 function slider_reboot() {
     $('.slider-active').owlCarousel({
@@ -133,22 +119,26 @@ function add_to_cart() {
     window.toaster('success', "Product Added to cart!")
 }
 
-$('#bkash_btn').change(function () {
-    $('#bkash_section').removeClass('d-none');
-    $('#bank_section').addClass('d-none');
-    $('#bkash_number').attr('required');
-    $('#bkash_trx_id').attr('required');
-});
-$('#bank_transfer_btn').change(function () {
-    $('#bkash_section').addClass('d-none');
-    $('#bank_section').removeClass('d-none');
-    $('#bank_ac_no').attr('required');
-    $('#bank_trx_no').attr('required');
-});
-$('#cod_btn').change(function () {
-    $('#bkash_section').addClass('d-none');
-    $('#bank_section').addClass('d-none');
-});
+function checkout_handling() {
+    $("#login_modal").addClass('d-none');
+    $('#bkash_btn').change(function () {
+        $('#bkash_section').removeClass('d-none');
+        $('#bank_section').addClass('d-none');
+        $('#bkash_number').attr('required');
+        $('#bkash_trx_id').attr('required');
+    });
+    $('#bank_transfer_btn').change(function () {
+        $('#bkash_section').addClass('d-none');
+        $('#bank_section').removeClass('d-none');
+        $('#bank_ac_no').attr('required');
+        $('#bank_trx_no').attr('required');
+    });
+    $('#cod_btn').change(function () {
+        $('#bkash_section').addClass('d-none');
+        $('#bank_section').addClass('d-none');
+    });
+}
+
 
 document.addEventListener("turbolinks:load", function(event) {
     if (window.dom_load_count > 1 && !window.dom_load_navigating) {
@@ -161,13 +151,128 @@ document.addEventListener("turbolinks:load", function(event) {
         slider_reboot();
     }, 2000);
     // scrolltotop_reboot();
-    // checkout_handling();
+    checkout_handling();
     window.dom_load_count++;
     // let wire_els = [...document.querySelectorAll('div.border.border-danger')]
     // wire_els.forEach(i=>{
     //     i.setAttribute('wire:key',Math.random());
     // })
 });
+
+function checkout(event) {
+    event.preventDefault();
+    let formData = new FormData(event.target);
+
+    fetch("/checkout", {
+        method: "POST",
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        body: formData
+    }).then(async res => {
+        let response = {}
+        response.status = res.status
+        response.data = await res.json();
+        return response;
+    }).then(res => {
+        if(res.status === 422) {
+            error_response(res.data)
+        }
+        if(res.status === 200) {
+            window.toaster('success', "Order submitted successfully!")
+            // location.href = "/order-complete/"+res.data.order.id;
+        }
+    })
+}
+
+
+function error_response(data) {
+    let object = data.data;
+    window.render_error(object);
+    throw data;
+}
+
+window.render_error = (object)=>{
+    // console.log(data);
+    $('.loader_body').removeClass('active');
+    $('form button').prop('disabled',false);
+    $('#backend_body .main_content').css({overflowY:'scroll'});
+    // whatever you want to do with the error
+    // console.log(error.response.data.errors);
+    $(`label`).siblings(".text-danger").remove();
+    $(`select`).siblings(".text-danger").remove();
+    $(`input`).siblings(".text-danger").remove();
+    $(`textarea`).siblings(".text-danger").remove();
+    $('.form_errors').html('');
+
+    let error_html = ``;
+
+    for (const key in object) {
+        if (Object.hasOwnProperty.call(object, key)) {
+            const element = object[key];
+            if (document.getElementById(`${key}`)) {
+                $(`#${key}`)
+                    .parent("div")
+                    .append(`<div class="text-danger">${element[0]}</div>`);
+            } else {
+                $(`input[name="${key}"]`)
+                    .parent("div")
+                    .append(`<div class="text-danger">${element[0]}</div>`);
+
+                $(`select[name="${key}"]`)
+                    .parent("div")
+                    .append(`<div class="text-danger">${element[0]}</div>`);
+
+                $(`input[name="${key}"]`).trigger("focus");
+
+                $(`textarea[name="${key}"]`)
+                    .parent("div")
+                    .append(`<div class="text-danger">${element[0]}</div>`);
+
+                $(`textarea[name="${key}"]`).trigger("focus");
+            }
+            // console.log({
+            //     [key]: element,
+            // });
+
+            error_html += `
+                <div class="alert alert_${key} my-1 mx-2 alert-danger pe-5 inverse alert-dismissible fade show" role="alert">
+                    <i class="icon-alert txt-dark rounded-0"></i>
+                    <div>${element}</div>
+                    <button type="button" class="btn-close txt-light" data-bs-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true"></span>
+                    </button>
+                </div>
+            `;
+        }
+    }
+
+    $('.form_errors').html(error_html);
+
+    if (typeof data === "string") {
+        // console.log("error", data);
+    } else {
+        // console.log(data);
+    }
+
+    window.s_alert('error',data.err_message)
+}
+
+window.dom_load_count = 1;
+window.dom_load_navigating = false;
+window.onpopstate = function(event) {
+    console.log("location: " + document.location);
+    window.location.href = document.location
+    window.dom_load_navigating = true;
+    // document
+    //     .querySelectorAll(".page-link")
+    //     .forEach(i =>
+    //         i.addEventListener(
+    //             "click",
+    //             () => (window.dom_load_navigating = false)
+    //         )
+    //     );
+};
 
 var find_event_status = message => {
     // console.log(message);
