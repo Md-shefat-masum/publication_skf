@@ -94,7 +94,7 @@ class ProductSeeder extends Seeder
         ];
 
         foreach ($titles as $item) {
-            Product::create(
+            $product = Product::create(
                 [
                     "product_name" => $item["product_name"],
                     "product_name_english" => $item["product_name_english"],
@@ -118,6 +118,9 @@ class ProductSeeder extends Seeder
                     "meta_description" => $item["product_name"],
                 ]
             );
+
+            $product->brand()->attach(rand(1,20));
+            $product->categories()->attach([rand(1,19)]);
         }
     }
 }

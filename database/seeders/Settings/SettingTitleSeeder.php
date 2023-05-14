@@ -54,6 +54,9 @@ class SettingTitleSeeder extends Seeder
             "social_youtube",
 
             "invoice_prefix",
+            "invoice_company_name",
+            "invoice_address_line_1",
+            "invoice_address_line_2",
 
             "telegram_bot_api",
 

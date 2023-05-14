@@ -1,0 +1,44 @@
+<?php
+
+namespace Database\Seeders\Common;
+
+use App\Models\User\MobileNumbers;
+use Illuminate\Database\Seeder;
+
+class MobileNumberSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+
+
+        function generateRandomPhoneNumber()
+        {
+            $prefixes = ['017', '018', '019', '015', '016'];
+            $number = rand(10000000, 99999999);
+            $prefix = $prefixes[rand(0, count($prefixes) - 1)];
+            return $prefix . $number;
+        }
+        MobileNumbers::truncate();
+        for ($i = 0; $i < 10; $i++) {
+            for ($j = 0; $j < rand(1, 4); $j++) {
+                MobileNumbers::create([
+                    "table_id" => $j + 1,
+                    "table_name" => 'users',
+                    "phone_no" => generateRandomPhoneNumber(),
+                ]);
+            }
+            for ($j = 0; $j < rand(1, 4); $j++) {
+                MobileNumbers::create([
+                    "table_id" => $j + 1,
+                    "table_name" => 'customers',
+                    "phone_no" => generateRandomPhoneNumber(),
+                ]);
+            }
+        }
+    }
+}

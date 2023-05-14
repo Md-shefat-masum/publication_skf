@@ -38,7 +38,7 @@ class Product extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class)->withTimestamps();
+        return $this->belongsToMany(Category::class);
     }
 
     public function stocks()
@@ -54,6 +54,6 @@ class Product extends Model
 
     public function brand()
     {
-        return $this->belongsTo(Brand::class, 'brand_id');
+        return $this->belongsToMany(Brand::class);
     }
 }

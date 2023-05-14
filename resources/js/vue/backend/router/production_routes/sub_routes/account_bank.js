@@ -10,7 +10,7 @@ export default {
     path: "account-bank-accounts",
     component: Layout,
     props: {
-        role_permissions: ["production"],
+        role_permissions: ["production","admin"],
         layout_title: `${prefix} Management`,
     },
     children: [

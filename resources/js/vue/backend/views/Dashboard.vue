@@ -2,7 +2,16 @@
     <section class="p-5 custom_scroll" style="height: calc(100vh - 90px); overflow: auto;">
         <div class="row">
             <div class="col-xl-12 mb-4 col-lg-12 col-12">
-                <div class="card h-100">
+                <div class="card">
+                    <div class="card-body row">
+                        <div class="col-12">
+                            <select name="" class="form-select" id="">
+                                <option value="" v-for="i in 10" :key="i">Branch{{ i }}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="card ">
                     <div class="card-header">
                         <div class="d-flex justify-content-between mb-3">
                             <h5 class="card-title mb-0">Statistics</h5>
@@ -11,6 +20,7 @@
                     </div>
                     <div class="card-body">
                         <div class="row gy-3">
+
                             <div class="col-md-3 col-6">
                                 <div class="d-flex align-items-center">
                                     <div class="badge rounded-pill bg-label-primary me-3 p-2"><i class="fa-solid fa-chart-pie"></i></div>
