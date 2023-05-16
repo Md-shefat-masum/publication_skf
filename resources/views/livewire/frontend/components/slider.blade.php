@@ -18,9 +18,10 @@
                         </div>
                     </div>
                 @endforeach
-
-
             </div>
+            <script>
+                slider_reboot();
+            </script>
         </div>
     </div>
 </div>

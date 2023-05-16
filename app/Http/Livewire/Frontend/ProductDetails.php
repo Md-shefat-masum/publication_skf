@@ -6,6 +6,10 @@ use Livewire\Component;
 
 class ProductDetails extends Component
 {
+    public $product;
+    public function mount($product)
+    {
+    }
     public function render()
     {
         return view('livewire.frontend.product-details')->extends('layouts.app', [
@@ -15,7 +19,7 @@ class ProductDetails extends Component
                 "og_image" => "",
                 "twitter_image" => "",
                 "description" => "",
-                "price" => "" ,
+                "price" => "",
                 "keywords" => ""
             ],
         ]);

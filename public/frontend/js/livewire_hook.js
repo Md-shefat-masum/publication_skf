@@ -90,31 +90,6 @@ function closeModal() {
     }, 500);
 }
 
-
-
-function slider_reboot() {
-    $('.slider-active').owlCarousel({
-        smartSpeed: 1000,
-        margin: 0,
-        autoplay: false,
-        nav: true,
-        dots: true,
-        loop: true,
-        navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
-        responsive: {
-            0: {
-                items: 1
-            },
-            768: {
-                items: 1
-            },
-            1000: {
-                items: 1
-            }
-        }
-    })
-}
-
 function add_to_cart() {
     window.toaster('success', "Product Added to cart!")
 }
@@ -141,18 +116,18 @@ function checkout_handling() {
 
 
 document.addEventListener("turbolinks:load", function(event) {
-    if (window.dom_load_count > 1 && !window.dom_load_navigating) {
-        window.livewire.restart();
-        console.log("reload", window.dom_load_count);
-    }
+    // if (window.dom_load_count > 1 && !window.dom_load_navigating) {
+    //     window.livewire.restart();
+    //     console.log("reload", window.dom_load_count);
+    // }
     // ReviewFunctions();
     // dynamicCss();
-    setTimeout(() => {
-        slider_reboot();
-    }, 2000);
+    // setTimeout(() => {
+    //     slider_reboot();
+    // }, 2000);
     // scrolltotop_reboot();
-    checkout_handling();
-    window.dom_load_count++;
+    // checkout_handling();
+    // window.dom_load_count++;
     // let wire_els = [...document.querySelectorAll('div.border.border-danger')]
     // wire_els.forEach(i=>{
     //     i.setAttribute('wire:key',Math.random());

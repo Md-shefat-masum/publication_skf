@@ -25,16 +25,11 @@
     <link rel="stylesheet" href="{{ asset('frontend') }}/css/owl.carousel.css">
     <!-- font-awesome css -->
     <link rel="stylesheet" href="{{ asset('frontend') }}/css/font-awesome.min.css">
-    <!-- flexslider.css-->
-    <link rel="stylesheet" href="{{ asset('frontend') }}/css/flexslider.css">
-    <!-- chosen.min.css-->
-    <link rel="stylesheet" href="{{ asset('frontend') }}/css/chosen.min.css">
     <!-- style css -->
     <link rel="stylesheet" href="{{ asset('frontend') }}/style.css">
     <!-- responsive css -->
     <link rel="stylesheet" href="{{ asset('frontend') }}/css/responsive.css">
     <!-- modernizr css -->
-    <script src="{{ asset('frontend') }}/js/vendor/modernizr-2.8.3.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="https://cdn.jsdelivr.net/npm/pace-js@latest/pace.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@latest/pace-theme-default.min.css">
@@ -42,30 +37,15 @@
 
 
     <!-- jquery latest version -->
-    <script src="{{ asset('frontend') }}/js/vendor/jquery-1.12.4.min.js" defer></script>
+    <script src="{{ asset('frontend') }}/js/vendor/jquery-1.12.4.min.js"></script>
     <!-- bootstrap js -->
-    <script src="{{ asset('frontend') }}/js/bootstrap.min.js" defer></script>
+    <script src="{{ asset('frontend') }}/js/bootstrap.min.js"></script>
     <!-- owl.carousel js -->
-    <script src="{{ asset('frontend') }}/js/owl.carousel.min.js" defer></script>
-    <!-- meanmenu js -->
-    <script src="{{ asset('frontend') }}/js/jquery.meanmenu.js" defer></script>
+    <script src="{{ asset('frontend') }}/js/owl.carousel.min.js"></script>
     <!-- wow js -->
     <script src="{{ asset('frontend') }}/js/wow.min.js" defer></script>
-    <!-- jquery.parallax-1.1.3.js -->
-    <script src="{{ asset('frontend') }}/js/jquery.parallax-1.1.3.js" defer></script>
-    <!-- jquery.countdown.min.js -->
-    <script src="{{ asset('frontend') }}/js/jquery.countdown.min.js" defer></script>
-    <!-- jquery.flexslider.js -->
-    <script src="{{ asset('frontend') }}/js/jquery.flexslider.js" defer></script>
-    <!-- chosen.jquery.min.js -->
-    <script src="{{ asset('frontend') }}/js/chosen.jquery.min.js" defer></script>
-    <!-- jquery.counterup.min.js -->
-    <script src="{{ asset('frontend') }}/js/jquery.counterup.min.js" defer></script>
-    <!-- waypoints.min.js -->
-    <script src="{{ asset('frontend') }}/js/waypoints.min.js" defer></script>
-    <!-- plugins js -->
-    <script src="{{ asset('frontend') }}/js/plugins.js" defer></script>
     <!-- main js -->
+    <script src="{{ asset('frontend') }}/js/custom.js"></script>
     <script src="{{ asset('frontend') }}/js/main.js" defer></script>
     <script src="{{ asset('frontend') }}/js/livewire_hook.js" defer></script>
 

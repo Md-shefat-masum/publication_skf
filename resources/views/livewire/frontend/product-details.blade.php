@@ -13,12 +13,12 @@
             </div>
         </div>
     </div>
-    
+
     <div class="product-main-area mb-70">
         <div class="container">
             <div class="row">
                 <div class="col-lg-9 col-md-12 col-12 order-lg-1 order-1">
-                    
+
                     <div class="product-main-area">
                         <div class="row">
                             <div class="col-lg-5 col-md-6 col-12">
@@ -26,7 +26,7 @@
                                     <ul class="slides">
                                         <li data-thumb="https://www.prossodprokashon.com/uploads/file_manager/fm_image_350x500_10616e6487896b81634624647.jpg">
                                             <img src="https://www.prossodprokashon.com/uploads/file_manager/fm_image_350x500_10616e6487896b81634624647.jpg" alt="woman" />
-                                        
+
                                     </ul>
                                 </div>
                             </div>
@@ -74,7 +74,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="product-info-area mt-80">
                         <ul class="nav">
                             <li><a class="active" href="#Details" data-bs-toggle="tab">Details</a></li>
@@ -107,7 +107,7 @@
                                         <a href="#">
                                             <img src="https://www.prossodprokashon.com/uploads/file_manager/fm_image_350x500_10616e655bf00c61634624859.jpg" alt="book" class="primary" />
                                         </a>
-                                        
+
                                         <div class="product-flag">
                                             <ul>
                                                 <li><span class="sale">new</span></li>
@@ -139,7 +139,7 @@
                                         </div>
                                         <div class="add-to-link">
                                             <ul>
-                                                <li><a href="{{ route('product_details') }}" title="Details"><i class="fa fa-external-link"></i></a></li>
+                                                <li><a href="{{ route('product_details',1) }}" title="Details"><i class="fa fa-external-link"></i></a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -151,7 +151,7 @@
                                         <a href="#">
                                             <img src="https://www.prossodprokashon.com/uploads/file_manager/fm_image_350x500_10619b43137a9d81637565203.jpg" alt="book" class="primary" />
                                         </a>
-                                        
+
                                         <div class="product-flag">
                                             <ul>
                                                 <li><span class="sale">new</span></li>
@@ -183,7 +183,7 @@
                                         </div>
                                         <div class="add-to-link">
                                             <ul>
-                                                <li><a href="{{ route('product_details') }}" title="Details"><i class="fa fa-external-link"></i></a></li>
+                                                <li><a href="{{ route('product_details',1) }}" title="Details"><i class="fa fa-external-link"></i></a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -195,7 +195,7 @@
                                         <a href="#">
                                             <img src="https://www.prossodprokashon.com/uploads/file_manager/fm_image_350x500_10616bcce7a25661634454759.jpg" alt="book" class="primary" />
                                         </a>
-                                        
+
                                         <div class="product-flag">
                                             <ul>
                                                 <li><span class="sale">new</span></li>
@@ -226,7 +226,7 @@
                                         </div>
                                         <div class="add-to-link">
                                             <ul>
-                                                <li><a href="{{ route('product_details') }}" title="Details"><i class="fa fa-external-link"></i></a></li>
+                                                <li><a href="{{ route('product_details',1) }}" title="Details"><i class="fa fa-external-link"></i></a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -238,7 +238,7 @@
                                         <a href="#">
                                             <img src="https://www.prossodprokashon.com/uploads/file_manager/fm_image_350x500_10619b3b02581661637563138.jpg" alt="book" class="primary" />
                                         </a>
-                                        
+
                                         <div class="product-flag">
                                             <ul>
                                                 <li><span class="sale">new</span></li>
@@ -269,7 +269,7 @@
                                         </div>
                                         <div class="add-to-link">
                                             <ul>
-                                                <li><a href="{{ route('product_details') }}" title="Details"><i class="fa fa-external-link"></i></a></li>
+                                                <li><a href="{{ route('product_details',1) }}" title="Details"><i class="fa fa-external-link"></i></a></li>
                                             </ul>
                                         </div>
                                     </div>
