@@ -36,6 +36,10 @@ Route::group(['prefix' => '', 'namespace' => "Livewire"], function () {
 Route::group( ['prefix'=>'','namespace' => "Controllers" ],function(){
     Route::post('/checkout','WebsiteController@checkout');
     Route::get('/pos','WebsiteController@pos');
+
+    Route::group( ['prefix'=>'json' ],function(){
+        Route::get('/products','Json\ProductJsonController@products');
+    });
 });
 
 Route::get('/dashboard', function () {

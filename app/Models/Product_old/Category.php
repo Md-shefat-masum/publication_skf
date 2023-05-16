@@ -13,17 +13,17 @@ class Category extends Model
 
     public function child()
     {
-        return $this->hasMany(Category::class,'parent_id','id');
+        return $this->hasMany(Category::class, 'parent_id', 'id');
     }
 
     public function parent()
     {
-        return $this->belongsTo(Category::class,'parent_id');
+        return $this->belongsTo(Category::class, 'parent_id');
     }
 
     public function products()
     {
-        return $this->belongsToMany(Product::class)->select(['product_name']);
+        return $this->belongsToMany(Product::class);
     }
 
     public function products_custom()

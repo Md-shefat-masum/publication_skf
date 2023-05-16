@@ -112,6 +112,7 @@ class ProductCategorySeeder extends Seeder
                 "meta_keywords" => $item["name_english"],
                 "meta_description" => $item["name_english"].', '.$item["name"],
                 "search_keywords" => $item["name_english"].' '.$item["name"],
+                "is_top_category" => rand(0,1),
             ]);
 
             if(count($item['child'])){
@@ -124,8 +125,8 @@ class ProductCategorySeeder extends Seeder
                         "meta_keywords" => $item2["name_english"],
                         "meta_description" => $item2["name_english"].', '.$item2["name"],
                         "search_keywords" => $item2["name_english"].' '.$item2["name"],
+                        "is_top_category" => rand(0,1),
                     ]);
-
                 }
             }
         }

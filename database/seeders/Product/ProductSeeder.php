@@ -102,7 +102,7 @@ class ProductSeeder extends Seeder
             ],
         ];
 
-        foreach ($titles as $item) {
+        foreach ($titles as $key => $item) {
             $product = Product::create(
                 [
                     "product_name" => $item["product_name"],
@@ -120,18 +120,19 @@ class ProductSeeder extends Seeder
                     "width" => rand(5, 8),
                     "weight" => rand(100, 300),
                     "depth" => rand(1, 5),
-                    "description" => $descriptions[rand(0, count($descriptions)-1)],
-                    "thumb_image" => $item["image"],
+                    "description" => $descriptions[rand(0, count($descriptions) - 1)],
+                    // "thumb_image" => $item["image"],
+                    "thumb_image" => "books_demo/" . ($key + 1) . ".webp",
                     "search_keywords" => \Illuminate\Support\Str::slug($item["product_name_english"]),
                     "page_title" => $item["product_name"],
                     "meta_description" => $item["product_name"],
                 ]
             );
 
-            $product->brand()->attach(rand(1,20));
-            $product->categories()->attach([rand(1,19)]);
-            $product->writers()->attach([rand(1,15)]);
-            $product->translators()->attach([rand(1,15)]);
+            $product->brand()->attach(rand(1, 20));
+            $product->categories()->attach([rand(1, 19)]);
+            $product->writers()->attach([rand(1, 15)]);
+            $product->translators()->attach([rand(1, 15)]);
 
             ProductDiscount::create([
                 'product_id' => $product->id,
