@@ -9,7 +9,7 @@ use App\Models\Production\ProductionStatus;
 use App\Models\Production\ProductionUsedPaper;
 use Illuminate\Database\Seeder;
 
-class PoroductionSeeder extends Seeder
+class ProductionSeeder extends Seeder
 {
     /**
      * Run the database seeds.

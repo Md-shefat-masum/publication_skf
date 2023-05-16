@@ -5,7 +5,7 @@ namespace Database\Seeders\Product;
 use App\Models\Product\ProductWriter;
 use Illuminate\Database\Seeder;
 
-class PoroductWriterSeeder extends Seeder
+class ProductWriterSeeder extends Seeder
 {
     /**
      * Run the database seeds.

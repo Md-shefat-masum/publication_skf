@@ -10,12 +10,12 @@ use Database\Seeders\Common\AddressSeeder;
 use Database\Seeders\Common\BannerSeeder;
 use Database\Seeders\Order\OrderSeeder;
 use Database\Seeders\Product\BrandSeeder;
-use Database\Seeders\Product\PoroductionDesignerSeeder;
+use Database\Seeders\Product\ProductionDesignerSeeder;
 use Database\Seeders\Product\ProductCategorySeeder;
 use Database\Seeders\Product\ProductSeeder;
-use Database\Seeders\Product\PoroductionSeeder;
-use Database\Seeders\Product\PoroductTranslatorSeeder;
-use Database\Seeders\Product\PoroductWriterSeeder;
+use Database\Seeders\Product\ProductionSeeder;
+use Database\Seeders\Product\ProductTranslatorSeeder;
+use Database\Seeders\Product\ProductWriterSeeder;
 use Database\Seeders\Product\ProductReturnSeeder;
 use Database\Seeders\Product\ProductReviewSeeder;
 use Database\Seeders\Product\SupplierBindingSeeder;
@@ -49,8 +49,8 @@ class DatabaseSeeder extends Seeder
 
             BrandSeeder::class,
             ProductCategorySeeder::class,
-            PoroductTranslatorSeeder::class,
-            PoroductWriterSeeder::class,
+            ProductTranslatorSeeder::class,
+            ProductWriterSeeder::class,
 
             ProductSeeder::class,
             ProductReviewSeeder::class,
@@ -59,8 +59,8 @@ class DatabaseSeeder extends Seeder
             SupplierPaperSeeder::class,
             SupplierPrintSeeder::class,
 
-            PoroductionDesignerSeeder::class,
-            PoroductionSeeder::class,
+            ProductionDesignerSeeder::class,
+            ProductionSeeder::class,
 
             OrderSeeder::class,
             ProductReturnSeeder::class,

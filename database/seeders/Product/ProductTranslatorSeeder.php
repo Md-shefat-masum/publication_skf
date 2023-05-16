@@ -5,7 +5,7 @@ namespace Database\Seeders\Product;
 use App\Models\Product\ProductTranslator;
 use Illuminate\Database\Seeder;
 
-class PoroductTranslatorSeeder extends Seeder
+class ProductTranslatorSeeder extends Seeder
 {
     /**
      * Run the database seeds.

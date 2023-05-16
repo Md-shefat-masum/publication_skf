@@ -9,6 +9,7 @@ use App\Models\Order\OrderPayment;
 use App\Models\Order\OrderVariant;
 use App\Models\Product\Product;
 use App\Models\Product\ProductStockLog;
+use App\Models\Production\Production;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
@@ -31,6 +32,56 @@ class OrderSeeder extends Seeder
             return $invoiceId;
         }
 
+        function update_production_log($order_details)
+        {
+            $production = Production::where('product_id', $order_details->product_id)
+                ->whereColumn("print_qty", ">", "total_sales")
+                ->first();
+
+            if ($production) {
+                $total_sales = $production->total_sales + $order_details->qty;
+                $rest_production_products = $production->print_qty - $production->total_sales;
+                $rest_products = $order_details->qty;
+
+                echo " production_id: " . $production->id;
+                echo " total_qty: " . $production->print_qty ;
+                echo " total_sales: " . $total_sales;
+                echo " rest_production_products: " . $rest_production_products;
+                echo " order_qty: " . $order_details->qty;
+                echo "\n";
+
+                if ($total_sales > $production->print_qty) {
+                    /**
+                     *   যদি টোটাল সেলস পূর্বের সেলস এর সাথে যোগ করলে বেশি হয়ে যায়
+                     *  তাহলে পূর্বের সেলস এর সাথে বাকী সংখ্যা যোগ হবে
+                     *  pro:300 sales:200 qty:150 res_prod:(pro-sales)100 res_product:(qty-res_prod)50
+                     **/
+                    $production->total_sales += $rest_production_products;
+                    $rest_products -= $rest_production_products;
+                    $order_details->qty = $rest_products;
+                    $production->save();
+
+                    update_production_log($order_details);
+                } else {
+                    /**
+                     * পূর্বের সেলসের সাথে নতুন সংখ্যা যোগ হবে
+                     */
+                    $production->total_sales += $rest_products;
+                    $production->save();
+                }
+
+                ProductStockLog::create([
+                    "product_id" => $order_details->id,
+                    "qty" => $order_details->qty,
+                    "type" => "sales",
+                    "order_id" => $order_details->order_id,
+                    "production_id" => $production->id,
+                ]);
+            }else{
+                echo "there is no product in stock for qty: ".$order_details->qty."\n";
+            }
+        }
+
         Order::truncate();
         OrderDetails::truncate();
         OrderPayment::truncate();
@@ -38,11 +89,12 @@ class OrderSeeder extends Seeder
         OrderDeliveryInfo::truncate();
 
         for ($order_no = 1; $order_no < 15; $order_no++) {
-            $rand_produts = Product::with('discount')->get()->random(4);
+            // $rand_produts = Product::with('discount')->get()->random(4);
+            $rand_produts = Product::with('discount')->where('id', 1)->get();
 
             $total_discount_price = 0;
             $subtotal = 0;
-            $variant_price = 0 ;
+            $variant_price = 0;
 
             // dd($rand_produts[0]->toArray());
             foreach ($rand_produts as $key => $product) {
@@ -64,14 +116,7 @@ class OrderSeeder extends Seeder
                     "product_price" => $product->sales_price,
                     "discount_price" => $discount_price,
                     "sales_price" => $product->sales_price - $discount_price,
-                    "qty" => rand(2, 5),
-                ]);
-
-                ProductStockLog::create([
-                    "product_id" => $product->id,
-                    "qty" => $order_details->qty,
-                    "type" => "sales",
-                    "order_id" => $product->order_id,
+                    "qty" => 500,
                 ]);
 
                 $variant = OrderVariant::create([
@@ -81,6 +126,9 @@ class OrderSeeder extends Seeder
                     'variant_name' => "color",
                     'variant_value' => rand(30, 70),
                 ]);
+
+                // update production log
+                update_production_log($order_details);
 
                 $subtotal += ($order_details->sales_price * $order_details->qty);
                 $variant_price += $variant->variant_value;
@@ -106,7 +154,7 @@ class OrderSeeder extends Seeder
                 'user_id' => 6, // user id
                 "customer_id" => null, //customer id
                 "address_id" => 6, // user address id, customer
-                "invoice_id" => generateInvoiceId().$order_no,
+                "invoice_id" => generateInvoiceId() . $order_no,
                 "invoice_date" => Carbon::now()->subDays(rand(1, 5))->toDateTimeString(),
                 "order_type" => "quotation", // Quotation, Pos order, Ecomerce order
                 "order_status" => ["pending", "accepted", "processing", "delevered", "canceled"][rand(0, 4)],
@@ -129,7 +177,7 @@ class OrderSeeder extends Seeder
                 "customer_id" => null,
                 "delivery_method" => $delivery_method["type"],
                 "delivery_cost" => $delivery_method["price"],
-                "courier_name" => $delivery_method["type"] != "pickup" ? "sundarban": '',
+                "courier_name" => $delivery_method["type"] != "pickup" ? "sundarban" : '',
                 "address_id" => 6,
                 "location_id" => 6, // shipping id
             ]);
