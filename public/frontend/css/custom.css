@@ -1,0 +1,8 @@
+.menu-area ul li:hover a {
+  color: white;
+}
+.menu-area ul li .sub-menu ul li a {
+  font-size: 20px;
+  line-height: 28px;
+}
+/*# sourceMappingURL=./custom.css.map */

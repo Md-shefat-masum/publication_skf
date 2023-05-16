@@ -30,6 +30,10 @@ class SettingValueSeeder extends Seeder
             "email" => "support@pub.com",
             "map" => '<iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d5237.592579713879!2d90.41791440863823!3d23.802949706508837!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1spaltan!5e0!3m2!1sen!2sbd!4v1684041615790!5m2!1sen!2sbd" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
 
+            "bkash_marchant_numbers" => "",
+            "nagad_marchant_numbers" => "",
+            "rocket_marchants_numbers" => "",
+
             "company_start_time" => "09:00",
             "company_end_time" => "05:00",
 

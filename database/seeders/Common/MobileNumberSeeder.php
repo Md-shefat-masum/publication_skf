@@ -2,7 +2,7 @@
 
 namespace Database\Seeders\Common;
 
-use App\Models\User\MobileNumbers;
+use App\Models\User\PhoneNumber;
 use Illuminate\Database\Seeder;
 
 class MobileNumberSeeder extends Seeder
@@ -23,20 +23,20 @@ class MobileNumberSeeder extends Seeder
             $prefix = $prefixes[rand(0, count($prefixes) - 1)];
             return $prefix . $number;
         }
-        MobileNumbers::truncate();
+        PhoneNumber::truncate();
         for ($i = 0; $i < 10; $i++) {
             for ($j = 0; $j < rand(1, 4); $j++) {
-                MobileNumbers::create([
+                PhoneNumber::create([
                     "table_id" => $j + 1,
                     "table_name" => 'users',
-                    "phone_no" => generateRandomPhoneNumber(),
+                    "mobile_number" => generateRandomPhoneNumber(),
                 ]);
             }
             for ($j = 0; $j < rand(1, 4); $j++) {
-                MobileNumbers::create([
+                PhoneNumber::create([
                     "table_id" => $j + 1,
                     "table_name" => 'customers',
-                    "phone_no" => generateRandomPhoneNumber(),
+                    "mobile_number" => generateRandomPhoneNumber(),
                 ]);
             }
         }

@@ -75,10 +75,10 @@ class OrderSeeder extends Seeder
                     "qty" => $order_details->qty,
                     "type" => "sales",
                     "order_id" => $order_details->order_id,
-                    "production_id" => $production->id,
+                    "productions_id" => $production->id,
                 ]);
             }else{
-                echo "there is no product in stock for qty: ".$order_details->qty."\n";
+                echo "there is no product in stock for qty: ".$order_details->qty." product_id: ".$order_details->product_id ."\n";
             }
         }
 
@@ -88,9 +88,9 @@ class OrderSeeder extends Seeder
         OrderVariant::truncate();
         OrderDeliveryInfo::truncate();
 
-        for ($order_no = 1; $order_no < 15; $order_no++) {
-            // $rand_produts = Product::with('discount')->get()->random(4);
-            $rand_produts = Product::with('discount')->where('id', 1)->get();
+        for ($order_no = 1; $order_no < 30; $order_no++) {
+            $rand_produts = Product::with('discount')->get()->random(4);
+            // $rand_produts = Product::with('discount')->where('id', 1)->get();
 
             $total_discount_price = 0;
             $subtotal = 0;
@@ -116,7 +116,7 @@ class OrderSeeder extends Seeder
                     "product_price" => $product->sales_price,
                     "discount_price" => $discount_price,
                     "sales_price" => $product->sales_price - $discount_price,
-                    "qty" => 500,
+                    "qty" => rand(10,20),
                 ]);
 
                 $variant = OrderVariant::create([
@@ -156,7 +156,7 @@ class OrderSeeder extends Seeder
                 "address_id" => 6, // user address id, customer
                 "invoice_id" => generateInvoiceId() . $order_no,
                 "invoice_date" => Carbon::now()->subDays(rand(1, 5))->toDateTimeString(),
-                "order_type" => "quotation", // Quotation, Pos order, Ecomerce order
+                "order_type" => ["quotation", "invoice", "ecomerce"][rand(0,2)], // Quotation, Pos order, Ecomerce order
                 "order_status" => ["pending", "accepted", "processing", "delevered", "canceled"][rand(0, 4)],
                 "order_coupon_id" => null,
 

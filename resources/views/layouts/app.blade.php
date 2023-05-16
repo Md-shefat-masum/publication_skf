@@ -38,7 +38,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="https://cdn.jsdelivr.net/npm/pace-js@latest/pace.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@latest/pace-theme-default.min.css">
-
+    <link rel="stylesheet" href="{{ asset('frontend') }}/css/custom.css">
 
 
     <!-- jquery latest version -->
@@ -128,7 +128,7 @@
         <a href="/register">register</a>
     </nav> -->
     @yield('content')
-    
+
     @livewire('frontend.components.footer')
     @livewireScripts
 

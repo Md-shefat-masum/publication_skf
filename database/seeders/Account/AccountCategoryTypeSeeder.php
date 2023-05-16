@@ -36,7 +36,7 @@ class AccountCategoryTypeSeeder extends Seeder
         foreach ($data as $name => $type) {
             AccountCategoryType::create([
                 'name' => $name,
-                'type' => $type,
+                // 'type' => $type,
             ]);
         }
     }

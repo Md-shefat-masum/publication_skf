@@ -17,7 +17,7 @@ class CreateAccountCategoryTypesTable extends Migration
             $table->id();
 
             $table->string('name', 45)->nullable()->comment("asset, capital, expense, liability, withdrawal");
-            $table->string('type', 45)->nullable()->comment("asset, liability, Owner's equity");
+            // $table->string('type', 45)->nullable()->comment("asset, liability, Owner's equity");
 
             $table->bigInteger('creator')->unsigned()->nullable();
             $table->string('slug', 50)->nullable();

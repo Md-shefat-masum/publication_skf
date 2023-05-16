@@ -29,6 +29,10 @@ class SettingTitleSeeder extends Seeder
             "email",
             "map",
 
+            "bkash_marchant_numbers",
+            "nagad_marchant_numbers",
+            "rocket_marchants_numbers",
+
             "company_start_time",
             "company_end_time",
 

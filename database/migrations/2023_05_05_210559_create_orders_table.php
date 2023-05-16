@@ -21,16 +21,16 @@ class CreateOrdersTable extends Migration
             $table->bigInteger("address_id")->unsigned()->nullable();
             $table->string("invoice_id", 100)->nullable();
             $table->timestamp("invoice_date")->nullable();
-            $table->string("order_type", 20)->nullable()->comment("quotation, pos order, ecomerce order");
-            $table->string("order_status", 20)->default("pending")->comment("pending, accepted, processing, delevered, canceled");
+            $table->enum("order_type", ["quotation", "invoice", "ecomerce"])->nullable()->comment("quotation, invoice, ecomerce order");
+            $table->enum("order_status", ["pending", "accepted", "processing", "delevered", "canceled"])->default("pending")->comment("pending, accepted, processing, delevered, canceled");
             $table->bigInteger("order_coupon_id")->unsigned()->nullable();
 
-            $table->float("sub_total")->default(0);
-            $table->float("discount")->default(0);
-            $table->float("coupon_discount")->default(0);
-            $table->float("delivery_charge")->default(0);
-            $table->float("variant_price")->default(0);
-            $table->float("total_price")->default(0);
+            $table->double("sub_total")->unsigned()->default(0);
+            $table->float("discount")->unsigned()->default(0);
+            $table->float("coupon_discount")->unsigned()->default(0);
+            $table->float("delivery_charge")->unsigned()->default(0);
+            $table->float("variant_price")->unsigned()->default(0);
+            $table->double("total_price")->unsigned()->default(0);
 
             $table->string("payment_status", 20)->default("pending")->comment("pending, partially paid, paid");
             $table->string("delivery_method", 20)->default("pickup");

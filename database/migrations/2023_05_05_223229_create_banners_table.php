@@ -15,8 +15,8 @@ class CreateBannersTable extends Migration
     {
         Schema::create('banners', function (Blueprint $table) {
             $table->id();
-            $table->string("title", 40)->nullable();
-            $table->string("image", 20)->nullable();
+            $table->string("title", 100)->nullable();
+            $table->string("image", 100)->nullable();
             $table->tinyInteger("serial")->unsigned()->nullable();
             $table->tinyInteger("show")->unsigned()->default("1");
 

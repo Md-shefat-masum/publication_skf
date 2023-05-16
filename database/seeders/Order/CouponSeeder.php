@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders\Product;
+namespace Database\Seeders\Order;
 
 use App\Models\Order\OrderCoupon;
 use Illuminate\Database\Seeder;

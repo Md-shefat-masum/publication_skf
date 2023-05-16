@@ -18,6 +18,7 @@ class CreateProductCartsTable extends Migration
             $table->bigInteger("user_id")->unsigned()->nullable();
             $table->bigInteger("product_id")->unsigned()->nullable();
             $table->integer("qty")->unsigned()->nullable();
+            $table->enum("type", ['cart', 'wish_list'])->default('cart');
 
             $table->bigInteger('creator')->unsigned()->nullable();
             $table->string('slug', 50)->nullable();
