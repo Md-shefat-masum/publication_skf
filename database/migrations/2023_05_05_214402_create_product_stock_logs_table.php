@@ -20,6 +20,7 @@ class CreateProductStockLogsTable extends Migration
             $table->string("type",15)->comment("sale, production");
             $table->bigInteger("productions_id")->unsigned()->nullable();
             $table->bigInteger("order_id")->unsigned()->nullable();
+            $table->bigInteger("product_return_id")->unsigned()->nullable();
 
             $table->bigInteger('creator')->unsigned()->nullable();
             $table->string('slug', 50)->nullable();

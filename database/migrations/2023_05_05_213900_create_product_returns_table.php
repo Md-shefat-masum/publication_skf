@@ -18,6 +18,9 @@ class CreateProductReturnsTable extends Migration
             $table->bigInteger("product_id")->unsigned()->nullable();
             $table->bigInteger("customer_id")->unsigned()->nullable()->comment("from customer table");
             $table->bigInteger("user_id")->unsigned()->nullable()->comment("from user table");
+            $table->bigInteger("order_id")->unsigned()->nullable()->comment("related order id");
+            $table->bigInteger("order_details_id")->unsigned()->nullable()->comment("related order details id");
+            $table->integer('qty')->unsigned()->nullable()->comment("returned qty");
             $table->text("description")->nullable()->comment("return description / cause",);
 
             $table->bigInteger('creator')->unsigned()->nullable();

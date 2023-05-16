@@ -17,9 +17,9 @@ class CreateProductDiscountsTable extends Migration
             $table->id();
 
             $table->bigInteger("product_id")->unsigned();
-            $table->double("main_price");
-            $table->double("parcent_discount")->comment("5% discount");
-            $table->double("flat_discount")->comment("20 tk discount");
+            $table->double("main_price")->nullable();
+            $table->double("parcent_discount")->nullable()->comment("5% discount");
+            $table->double("flat_discount")->nullable()->comment("20 tk discount");
             $table->dateTime("expire_date")->nullable();
 
             $table->bigInteger('creator')->unsigned()->nullable();

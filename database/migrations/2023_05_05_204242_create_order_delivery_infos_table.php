@@ -18,11 +18,12 @@ class CreateOrderDeliveryInfosTable extends Migration
 
             $table->bigInteger("order_id")->unsigned()->nullable();
             $table->bigInteger("user_id")->unsigned()->nullable();
+            $table->bigInteger("customer_id")->unsigned()->nullable();
             $table->string("delivery_method", 100)->nullable();
-            $table->double("delivery_cost")->nullable();
-            $table->string("curieer_name", 255)->nullable();
-            $table->text("address")->nullable();
-            $table->text("user_location")->nullable();
+            $table->float("delivery_cost")->unsigned()->nullable();
+            $table->string("courier_name", 150)->nullable()->comment("courier name: sundarban, ali express");
+            $table->float("address_id")->unsigned()->nullable()->comment("address id type billing from address table"); // address billing address
+            $table->float("location_id")->unsigned()->nullable()->comment("address id type shipping from addresses"); // address shipping address
 
             $table->bigInteger('creator')->nullable();
             $table->string('slug', 50)->nullable();

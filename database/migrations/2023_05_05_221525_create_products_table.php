@@ -44,15 +44,15 @@ class CreateProductsTable extends Migration
 
             $table->timestamps();
         });
-        Schema::create('product_translator', function (Blueprint $table) {
+        Schema::create('product_product_translator', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('product_id')->unsigned()->nullable();
-            $table->bigInteger('translator_id')->unsigned()->nullable();
+            $table->bigInteger('product_translator_id')->unsigned()->nullable();
         });
-        Schema::create('product_writer', function (Blueprint $table) {
+        Schema::create('product_product_writer', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('product_id')->unsigned()->nullable();
-            $table->bigInteger('writer_id')->unsigned()->nullable();
+            $table->bigInteger('product_writer_id')->unsigned()->nullable();
         });
     }
 
@@ -64,7 +64,7 @@ class CreateProductsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('products');
-        Schema::dropIfExists('product_translator');
-        Schema::dropIfExists('product_writer');
+        Schema::dropIfExists('product_product_translator');
+        Schema::dropIfExists('product_product_writer');
     }
 }

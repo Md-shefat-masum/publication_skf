@@ -33,12 +33,22 @@ class Product extends Model
 
     public function discount()
     {
-        return $this->hasOne(DiscountProduct::class);
+        return $this->hasOne(ProductDiscount::class)->latest();
     }
 
     public function categories()
     {
         return $this->belongsToMany(Category::class);
+    }
+
+    public function writers()
+    {
+        return $this->belongsToMany(ProductWriter::class);
+    }
+
+    public function translators()
+    {
+        return $this->belongsToMany(ProductTranslator::class);
     }
 
     public function stocks()

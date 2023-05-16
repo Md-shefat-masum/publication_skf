@@ -3,7 +3,11 @@
 namespace Database\Seeders\Product;
 
 use App\Models\Product\Product;
+use App\Models\Product\ProductDiscount;
+use App\Models\Product\ProductStockLog;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class ProductSeeder extends Seeder
 {
@@ -15,6 +19,11 @@ class ProductSeeder extends Seeder
     public function run()
     {
         Product::truncate();
+        ProductDiscount::truncate();
+        DB::table('brand_product')->truncate();
+        DB::table('category_product')->truncate();
+        ProductStockLog::truncate();
+
         $descriptions = [
             "আল কুদস প্রখ্যাত মিশরীয় ইসলামী চিন্তাবিদ ড. মুহাম্মাদ ইমারাহ রহ.-এর সাড়াজাগানো পুস্তিকা। বইটিতে পশ্চিমা খ্রিষ্টান বিশ্বের যোগসাজশে জায়নবাদী ইসরাইল প্রতিষ্ঠার আদ্যোপান্ত তথ্যভিত্তিক সংক্ষিপ্ত বর্ণনায় ফুটে উঠেছে। বইটির লেখক ঐতিহাসিক তথ্য-প্রমাণ ও দলিলের মাধ্যমে প্রমাণ করেছেন—জেরুসালেম নগরীর প্রকৃত অধিকার কার।",
             "আঠারো ও উনিশ শতক। তখন মুসলিম বিশ্বের সবখানে জেঁকে বসেছে উপনিবেশবাদ। উসমানি সালতানাত তখনও খিলাফতের একটি ছায়া হিসেবে টিকেছিল। কিন্তু ১৯২৪ সালে পতন ঘটে আশার শেষ প্রদীপ উসমানি খিলাফতের। রাষ্ট্র ও সমাজ থেকে অপসারিত হলো ইসলাম। ব্যক্তিজীবনের ক্ষুদ্র গ-িতেই সীমাবদ্ধ করা হলো ইসলামকে। তখন চারদিকে হতাশা আর অন্ধকার।            ",
@@ -121,6 +130,15 @@ class ProductSeeder extends Seeder
 
             $product->brand()->attach(rand(1,20));
             $product->categories()->attach([rand(1,19)]);
+            $product->writers()->attach([rand(1,15)]);
+            $product->translators()->attach([rand(1,15)]);
+
+            ProductDiscount::create([
+                'product_id' => $product->id,
+                "main_price" => $product->sales_price,
+                "flat_discount" => rand(50, 100),
+                "expire_date" => Carbon::now()->addDays(120)->toDateTimeString(),
+            ]);
         }
     }
 }

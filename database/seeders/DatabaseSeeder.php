@@ -8,6 +8,7 @@ use Database\Seeders\Account\AccountLogSeeder;
 use Database\Seeders\Account\AccountSeeder;
 use Database\Seeders\Common\AddressSeeder;
 use Database\Seeders\Common\BannerSeeder;
+use Database\Seeders\Order\OrderSeeder;
 use Database\Seeders\Product\BrandSeeder;
 use Database\Seeders\Product\PoroductionDesignerSeeder;
 use Database\Seeders\Product\ProductCategorySeeder;
@@ -15,6 +16,8 @@ use Database\Seeders\Product\ProductSeeder;
 use Database\Seeders\Product\PoroductionSeeder;
 use Database\Seeders\Product\PoroductTranslatorSeeder;
 use Database\Seeders\Product\PoroductWriterSeeder;
+use Database\Seeders\Product\ProductReturnSeeder;
+use Database\Seeders\Product\ProductReviewSeeder;
 use Database\Seeders\Product\SupplierBindingSeeder;
 use Database\Seeders\Product\SupplierPaperSeeder;
 use Database\Seeders\Product\SupplierPrintSeeder;
@@ -45,21 +48,27 @@ class DatabaseSeeder extends Seeder
             AccountLogSeeder::class,
 
             BrandSeeder::class,
-            PoroductionDesignerSeeder::class,
-            PoroductionSeeder::class,
+            ProductCategorySeeder::class,
             PoroductTranslatorSeeder::class,
             PoroductWriterSeeder::class,
-            ProductCategorySeeder::class,
+
+            ProductSeeder::class,
+            ProductReviewSeeder::class,
+
             SupplierBindingSeeder::class,
             SupplierPaperSeeder::class,
             SupplierPrintSeeder::class,
-            ProductSeeder::class,
+
+            PoroductionDesignerSeeder::class,
+            PoroductionSeeder::class,
+
+            OrderSeeder::class,
+            ProductReturnSeeder::class,
 
             SettingTitleSeeder::class,
             SettingValueSeeder::class,
 
             BannerSeeder::class,
-
             AddressSeeder::class,
 
         ]);

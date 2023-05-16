@@ -19,7 +19,6 @@ class PoroductionSeeder extends Seeder
     public function run()
     {
         Production::truncate();
-        ProductStockLog::truncate();
         ProductionUsedPaper::truncate();
         ProductionStatus::truncate();
 
@@ -40,7 +39,7 @@ class PoroductionSeeder extends Seeder
                 $product_stock = ProductStockLog::create([
                     'product_id' => $item->id,
                     'qty' => $production->print_qty,
-                    'type' => 'purchase',
+                    'type' => 'production', // production, sales, returns
                     'productions_id' => $production->id,
                     'creator' => 3
                 ]);
