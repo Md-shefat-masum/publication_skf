@@ -19,29 +19,22 @@
     <meta name="twitter:card" content="summary_large_image">
 
     <link rel="stylesheet" href="{{ asset('frontend') }}/css/bootstrap.min.css">
-    <!-- animate css -->
     <link rel="stylesheet" href="{{ asset('frontend') }}/css/animate.css">
-    <!-- owl.carousel css -->
     <link rel="stylesheet" href="{{ asset('frontend') }}/css/owl.carousel.css">
-    <!-- font-awesome css -->
     <link rel="stylesheet" href="{{ asset('frontend') }}/css/font-awesome.min.css">
-    <!-- style css -->
     <link rel="stylesheet" href="{{ asset('frontend') }}/style.css">
-    <!-- responsive css -->
     <link rel="stylesheet" href="{{ asset('frontend') }}/css/responsive.css">
 
-    <!-- modernizr css -->
     <script src="/js/sweetalert.js"></script>
     <script src="/js/pace.min.js"></script>
     <link rel="stylesheet" href="/js/pace-theme-default.min.css">
     <link rel="stylesheet" href="{{ asset('frontend') }}/css/custom.css">
 
-
     {{-- <script src="/js/vue2.js"></script> --}}
     <script src="{{ asset('frontend') }}/js/vendor/jquery-1.12.4.min.js"></script>
     <script src="{{ asset('frontend') }}/js/bootstrap.min.js"></script>
     <script src="{{ asset('frontend') }}/js/owl.carousel.min.js"></script>
-    <script src="{{ asset('frontend') }}/js/wow.min.js" defer></script>
+    <script src="{{ asset('frontend') }}/js/wow.min.js"></script>
     <script src="{{ asset('frontend') }}/js/custom.js"></script>
     <script src="{{ asset('frontend') }}/js/main.js" defer></script>
     <script src="{{ asset('frontend') }}/js/livewire_hook.js" defer></script>
@@ -76,7 +69,6 @@
 </head>
 
 <body>
-
     <header>
         @livewire('frontend.components.header')
         @livewire('frontend.components.nav')
@@ -92,28 +84,12 @@
 
     <script defer>
         document.addEventListener("DOMContentLoaded", () => {
-            Livewire.hook('component.initialized', (component) => {
-                //
-                // console.log('34',component.data);
-            })
-            Livewire.hook('element.initialized', (el, component) => {
-                // console.log('37',component.data);
-                // component.data.auth_check?window.location.href='/admin':'';
-            })
-            Livewire.hook('element.updating', (fromEl, toEl, component) => {})
-            Livewire.hook('element.updated', (el, component) => {})
-            Livewire.hook('element.removed', (el, component) => {})
-            Livewire.hook('message.sent', (message, component) => {})
-            Livewire.hook('message.failed', (message, component) => {})
             Livewire.hook('message.received', (message, component) => {
                 let access_token = message.response.serverMemo.data?.access_token;
                 if (access_token) {
                     window.localStorage.setItem('token', access_token);
                     window.location.href = "/dashboard";
                 }
-            })
-            Livewire.hook('message.processed', (message, component) => {
-                // console.log('48');
             })
         });
         document.addEventListener("turbolinks:load", function(event) {

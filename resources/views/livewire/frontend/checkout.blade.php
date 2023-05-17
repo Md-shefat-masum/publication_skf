@@ -30,7 +30,7 @@
 		<div>
 			<div class="pt-2 section-space shop-checkout-area">
 				<div class="container">
-					<form class="checkout-content" id="checkout-form" onsubmit="checkout(event)" method="post">
+					<form class="checkout-content" id="checkout-form" onsubmit="checkout_submit(event)" method="post">
 						<div class="row">
 							<div class="col-md-4 col-sm-12">
 								<div class="card checkout-section checkout-box h-100">
@@ -102,19 +102,18 @@
 											<div class="">
 												<p>Select a payment method</p>
 												<label class="radio-inline">
-													<input type="radio" id="cod_btn" name="payment_method" value="cod"
-														checked />
+													<input type="radio" onchange="checkout.set_payment_method('cashon')" id="cod_btn" name="payment_method" value="cod" checked />
 													Cash on Delivery
 												</label>
 												<br />
 												<label class="radio-inline">
-													<input type="radio" id="bkash_btn" name="payment_method"
+													<input type="radio" onchange="checkout.set_payment_method('bkash')" id="bkash_btn" name="payment_method"
 														value="bkash" />
 													Bkash
 												</label>
 												<br />
 												<label class="radio-inline">
-													<input type="radio" id="bank_transfer_btn" name="payment_method"
+													<input type="radio" onchange="checkout.set_payment_method('bank')" id="bank_transfer_btn" name="payment_method"
 														value="bank" />
 													Bank Transfer
 												</label>
@@ -204,22 +203,17 @@
 											<div class="">
 												<p>Select a delivery method</p>
 												<label class="radio-inline">
-													<input type="radio" name="shipping_method"
-
-														value="home_delivery" />
+													<input type="radio" onchange="delivery_method.set(`home_delivery`)" data-charge="60" name="shipping_method" value="home_delivery" />
 													Home Delivery - 60৳
 												</label>
 												<br />
 												<label class="radio-inline">
-													<input type="radio" name="shipping_method" checked
-														 value="pickup" />
+													<input type="radio" onchange="delivery_method.set(`pickup`)" data-charge="0" name="shipping_method" checked value="pickup" />
 													Store Pickup - 0৳
 												</label>
 												<br />
 												<label class="radio-inline">
-													<input type="radio" name="shipping_method"
-
-														value="outside_dhaka" />
+													<input type="radio" onchange="delivery_method.set(`outside_dhaka`)" data-charge="120" name="shipping_method" value="outside_dhaka" />
 													Home Delivery outside Dhaka - 120৳
 												</label>
 												<br />
@@ -260,7 +254,7 @@
 												<h2><span>4</span>Order Overview</h2>
 											</div>
 											<div class="card-body">
-												<table class="table table-bordered bg-white checkout-data">
+												<table class="table check_out_cart_list table-bordered bg-white checkout-data">
 													<thead>
 														<tr>
 															<td>Product Name</td>
@@ -270,58 +264,43 @@
 													</thead>
 													<tbody>
 
-														<tr>
-															<td class="name">
-																<a href="javascript:void(0)" class="hind-siliguri">কারফিউড নাইট</a>
-																<div class="options"></div>
-															</td>
-															<td class="price"><span>৳ 266</span> <span> x </span> <span>1</span></td>
-															<td class="price text-right">
-																৳ 266</td>
-														</tr>
-
-                                                        <tr>
-															<td class="name">
-																<a href="javascript:void(0)" class="hind-siliguri">আল কুদস</a>
-																<div class="options"></div>
-															</td>
-															<td class="price"><span>৳ 70</span> <span> x </span> <span>1</span></td>
-															<td class="price text-right">
-																৳ 70</td>
-														</tr>
-
-                                                        <tr>
-															<td class="name">
-																<a href="javascript:void(0)" class="hind-siliguri">দুঃখ-কষ্টের হিকমত</a>
-																<div class="options"></div>
-															</td>
-															<td class="price"><span>৳ 119</span> <span> x </span> <span>1</span></td>
-															<td class="price text-right">
-																৳ 119</td>
-														</tr>
-
-
-														<tr class="total">
-															<td colspan="2" class="text-right">
-																<strong>Sub-Total:</strong></td>
-															<input type="hidden" name="cart_total"
-																value="" id="cart_total">
-															<td class="text-right"><span class="amount">৳ 455</span></td>
-														</tr>
-														<tr class="total">
-															<td colspan="2" class="text-right">
-																<strong>Delivery:</strong></td>
-															<td class="text-right"><span class="amount">
-																৳ 40</span></td>
-														</tr>
-														<tr class="total">
-															<td colspan="2" class="text-right"><strong>Total:</strong>
-															</td>
-															<input type="hidden" name="order_total"
-																value="" id="order_total">
-															<td class="text-right"><span class="amount">৳ 495</span></td>
-														</tr>
 													</tbody>
+                                                    <tfoot>
+                                                        <tr class="total">
+															<td colspan="2" class="text-right">
+																<strong>Sub-Total:</strong>
+                                                            </td>
+															<input type="hidden" name="cart_total" value="" id="cart_total">
+															<td class="text-right">
+                                                                <span class="amount">
+                                                                    ৳
+                                                                    <span class="check_out_cart_list_subtotal solaiman">0</span>
+                                                                </span>
+                                                            </td>
+														</tr>
+														<tr class="total">
+															<td colspan="2" class="text-right">
+																<strong>Delivery:</strong>
+                                                            </td>
+															<td class="text-right">
+                                                                <span class="amount solaiman">
+                                                                    ৳ <span data-cost="0" id="delivery_cost">0</span>
+                                                                </span>
+                                                            </td>
+														</tr>
+														<tr class="total">
+															<td colspan="2" class="text-right">
+                                                                <strong>Total:</strong>
+															</td>
+															<input type="hidden" name="order_total" value="" id="order_total">
+															<td class="text-right">
+                                                                <span class="amount">
+                                                                    ৳
+                                                                    <span class="check_out_cart_list_total solaiman">0</span>
+                                                                </span>
+                                                            </td>
+														</tr>
+                                                    </tfoot>
 												</table>
 											</div>
 										</div>
@@ -344,11 +323,14 @@
 									<b>Refund and Return Policy</b>
 								</a>
 							</div>
-							<button id="button-confirm" class="btn submit-btn pull-right order_btn" type="submit">Confirm
-								Order</button>
+							<button id="button-confirm" class="btn submit-btn pull-right order_btn" type="submit">
+                                Confirm Order
+                            </button>
 						</div>
 					</form>
-
+                    <script>
+                        cart.render_check_out_cart_list();
+                    </script>
 				</div>
 			</div>
 		</div>

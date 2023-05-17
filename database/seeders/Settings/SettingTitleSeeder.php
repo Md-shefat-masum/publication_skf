@@ -33,6 +33,9 @@ class SettingTitleSeeder extends Seeder
             "nagad_marchant_numbers",
             "rocket_marchants_numbers",
 
+            "home_delivery_cost",
+            "out_dhaka_home_delivery_cost",
+
             "company_start_time",
             "company_end_time",
 

@@ -49,20 +49,24 @@ class ProductJsonController extends Controller
             ])
                 ->where('product_id', $product->id)
                 ->whereDate('expire_date', '>', Carbon::today()->toDateString())
-                ->orderBy('id',"DESC")
+                ->orderBy('id', "DESC")
                 ->first();
             if ($discount) {
                 if ($discount->flat_discount) {
                     $product->discount_amount = $discount->flat_discount;
                     $product->discount_percent = round(100 * $discount->flat_discount / $discount->main_price);
+                    $product->discount_price =  $discount->main_price - $discount->flat_discount;
                 }
                 if ($discount->parcent_discount) {
-                    $product->discount_amount = round($discount->main_price * $discount->parcent_discount / 100);
+                    $discount_amount = round($discount->main_price * $discount->parcent_discount / 100);
+                    $product->discount_amount = $discount_amount;
                     $product->discount_percent  = $discount->parcent_discount;
+                    $product->discount_price =  $discount->main_price - $discount_amount;
                 }
-            }else{
+            } else {
                 $product->discount_amount = 0;
                 $product->discount_percent = 0;
+                $product->discount_price = 0;
             }
         }
         // dd($products->toArray());

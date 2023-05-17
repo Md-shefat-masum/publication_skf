@@ -27,4 +27,15 @@ class AppSettingTitle extends Model
             }
         });
     }
+
+    public function values()
+    {
+        return $this->hasMany(AppSettingValue::class,'setting_id');
+    }
+    public function value()
+    {
+        return $this->hasOne(AppSettingValue::class,'setting_id');
+    }
+
+
 }
