@@ -20,8 +20,8 @@ class CreateOrderPaymentsTable extends Migration
             $table->bigInteger("user_id")->unsigned()->nullable();
             $table->bigInteger("customer_id")->unsigned()->nullable();
             $table->string("payment_method", 40)->nullable();
-            $table->string("bkash_number", 20)->nullable();
-            $table->string("bank_account_no", 100)->nullable();
+            $table->string("number", 20)->nullable();
+            $table->string("account_no", 100)->nullable();
             $table->string("trx_id", 100)->nullable();
             $table->double("amount")->nullable();
 

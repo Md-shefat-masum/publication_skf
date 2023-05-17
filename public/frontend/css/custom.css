@@ -26,6 +26,16 @@
 .solaiman {
   font-size: 18px;
 }
+.check_out_cart_list thead td:nth-child(2),
+.check_out_cart_list tbody td:nth-child(2),
+.check_out_cart_list tfoot td:nth-child(2) {
+  text-align: center;
+}
+.check_out_cart_list thead td:last-child,
+.check_out_cart_list tbody td:last-child,
+.check_out_cart_list tfoot td:last-child {
+  text-align: right;
+}
 .table-content table td.product-thumbnail {
   text-align: center;
 }

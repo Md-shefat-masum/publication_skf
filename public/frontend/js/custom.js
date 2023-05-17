@@ -69,8 +69,12 @@ let top_products = {
                         <div class="product__wrapper">
                             <div class="product__thumb">
                                 <a href="#" class="w-img">
-                                    <img src="/${element.thumb_image}" class="product_thumb1" alt="product-img">
-                                    <img class="product__thumb-2" src="/${ element.thumb_image}" alt="product-img">
+                                    <img src="/${
+                                        element.thumb_image
+                                    }" class="product_thumb1" alt="product-img">
+                                    <img class="product__thumb-2" src="/${
+                                        element.thumb_image
+                                    }" alt="product-img">
                                 </a>
                                 <div class="product__action transition-3">
                                     <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Add to Wishlist">
@@ -82,29 +86,47 @@ let top_products = {
                                 </div>
                                 <div class="product__sale">
                                     <span class="new">new</span>
-                                    <span class="percent solaiman ${!element.discount_percent && "d-none"}">
-                                        -${element.discount_percent ?.toString() .getDigitBanglaFromEnglish()}%
+                                    <span class="percent solaiman ${
+                                        !element.discount_percent && "d-none"
+                                    }">
+                                        -${element.discount_percent
+                                            ?.toString()
+                                            .getDigitBanglaFromEnglish()}%
                                     </span>
                                 </div>
                             </div>
                             <div class="product__content p-relative">
                                 <div class="product__content-inner position-relative">
-                                    <a href="/product-details/${ element.id }" class="hind-siliguri product_name">
+                                    <a href="/product-details/${
+                                        element.id
+                                    }" class="hind-siliguri product_name">
                                         <span> ${element.product_name} </span>
                                     </a>
                                 </div>
                                 <div class="add-cart p-absolute transition-3">
                                     <div class="product__price transition-3">
-                                        <span class="solaiman ${ !element.discount_percent && "d-none" }">
-                                            ${element.discount_price ?.toString() .getDigitBanglaFromEnglish()} ৳
+                                        <span class="solaiman ${
+                                            !element.discount_percent &&
+                                            "d-none"
+                                        }">
+                                            ${element.discount_price
+                                                ?.toString()
+                                                .getDigitBanglaFromEnglish()} ৳
                                         </span>
-                                        <span class="${ element.discount_percent && "old-price" } solaiman">
-                                            ${element.sales_price ?.toString() .getDigitBanglaFromEnglish()} ৳
+                                        <span class="${
+                                            element.discount_percent &&
+                                            "old-price"
+                                        } solaiman">
+                                            ${element.sales_price
+                                                ?.toString()
+                                                .getDigitBanglaFromEnglish()} ৳
                                         </span>
                                     </div>
                                     <a href="#" onclick='
                                             event.preventDefault();
-                                            cart.add_to_cart(\`${JSON.stringify( element )}\`)
+                                            cart.add_to_cart(\`${JSON.stringify(
+                                                element
+                                            )}\`)
                                         ' class="hind-siliguri">
                                         <i class="fa fa-shopping-cart"></i>
                                         ওর্ডার করুন
@@ -153,7 +175,7 @@ let cart = {
         }
     },
     find_product: function (product) {
-        if(!product){
+        if (!product) {
             return 0;
         }
         return this.carts.find((i) => i.id == (product.id || product));
@@ -161,23 +183,23 @@ let cart = {
     save_cart: function () {
         localStorage.setItem(this.cart_name, JSON.stringify(this.carts));
     },
-    update_qty: function(product_id){
-        if(!product_id){
+    update_qty: function (product_id) {
+        if (!product_id) {
             return 0;
         }
 
         let product = this.find_product(product_id);
         let qty = event.target.value;
-        if(qty < 1){
+        if (qty < 1) {
             product.qty = 1;
-        }else{
+        } else {
             product.qty = qty;
         }
         this.update_cart_dom();
         window.toaster("success", "Product quantity updted.");
     },
     add_to_cart(product, qty = 1) {
-        if(!product){
+        if (!product) {
             return 0;
         }
         product = JSON.parse(product);
@@ -195,7 +217,7 @@ let cart = {
         window.toaster("success", "Product Added to cart!");
     },
     remove_from_cart: function (product_id) {
-        if(!product_id){
+        if (!product_id) {
             return 0;
         }
         this.carts = this.carts.filter((i) => i.id != product_id);
@@ -205,7 +227,9 @@ let cart = {
     render_cart_list: function () {
         let html = this.carts
             .map((i) => {
-                let price = i.discount_amount ? i.discount_price : i.sales_price;
+                let price = i.discount_amount
+                    ? i.discount_price
+                    : i.sales_price;
                 return `
                 <div class="single-cart">
                     <div class="cart-img">
@@ -218,11 +242,17 @@ let cart = {
                             i.product_name
                         }</a></h5>
                         <p class="solaiman">
-                            ${i.qty} x  ${ price?.toString().getDigitBanglaFromEnglish() }
+                            ${i.qty
+                                ?.toString()
+                                .getDigitBanglaFromEnglish()} x  ${price
+                    ?.toString()
+                    .getDigitBanglaFromEnglish()}
                         </p>
                     </div>
                     <div class="cart-icon">
-                        <a href="#" onclick=" event.preventDefault(); cart.remove_from_cart(${i.id}) ">
+                        <a href="#" onclick=" event.preventDefault(); cart.remove_from_cart(${
+                            i.id
+                        }) ">
                             <i class="fa fa-remove"></i>
                         </a>
                     </div>
@@ -231,20 +261,30 @@ let cart = {
             })
             .join("");
         document.querySelector(".cart-product").innerHTML = html;
-        document.querySelector("#cart_total_price").innerHTML = this.calc_cart_total().toString().getDigitBanglaFromEnglish();
-        document.querySelector("#cart_total_qty").innerHTML = this.calc_cart_qty();
+        document.querySelector("#cart_total_price").innerHTML =
+            this.calc_cart_total().toString().getDigitBanglaFromEnglish();
+        document.querySelector("#cart_total_qty").innerHTML =
+            this.calc_cart_qty();
     },
     render_cart_page_list: function () {
         let html = this.carts
             .map((i) => {
-                let price = i.discount_amount ? i.discount_price : i.sales_price;
+                let price = i.discount_amount
+                    ? i.discount_price
+                    : i.sales_price;
                 return `
                 <tr>
                     <td class="product-thumbnail">
                         <a href="#">
-                            <img src="/${i.thumb_image}" style="max-width: unset; height:60px;" alt="${i.name_english}" />
+                            <img src="/${
+                                i.thumb_image
+                            }" style="max-width: unset; height:60px;" alt="${
+                    i.name_english
+                }" />
                         </a>
-                        <a href="#" class="text-danger" onclick="event.preventDefault();cart.remove_from_cart(${i.id})" >
+                        <a href="#" class="text-danger" onclick="event.preventDefault();cart.remove_from_cart(${
+                            i.id
+                        })" >
                             <i class="fa fa-cross"></i>
                             remove
                         </a>
@@ -257,23 +297,32 @@ let cart = {
                             ৳ ${price?.toString().getDigitBanglaFromEnglish()}
                         </span>
                     </td>
-                    <td class="product-quantity"><input type="number" onchange="cart.update_qty(${i.id})" value="${i.qty}"></td>
-                    <td class="product-subtotal solaiman">৳ ${(i.qty * price).toString().getDigitBanglaFromEnglish()}</td>
+                    <td class="product-quantity"><input type="number" onchange="cart.update_qty(${
+                        i.id
+                    })" value="${i.qty}"></td>
+                    <td class="product-subtotal solaiman">৳ ${(i.qty * price)
+                        .toString()
+                        .getDigitBanglaFromEnglish()}</td>
                 </tr>
             `;
             })
             .join("");
         document.querySelector(".cart_contents tbody").innerHTML = html;
-        document.querySelector(".cart_page_subtotal").innerHTML = this.calc_cart_total().toString().getDigitBanglaFromEnglish();
+        document.querySelector(".cart_page_subtotal").innerHTML =
+            this.calc_cart_total().toString().getDigitBanglaFromEnglish();
     },
     render_check_out_cart_list: function () {
         let html = this.carts
             .map((i) => {
-                let price = i.discount_amount ? i.discount_price : i.sales_price;
+                let price = i.discount_amount
+                    ? i.discount_price
+                    : i.sales_price;
                 return `
                 <tr>
                     <td class="name">
-                        <a href="javascript:void(0)" class="hind-siliguri">${i.product_name}</a>
+                        <a href="javascript:void(0)" class="hind-siliguri">${
+                            i.product_name
+                        }</a>
                         <div class="options"></div>
                     </td>
                     <td class="price">
@@ -288,111 +337,197 @@ let cart = {
             `;
             })
             .join("");
-        let delivery_cost = +document.querySelector('#delivery_cost').dataset.cost;
+        let delivery_cost = +document.querySelector("#delivery_cost").dataset.cost;
+        let coupon_discount = +document.querySelector("#coupon_discount")?.dataset.cost || 0;
         document.querySelector(".check_out_cart_list tbody").innerHTML = html;
         document.querySelector(".check_out_cart_list_subtotal").innerHTML = this.calc_cart_total().toString().getDigitBanglaFromEnglish();
-        document.querySelector(".check_out_cart_list_total").innerHTML = (this.calc_cart_total() + delivery_cost).toString().getDigitBanglaFromEnglish();
+        document.querySelector(".check_out_cart_list_total").innerHTML = ( this.calc_cart_total() + delivery_cost - coupon_discount ).toString().getDigitBanglaFromEnglish();
     },
-    update_cart_dom: function(){
+    update_cart_dom: function () {
         this.save_cart();
         this.render_cart_list();
-        if(document.querySelector('.cart_contents')){
+        if (document.querySelector(".cart_contents")) {
             this.render_cart_page_list();
         }
-        if(document.querySelector('.check_out_cart_list')){
+        if (document.querySelector(".check_out_cart_list")) {
             this.render_check_out_cart_list();
         }
     },
-    calc_cart_qty: function(){
+    calc_cart_qty: function () {
         return this.carts.length;
     },
-    calc_cart_total: function(){
-        return this.carts.reduce((t,i)=>{
-            let price = i.discount_amount?i.discount_amount:i.sales_price;
-            return  t += price*i.qty;
-        },0);
-    }
+    calc_cart_total: function () {
+        return this.carts.reduce((t, i) => {
+            let price = i.discount_amount ? i.discount_price : i.sales_price;
+            return (t += price * i.qty);
+        }, 0);
+    },
 };
 cart.init();
 
 let checkout = {
-    set_payment_method: function(type){
+    set_payment_method: function (type) {
         switch (type) {
             case "bkash":
-                document.querySelector('#bank_section').classList.add('d-none')
-                document.querySelector('#bkash_section').classList.remove('d-none')
+                document.querySelector("#bank_section").classList.add("d-none");
+                document
+                    .querySelector("#bkash_section")
+                    .classList.remove("d-none");
                 break;
 
             case "bank":
-                document.querySelector('#bkash_section').classList.add('d-none')
-                document.querySelector('#bank_section').classList.remove('d-none')
+                document
+                    .querySelector("#bkash_section")
+                    .classList.add("d-none");
+                document
+                    .querySelector("#bank_section")
+                    .classList.remove("d-none");
                 break;
 
             default:
-                document.querySelector('#bkash_section').classList.add('d-none')
-                document.querySelector('#bank_section').classList.add('d-none')
+                document
+                    .querySelector("#bkash_section")
+                    .classList.add("d-none");
+                document.querySelector("#bank_section").classList.add("d-none");
                 break;
         }
-    }
-}
+    },
+};
 
 let delivery_method = {
-    set: function(method){
-        document.querySelector('#delivery_cost').innerHTML = event.target.dataset.charge.toString().getDigitBanglaFromEnglish();
-        document.querySelector('#delivery_cost').dataset.cost = event.target.dataset.charge;
+    set: function (method) {
+        document.querySelector("#delivery_cost").innerHTML =
+            event.target.dataset.charge.toString().getDigitBanglaFromEnglish();
+        document.querySelector("#delivery_cost").dataset.cost =
+            event.target.dataset.charge;
         cart.render_check_out_cart_list();
-    }
-}
+    },
+};
 
 function checkout_submit(event) {
     event.preventDefault();
-    if(!event.target){
+    window.remove_alerts();
+    if (!event.target) {
         return 0;
     }
     let formData = new FormData(event.target);
-    formData.append('carts',JSON.stringify(cart.carts));
+    formData.append("carts", JSON.stringify(cart.carts));
 
     fetch("/checkout", {
         method: "POST",
         headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
         },
-        body: formData
-    }).then(async res => {
-        let response = {}
-        response.status = res.status
-        response.data = await res.json();
-        return response;
-    }).then(res => {
-        if(res.status === 422) {
-            error_response(res.data)
-        }
-        if(res.status === 200) {
-            window.toaster('success', "Order submitted successfully!")
-            // location.href = "/order-complete/"+res.data.order.id;
-        }
+        body: formData,
     })
+        .then(async (res) => {
+            let response = {};
+            response.status = res.status;
+            response.data = await res.json();
+            return response;
+        })
+        .then((res) => {
+            if (res.status === 422) {
+                error_response(res.data);
+            }
+            if (res.status === 200) {
+                window.toaster("success", "Order submitted successfully!");
+                // Turbolinks.visit('/invoice/')
+                // location.href = "/order-complete/"+res.data.order.id;
+            }
+        });
+}
+
+function apply_coupon(event) {
+    event?.preventDefault();
+    window.remove_alerts();
+    document.querySelector('.coupon_discount_row')?.remove();
+    fetch("/apply-coupon", {
+        method: "POST",
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            coupon: document.querySelector("#input_coupon").value,
+        }),
+    })
+        .then(async (res) => {
+            let response = {};
+            response.status = res.status;
+            response.data = await res.json();
+            return response;
+        })
+        .then((res) => {
+            if (res.status === 422) {
+                error_response(res.data);
+                cart.render_check_out_cart_list();
+            }
+            if (res.status === 200) {
+                console.log(res.data);
+                document
+                    .querySelector("#input_coupon")
+                    .parentNode.insertAdjacentHTML(
+                        "beforeend",
+                        `
+                            <div class="text-success input_alert">coupon applied. ${res.data.title}</div>
+                        `
+                    );
+                window.toaster("success", "coupon applied");
+                let {flat_amount, discount_amount} = res.data;
+                if(flat_amount || discount_amount){
+                    let coupon_discount = 0;
+                    if(flat_amount) coupon_discount = flat_amount;
+                    if(discount_amount){
+                        coupon_discount = Math.round( cart.calc_cart_total() * discount_amount / 100 );
+                    }
+                    document
+                        .querySelector(".delivery_cost_row")
+                        .insertAdjacentHTML(
+                            "afterend",
+                            `
+                                <tr class="total coupon_discount_row">
+                                    <td colspan="2" class="text-right">
+                                        <strong>Coupon Discount:</strong>
+                                    </td>
+                                    <td class="text-right">
+                                        <span class="amount solaiman">
+                                            ৳ -<span data-cost="${coupon_discount}" id="coupon_discount">${coupon_discount?.toString().getDigitBanglaFromEnglish()}</span>
+                                        </span>
+                                    </td>
+                                </tr>
+                            `
+                        );
+                    cart.render_check_out_cart_list();
+                }
+            }
+        });
 }
 
 function error_response(data) {
     let object = data.data;
     window.render_error(object);
-    window.toaster('error',data.err_message)
+    window.toaster("error", data.err_message);
     throw data;
 }
 
-window.render_error = (object)=>{
+window.remove_alerts = () =>
+    [...document.querySelectorAll("form div.input_alert")].forEach((i) =>
+        i?.remove()
+    );
+
+window.render_error = (object) => {
     // console.log(data);
-    $('.loader_body').removeClass('active');
-    $('form button').prop('disabled',false);
-    $('#backend_body .main_content').css({overflowY:'scroll'});
+    $(".loader_body").removeClass("active");
+    $("form button").prop("disabled", false);
+    $("#backend_body .main_content").css({ overflowY: "scroll" });
     // whatever you want to do with the error
     // console.log(error.response.data.errors);
     $(`label`).siblings(".text-danger").remove();
     $(`select`).siblings(".text-danger").remove();
     $(`input`).siblings(".text-danger").remove();
     $(`textarea`).siblings(".text-danger").remove();
-    $('.form_errors').html('');
+    $(".form_errors").html("");
 
     let error_html = ``;
 
@@ -402,21 +537,29 @@ window.render_error = (object)=>{
             if (document.getElementById(`${key}`)) {
                 $(`#${key}`)
                     .parent("div")
-                    .append(`<div class="text-danger">${element[0]}</div>`);
+                    .append(
+                        `<div class="text-danger input_alert">${element[0]}</div>`
+                    );
             } else {
                 $(`input[name="${key}"]`)
                     .parent("div")
-                    .append(`<div class="text-danger">${element[0]}</div>`);
+                    .append(
+                        `<div class="text-danger input_alert">${element[0]}</div>`
+                    );
 
                 $(`select[name="${key}"]`)
                     .parent("div")
-                    .append(`<div class="text-danger">${element[0]}</div>`);
+                    .append(
+                        `<div class="text-danger input_alert">${element[0]}</div>`
+                    );
 
                 $(`input[name="${key}"]`).trigger("focus");
 
                 $(`textarea[name="${key}"]`)
                     .parent("div")
-                    .append(`<div class="text-danger">${element[0]}</div>`);
+                    .append(
+                        `<div class="text-danger input_alert">${element[0]}</div>`
+                    );
 
                 $(`textarea[name="${key}"]`).trigger("focus");
             }
@@ -436,7 +579,7 @@ window.render_error = (object)=>{
         }
     }
 
-    $('.form_errors').html(error_html);
+    $(".form_errors").html(error_html);
 
     if (typeof data === "string") {
         // console.log("error", data);
@@ -446,4 +589,4 @@ window.render_error = (object)=>{
 
     // console.log(object);
     // window.s_alert('error',data.err_message)
-}
+};

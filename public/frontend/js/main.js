@@ -1,13 +1,13 @@
-(function($) {
+(function ($) {
     "use strict";
 
     /*----------------------------
      Top Menu Stick
     ------------------------------ */
-    var header = $('#header-sticky');
+    var header = $("#header-sticky");
     var win = $(window);
 
-    win.on('scroll', function() {
+    win.on("scroll", function () {
         if ($(this).scrollTop() > 120) {
             header.addClass("sticky");
         } else {
@@ -15,34 +15,26 @@
         }
     });
 
-    /*----------------------------
-     Wow js active
-    ------------------------------ */
-    new WOW().init();
-
-    /*----------------------------
-     Slider active
-    ------------------------------ */
-    // $('.slider-active').owlCarousel({
-    //     smartSpeed: 1000,
-    //     margin: 0,
-    //     autoplay: false,
-    //     nav: true,
-    //     dots: true,
-    //     loop: true,
-    //     navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
-    //     responsive: {
-    //         0: {
-    //             items: 1
-    //         },
-    //         768: {
-    //             items: 1
-    //         },
-    //         1000: {
-    //             items: 1
-    //         }
-    //     }
-    // })
-
-
+    Pace.start();
+    Pace.options = {
+        restartOnRequestAfter: true,
+    };
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        onOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+    });
+    window.toaster = function toaster(icon, message) {
+        Toast.fire({
+            icon: icon,
+            title: message,
+        });
+    };
+    
 })(jQuery);

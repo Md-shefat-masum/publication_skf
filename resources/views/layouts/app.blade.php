@@ -22,49 +22,26 @@
     <link rel="stylesheet" href="{{ asset('frontend') }}/css/animate.css">
     <link rel="stylesheet" href="{{ asset('frontend') }}/css/owl.carousel.css">
     <link rel="stylesheet" href="{{ asset('frontend') }}/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/js/pace-theme-default.min.css">
     <link rel="stylesheet" href="{{ asset('frontend') }}/style.css">
     <link rel="stylesheet" href="{{ asset('frontend') }}/css/responsive.css">
+    <link rel="stylesheet" href="{{ asset('frontend') }}/css/custom.css">
+    @livewireStyles
 
     <script src="/js/sweetalert.js"></script>
     <script src="/js/pace.min.js"></script>
-    <link rel="stylesheet" href="/js/pace-theme-default.min.css">
-    <link rel="stylesheet" href="{{ asset('frontend') }}/css/custom.css">
 
     {{-- <script src="/js/vue2.js"></script> --}}
     <script src="{{ asset('frontend') }}/js/vendor/jquery-1.12.4.min.js"></script>
     <script src="{{ asset('frontend') }}/js/bootstrap.min.js"></script>
     <script src="{{ asset('frontend') }}/js/owl.carousel.min.js"></script>
-    <script src="{{ asset('frontend') }}/js/wow.min.js"></script>
     <script src="{{ asset('frontend') }}/js/custom.js"></script>
-    <script src="{{ asset('frontend') }}/js/main.js" defer></script>
+
+    @livewireScripts
+    {{-- <script src="/js/app.js" defer></script> --}}
+    <script src="/js/turbolinks.min.js"></script>
     <script src="{{ asset('frontend') }}/js/livewire_hook.js" defer></script>
-
-    <script defer>
-        Pace.start();
-        Pace.options = {
-            restartOnRequestAfter: true
-        }
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            onOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        });
-        window.toaster = function toaster(icon, message) {
-            Toast.fire({
-                icon: icon,
-                title: message,
-            })
-        }
-
-    </script>
-    @livewireStyles
-    <script src="/js/app.js" defer></script>
+    <script src="{{ asset('frontend') }}/js/main.js" defer></script>
 
 </head>
 
@@ -80,23 +57,7 @@
     @yield('content')
 
     @livewire('frontend.components.footer')
-    @livewireScripts
 
-    <script defer>
-        document.addEventListener("DOMContentLoaded", () => {
-            Livewire.hook('message.received', (message, component) => {
-                let access_token = message.response.serverMemo.data?.access_token;
-                if (access_token) {
-                    window.localStorage.setItem('token', access_token);
-                    window.location.href = "/dashboard";
-                }
-            })
-        });
-        document.addEventListener("turbolinks:load", function(event) {
-            console.log('load');
-            window.livewire.start();
-        });
-    </script>
 </body>
 
 </html>

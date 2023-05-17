@@ -75,12 +75,12 @@
 											<div class="form-group" for="input-zone">
 												<label class="control-label">Zone</label>
 												<select id="input-zone" name="zone" class="form-control">
-													<option value="322" selected=""> Dhaka City</option>
-													<option value="323"> Khulna City</option>
-													<option value="4231"> Rangpur City</option>
-													<option value="321">Chittagong City</option>
-													<option value="4233">Gazipur City</option>
-													<option value="4232">Others</option>
+													<option value="Dhaka City" selected=""> Dhaka City</option>
+													<option value="Khulna City"> Khulna City</option>
+													<option value="Rangpur City"> Rangpur City</option>
+													<option value="Chittagong City">Chittagong City</option>
+													<option value="Gazipur City">Gazipur City</option>
+													<option value="Others">Others</option>
 												</select>
 											</div>
 										</div>
@@ -221,11 +221,11 @@
 
 										</div>
 									</div>
-									<div class="col-md-12 col-sm-12 d-none">
+									<div class="col-md-12 col-sm-12">
 										<div class="checkout-section card checkout-box voucher-coupon mt-3 p-1">
 											<div class="card-body">
 												<div class="row">
-													<div class="col-md-6 col-sm-12" id="gift-voucher">
+													{{-- <div class="col-md-6 col-sm-12" id="gift-voucher">
 														<div class="input-group">
 															<input type="text" name="voucher" placeholder="Gift Voucher"
 																id="input-voucher" class="form-control" />
@@ -233,15 +233,17 @@
 																	id="button-voucher" data-loading-text="Loading..."
 																	class="btn st-outline">Apply Voucher</button></span>
 														</div>
-													</div>
-													<div class="col-md-6 col-sm-12" id="discount-coupon">
-														<div class="input-group">
-															<input type="text" name="coupon"
-																placeholder="Promo / Coupon Code" id="input-coupon"
-																class="form-control" />
-															<span class="input-group-btn"><button type="button"
-																	id="button-coupon" data-loading-text="Loading..."
-																	class="btn st-outline">Apply Coupon</button></span>
+													</div> --}}
+													<div class="col-md-12" id="discount-coupon">
+														<div class="input-group gap-2">
+                                                            <div style="flex:1;">
+                                                                <input type="text" name="coupon" onchange="apply_coupon()" placeholder="Promo / Coupon Code" id="input_coupon" class="form-control" />
+                                                            </div>
+															<span class="input-group-btn">
+                                                                <button type="button" onclick="apply_coupon()" id="button-coupon" data-loading-text="Loading..." class="btn btn-outline-info">
+                                                                    Apply Coupon
+                                                                </button>
+                                                            </span>
 														</div>
 													</div>
 												</div>
@@ -278,9 +280,9 @@
                                                                 </span>
                                                             </td>
 														</tr>
-														<tr class="total">
+														<tr class="total delivery_cost_row">
 															<td colspan="2" class="text-right">
-																<strong>Delivery:</strong>
+																<strong>Delivery Cost:</strong>
                                                             </td>
 															<td class="text-right">
                                                                 <span class="amount solaiman">
@@ -288,6 +290,7 @@
                                                                 </span>
                                                             </td>
 														</tr>
+														
 														<tr class="total">
 															<td colspan="2" class="text-right">
                                                                 <strong>Total:</strong>

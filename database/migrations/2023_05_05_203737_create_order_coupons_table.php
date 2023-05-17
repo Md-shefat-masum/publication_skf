@@ -18,6 +18,8 @@ class CreateOrderCouponsTable extends Migration
 
             $table->string('title',50)->nullable();
             $table->string('coupon_code',30)->nullable();
+            $table->float('discount_amount')->unsigned()->default(0);
+            $table->float('flat_amount')->unsigned()->default(0);
             $table->dateTime('expire_date')->nullable();
 
             $table->bigInteger('creator')->unsigned()->nullable();

@@ -34,8 +34,8 @@ class SettingValueSeeder extends Seeder
             "nagad_marchant_numbers" => "",
             "rocket_marchants_numbers" => "",
 
-            "home_deliver_cost" => 60,
-            "out_dhaka_home_deliver_cost" => 120,
+            "home_delivery_cost" => 60,
+            "out_dhaka_home_delivery_cost" => 120,
 
             "company_start_time" => "09:00",
             "company_end_time" => "05:00",
@@ -80,6 +80,7 @@ class SettingValueSeeder extends Seeder
         ];
 
         foreach ($titles as $key => $item) {
+            echo $key."\n";
             AppSettingValue::create([
                 "setting_id" => AppSettingTitle::select('id')->where('title',$key)->first()->id,
                 'setting_value' => $item,
