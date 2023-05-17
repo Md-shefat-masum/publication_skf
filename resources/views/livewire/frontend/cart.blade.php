@@ -13,7 +13,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<div class="entry-header-area">
 		<div class="container">
 			<div class="row">
@@ -25,14 +25,14 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<div class="cart-main-area mb-70">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
 					<form action="#">
-						<div class="table-content table-responsive mb-15 border-1">
-							<table>
+						<div class="table-content cart_contents table-responsive mb-15 border-1">
+							<table class="mb-0">
 								<thead>
 									<tr>
 										<th class="product-thumbnail">Image</th>
@@ -40,36 +40,27 @@
 										<th class="product-price">Price</th>
 										<th class="product-quantity">Quantity</th>
 										<th class="product-subtotal">Total</th>
-										<th class="product-remove">Remove</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td class="product-thumbnail"><a href="#"><img src="https://www.prossodprokashon.com/uploads/file_manager/fm_image_350x500_10616e680c89e4a1634625548.jpg"
-													alt="man" /></a></td>
-										<td class="product-name"><a href="#" class="hind-siliguri">কারফিউড নাইট</a></td>
-										<td class="product-price"><span class="amount solaiman">৳ ২৬৬</span></td>
-										<td class="product-quantity"><input type="number" value="1"></td>
-										<td class="product-subtotal solaiman">৳ ২৬৬</td>
-										<td class="product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
-									</tr>
-									<tr>
-										<td class="product-thumbnail"><a href="#"><img src="https://www.prossodprokashon.com/uploads/file_manager/fm_image_350x500_10630202c613b031661076166.jpg"
-													alt="man" /></a></td>
-										<td class="product-name"><a href="#">কুরআনের সান্নিধ্যে</a></td>
-										<td class="product-price"><span class="amount solaiman">৳ ৭০</span></td>
-										<td class="product-quantity"><input type="number" value="1"></td>
-										<td class="product-subtotal solaiman">৳ ৭০</td>
-										<td class="product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
-									</tr>
 								</tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="4" class="text-end">
+                                            Subtotal
+                                        </th>
+                                        <th>
+                                            ৳ <b class="cart_page_subtotal solaiman">0</b>
+                                        </th>
+                                    </tr>
+                                </tfoot>
 							</table>
 						</div>
 					</form>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-lg-8 col-md-6 col-12">
+				{{-- <div class="col-lg-8 col-md-6 col-12">
 					<div class="buttons-cart mb-30">
 						<ul>
 							<li><a href="#">Update Cart</a></li>
@@ -84,16 +75,16 @@
 							<a href="#">Apply Coupon</a>
 						</form>
 					</div>
-				</div>
-				<div class="col-lg-4 col-md-6 col-12">
+				</div> --}}
+				<div class="col-12 text-end">
 					<div class="cart_totals">
-						<h2>Cart Totals</h2>
-						<table>
+						{{-- <h2>Cart Totals</h2> --}}
+						{{-- <table>
 							<tbody>
 								<tr class="cart-subtotal">
 									<th>Subtotal</th>
 									<td>
-										<span class="amount solaiman">৳ ৩৩৬</span>
+										<span class="amount cart_page_subtotal solaiman">৳ 0</span>
 									</td>
 								</tr>
 								<tr class="shipping">
@@ -124,13 +115,16 @@
 									</td>
 								</tr>
 							</tbody>
-						</table>
+						</table> --}}
 						<div class="wc-proceed-to-checkout">
-							<a href="{{ route('checkout') }}" class="solaiman">Proceed to Checkout</a>
+							<a href="{{ route('checkout') }}" class="solaiman">এখনই কিনুন</a>
 						</div>
 					</div>
 				</div>
 			</div>
+            <script>
+                cart.render_cart_page_list();
+            </script>
 		</div>
 	</div>
 </div>

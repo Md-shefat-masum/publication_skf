@@ -13,7 +13,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<div class="entry-header-area">
 		<div class="container">
 			<div class="row">
@@ -25,7 +25,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<div class="checkout-area mb-70">
 		<div>
 			<div class="pt-2 section-space shop-checkout-area">
@@ -205,7 +205,7 @@
 												<p>Select a delivery method</p>
 												<label class="radio-inline">
 													<input type="radio" name="shipping_method"
-														
+
 														value="home_delivery" />
 													Home Delivery - 60৳
 												</label>
@@ -218,7 +218,7 @@
 												<br />
 												<label class="radio-inline">
 													<input type="radio" name="shipping_method"
-														
+
 														value="outside_dhaka" />
 													Home Delivery outside Dhaka - 120৳
 												</label>
@@ -269,7 +269,7 @@
 														</tr>
 													</thead>
 													<tbody>
-														
+
 														<tr>
 															<td class="name">
 																<a href="javascript:void(0)" class="hind-siliguri">কারফিউড নাইট</a>
@@ -299,7 +299,7 @@
 															<td class="price text-right">
 																৳ 119</td>
 														</tr>
-														
+
 
 														<tr class="total">
 															<td colspan="2" class="text-right">

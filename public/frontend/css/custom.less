@@ -37,6 +37,54 @@
     transition: 0.3s;
 }
 
+.form-group{
+    margin-bottom: 20px;
+}
+
+.table-content table td.product-thumbnail {
+    text-align: center;
+    img,
+    a {
+        display: block;
+    }
+    img{
+        margin: auto;
+    }
+    a{
+        text-transform: capitalize;
+        padding: 5px 0px;
+    }
+}
+.wc-proceed-to-checkout a{
+    font-size: 20px;
+}
+.table-content table td.product-name a {
+    font-size: 18px;
+}
+.cart_contents table td {
+    padding: 5px 10px;
+}
+.table-content table .product-price .amount,
+.table-content table td.product-subtotal {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.cart-product {
+    height: 300px;
+    overflow-y: auto;
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    &::-webkit-scrollbar {
+        width: 5px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 10px;
+    }
+}
+
 @color_1: #201f1f;
 @color_2: var(--brand);
 @color_3: #fff;
@@ -55,6 +103,7 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+    border-bottom: 1px solid #bdbdbd;
 
     div,
     img,
@@ -119,7 +168,7 @@
             visibility: visible;
         }
         .product__price {
-            top:  0px;
+            top: 0px;
             opacity: 0;
             visibility: hidden;
         }
@@ -149,7 +198,7 @@
 }
 .product__thumb {
     margin-bottom: 15px;
-    overflow: hidden;
+    // overflow: hidden;
     position: relative;
 }
 .product__thumb-2 {
@@ -164,10 +213,10 @@
     display: table;
     min-width: 100px;
     position: absolute;
-    right: -20px;
+    left: -10px;
     text-align: center;
-    top: 36px;
-    transform: rotate(90deg);
+    top: 10px;
+    transform: rotate(360deg);
     z-index: 2;
     span {
         background: var(--brand);
@@ -175,7 +224,7 @@
         border-radius: 0;
         color: @color_3;
         float: left;
-        font-size: 11px;
+        font-size: 16px;
         font-weight: 500;
         height: 28px;
         letter-spacing: 0.5px;

@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <meta property="og:title" content="{{$title??''}}" />
     <meta property="og:site_name" content="{{$title??''}}" />
     <meta property="og:description" content="{{$title??''}}" />
@@ -16,11 +17,10 @@
     <meta name="twitter:description" content="{{$title??''}}">
     <meta name="twitter:image" content="{{$meta_image??''}}">
     <meta name="twitter:card" content="summary_large_image">
+
     <link rel="stylesheet" href="{{ asset('frontend') }}/css/bootstrap.min.css">
     <!-- animate css -->
     <link rel="stylesheet" href="{{ asset('frontend') }}/css/animate.css">
-    <!-- meanmenu css -->
-    <link rel="stylesheet" href="{{ asset('frontend') }}/css/meanmenu.min.css">
     <!-- owl.carousel css -->
     <link rel="stylesheet" href="{{ asset('frontend') }}/css/owl.carousel.css">
     <!-- font-awesome css -->
@@ -29,22 +29,19 @@
     <link rel="stylesheet" href="{{ asset('frontend') }}/style.css">
     <!-- responsive css -->
     <link rel="stylesheet" href="{{ asset('frontend') }}/css/responsive.css">
+
     <!-- modernizr css -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-    <script src="https://cdn.jsdelivr.net/npm/pace-js@latest/pace.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@latest/pace-theme-default.min.css">
+    <script src="/js/sweetalert.js"></script>
+    <script src="/js/pace.min.js"></script>
+    <link rel="stylesheet" href="/js/pace-theme-default.min.css">
     <link rel="stylesheet" href="{{ asset('frontend') }}/css/custom.css">
 
 
-    <!-- jquery latest version -->
+    {{-- <script src="/js/vue2.js"></script> --}}
     <script src="{{ asset('frontend') }}/js/vendor/jquery-1.12.4.min.js"></script>
-    <!-- bootstrap js -->
     <script src="{{ asset('frontend') }}/js/bootstrap.min.js"></script>
-    <!-- owl.carousel js -->
     <script src="{{ asset('frontend') }}/js/owl.carousel.min.js"></script>
-    <!-- wow js -->
     <script src="{{ asset('frontend') }}/js/wow.min.js" defer></script>
-    <!-- main js -->
     <script src="{{ asset('frontend') }}/js/custom.js"></script>
     <script src="{{ asset('frontend') }}/js/main.js" defer></script>
     <script src="{{ asset('frontend') }}/js/livewire_hook.js" defer></script>
@@ -71,26 +68,7 @@
                 title: message,
             })
         }
-        window.finalEnlishToBanglaNumber = {
-            '0': '০',
-            '1': '১',
-            '2': '২',
-            '3': '৩',
-            '4': '৪',
-            '5': '৫',
-            '6': '৬',
-            '7': '৭',
-            '8': '৮',
-            '9': '৯'
-        };
 
-        String.prototype.getDigitBanglaFromEnglish = function() {
-            var retStr = this;
-            for (var x in finalEnlishToBanglaNumber) {
-                retStr = retStr.replace(new RegExp(x, 'g'), finalEnlishToBanglaNumber[x]);
-            }
-            return retStr;
-        };
     </script>
     @livewireStyles
     <script src="/js/app.js" defer></script>

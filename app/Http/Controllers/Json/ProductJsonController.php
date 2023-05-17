@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Json;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product\Product;
+use App\Models\Product\ProductDiscount;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ProductJsonController extends Controller
@@ -36,6 +38,34 @@ class ProductJsonController extends Controller
 
         $query->orderBy('products.id', 'DESC');
         $products = $query->paginate($paginate);
+        foreach ($products->items() as $product) {
+            $discount = ProductDiscount::select([
+                "id",
+                "product_id",
+                "main_price",
+                "parcent_discount",
+                "flat_discount",
+                "expire_date",
+            ])
+                ->where('product_id', $product->id)
+                ->whereDate('expire_date', '>', Carbon::today()->toDateString())
+                ->orderBy('id',"DESC")
+                ->first();
+            if ($discount) {
+                if ($discount->flat_discount) {
+                    $product->discount_amount = $discount->flat_discount;
+                    $product->discount_percent = round(100 * $discount->flat_discount / $discount->main_price);
+                }
+                if ($discount->parcent_discount) {
+                    $product->discount_amount = round($discount->main_price * $discount->parcent_discount / 100);
+                    $product->discount_percent  = $discount->parcent_discount;
+                }
+            }else{
+                $product->discount_amount = 0;
+                $product->discount_percent = 0;
+            }
+        }
+        // dd($products->toArray());
         return $products;
     }
 }

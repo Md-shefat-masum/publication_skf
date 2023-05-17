@@ -18,18 +18,23 @@ class CreateProductsTable extends Migration
             $table->text("product_name")->nullable();
             $table->text("product_name_english")->nullable();
             $table->string("product_url",100)->nullable();
+
             $table->tinyInteger("is_top_product")->default("0");
-            $table->string("cost",100)->nullable();
-            $table->string("sales_price",100)->nullable();
-            $table->integer("stock_alert_qty")->nullable();
-            $table->integer("pages")->nullable();
+            $table->double("cost")->unsigned()->default(0);
+            $table->double("sales_price")->unsigned()->default(0);
+            $table->integer("stock_alert_qty")->unsigned()->default(10);
+
+            $table->integer("pages")->unsigned()->default(0);
+
             $table->string("binding",20)->nullable();
             $table->string("isbn",20)->nullable();
             $table->string("sku",20)->nullable();
-            $table->string("height",10)->nullable();
-            $table->string("width",10)->nullable();
-            $table->string("weight",10)->nullable();
-            $table->string("depth",10)->nullable();
+
+            $table->float("height",10)->unsigned()->default(0);
+            $table->float("width",10)->unsigned()->default(0);
+            $table->float("weight",10)->unsigned()->default(0);
+            $table->float("depth",10)->unsigned()->default(0);
+
             $table->longText("description")->nullable();
             $table->longText("specification")->nullable();
             $table->string("thumb_image",100)->nullable();
