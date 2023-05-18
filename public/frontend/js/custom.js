@@ -83,12 +83,8 @@ let top_products = {
                         <div class="product__wrapper">
                             <div class="product__thumb">
                                 <a href="#" class="w-img">
-                                    <img src="/${
-                                        element.thumb_image
-                                    }" class="product_thumb1" alt="product-img">
-                                    <img class="product__thumb-2" src="/${
-                                        element.thumb_image
-                                    }" alt="product-img">
+                                    <img src="/${ element.thumb_image }" class="product_thumb1" alt="product-img">
+                                    <img class="product__thumb-2" src="/${ element.thumb_image }" alt="product-img">
                                 </a>
                                 <div class="product__action transition-3">
                                     <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Add to Wishlist">
@@ -100,48 +96,29 @@ let top_products = {
                                 </div>
                                 <div class="product__sale">
                                     <span class="new">new</span>
-                                    <span class="percent solaiman ${
-                                        !element.discount_percent && "d-none"
-                                    }">
-                                        -${element.discount_percent
-                                            ?.toString()
-                                            .getDigitBanglaFromEnglish()}%
+                                    <span class="percent solaiman ${ !element.discount_percent && "d-none" }">
+                                        -${element.discount_percent?.toString().getDigitBanglaFromEnglish()}%
                                     </span>
                                 </div>
                             </div>
                             <div class="product__content p-relative">
                                 <div class="product__content-inner position-relative">
-                                    <a href="/product-details/${
-                                        element.id
-                                    }" class="hind-siliguri product_name">
+                                    <a href="/product/${element.id}/${ encodeURIComponent( element.product_name )}" class="hind-siliguri product_name">
                                         <span> ${element.product_name} </span>
                                     </a>
                                 </div>
                                 <div class="add-cart p-absolute transition-3">
                                     <div class="product__price transition-3">
-                                        <span class="solaiman ${
-                                            !element.discount_percent &&
-                                            "d-none"
-                                        }">
-                                            ${element.discount_price
-                                                ?.toString()
-                                                .getDigitBanglaFromEnglish()} ৳
+                                        <span class="solaiman ${!element.discount_percent && "d-none" }">
+                                            ${element.discount_price?.toString().getDigitBanglaFromEnglish()} ৳
                                         </span>
-                                        <span class="${
-                                            element.discount_percent &&
-                                            "old-price"
-                                        } solaiman">
-                                            ${element.sales_price
-                                                ?.toString()
-                                                .getDigitBanglaFromEnglish()} ৳
+                                        <span class="${element.discount_percent && "old-price" } solaiman">
+                                            ${element.sales_price?.toString().getDigitBanglaFromEnglish()} ৳
                                         </span>
                                     </div>
-                                    <a href="#" onclick='
-                                            event.preventDefault();
-                                            cart.add_to_cart(\`${JSON.stringify(
-                                                element
-                                            )}\`)
-                                        ' class="hind-siliguri">
+                                    <a href="#"
+                                        onclick='event.preventDefault();cart.add_to_cart(\`${JSON.stringify(element)}\`)'
+                                        class="hind-siliguri">
                                         <i class="fa fa-shopping-cart"></i>
                                         ওর্ডার করুন
                                     </a>
@@ -458,6 +435,8 @@ function checkout_submit(event) {
             if (res.status === 200) {
                 window.toaster("success", "Order submitted successfully!");
                 let invoice_id = res.data.order.split("-")[1];
+                cart.carts = [];
+                cart.save_cart();
                 Turbolinks.visit('/invoice/'+invoice_id);
                 // location.href = "/order-complete/"+res.data.order.id;
             }

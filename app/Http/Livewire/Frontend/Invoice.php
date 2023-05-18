@@ -42,7 +42,7 @@ class Invoice extends Component
                 "order_payments",
             ])
             ->first();
-        dump($this->order->toArray());
+        // dump($this->order->toArray());
     }
 
     public function render()

@@ -30,7 +30,7 @@
                                     </div>
                                     <div class="cart-totals">
                                         <h5>
-                                            Total
+                                            সর্বমোট: &nbsp;&nbsp; ৳
                                             <span class="d-inline-block pl-4 solaiman float-none" id="cart_total_price">0</span>
                                         </h5>
                                     </div>

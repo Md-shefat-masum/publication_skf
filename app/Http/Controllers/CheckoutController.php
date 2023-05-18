@@ -81,7 +81,7 @@ class CheckoutController extends Controller
             $sub_total_cost += $total;
             $total_discount += $product->discount_amount;
 
-            $bn_price = HelperController::enToBn("৳ $price x $item->qty	= ৳ $total \n\t\t\t (৳ $main_price - $discount_percent%)");
+            $bn_price = enToBn("৳ $price x $item->qty	= ৳ $total \n\t\t\t (৳ $main_price - $discount_percent%)");
             $message_products .= "$si. $item->product_name - \n\t\t\t $bn_price \n";
         }
 
@@ -252,12 +252,12 @@ class CheckoutController extends Controller
         $this->message .= $message_products;
 
         $this->message .= "------------------- \n";
-        $this->message .= HelperController::enToBn("সাবটোটাল - ৳ $sub_total_cost \n");
-        $this->message .= HelperController::enToBn("ডেলিভারি চার্জ - ৳ $shipping_cost \n");
+        $this->message .= enToBn("সাবটোটাল - ৳ $sub_total_cost \n");
+        $this->message .= enToBn("ডেলিভারি চার্জ - ৳ $shipping_cost \n");
         if($coupon_discount){
-            $this->message .= HelperController::enToBn("কুপন ছাড় - ৳ -$coupon_discount \n");
+            $this->message .= enToBn("কুপন ছাড় - ৳ -$coupon_discount \n");
         }
-        $this->message .= HelperController::enToBn("সর্বমোট মূল্য - ৳ $total_cost \n");
+        $this->message .= enToBn("সর্বমোট মূল্য - ৳ $total_cost \n");
 
         $this->message .= "------------------- \n";
         $this->message .= "অর্ডারকারীর বিবরণ \n";

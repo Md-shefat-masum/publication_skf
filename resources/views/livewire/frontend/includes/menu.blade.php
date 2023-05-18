@@ -6,7 +6,7 @@
     </li>
     @foreach ($categories as $item)
     <li class="menu-item">
-        <a href="{{ route('category_product') }}">
+        <a href="{{ route('category_product',[$item->id, urlencode($item->name) ]) }}">
             <span class="menu-label-level-0"> {{$item->name}} </span>
         </a>
         @if (count($item->child))
@@ -14,7 +14,7 @@
             <ul>
                 @foreach ($item->child as $child)
                 <li>
-                    <a href="#"> {{$child->name}} </a>
+                    <a href="{{ route('category_product',[$child->id, urlencode($child->name) ]) }}"> {{$child->name}} </a>
                 </li>
                 @endforeach
             </ul>

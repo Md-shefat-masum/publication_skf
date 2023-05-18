@@ -2,7 +2,7 @@
     <div class="container">
         <div class="col-12 padding mx-auto">
             @if ($order)
-                <div class="card mt-5">
+                <div class="card mt-5 print_body">
                     <div class="card-header p-4">
                         <div class="float-right">
                             <h3 class="mb-0">Invoice #{{$order->invoice_id}}</h3>
@@ -71,13 +71,13 @@
                                 <tbody>
                                     @foreach ($order->order_details as $key=>$item)
                                         <tr>
-                                            <td class="center">{{ $key+1 }}</td>
+                                            <td class="center solaiman">{{ enToBn($key+1) }}</td>
                                             <td class="left strong hind-siliguri">{{ $item->product_name }}</td>
-                                            <td class="text-right">
-                                                {{ $item->sales_price }}
+                                            <td class="text-right solaiman">
+                                                ৳ {{ enToBn( $item->sales_price ) }}
                                             </td>
-                                            <td class="text-center"> {{ $item->qty }} </td>
-                                            <td class="text-end">৳ {{ $item->qty * $item->sales_price }}</td>
+                                            <td class="text-center solaiman"> {{ enToBn($item->qty) }} </td>
+                                            <td class="text-end solaiman">৳ {{ enToBn($item->qty * $item->sales_price) }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -93,13 +93,13 @@
                                             <td class="left text-end">
                                                 <strong class="text-dark">Subtotal</strong>
                                             </td>
-                                            <td class="text-end">৳ {{ $order->sub_total }}</td>
+                                            <td class="text-end solaiman">৳ {{ enToBn(number_format($order->sub_total)) }}</td>
                                         </tr>
                                         <tr>
                                             <td class="left text-end">
                                                 <strong class="text-dark">Delivery Charge</strong>
                                             </td>
-                                            <td class="text-end">৳ {{ $order->delivery_charge }}</td>
+                                            <td class="text-end solaiman">৳ {{ enToBn($order->delivery_charge) }}</td>
                                         </tr>
 
                                         @if ($order->coupon_discount)
@@ -107,7 +107,7 @@
                                             <td class="left text-end">
                                                 <strong class="text-dark">Coupon Discount </strong>
                                             </td>
-                                            <td class="text-end">৳ -{{ $order->coupon_discount }}</td>
+                                            <td class="text-end solaiman">৳ -{{ enToBn($order->coupon_discount) }}</td>
                                         </tr>
                                         @endif
 
@@ -116,7 +116,7 @@
                                                 <strong class="text-dark ">Total</strong>
                                             </td>
                                             <td class="right text-end">
-                                                <strong class="text-dark">৳ {{ $order->total_price }}</strong>
+                                                <strong class="text-dark solaiman">৳ {{ enToBn(number_format($order->total_price)) }}</strong>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -125,12 +125,22 @@
                         </div>
                     </div>
                     <div class="card-footer bg-white">
-                        <p class="mb-0">bookstore.com, Mirpur, Dhaka, 1212</p>
+                        <p class="mb-0">
+                            {{url('')}},
+                            {{$company}},
+                            {{$address1}},
+                            {{$address2}}
+                        </p>
                     </div>
                 </div>
             @else
                 <h1>There is no order placed according to your invoice.</h1>
             @endif
+            <div class="text-end mt-3 print_btn">
+                <button onclick="window.print()" type="button" class="btn btn-secondary">
+                    <i class="fa fa-print"></i> print
+                </button>
+            </div>
         </div>
     </div>
 </div>

@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\ApiLoginController;
 use App\Http\Livewire\Login;
 use App\Http\Livewire\Register;
 use App\Http\Livewire\ShowPosts;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,8 +24,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => '', 'namespace' => "Livewire"], function () {
     Route::get('/', "Frontend\Home");
-    Route::get('category-product', "Frontend\CategoryProduct")->name('category_product');
-    Route::get('product-details/{product}', "Frontend\ProductDetails")->name('product_details');
+    Route::get('category/{category}/{name}', "Frontend\CategoryProduct")->name('category_product');
+    Route::get('product/{product}/{name}', "Frontend\ProductDetails")->name('product_details');
     Route::get('cart', "Frontend\Cart")->name('cart');
     Route::get('checkout', "Frontend\Checkout")->name('checkout');
     Route::get('invoice/{invoice}', "Frontend\Invoice")->name('invoice');
@@ -50,11 +51,17 @@ Route::get('/dashboard', function () {
 Route::get('/test', function () {
     // return view('test');
     // dd(request()->getClientIp());
-    $user = \App\Models\User::find(1);
-    dd(
-        $user->roles()->get()->toArray(),
-        $user->permissions()->get()->toArray(),
-    );
+    DB::table('category_product')->truncate();
+    for ($i=1; $i <= 12; $i++) {
+        DB::table('category_product')->insert([
+            'category_id' => $i,
+            "product_id" => $i,
+        ]);
+        DB::table('category_product')->insert([
+            'category_id' => 1,
+            "product_id" => $i,
+        ]);
+    }
 });
 
 Route::get('/data-reload', function () {
