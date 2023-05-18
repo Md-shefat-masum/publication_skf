@@ -11,6 +11,8 @@ class ProductDetails extends Component
 {
     public $product_id;
     public $name;
+    public $related_products;
+    public $latest_products;
     public function mount($product, $name)
     {
         $this->product_id = $product;
@@ -25,35 +27,25 @@ class ProductDetails extends Component
                 "categories",
             ])
             ->first();
-            
-        $discount = ProductDiscount::select([
+
+        $this->latest_products = Product::select([
             "id",
-            "product_id",
-            "main_price",
-            "parcent_discount",
-            "flat_discount",
-            "expire_date",
+            "product_name",
+            "sales_price",
+            "thumb_image",
+            "status",
         ])
-            ->where('product_id', $product->id)
-            ->whereDate('expire_date', '>', Carbon::today()->toDateString())
-            ->orderBy('id', "DESC")
-            ->first();
-        if ($discount) {
-            if ($discount->flat_discount) {
-                $product->discount_amount = $discount->flat_discount;
-                $product->discount_percent = round(100 * $discount->flat_discount / $discount->main_price);
-                $product->discount_price =  $discount->main_price - $discount->flat_discount;
-            }
-            if ($discount->parcent_discount) {
-                $discount_amount = round($discount->main_price * $discount->parcent_discount / 100);
-                $product->discount_amount = $discount_amount;
-                $product->discount_percent  = $discount->parcent_discount;
-                $product->discount_price =  $discount->main_price - $discount_amount;
-            }
-        } else {
-            $product->discount_amount = 0;
-            $product->discount_percent = 0;
-            $product->discount_price = 0;
+            ->latest()
+            ->take(5)
+            ->where('status',1)
+            ->get();
+
+        if ($product->categories->count()) {
+            $this->related_products = $product->categories[0]
+                ->products()
+                ->latest()
+                ->limit(5)
+                ->get();
         }
 
         return view('livewire.frontend.product-details', [

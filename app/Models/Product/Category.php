@@ -38,7 +38,13 @@ class Category extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class)->select(['product_name']);
+        return $this->belongsToMany(Product::class)->select([
+            "products.id",
+            "products.product_name",
+            "products.sales_price",
+            "products.thumb_image",
+            "products.status",
+        ]);
     }
 
     public function products_custom()

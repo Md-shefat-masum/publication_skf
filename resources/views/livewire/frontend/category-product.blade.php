@@ -16,14 +16,14 @@
                     </div>
                 </div>
             </div>
-            <div id="product_section" style="display: grid; grid-template-columns: repeat(5,1fr); gap: 30px; align-content: start;">
+            <div id="product_section" class="product_grid_5">
                 @foreach ($products as $item)
                     <div class="product__item">
                         <div class="product__wrapper">
                             <div class="product__thumb">
-                                <a href="#" class="w-img">
-                                    <img src="/{{$item->thumb_image}}" class="product_thumb1" alt="product-img">
-                                    <img class="product__thumb-2" src="/{{$item->thumb_image}}" alt="product-img">
+                                <a href="{{ route('product_details',[$item->id,$item->product_name]) }}" class="w-img">
+                                    <img src="/{{$item->thumb_image}}" class="product_thumb1 w-100" alt="product-img">
+                                    <img class="product__thumb-2 w-100" src="/{{$item->thumb_image}}" alt="product-img">
                                 </a>
                                 <div class="product__action transition-3">
                                     <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Add to Wishlist">
@@ -33,31 +33,39 @@
                                         <i class="fa fa-search"></i>
                                     </a>
                                 </div>
-                                <div class="product__sale">
-                                    <span class="new">new</span>
-                                    <span class="percent solaiman false">
-                                        -১৪%
-                                    </span>
-                                </div>
+                                @if ($item->discount_info->discount_percent)
+                                    <div class="product__sale">
+                                        <span class="new">new</span>
+                                        <span class="percent solaiman false">
+                                            -{{ enToBn($item->discount_info->discount_percent) }}%
+                                        </span>
+                                    </div>
+                                @endif
                             </div>
                             <div class="product__content p-relative">
                                 <div class="product__content-inner position-relative">
-                                    <a href="/product-details/12" class="hind-siliguri product_name">
-                                        <span> পাবলিক ম্যাটারস </span>
+                                    <a href="{{ route('product_details',[$item->id,$item->product_name]) }}" class="hind-siliguri product_name">
+                                        <span> {{ $item->product_name }} </span>
                                     </a>
                                 </div>
                                 <div class="add-cart p-absolute transition-3">
                                     <div class="product__price transition-3">
-                                        <span class="solaiman false">
-                                            ৪৪৬ ৳
-                                        </span>
-                                        <span class="old-price solaiman">
-                                            ৫১৯ ৳
-                                        </span>
+                                        @if ($item->discount_info->discount_price)
+                                            <span class="solaiman false">
+                                                ৳ {{ enToBn($item->discount_info->discount_price) }}
+                                            </span>
+                                            <span class="old-price solaiman">
+                                                ৳ {{ enToBn($item->sales_price) }}
+                                            </span>
+                                        @else
+                                            <span class="old-price solaiman">
+                                                ৳ {{ enToBn($item->sales_price) }}
+                                            </span>
+                                        @endif
                                     </div>
                                     <a href="#" onclick="
                                             event.preventDefault();
-                                            cart.add_to_cart(`{&quot;id&quot;:12,&quot;category_id&quot;:3,&quot;product_id&quot;:12,&quot;product_name&quot;:&quot;পাবলিক ম্যাটারস&quot;,&quot;product_url&quot;:&quot;public-matters&quot;,&quot;sales_price&quot;:519,&quot;thumb_image&quot;:&quot;books_demo/12.webp&quot;,&quot;status&quot;:1,&quot;slug&quot;:&quot;public-matters&quot;,&quot;discount_amount&quot;:73,&quot;discount_percent&quot;:14,&quot;discount_price&quot;:446}`)
+                                            cart.add_to_cart(`{{json_encode($item)}}`)
                                         " class="hind-siliguri">
                                         <i class="fa fa-shopping-cart"></i>
                                         ওর্ডার করুন

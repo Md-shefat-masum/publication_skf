@@ -222,6 +222,7 @@ a:hover {
     border: 1px solid var(--brand);
     padding: 10px 20px;
 }
+.header-search form button i,
 .header-search form a i{
     line-height: 42px;
 }
@@ -727,6 +728,7 @@ body {
     padding-right: 47px;
 }
 
+.header-search form button,
 .header-search form a {
     background: var(--brand) none repeat scroll 0 0;
     color: #fff;
@@ -742,6 +744,7 @@ body {
     border-radius: 0 5px 5px 0px;
 }
 
+.header-search form button:hover,
 .header-search form a:hover {
     background: #232323 none repeat scroll 0 0;
 }
@@ -3538,6 +3541,7 @@ a#scrollUp:hover {
 }
 
 .home-4 .header-search form a,
+.home-4 .header-search form button,
 .home-4 .header-mid-area .my-cart ul li span {
     background: #00abe0 none repeat scroll 0 0;
 }
@@ -3879,6 +3883,7 @@ nav.menu .cr-dropdown ul {
     border: 1px solid #ededed;
 }
 
+.home-5 .header-search form button,
 .home-5 .header-search form a {
     background: #ededed none repeat scroll 0 0;
     color: #333;
@@ -4184,6 +4189,7 @@ nav.menu .cr-dropdown ul {
     color: #499e46;
 }
 
+.home-6 .header-search form button,
 .home-6 .header-search form a {
     background: #499e46 none repeat scroll 0 0;
 }

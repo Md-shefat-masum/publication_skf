@@ -18,11 +18,11 @@
     <div class="product-main-area mb-70">
         <div class="container">
             <div class="row">
-                <div class="col-lg-9 col-md-12 col-12 order-lg-1 order-1">
+                <div class="col-12 order-lg-1 order-1">
 
                     <div class="product-main-area">
                         <div class="row">
-                            <div class="col-lg-5 col-md-6 col-12">
+                            <div class="col-lg-4 col-md-6 col-12">
                                 <div>
                                     <ul class="slides">
                                         <li>
@@ -32,7 +32,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="col-lg-7 col-md-6 col-12">
+                            <div class="col-lg-5 col-md-6 col-12">
                                 <div class="product-info-main">
                                     <div class="page-title">
                                         <h1 class="hind-siliguri">{{$product->product_name}}</h1>
@@ -104,9 +104,9 @@
                                                     <div class="product-info-price m-0 p-0">
                                                         <b class="price-final" style="font-size: unset;">
                                                             &nbsp;
-                                                            @if ($product->discount_price)
+                                                            @if ($product->discount_info->discount_price)
                                                             <span class="solaiman font-bold">
-                                                                ৳ {{ enTobn($product->discount_price)}}
+                                                                ৳ {{ enTobn($product->discount_info->discount_price)}}
                                                             </span>
                                                             <span class="old-price solaiman font-bold">
                                                                 ৳ {{ enToBn($product->sales_price) }}
@@ -167,11 +167,59 @@
                                             <a href="#"><i class="fa fa-pie-chart"></i></a>
                                             <a href="#"><i class="fa fa-envelope-o"></i></a>
                                         </div> --}}
-                                        <div class="product-addto-links-text hind-siliguri">
+                                        {{-- <div class="product-addto-links-text hind-siliguri">
                                             <p>বইটি মূলত ড. ইয়াসির ক্বাদির বিখ্যাত লেকচার সিরিজ ‘মাদার অব দ্য বিলিভার্স’
                                                 থেকে সংকলন করা হয়েছে। এই সিরিজের দ্বিতীয় বই আয়িশা বিনতে আবু বকর রাযি.।
                                                 এতে আয়িশা রাযি.-এর পূর্ণাঙ্গ জীবনী, এর মাঝে আমাদের শিক্ষা সবিস্তরে
                                                 আলোচনা করা হয়েছে। </p>
+                                        </div> --}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-12 col-12 order-lg-2 order-2">
+                                <div class="shop-left">
+                                    <div class="left-title mb-20">
+                                        <h3 class="hind-siliguri">সংশ্লিষ্ট বইসমূহ</h3>
+                                    </div>
+                                    <div class="random-area mb-30">
+                                        <div class="">
+                                            <div class="product-total-2">
+                                                @foreach ($related_products as $item)
+                                                    <div class="single-most-product bd mb-18">
+                                                        <div class="most-product-img">
+                                                            <a href="{{ route('product_details',[$item->id, $item->product_name]) }}">
+                                                                <img src="/{{$item->thumb_image}}" alt="{{ $item->product_name }}" />
+                                                            </a>
+                                                        </div>
+                                                        <div class="most-product-content">
+                                                            {{-- <div class="product-rating">
+                                                                <ul>
+                                                                    <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                                    <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                                    <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                                    <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                                    <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                                </ul>
+                                                            </div> --}}
+                                                            <h4>
+                                                                <a href="{{ route('product_details',[$item->id, $item->product_name]) }}" class="hind-siliguri">
+                                                                    {{ $item->product_name }}
+                                                                </a>
+                                                            </h4>
+                                                            <div class="product-price">
+                                                                <ul>
+                                                                    @if ($item->discount_info->discount_price)
+                                                                        <li class="solaiman">৳ {{ enToBn($item->discount_info->discount_price) }}</li>
+                                                                        <li class="old-price solaiman">৳ {{ enToBn($item->sales_price) }}</li>
+                                                                    @else
+                                                                        <li class="solaiman">৳ {{ enToBn($item->sales_price) }}</li>
+                                                                    @endif
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -181,309 +229,107 @@
 
                     <div class="product-info-area mt-80">
                         <ul class="nav">
-                            <li><a class="active" href="#Details" data-bs-toggle="tab">Details</a></li>
+                            <li><a class="active hind-siliguri" href="#Details" data-bs-toggle="tab">বিস্তারিত</a></li>
+                            <li><a href="#Details2" class="hind-siliguri" data-bs-toggle="tab">কিভাবে কিনবেন?</a></li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="Details">
-                                <div class="valu">
+                                <div class="value">
                                     <p class="solaiman">
-                                        Book Name - আয়িশা বিনতে আবু বকর রা. <br>
-                                        Page - 136 <br>
-                                        Author - ড. ইয়াসির ক্বাদি <br>
-                                        Translator - আলী আহমাদ মাবরুর <br>
-                                        Binding - হার্ডকভার<br>
-                                        Categories - আত্মজীবনী<br>
-                                        Product Code - mon0010<br>
+                                        {{ $product->description }}
                                     </p>
                                 </div>
                             </div>
-
+                            <div class="tab-pane fade" id="Details2">
+                                <div class="valu">
+                                    <ol class="solaiman">
+                                        <li>
+                                            এখনই কিনুন এ ক্লিক করুন।
+                                        </li>
+                                        <li>
+                                            চেক আউট পেজে যান। যতো গুলো বই কিনতে চান সবগুলোতেই এখনই কিনুন এ ক্লিক করতে হবে।
+                                        </li>
+                                        <li>
+                                            চেক আউট পেজে শিপিং ইনফরমেশন দিন।
+                                        </li>
+                                        <li>
+                                            এরপর place order করুন।
+                                        </li>
+                                        <li>
+                                            আমরা ফোন করে অর্ডারটি কনফার্ম করব।
+                                        </li>
+                                    </ol>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="new-book-area mt-60">
                         <div class="section-title text-center mb-30">
-                            <h3 class="hind-siliguri">সংশ্লিষ্ট বইসমূহ</h3>
+                            <h3 class="hind-siliguri">সর্বশেষ প্রকাশিত</h3>
                         </div>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="product-wrapper">
-                                    <div class="product-img">
-                                        <a href="#">
-                                            <img src="https://www.prossodprokashon.com/uploads/file_manager/fm_image_350x500_10616e655bf00c61634624859.jpg"
-                                                alt="book" class="primary" />
-                                        </a>
-
-                                        <div class="product-flag">
-                                            <ul>
-                                                <li><span class="sale">new</span></li>
-                                                <li><span class="discount-percentage">-5%</span></li>
-                                            </ul>
+                        <div class="product_grid_5">
+                            @foreach ($latest_products as $item)
+                                <div class="product__item">
+                                    <div class="product__wrapper">
+                                        <div class="product__thumb">
+                                            <a href="{{ route('product_details',[$item->id,$item->product_name]) }}" class="w-img">
+                                                <img src="/{{$item->thumb_image}}" class="product_thumb1 w-100" alt="product-img">
+                                                <img class="product__thumb-2 w-100" src="/{{$item->thumb_image}}" alt="product-img">
+                                            </a>
+                                            <div class="product__action transition-3">
+                                                <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Add to Wishlist">
+                                                    <i class="fa fa-heart"></i>
+                                                </a>
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#productModalId-4">
+                                                    <i class="fa fa-search"></i>
+                                                </a>
+                                            </div>
+                                            @if ($item->discount_info->discount_percent)
+                                                <div class="product__sale">
+                                                    <span class="new">new</span>
+                                                    <span class="percent solaiman false">
+                                                        -{{ enToBn($item->discount_info->discount_percent) }}%
+                                                    </span>
+                                                </div>
+                                            @endif
                                         </div>
-                                    </div>
-                                    <div class="product-details text-center">
-                                        <div class="product-rating">
-                                            <ul>
-                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                            </ul>
-                                        </div>
-                                        <h4><a href="#" class="hind-siliguri">খাদিজা বিনতে খুয়াইলিদ রাযি.
-                                                (হার্ডকভার)</a>
-                                        </h4>
-                                        <div class="product-price">
-                                            <ul>
-                                                <li class="solaiman">৳ ১০৫</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="product-link">
-                                        <div class="product-button">
-                                            <a href="javascript:void(0)" onclick="add_to_cart()" class="hind-siliguri"
-                                                title="ওর্ডার করুন"><i class="fa fa-shopping-cart"></i>ওর্ডার করুন</a>
-                                        </div>
-                                        <div class="add-to-link">
-                                            <ul>
-                                                <li><a href="{{ route('product_details',[1,'']) }}" title="Details"><i
-                                                            class="fa fa-external-link"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="product-wrapper">
-                                    <div class="product-img">
-                                        <a href="#">
-                                            <img src="https://www.prossodprokashon.com/uploads/file_manager/fm_image_350x500_10619b43137a9d81637565203.jpg"
-                                                alt="book" class="primary" />
-                                        </a>
-
-                                        <div class="product-flag">
-                                            <ul>
-                                                <li><span class="sale">new</span></li>
-                                                <li><span class="discount-percentage">-5%</span></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="product-details text-center">
-                                        <div class="product-rating">
-                                            <ul>
-                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                            </ul>
-                                        </div>
-                                        <h4><a href="#" class="hind-siliguri">কারবালা ইমাম মাহদি দাজ্জাল গজওয়ায়ে
-                                                হিন্দ</a>
-                                        </h4>
-                                        <div class="product-price">
-                                            <ul>
-                                                <li class="solaiman">৳ ১৮৯</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="product-link">
-                                        <div class="product-button">
-                                            <a href="javascript:void(0)" onclick="add_to_cart()" class="hind-siliguri"
-                                                title="ওর্ডার করুন"><i class="fa fa-shopping-cart"></i>ওর্ডার করুন</a>
-                                        </div>
-                                        <div class="add-to-link">
-                                            <ul>
-                                                <li><a href="{{ route('product_details',[1,'']) }}" title="Details"><i
-                                                            class="fa fa-external-link"></i></a></li>
-                                            </ul>
+                                        <div class="product__content p-relative">
+                                            <div class="product__content-inner position-relative">
+                                                <a href="{{ route('product_details',[$item->id,$item->product_name]) }}" class="hind-siliguri product_name">
+                                                    <span> {{ $item->product_name }} </span>
+                                                </a>
+                                            </div>
+                                            <div class="add-cart p-absolute transition-3">
+                                                <div class="product__price transition-3">
+                                                    @if ($item->discount_info->discount_price)
+                                                        <span class="solaiman false">
+                                                            ৳ {{ enToBn($item->discount_info->discount_price) }}
+                                                        </span>
+                                                        <span class="old-price solaiman">
+                                                            ৳ {{ enToBn($item->sales_price) }}
+                                                        </span>
+                                                    @else
+                                                        <span class="old-price solaiman">
+                                                            ৳ {{ enToBn($item->sales_price) }}
+                                                        </span>
+                                                    @endif
+                                                </div>
+                                                <a href="#" onclick="
+                                                        event.preventDefault();
+                                                        cart.add_to_cart(`{{json_encode($item)}}`)
+                                                    " class="hind-siliguri">
+                                                    <i class="fa fa-shopping-cart"></i>
+                                                    ওর্ডার করুন
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="product-wrapper">
-                                    <div class="product-img">
-                                        <a href="#">
-                                            <img src="https://www.prossodprokashon.com/uploads/file_manager/fm_image_350x500_10616bcce7a25661634454759.jpg"
-                                                alt="book" class="primary" />
-                                        </a>
-
-                                        <div class="product-flag">
-                                            <ul>
-                                                <li><span class="sale">new</span></li>
-                                                <li><span class="discount-percentage">-5%</span></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="product-details text-center">
-                                        <div class="product-rating">
-                                            <ul>
-                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                            </ul>
-                                        </div>
-                                        <h4><a href="#" class="hind-siliguri">সেনাপতি খালিদ বিন ওয়ালিদ (রা)</a></h4>
-                                        <div class="product-price">
-                                            <ul>
-                                                <li class="solaiman">৳ ১০৫</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="product-link">
-                                        <div class="product-button">
-                                            <a href="javascript:void(0)" onclick="add_to_cart()" class="hind-siliguri"
-                                                title="ওর্ডার করুন"><i class="fa fa-shopping-cart"></i>ওর্ডার করুন</a>
-                                        </div>
-                                        <div class="add-to-link">
-                                            <ul>
-                                                <li><a href="{{ route('product_details',[1,'']) }}" title="Details"><i
-                                                            class="fa fa-external-link"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="product-wrapper">
-                                    <div class="product-img">
-                                        <a href="#">
-                                            <img src="https://www.prossodprokashon.com/uploads/file_manager/fm_image_350x500_10619b3b02581661637563138.jpg"
-                                                alt="book" class="primary" />
-                                        </a>
-
-                                        <div class="product-flag">
-                                            <ul>
-                                                <li><span class="sale">new</span></li>
-                                                <li><span class="discount-percentage">-5%</span></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="product-details text-center">
-                                        <div class="product-rating">
-                                            <ul>
-                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                            </ul>
-                                        </div>
-                                        <h4><a href="#" class="hind-siliguri">এইম ফর দ্যা স্টারস</a></h4>
-                                        <div class="product-price">
-                                            <ul>
-                                                <li class="solaiman">৳ ১৮২</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="product-link">
-                                        <div class="product-button">
-                                            <a href="javascript:void(0)" onclick="add_to_cart()" class="hind-siliguri"
-                                                title="ওর্ডার করুন"><i class="fa fa-shopping-cart"></i>ওর্ডার করুন</a>
-                                        </div>
-                                        <div class="add-to-link">
-                                            <ul>
-                                                <li><a href="{{ route('product_details',[1,'sdf']) }}"
-                                                        title="Details"><i class="fa fa-external-link"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-12 col-12 order-lg-2 order-2">
-                    <div class="shop-left">
-                        <div class="left-title mb-20">
-                            <h4>Related Products</h4>
-                        </div>
-                        <div class="random-area mb-30">
-                            <div class="">
-                                <div class="product-total-2">
-                                    <div class="single-most-product bd mb-18">
-                                        <div class="most-product-img">
-                                            <a href="#"><img
-                                                    src="https://www.prossodprokashon.com/uploads/file_manager/fm_image_350x500_10616e680c89e4a1634625548.jpg"
-                                                    alt="book" /></a>
-                                        </div>
-                                        <div class="most-product-content">
-                                            <div class="product-rating">
-                                                <ul>
-                                                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                </ul>
-                                            </div>
-                                            <h4><a href="#" class="hind-siliguri">কারফিউড নাইট</a></h4>
-                                            <div class="product-price">
-                                                <ul>
-                                                    <li class="solaiman">৳ ২৬৬</li>
-                                                    <li class="old-price solaiman">৳ ৩৮০</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="single-most-product bd mb-18">
-                                        <div class="most-product-img">
-                                            <a href="#"><img
-                                                    src="https://www.prossodprokashon.com/uploads/file_manager/fm_image_350x500_10616e6f6b4ac811634627435.jpg"
-                                                    alt="book" /></a>
-                                        </div>
-                                        <div class="most-product-content">
-                                            <div class="product-rating">
-                                                <ul>
-                                                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                </ul>
-                                            </div>
-                                            <h4><a href="#">ইসলামের ব্যাপকতা</a></h4>
-                                            <div class="product-price">
-                                                <ul>
-                                                    <li class="solaiman">৳ ১৬৮</li>
-                                                    <li class="old-price solaiman">৳ ২৪০</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="single-most-product">
-                                        <div class="most-product-img">
-                                            <a href="#"><img
-                                                    src="https://www.prossodprokashon.com/uploads/file_manager/fm_image_350x500_10616e6f6b4ac811634627435.jpg"
-                                                    alt="book" /></a>
-                                        </div>
-                                        <div class="most-product-content">
-                                            <div class="product-rating">
-                                                <ul>
-                                                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                </ul>
-                                            </div>
-                                            <h4><a href="#">কুরআনের সান্নিধ্যে</a></h4>
-                                            <div class="product-price">
-                                                <ul>
-                                                    <li class="solaiman">৳ ৭০</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

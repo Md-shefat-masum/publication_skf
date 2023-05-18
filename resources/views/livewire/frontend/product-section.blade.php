@@ -28,7 +28,7 @@
             <!-- tab-area-start -->
 
 
-            <div id="product_section" style="display:grid; grid-template-columns: repeat(5,1fr); gap: 30px;">
+            <div id="product_section" class="product_grid_5">
                 <!-- single-product-start -->
             </div>
 

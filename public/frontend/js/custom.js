@@ -82,7 +82,7 @@ let top_products = {
                     <div class="product__item">
                         <div class="product__wrapper">
                             <div class="product__thumb">
-                                <a href="#" class="w-img">
+                                <a href="/product/${element.id}/${ encodeURIComponent( element.product_name )}" class="w-img">
                                     <img src="/${ element.thumb_image }" class="product_thumb1" alt="product-img">
                                     <img class="product__thumb-2" src="/${ element.thumb_image }" alt="product-img">
                                 </a>
@@ -96,8 +96,8 @@ let top_products = {
                                 </div>
                                 <div class="product__sale">
                                     <span class="new">new</span>
-                                    <span class="percent solaiman ${ !element.discount_percent && "d-none" }">
-                                        -${element.discount_percent?.toString().getDigitBanglaFromEnglish()}%
+                                    <span class="percent solaiman ${ !element.discount_info.discount_percent && "d-none" }">
+                                        -${element.discount_info.discount_percent?.toString().getDigitBanglaFromEnglish()}%
                                     </span>
                                 </div>
                             </div>
@@ -109,10 +109,10 @@ let top_products = {
                                 </div>
                                 <div class="add-cart p-absolute transition-3">
                                     <div class="product__price transition-3">
-                                        <span class="solaiman ${!element.discount_percent && "d-none" }">
-                                            ${element.discount_price?.toString().getDigitBanglaFromEnglish()} ৳
+                                        <span class="solaiman ${!element.discount_info.discount_percent && "d-none" }">
+                                            ${element.discount_info.discount_price?.toString().getDigitBanglaFromEnglish()} ৳
                                         </span>
-                                        <span class="${element.discount_percent && "old-price" } solaiman">
+                                        <span class="${element.discount_info.discount_percent && "old-price" } solaiman">
                                             ${element.sales_price?.toString().getDigitBanglaFromEnglish()} ৳
                                         </span>
                                     </div>
