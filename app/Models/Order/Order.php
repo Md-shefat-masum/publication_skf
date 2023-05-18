@@ -26,5 +26,21 @@ class Order extends Model
                 $data->creator = auth()->user()->id;
             }
         });
+
+    }
+
+    public function order_details()
+    {
+        return $this->hasMany(OrderDetails::class,'order_id');
+    }
+
+    public function order_delivery_info()
+    {
+        return $this->hasOne(OrderDeliveryInfo::class,'order_id');
+    }
+
+    public function order_payments()
+    {
+        return $this->hasMany(OrderPayment::class,'order_id');
     }
 }

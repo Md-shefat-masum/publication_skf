@@ -2,6 +2,7 @@
 
 namespace App\Models\Order;
 
+use App\Models\User\Address;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,5 +27,10 @@ class OrderDeliveryInfo extends Model
                 $data->creator = auth()->user()->id;
             }
         });
+    }
+
+    public function address()
+    {
+        return $this->hasOne(Address::class,'id','address_id');
     }
 }

@@ -1,30 +1,44 @@
-function slider_reboot() {
-    $(".slider-active")
-        .off()
-        .owlCarousel({
-            smartSpeed: 1000,
-            margin: 0,
-            autoplay: false,
-            nav: true,
-            dots: true,
-            loop: true,
-            navText: [
-                '<i class="fa fa-angle-left"></i>',
-                '<i class="fa fa-angle-right"></i>',
-            ],
-            responsive: {
-                0: {
-                    items: 1,
+let loader = {};
+let slider_reboot = () => '';
+document.addEventListener("DOMContentLoaded", () => {
+    slider_reboot = function() {
+        $(".slider-active")
+            .off()
+            .owlCarousel({
+                smartSpeed: 1000,
+                margin: 0,
+                autoplay: false,
+                nav: true,
+                dots: true,
+                loop: true,
+                navText: [
+                    '<i class="fa fa-angle-left"></i>',
+                    '<i class="fa fa-angle-right"></i>',
+                ],
+                responsive: {
+                    0: {
+                        items: 1,
+                    },
+                    768: {
+                        items: 1,
+                    },
+                    1000: {
+                        items: 1,
+                    },
                 },
-                768: {
-                    items: 1,
-                },
-                1000: {
-                    items: 1,
-                },
-            },
-        });
-}
+            });
+    }
+
+    loader = {
+        el: document.querySelector(".loader"),
+        show: function(){
+            this.el.classList.add('active')
+        },
+        hide: function(){
+            this.el.classList.remove('active')
+        }
+    }
+})
 
 window.finalEnlishToBanglaNumber = {
     0: "০",
@@ -168,6 +182,10 @@ let top_products = {
 let cart = {
     carts: [],
     cart_name: "cart",
+    delivery_cost: 0,
+    coupon_flat_amount: 0,
+    coupon_discount_percent: 0,
+
     init: function () {
         let items = localStorage.getItem(this.cart_name);
         if (items) {
@@ -261,10 +279,8 @@ let cart = {
             })
             .join("");
         document.querySelector(".cart-product").innerHTML = html;
-        document.querySelector("#cart_total_price").innerHTML =
-            this.calc_cart_total().toString().getDigitBanglaFromEnglish();
-        document.querySelector("#cart_total_qty").innerHTML =
-            this.calc_cart_qty();
+        document.querySelector("#cart_total_price").innerHTML = this.calc_cart_total().toString().getDigitBanglaFromEnglish();
+        document.querySelector("#cart_total_qty").innerHTML = this.calc_cart_qty();
     },
     render_cart_page_list: function () {
         let html = this.carts
@@ -337,11 +353,16 @@ let cart = {
             `;
             })
             .join("");
-        let delivery_cost = +document.querySelector("#delivery_cost").dataset.cost;
-        let coupon_discount = +document.querySelector("#coupon_discount")?.dataset.cost || 0;
+
+        let coupon_discount_price = this.calc_coupon_discount() || 0;
         document.querySelector(".check_out_cart_list tbody").innerHTML = html;
         document.querySelector(".check_out_cart_list_subtotal").innerHTML = this.calc_cart_total().toString().getDigitBanglaFromEnglish();
-        document.querySelector(".check_out_cart_list_total").innerHTML = ( this.calc_cart_total() + delivery_cost - coupon_discount ).toString().getDigitBanglaFromEnglish();
+        document.querySelector(".check_out_cart_list_total").innerHTML = ( this.calc_cart_total() + this.delivery_cost - coupon_discount_price ).toString().getDigitBanglaFromEnglish();
+
+        let coupon_discount_el = document.querySelector('#coupon_discount');
+        if(coupon_discount_el){
+            coupon_discount_el.innerHTML = ( coupon_discount_price ).toString().getDigitBanglaFromEnglish();
+        }
     },
     update_cart_dom: function () {
         this.save_cart();
@@ -362,6 +383,16 @@ let cart = {
             return (t += price * i.qty);
         }, 0);
     },
+    calc_coupon_discount: function(){
+        let coupon_discount_price = 0;
+        if(this.coupon_flat_amount) {
+            coupon_discount_price = this.coupon_flat_amount;
+        }
+        if(this.coupon_discount_percent){
+            coupon_discount_price = Math.round( (this.calc_cart_total() + this.delivery_cost) * this.coupon_discount_percent / 100 );
+        }
+        return coupon_discount_price;
+    }
 };
 cart.init();
 
@@ -370,24 +401,16 @@ let checkout = {
         switch (type) {
             case "bkash":
                 document.querySelector("#bank_section").classList.add("d-none");
-                document
-                    .querySelector("#bkash_section")
-                    .classList.remove("d-none");
+                document.querySelector("#bkash_section").classList.remove("d-none");
                 break;
 
             case "bank":
-                document
-                    .querySelector("#bkash_section")
-                    .classList.add("d-none");
-                document
-                    .querySelector("#bank_section")
-                    .classList.remove("d-none");
+                document.querySelector("#bkash_section").classList.add("d-none");
+                document.querySelector("#bank_section").classList.remove("d-none");
                 break;
 
             default:
-                document
-                    .querySelector("#bkash_section")
-                    .classList.add("d-none");
+                document.querySelector("#bkash_section").classList.add("d-none");
                 document.querySelector("#bank_section").classList.add("d-none");
                 break;
         }
@@ -396,10 +419,10 @@ let checkout = {
 
 let delivery_method = {
     set: function (method) {
-        document.querySelector("#delivery_cost").innerHTML =
-            event.target.dataset.charge.toString().getDigitBanglaFromEnglish();
-        document.querySelector("#delivery_cost").dataset.cost =
-            event.target.dataset.charge;
+        let deliver_charge = +event.target.dataset.charge;
+        document.querySelector("#delivery_cost").innerHTML = deliver_charge.toString().getDigitBanglaFromEnglish();
+        document.querySelector("#delivery_cost").dataset.cost = deliver_charge;
+        cart.delivery_cost = deliver_charge;
         cart.render_check_out_cart_list();
     },
 };
@@ -407,6 +430,7 @@ let delivery_method = {
 function checkout_submit(event) {
     event.preventDefault();
     window.remove_alerts();
+    loader.show();
     if (!event.target) {
         return 0;
     }
@@ -427,12 +451,14 @@ function checkout_submit(event) {
             return response;
         })
         .then((res) => {
+            loader.hide();
             if (res.status === 422) {
                 error_response(res.data);
             }
             if (res.status === 200) {
                 window.toaster("success", "Order submitted successfully!");
-                // Turbolinks.visit('/invoice/')
+                let invoice_id = res.data.order.split("-")[1];
+                Turbolinks.visit('/invoice/'+invoice_id);
                 // location.href = "/order-complete/"+res.data.order.id;
             }
         });
@@ -476,11 +502,15 @@ function apply_coupon(event) {
                 window.toaster("success", "coupon applied");
                 let {flat_amount, discount_amount} = res.data;
                 if(flat_amount || discount_amount){
-                    let coupon_discount = 0;
-                    if(flat_amount) coupon_discount = flat_amount;
-                    if(discount_amount){
-                        coupon_discount = Math.round( cart.calc_cart_total() * discount_amount / 100 );
+                    if(flat_amount) {
+                        cart.coupon_flat_amount = flat_amount;
+                        cart.coupon_discount_percent = 0;
                     }
+                    if(discount_amount){
+                        cart.coupon_discount_percent = discount_amount;
+                        cart.coupon_flat_amount = 0;
+                    }
+                    let coupon_discount = cart.calc_coupon_discount();
                     document
                         .querySelector(".delivery_cost_row")
                         .insertAdjacentHTML(
@@ -492,7 +522,9 @@ function apply_coupon(event) {
                                     </td>
                                     <td class="text-right">
                                         <span class="amount solaiman">
-                                            ৳ -<span data-cost="${coupon_discount}" id="coupon_discount">${coupon_discount?.toString().getDigitBanglaFromEnglish()}</span>
+                                            ৳ -<span data-cost="${coupon_discount}" id="coupon_discount">
+                                                ${coupon_discount?.toString().getDigitBanglaFromEnglish()}
+                                            </span>
                                         </span>
                                     </td>
                                 </tr>

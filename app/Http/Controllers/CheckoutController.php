@@ -79,19 +79,29 @@ class CheckoutController extends Controller
             $price = $product->discount_amount ? $product->discount_price : $product->sales_price;
             $total = $item->qty * $price;
             $sub_total_cost += $total;
-            $total_discount += $product->discount_price;
+            $total_discount += $product->discount_amount;
 
             $bn_price = HelperController::enToBn("৳ $price x $item->qty	= ৳ $total \n\t\t\t (৳ $main_price - $discount_percent%)");
             $message_products .= "$si. $item->product_name - \n\t\t\t $bn_price \n";
         }
 
+        $total_cost = $sub_total_cost + $shipping_cost;
+
         if(request()->coupon){
             $coupon_info = $this->validate_coupon(request()->coupon, $total_cost);
         }
 
-        $total_cost = $sub_total_cost + $shipping_cost - $coupon_info["coupon_discount"];
+        $total_cost -= $coupon_info["coupon_discount"];
 
-        $order = $this->save_order($products, request()->except('carts'), $sub_total_cost, $total, $total_discount, $shipping_cost, $coupon_info);
+        $order = $this->save_order([
+            "products" => $products,
+            "request" => request()->except('carts'),
+            "sub_total_cost" => $sub_total_cost,
+            "total_cost" => $total_cost,
+            "total_discount" => $total_discount,
+            "shipping_cost" => $shipping_cost,
+            "coupon_info" => $coupon_info,
+        ]);
         $this->make_message($message_products, $sub_total_cost, $shipping_cost, $coupon_info["coupon_discount"], $total_cost, $name, $mobile_number, $address);
 
         return response()->json([
@@ -100,18 +110,26 @@ class CheckoutController extends Controller
         ], 200);
     }
 
-    public function save_order($products, $request, $sub_total_cost, $total, $total_discount, $shipping_cost, $coupon_info)
+    public function save_order($data=[])
     {
+        $products = $data["products"];
+        $request = $data["request"];
+        $sub_total_cost = $data["sub_total_cost"];
+        $total_cost = $data["total_cost"];
+        $total_discount = $data["total_discount"];
+        $shipping_cost = $data["shipping_cost"];
+        $coupon_info = $data["coupon_info"];
         $request = (object) $request;
         $auth_user = auth()->check() ? auth()->user() : null;
         $address = $this->save_address($request);
         $variant_price = 0;
+        $invoice_prefix = AppSettingTitle::getValue("invoice_prefix");
 
         $order = Order::create([
             'user_id' => $auth_user ? $auth_user->id : null, // user id
             "customer_id" => null, //customer id
             "address_id" => $address->id, // user address id, customer
-            "invoice_id" => "INV-" . Carbon::now()->format("Ymd"),
+            "invoice_id" => $invoice_prefix."-" . Carbon::now()->format("Ymd"),
             "invoice_date" => Carbon::now()->toDateTimeString(),
             "order_type" => "ecomerce", // Quotation, Pos order, Ecomerce order
             "order_status" => "pending",
@@ -122,7 +140,7 @@ class CheckoutController extends Controller
             "coupon_discount" => $coupon_info["coupon_discount"],
             "delivery_charge" => $shipping_cost,
             "variant_price" => $variant_price, // extra charge for product variants
-            "total_price" => ($sub_total_cost - $total_discount) + $shipping_cost + $variant_price,
+            "total_price" => $total_cost + $variant_price,
 
             "payment_status" => "pending", // pending, partially paid, paid
             "delivery_method" => $request->shipping_method,
@@ -215,6 +233,7 @@ class CheckoutController extends Controller
             "zip_code" => $request->zip_code ?? '',
             "zone" => $request->zone ?? '',
             "country" => $request->country ?? '',
+            "comment" => $request->comment ?? '',
         ]);
 
         return $address;

@@ -36,6 +36,44 @@
 .check_out_cart_list tfoot td:last-child {
   text-align: right;
 }
+main {
+  position: relative;
+}
+main .loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999999;
+  opacity: 0;
+  visibility: hidden;
+  transition-duration: 0.3s;
+}
+main .loader::before {
+  transition-duration: 0.3s;
+  backdrop-filter: blur(1px);
+  background-color: #201f1f59;
+  content: "";
+  height: 100%;
+  width: 100%;
+  background-image: url("/loader.gif");
+  background-size: 300px;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: scale(0.9);
+}
+main .loader.active {
+  opacity: 1;
+  visibility: visible;
+  border-radius: 0%;
+}
+main .loader.active::before {
+  transform: scale(1);
+}
 .table-content table td.product-thumbnail {
   text-align: center;
 }

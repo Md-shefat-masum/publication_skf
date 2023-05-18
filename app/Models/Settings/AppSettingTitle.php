@@ -30,12 +30,28 @@ class AppSettingTitle extends Model
 
     public function values()
     {
-        return $this->hasMany(AppSettingValue::class,'setting_id');
+        return $this->hasMany(AppSettingValue::class, 'setting_id');
     }
     public function value()
     {
-        return $this->hasOne(AppSettingValue::class,'setting_id');
+        return $this->hasOne(AppSettingValue::class, 'setting_id');
     }
 
-
+    public static function getValue($title, $with = "value")
+    {
+        if ($with == "value") {
+            return AppSettingTitle::where('title', $title)
+                ->with(["value" => function ($q) {
+                    return $q->select(["id", "setting_id", "setting_value"]);
+                }])
+                ->first()
+                ->value->setting_value;
+        } else {
+            return AppSettingTitle::where('title', $title)
+                ->with(["values" => function ($q) {
+                    return $q->select(["id", "setting_id", "setting_value"]);
+                }])
+                ->first()->values;
+        }
+    }
 }
