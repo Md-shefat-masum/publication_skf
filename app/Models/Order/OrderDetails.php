@@ -16,7 +16,7 @@ class OrderDetails extends Model
 
         static::creating(function ($data) {
             if (auth()->check()) {
-                $data->creator = auth()->user()->id;
+                $data->user_id = auth()->user()->id;
             }
         });
     }

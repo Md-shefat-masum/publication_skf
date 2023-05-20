@@ -27,24 +27,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("turbolinks:render", function (event) {});
 });
 
-// document.addEventListener("turbolinks:load", function (event) {
-    // if (window.dom_load_count > 1 && !window.dom_load_navigating) {
-    //     window.livewire.restart();
-    //     console.log("reload", window.dom_load_count);
-    // }
-    // ReviewFunctions();
-    // dynamicCss();
-    // setTimeout(() => {
-    //     slider_reboot();
-    // }, 2000);
-    // scrolltotop_reboot();
-    // checkout_handling();
-    // window.dom_load_count++;
-    // let wire_els = [...document.querySelectorAll('div.border.border-danger')]
-    // wire_els.forEach(i=>{
-    //     i.setAttribute('wire:key',Math.random());
-    // })
-// });
 
 
 

@@ -16,13 +16,16 @@ class Login extends Component
     {
         $this->auth_check = auth()->check();
 
+
         if(auth()->check()){
-            // return header("Location:admin");
+            // return header("Location:profile");
+            return redirect('/profile');
         }
     }
 
     public function render()
     {
+
         return view('livewire.login')
             ->extends('layouts.app', [
                 'title' => 'login',
@@ -42,7 +45,12 @@ class Login extends Component
         if($user){
             auth()->login($user);
             $this->auth_check = auth()->check();
-            $this->access_token = $user->createToken('accessToken')->accessToken;
+            if($user->roles()->where('role_serial','<',5)->first()){
+                $this->access_token = $user->createToken('accessToken')->accessToken;
+                return;
+            }else{
+                return redirect('/profile');
+            }
         }
     }
 }

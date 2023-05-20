@@ -240,6 +240,19 @@ main .loader.active::before {
   background: #888;
   border-radius: 10px;
 }
+.header-mid-area .my-cart ul li > a > i {
+  font-size: 23px;
+  padding-right: 10px;
+}
+.flex_1 {
+  flex: 1;
+}
+.font-16 {
+  font-size: 16px;
+}
+.font-18 {
+  font-size: 18px;
+}
 .product__wrapper {
   display: flex;
   flex-direction: column;

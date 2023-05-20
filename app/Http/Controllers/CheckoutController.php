@@ -39,6 +39,8 @@ class CheckoutController extends Controller
             'bank_transaction_id' => ['required_if:payment_method,==,bank'],
             'shipping_method' => ['required'],
             "carts" => ["required", "array", "min:1"],
+        ],[
+            "carts.required" => ["there is no product into cart list."]
         ]);
 
         if ($validator->fails()) {
@@ -75,11 +77,11 @@ class CheckoutController extends Controller
             $product->qty = $item->qty;
             $products[] = $product;
             $main_price = $product->sales_price;
-            $discount_percent = $product->discount_percent;
-            $price = $product->discount_amount ? $product->discount_price : $product->sales_price;
+            $discount_percent = $product->discount_info->discount_percent;
+            $price = $product->discount_info->discount_amount ? $product->discount_info->discount_price : $product->sales_price;
             $total = $item->qty * $price;
             $sub_total_cost += $total;
-            $total_discount += $product->discount_amount;
+            $total_discount += $product->discount_info->discount_amount;
 
             $bn_price = enToBn("৳ $price x $item->qty	= ৳ $total \n\t\t\t (৳ $main_price - $discount_percent%)");
             $message_products .= "$si. $item->product_name - \n\t\t\t $bn_price \n";
@@ -156,8 +158,8 @@ class CheckoutController extends Controller
                 "product_name" => $product->product_name,
                 "product_code" => $product->sku,
                 "product_price" => $product->sales_price,
-                "discount_price" => $product->discount_amount,
-                "sales_price" => $product->discount_price,
+                "discount_price" => $product->discount_info->discount_amount,
+                "sales_price" => $product->discount_info->discount_price,
                 "qty" => $product->qty,
             ]);
         }
@@ -213,13 +215,13 @@ class CheckoutController extends Controller
         $address = null;
         $request = (object) $request;
         if ($auth_user) {
-            $address = Address::where('table_name', 'users')->where('table_id', $auth_user->id)->first();
-            if ($address) {
-                return $address;
+            $address = Address::where('table_name', 'users')->where('table_id', $auth_user->id)->orderBy('id','DESC')->first();
+            if(!$address){
+                $address = new Address();
             }
         }
 
-        $address = Address::create([
+        $address->fill([
             "table_name" => $auth_user ? "users" : "guest",
             "table_id" => $auth_user ? $auth_user->id : null,
             "address_type" => "shipping",
@@ -234,7 +236,7 @@ class CheckoutController extends Controller
             "zone" => $request->zone ?? '',
             "country" => $request->country ?? '',
             "comment" => $request->comment ?? '',
-        ]);
+        ])->save();
 
         return $address;
     }

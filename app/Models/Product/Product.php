@@ -116,6 +116,7 @@ class Product extends Model
             "products.sales_price",
             "products.thumb_image",
             "products.status",
+            "products.sku",
             "products.slug",
         ])
             ->where('products.id', $id)->first();

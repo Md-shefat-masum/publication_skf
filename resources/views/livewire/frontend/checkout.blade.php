@@ -41,36 +41,30 @@
 										<div class="multiple-form-group">
 											<div class="form-group">
 												<label class="control-label" for="input-firstname">First Name</label>
-												<input class="form-control" name="first_name" type="text"
-													id="input-firstname" placeholder="First Name*" />
+												<input value="{{$address->first_name}}" class="form-control" name="first_name" type="text" id="input-firstname" placeholder="First Name*" />
 											</div>
 											<div class="form-group">
 												<label class="control-label" for="input-lastname">Last Name</label>
-												<input type="text" id="input-lastname" name="last_name"
-													class="form-control" placeholder="Last Name*" />
+												<input value="{{$address->last_name}}" type="text" id="input-lastname" name="last_name" class="form-control" placeholder="Last Name*" />
 											</div>
 										</div>
 
 										<div class="form-group">
 											<label class="control-label" for="input-address">Address</label>
-											<input type="text" id="input-address" name="address" class="form-control"
-												placeholder="Address*" />
+											<input value="{{$address->address}}" type="text" id="input-address" name="address" class="form-control" placeholder="Address*" />
 										</div>
 										<div class="form-group">
 											<label class="control-label" for="input-telephone">Mobile</label>
-											<input type="tel" id="input-telephone" name="mobile_number"
-												class="form-control" placeholder="Telephone*" />
+											<input value="{{$address->mobile_number}}" type="tel" id="input-telephone" name="mobile_number" class="form-control" placeholder="Telephone*" />
 										</div>
 										<div class="form-group" for="input-email">
 											<label class="control-label">Email</label>
-											<input type="email" id="input-email" name="email" class="form-control"
-												placeholder="E-Mail*" />
+											<input value="{{$address->email}}" type="email" id="input-email" name="email" class="form-control" placeholder="E-Mail*" />
 										</div>
 										<div class="multiple-form-group">
 											<div class="form-group" for="input-city">
 												<label class="control-label">City</label>
-												<input type="text" id="input-city" name="city" class="form-control"
-													placeholder="City*" />
+												<input value="{{$address->city}}" type="text" id="input-city" name="city" class="form-control" placeholder="City*" />
 											</div>
 											<div class="form-group" for="input-zone">
 												<label class="control-label">Zone</label>
@@ -86,8 +80,7 @@
 										</div>
 										<div class="form-group">
 											<label class="control-label">Comment</label>
-											<textarea class="form-control" name="comment" placeholder="Comment"
-												rows="6"></textarea>
+											<textarea class="form-control" name="comment" placeholder="Comment" rows="6"></textarea>
 										</div>
 									</div>
 								</div>
@@ -255,6 +248,9 @@
 											<div class="section-head">
 												<h2><span>4</span>Order Overview</h2>
 											</div>
+                                            <div>
+                                                <div id="carts"></div>
+                                            </div>
 											<div class="card-body">
 												<table class="table check_out_cart_list table-bordered bg-white checkout-data">
 													<thead>
@@ -290,7 +286,7 @@
                                                                 </span>
                                                             </td>
 														</tr>
-														
+
 														<tr class="total">
 															<td colspan="2" class="text-right">
                                                                 <strong>Total:</strong>

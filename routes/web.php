@@ -30,8 +30,9 @@ Route::group(['prefix' => '', 'namespace' => "Livewire"], function () {
     Route::get('checkout', "Frontend\Checkout")->name('checkout');
     Route::get('invoice/{invoice}', "Frontend\Invoice")->name('invoice');
     // Route::get('pos', "Frontend\Pos")->name('pos');
-    Route::get('/login', "Login");
-    Route::get('/register', "Register");
+    Route::get('/login', "Login")->name('login');
+    Route::get('/register', "Register")->name('register');
+    Route::get('/profile', "Frontend\CustomerProfile");
 });
 
 Route::group( ['prefix'=>'','namespace' => "Controllers" ],function(){

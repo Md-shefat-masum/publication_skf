@@ -11,46 +11,82 @@
                 <div style="flex: 1;">
                     <div class="header-search">
                         <form action="#">
-                            <input type="text" placeholder="Search entire store here..." />
+                            <input wire:model.debounce.500ms="search_query"  type="text"
+                                placeholder="Search entire store here..." />
                             <button type="button" class="border-0"><i class="fa fa-search"></i></button>
                         </form>
+                        @if (count($search_products))
                         <div class="search_pop_result custom_scroll">
-                            @for ($i = 0; $i < 10; $i++)
-                                <div class="product-total-2">
-                                    <div class="single-most-product bd mb-18">
-                                        <div class="most-product-img">
-                                            <a
-                                                href="">
-                                                <img src="/books_demo/11.webp" alt="মানুষ গড়ার নববি শিল্প">
-                                            </a>
+                            <div class="product-total-2">
+                                @forelse ($search_products as $item)
+                                <div class="single-most-product bd mb-18">
+                                    <div class="most-product-img">
+                                        <a href="{{ route('product_details',[$item->id, $item->product_name]) }}">
+                                            <img src="/{{$item->thumb_image}}" alt="{{ $item->product_name }}" />
+                                        </a>
+                                    </div>
+                                    <div class="most-product-content">
+                                        {{--
+                                        <div class="product-rating">
+                                            <ul>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                            </ul>
                                         </div>
-                                        <div class="most-product-content">
-                                            <h4>
-                                                <a href=""
-                                                    class="hind-siliguri">
-                                                    মানুষ গড়ার নববি শিল্প
-                                                </a>
-                                            </h4>
-                                            <div class="product-price">
-                                                <ul>
-                                                    <li class="solaiman">৳ ৫৫৮</li>
-                                                    <li class="old-price solaiman">৳ ৬৩৯</li>
-                                                </ul>
-                                            </div>
+                                        --}}
+                                        <h4>
+                                            <a href="{{ route('product_details',[$item->id, $item->product_name]) }}"
+                                                class="hind-siliguri">
+                                                {{ $item->product_name }}
+                                            </a>
+                                        </h4>
+                                        <div class="product-price">
+                                            <ul>
+                                                @if ($item->discount_info->discount_price)
+                                                <li class="solaiman">৳ {{ enToBn($item->discount_info->discount_price)
+                                                    }}</li>
+                                                <li class="old-price solaiman">৳ {{ enToBn($item->sales_price) }}</li>
+                                                @else
+                                                <li class="solaiman">৳ {{ enToBn($item->sales_price) }}</li>
+                                                @endif
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
-                            @endfor
+                                @empty
+                                <span class="text-danger">
+                                    no data been found
+                                </span>
+                                @endforelse
+                            </div>
                         </div>
+                        @endif
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-12">
+                <div class="col-md-4 col-12">
                     <div class="my-cart">
-                        <ul>
+                        <ul class="d-flex flex-wrap gap-4 justify-content-end align-items-center">
+                            <li>
+                                <a href="/login">
+                                    <i class="fa fa-user"></i>
+                                    <div class="d-inline-block">
+                                        @if (auth()->check())
+                                            প্রোফাইল
+                                        @else
+                                            লগইন/রেজিস্টার
+                                        @endif
+                                    </div>
+                                </a>
+                            </li>
                             <li>
                                 <a href="#">
                                     <i class="fa fa-shopping-cart"></i>
-                                    ক্রয় তালিকা
+                                    <div class="d-inline-block">
+                                        ক্রয় তালিকা
+                                    </div>
                                     <span id="cart_total_qty">0</span>
                                 </a>
                                 <div class="mini-cart-sub">
