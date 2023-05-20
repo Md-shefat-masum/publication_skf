@@ -150,7 +150,7 @@ class ApiLoginController extends Controller
         if (strlen($old_password)) {
             if (Hash::check($old_password, $user->password)) {
                 if (strlen($newpassword) && strlen($newpassword_confirmation)) {
-                    
+
 
                     $user->password = Hash::make($request->newpassword);
                 }
@@ -160,7 +160,7 @@ class ApiLoginController extends Controller
                     'data' => [
                         'old_password' => ['your given old password not matching'],
                     ],
-                    
+
                 ], 422);
             }
         }
@@ -275,19 +275,41 @@ class ApiLoginController extends Controller
 
     public function update_profile(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $rules = [
             'first_name' => ['required'],
             'last_name' => ['required'],
+            'mobile_number' => ['required'],
             // 'user_name' => ['required', 'min:4', 'unique:users'],
             // 'email' => ['required', 'unique:users'],
-            'contact_number' => ['required'],
             // 'dob' => ['required'],
             // 'street' => ['required'],
-            'city' => ['required'],
-            'zip_code' => ['required'],
-            'country' => ['required'],
+            // 'city' => ['required'],
+            // 'zip_code' => ['required'],
+            // 'country' => ['required'],
             //
-        ]);
+        ];
+
+
+        $data = $request->only(['first_name','last_name','user_name','email', 'password']);
+
+        if ($request->has('user_name') && request()->user_name != auth()->user()->user_name) {
+            $rules["user_name"] = ['required', 'min:4', 'unique:users'];
+        }
+
+        if ($request->has('mobile_number') && request()->mobile_number != auth()->user()->mobile_number) {
+            $rules["mobile_number"] = ['required', 'min:11', 'unique:users'];
+        }
+
+        if ($request->has('email') && request()->email != auth()->user()->email) {
+            $rules["email"] = ['required', 'email', 'unique:users'];
+        }
+
+        if ($request->has('password') && strlen($request->password) > 0) {
+            $rules["old_password"] = ['required'];
+            $rules["password"] = ['required', 'min:8', 'confirmed'];
+        }
+
+        $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
             return response()->json([
@@ -296,23 +318,17 @@ class ApiLoginController extends Controller
             ], 422);
         }
 
-        $data = $request->only(['name', 'password']);
-
-        if ($request->has('password') && strlen($request->password) > 0) {
-            $validator = Validator::make($request->all(), [
-                'password' => ['required', 'min:8', 'confirmed'],
-            ]);
-
-            if ($validator->fails()) {
-                return response()->json([
-                    'err_message' => 'validation error',
-                    'data' => $validator->errors(),
-                ], 422);
-            }
+        $user = User::find(auth()->user()->id);
+        if($request->has('password') && strlen($request->password) > 0 && !Hash::check(request()->old_password,$user->password)){
+            return response()->json([
+                'err_message' => 'validation error',
+                'errors' => ["old_password"=>["incorrect old password."]],
+            ], 422);
+        }else{
+            $data['password'] = Hash::make($request->password);
         }
 
-        $data['password'] = Hash::make($request->password);
-        $user = User::find(Auth::user()->id)->fill($data)->save();
+        $user->fill($data)->save();
 
         $data['user'] = User::where('id', Auth::user()->id)->with('roles')->first();
         return response()->json($data, 200);

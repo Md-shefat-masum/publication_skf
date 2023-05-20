@@ -41,27 +41,15 @@
                             <div class="row">
                                 <div class="col-lg-3 col-md-4">
                                     <div class="myaccount-tab-menu nav" role="tablist">
-                                        <a href="#orders" class="active" data-bs-toggle="tab">
+                                        <a href="#orders" wire:click="change_tab('orders')" class="{{ $active_tab=="orders"?"active":'' }}" data-bs-toggle="tab">
                                             <i class="fa fa-cart-arrow-down"></i>
                                             Orders
                                         </a>
-                                        {{-- <a href="#dashboad" class="active" data-bs-toggle="tab">
-                                            <i class="fa fa-dashboard"></i>
-                                            Dashboard
-                                        </a> --}}
-                                        {{-- <a href="#download" data-bs-toggle="tab">
-                                            <i class="fa fa-cloud-download"></i>
-                                            Download
-                                        </a> --}}
-                                        {{-- <a href="#payment-method" data-bs-toggle="tab">
-                                            <i class="fa fa-credit-card"></i>
-                                            Payments
-                                        </a> --}}
-                                        <a href="#address-edit" data-bs-toggle="tab">
+                                        <a href="#address-edit" wire:click="change_tab('address')" class="{{ $active_tab=="address"?"active":'' }}" data-bs-toggle="tab">
                                             <i class="fa fa-map-marker"></i>
                                             address
                                         </a>
-                                        <a href="#account-info" data-bs-toggle="tab">
+                                        <a href="#account-info" wire:click="change_tab('account')" class="{{ $active_tab=="account"?"active":'' }}" data-bs-toggle="tab">
                                             <i class="fa fa-user"></i>
                                             Account Details
                                         </a>
@@ -77,25 +65,7 @@
                                 <div class="col-lg-9 col-md-8">
                                     <div class="tab-content" id="myaccountContent">
                                         <!-- Single Tab Content Start -->
-                                        {{-- <div class="tab-pane fade show" id="dashboad" role="tabpanel">
-                                            <div class="myaccount-content">
-                                                <h5>Dashboard</h5>
-                                                <div class="welcome">
-                                                    <p>
-                                                        Hello,
-                                                        <strong>{{ auth()->user()->first_name }}</strong>
-                                                        <strong>{{ auth()->user()->last_name }}</strong>
-                                                    </p>
-                                                </div>
-                                                <p class="mb-0">From your account dashboard. you can easily check &
-                                                    view your recent orders, manage your shipping and billing addresses
-                                                    and edit your password and account details.</p>
-                                            </div>
-                                        </div> --}}
-                                        <!-- Single Tab Content End -->
-
-                                        <!-- Single Tab Content Start -->
-                                        <div class="tab-pane fade show active" id="orders" role="tabpanel">
+                                        <div class="tab-pane fade {{ $active_tab=="orders"?"show active":'' }}" id="orders" role="tabpanel">
                                             <div class="myaccount-content">
                                                 <h5>Orders</h5>
                                                 <div class="myaccount-table table-responsive text-center">
@@ -135,88 +105,108 @@
                                         <!-- Single Tab Content End -->
 
                                         <!-- Single Tab Content Start -->
-                                        <div class="tab-pane fade" id="address-edit" role="tabpanel">
+                                        <div class="tab-pane fade {{ $active_tab=="address"?"show active":'' }}" id="address-edit" role="tabpanel">
                                             <div class="myaccount-content">
                                                 <h5>Billing Address</h5>
                                                 <div class="account-details-form">
-                                                    <form action="">
+                                                    <form onsubmit="update_profile_address()">
                                                         <div class="row">
                                                             <div class="col-lg-6">
                                                                 <div class="single-input-item">
                                                                     <label for="first_name" class="required">First Name</label>
-                                                                    <input type="text" id="first_name" placeholder="First Name" />
+                                                                    <input type="text" wire:model="first_name" name="first_name" id="first_name" placeholder="First Name" />
+                                                                    @error('first_name') <div class="text-danger">{{ $message }}</div> @enderror
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-6">
                                                                 <div class="single-input-item">
                                                                     <label for="last_name" class="required">Last Name</label>
-                                                                    <input type="text" id="last_name" placeholder="Last Name" />
+                                                                    <input type="text" wire:model="last_name" name="last_name" id="last_name" placeholder="Last Name" />
+                                                                    @error('last_name') <div class="text-danger">{{ $message }}</div> @enderror
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-6">
                                                                 <div class="single-input-item">
                                                                     <label for="mobile_number" class="required">Mobile Number</label>
-                                                                    <input type="tel" id="mobile_number" placeholder="Mobile Number" />
+                                                                    <input type="tel" wire:model="mobile_number" name="mobile_number" id="mobile_number" placeholder="Mobile Number" />
+                                                                    @error('mobile_number') <div class="text-danger">{{ $message }}</div> @enderror
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-6">
                                                                 <div class="single-input-item">
                                                                     <label for="email" class="required">Email</label>
-                                                                    <input type="email" id="email" placeholder="Email" />
+                                                                    <input type="email" wire:model="email" name="email" id="email" placeholder="Email" />
+                                                                    @error('email') <div class="text-danger">{{ $message }}</div> @enderror
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-12">
                                                                 <div class="single-input-item">
                                                                     <label for="address" class="required">Address</label>
-                                                                    <textarea type="address" id="address" placeholder="address"></textarea>
+                                                                    <textarea wire:model="address" name="address" id="address" placeholder="address"></textarea>
+                                                                    @error('address') <div class="text-danger">{{ $message }}</div> @enderror
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-4">
                                                                 <div class="single-input-item">
                                                                     <label for="city" class="required">City</label>
-                                                                    <input type="city" id="city" placeholder="city" />
+                                                                    <input type="text" wire:model="city" name="city" id="city" placeholder="city" />
+                                                                    @error('city') <div class="text-danger">{{ $message }}</div> @enderror
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-4">
                                                                 <div class="single-input-item">
                                                                     <label for="state" class="required">State</label>
-                                                                    <input type="state" id="state" placeholder="state" />
+                                                                    <input type="text" wire:model="state" name="state" id="state" placeholder="state" />
+                                                                    @error('state') <div class="text-danger">{{ $message }}</div> @enderror
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-4">
                                                                 <div class="single-input-item">
                                                                     <label for="zip_code" class="required">zip_code</label>
-                                                                    <input type="zip_code" id="zip_code" placeholder="zip_code" />
+                                                                    <input type="text" wire:model="zip_code" name="zip_code" id="zip_code" placeholder="zip_code" />
+                                                                    @error('zip_code') <div class="text-danger">{{ $message }}</div> @enderror
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-4">
                                                                 <div class="single-input-item">
                                                                     <label for="zone" class="required">zone</label>
-                                                                    <input type="zone" id="zone" placeholder="zone" />
+                                                                    <select id="zone" wire:model="zone" name="zone" class="form-control">
+                                                                        <option value="Dhaka City"> Dhaka City</option>
+                                                                        <option value="Khulna City"> Khulna City</option>
+                                                                        <option value="Rangpur City"> Rangpur City</option>
+                                                                        <option value="Chittagong City">Chittagong City</option>
+                                                                        <option value="Gazipur City">Gazipur City</option>
+                                                                        <option value="Others">Others</option>
+                                                                    </select>
+                                                                    @error('zone') <div class="text-danger">{{ $message }}</div> @enderror
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-4">
                                                                 <div class="single-input-item">
                                                                     <label for="country" class="required">country</label>
-                                                                    <input type="country" id="country" placeholder="country" />
+                                                                    <input type="text" wire:model="country" name="country" id="country" placeholder="country" />
+                                                                    @error('country') <div class="text-danger">{{ $message }}</div> @enderror
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-6">
                                                                 <div class="single-input-item">
                                                                     <label for="lat" class="required">Lattitude</label>
-                                                                    <input type="lat" id="lat" placeholder="Lattitude" />
+                                                                    <input type="text" wire:model="lat" name="lat" id="lat" placeholder="Lattitude" />
+                                                                    @error('lat') <div class="text-danger">{{ $message }}</div> @enderror
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-6">
                                                                 <div class="single-input-item">
                                                                     <label for="lng" class="required">Logntitude</label>
-                                                                    <input type="lng" id="lng" placeholder="Logntitude" />
+                                                                    <input type="text"  wire:model="lng" name="lng" id="lng" placeholder="Logntitude" />
+                                                                    @error('lng') <div class="text-danger">{{ $message }}</div> @enderror
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-12">
                                                                 <div class="single-input-item">
                                                                     <label for="comment" class="required">Other Informations</label>
-                                                                    <textarea type="comment" id="comment" placeholder="Other information" ></textarea>
+                                                                    <textarea  wire:model="comment" name="comment" id="comment" placeholder="Other information" ></textarea>
+                                                                    @error('comment') <div class="text-danger">{{ $message }}</div> @enderror
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -230,50 +220,58 @@
                                         <!-- Single Tab Content End -->
 
                                         <!-- Single Tab Content Start -->
-                                        <div class="tab-pane fade" id="account-info" role="tabpanel">
+                                        <div class="tab-pane fade {{ $active_tab=="account"?"show active":'' }}" id="account-info" role="tabpanel">
                                             <div class="myaccount-content">
                                                 <h5>Account Details</h5>
                                                 <div class="account-details-form">
-                                                    <form action="#">
+                                                    <form action="#" id="account_details_form" onsubmit="update_profile()">
                                                         <div class="row">
                                                             <div class="col-lg-6">
                                                                 <div class="single-input-item">
-                                                                    <label for="first-name" class="required">First Name</label>
-                                                                    <input type="text" name="first_name" id="first-name" placeholder="First Name" />
+                                                                    <label for="first_name" class="required">First Name</label>
+                                                                    <input type="text" value="{{ auth()->user()->first_name }}" name="first_name" id="first_name" placeholder="First Name" />
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-6">
                                                                 <div class="single-input-item">
-                                                                    <label for="last-name" class="required">Last Name</label>
-                                                                    <input type="text" name="last_name" id="last-name" placeholder="Last Name" />
+                                                                    <label for="last_name" class="required">Last Name</label>
+                                                                    <input type="text" value="{{ auth()->user()->last_name }}" name="last_name" id="last_name" placeholder="Last Name" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <div class="single-input-item">
+                                                                    <label for="user_name" class="required">User Name</label>
+                                                                    <input type="text" name="user_name" value="{{ auth()->user()->user_name }}" id="user_name" placeholder="User Name" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <div class="single-input-item">
+                                                                    <label for="mobile_number" class="required">Mobile Number</label>
+                                                                    <input type="text" name="mobile_number" value="{{ auth()->user()->mobile_number }}" id="mobile_number" placeholder="Mobile Number" />
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="single-input-item">
-                                                            <label for="display-name" class="required">User Name</label>
-                                                            <input type="text" name="user_name" id="display-name" placeholder="User Name" />
-                                                        </div>
-                                                        <div class="single-input-item">
                                                             <label for="email" class="required">Email Addres</label>
-                                                            <input type="email" id="email" placeholder="Email Address" />
+                                                            <input type="email" name="email" id="email" value="{{ auth()->user()->email }}" placeholder="Email Address" />
                                                         </div>
                                                         <fieldset>
                                                             <legend>Password change</legend>
                                                             <div class="single-input-item">
-                                                                <label for="current-pwd" class="required">Current Password</label>
-                                                                <input type="password" name="old_password" id="current-pwd" placeholder="Current Password" />
+                                                                <label for="old_password" class="required">Current Password</label>
+                                                                <input type="password" value=" " name="old_password" id="old_password" placeholder="Current Password" />
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-lg-6">
                                                                     <div class="single-input-item">
-                                                                        <label for="new-pwd" class="required">New Password</label>
-                                                                        <input type="password" name="password" id="new-pwd" placeholder="New Password" />
+                                                                        <label for="password" class="required">New Password</label>
+                                                                        <input type="password" name="password" id="password" placeholder="New Password" />
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-6">
                                                                     <div class="single-input-item">
-                                                                        <label for="confirm-pwd" class="required">Confirm Password</label>
-                                                                        <input type="password" name="password_confirmation" id="confirm-pwd" placeholder="Confirm Password" />
+                                                                        <label for="password_confirmation" class="required">Confirm Password</label>
+                                                                        <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Confirm Password" />
                                                                     </div>
                                                                 </div>
                                                             </div>

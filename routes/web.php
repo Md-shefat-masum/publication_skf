@@ -43,6 +43,8 @@ Route::group( ['prefix'=>'','namespace' => "Controllers" ],function(){
     Route::group( ['prefix'=>'json' ],function(){
         Route::get('/products','Json\ProductJsonController@products');
     });
+    Route::post('/profile/address-update','Common\AddressController@update_from_frontend');
+    Route::post('/profile/update','Auth\ApiLoginController@update_profile');
 });
 
 Route::get('/dashboard', function () {

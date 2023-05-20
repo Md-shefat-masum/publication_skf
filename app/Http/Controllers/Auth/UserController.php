@@ -293,7 +293,6 @@ class UserController extends Controller
         ], 200);
     }
 
-
     public function canvas_update()
     {
         $rules = [
