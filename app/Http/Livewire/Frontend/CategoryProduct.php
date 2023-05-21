@@ -33,6 +33,6 @@ class CategoryProduct extends Component
                 "price" => "" ,
                 "keywords" => ""
             ],
-        ]);;
+        ]);
     }
 }

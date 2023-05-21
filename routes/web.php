@@ -29,16 +29,20 @@ Route::group(['prefix' => '', 'namespace' => "Livewire"], function () {
     Route::get('cart', "Frontend\Cart")->name('cart');
     Route::get('checkout', "Frontend\Checkout")->name('checkout');
     Route::get('invoice/{invoice}', "Frontend\Invoice")->name('invoice');
-    // Route::get('pos', "Frontend\Pos")->name('pos');
-    Route::get('contact', "Frontend\Contact")->name('contact');
+    Route::get('/profile', "Frontend\CustomerProfile");
+
     Route::get('/login', "Login")->name('login');
     Route::get('/register', "Register")->name('register');
-    Route::get('/profile', "Frontend\CustomerProfile");
+
+    // Route::get('pos', "Frontend\Pos")->name('pos');
+    Route::get('contact', "Frontend\Contact")->name('contact');
     Route::get('/frequently-asked-questions', "Frontend\Faq");
     Route::get('/how-to-buy', "Frontend\Howtobuy");
     Route::get('/terms', "Frontend\Terms");
     Route::get('/refund-policy', "Frontend\RefundPolicy");
     Route::get('/privacy-policy', "Frontend\PrivacyPolicy");
+
+    Route::get('/about-us',"Frontend\About");
 });
 
 Route::group( ['prefix'=>'','namespace' => "Controllers" ],function(){
@@ -54,7 +58,6 @@ Route::group( ['prefix'=>'','namespace' => "Controllers" ],function(){
     Route::post('/profile/update-profile-pic','Auth\ApiLoginController@update_profile_pic');
 
     Route::post('/profile/update-profile-pic','Auth\ApiLoginController@update_profile_pic');
-
     Route::post('/contact-submit','WebsiteController@contact_submit');
 });
 

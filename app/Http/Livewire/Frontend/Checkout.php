@@ -7,6 +7,12 @@ use Livewire\Component;
 
 class Checkout extends Component
 {
+    public function mount()
+    {
+        if(!auth()->check()){
+            return redirect('/login');
+        }
+    }
     public function render()
     {
         $address = new Address();

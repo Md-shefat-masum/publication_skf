@@ -1,5 +1,5 @@
 <div>
-<div class="breadcrumbs-area mb-70">
+    <div class="breadcrumbs-area mb-70">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">

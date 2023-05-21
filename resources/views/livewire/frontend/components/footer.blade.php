@@ -28,7 +28,7 @@
                                         <ul>
                                             <li><a class="hind-siliguri" href="/contact/">যোগাযোগ করুন</a></li>
                                             <li><a class="hind-siliguri" target="_blank" href="#" rel="noopener">ব্লগ</a></li>
-                                            <li><a class="hind-siliguri" href="/cart/">শপিং ব্যাগ</a></li>
+
                                             <li><a class="hind-siliguri" href="/frequently-asked-questions/">প্রশ্নোত্তর</a></li>
                                             <li><a class="hind-siliguri" href="/how-to-buy">কিভাবে কেনাকাটা করবেন ?</a>
                                             </li>
@@ -46,18 +46,8 @@
                                     </div>
                                     <div class="footer-mid-menu">
                                         <ul>
-                                            <li><a class="hind-siliguri" href="/wishlist">আপনার পছন্দের তালিকা</a></li>
-                                            <li><a class="hind-siliguri" href="/general-books/">জেনারেল ও অ্যাকাডেমিক
-                                                    বই</a></li>
-                                            <li><a class="hind-siliguri" href="/cat/books/author/dr-khandkar-abdullah-jahangir/">ড. খোন্দকার
-                                                    আব্দুল্লাহ জাহাঙ্গীর এর বই</a></li>
-                                            <li><a class="hind-siliguri" href="/cat/books/author/%e0%a6%86%e0%a6%b0%e0%a6%bf%e0%a6%ab-%e0%a6%86%e0%a6%9c%e0%a6%be%e0%a6%a6/">আরিফ
-                                                    আজাদ এর বই</a></li>
-                                            <li><a class="hind-siliguri" href="/preorder">প্রি-অর্ডার
-                                                </a></li>
-                                            <li><a class="hind-siliguri" href="/cat/home-product/প্যাকেজ/">প্যাকেজ
-                                                </a></li>
-                                            <li><a class="hind-siliguri" href="/cat/books/subject/electronics-product/">ইলেকট্রনিক্স</a></li>
+                                            <li><a class="hind-siliguri" href="/cart/">শপিং ব্যাগ</a></li>
+                                            <li><a class="hind-siliguri" href="/category/19/প্রি-অর্ডার">প্রি-অর্ডার</a></li>
                                         </ul>
                                     </div>
                                 </div>
