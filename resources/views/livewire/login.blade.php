@@ -34,6 +34,7 @@
                                 <input wire:model="password" type="password" class="form-control" name="password" pattern=".{5,}" required />
                             </div>
                             <div class="single-login single-login-2">
+                                <div class="text-danger">{{$error}}</div>
                                 <button class="submit_btn" type="submit">login</button>
                             </div>
                             <div class="d-flex mt-4 gap-4 flex-wrap justify-content-between hind-siliguri font-16">

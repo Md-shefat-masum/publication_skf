@@ -9,29 +9,29 @@ class Checkout extends Component
 {
     public function mount()
     {
-        if(!auth()->check()){
+        if (!auth()->check()) {
             return redirect('/login');
         }
     }
     public function render()
     {
         $address = new Address();
-        if(auth()->check()){
+        if (auth()->check()) {
             $address = Address::where('table_name', 'users')->where('table_id', auth()->user()->id)->latest()->first();
         }
-        return view('livewire.frontend.checkout',[
-                "address" => $address,
-            ])
+        return view('livewire.frontend.checkout', [
+            "address" => $address,
+        ])
             ->extends('layouts.app', [
-            'meta' => [
-                "title" =>  "checkout",
-                "image" => "",
-                "og_image" => "",
-                "twitter_image" => "",
-                "description" => "",
-                "price" => "" ,
-                "keywords" => ""
-            ],
-        ]);
+                'meta' => [
+                    "title" =>  "checkout",
+                    "image" => "",
+                    "og_image" => "",
+                    "twitter_image" => "",
+                    "description" => "",
+                    "price" => "",
+                    "keywords" => ""
+                ],
+            ]);
     }
 }

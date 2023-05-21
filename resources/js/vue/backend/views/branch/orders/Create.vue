@@ -21,9 +21,13 @@
                             <div class="row py-3">
                                 <div class="col-lg-3" v-for="item in products.data" :key="item.id">
                                     <div class="card h-100 d-flex flex-column justify-between" >
-                                        <img :src="item.thumb_image" class="img-fluid" alt=""/>
+                                        <div class="pos_card_image_card">
+                                            <img :src="item.thumb_image" class="img-fluid" alt=""/>
+                                            <span class="add_icon">
+                                                <i class="fa fa-plus"></i>
+                                            </span>
+                                        </div>
                                         <h6 style="flex:1" class="mt-2 mb-0">{{ item.product_name }}</h6>
-                                        <button class="btn mb-2 btn-sm btn-outline-info">Add</button>
                                     </div>
                                 </div>
                             </div>

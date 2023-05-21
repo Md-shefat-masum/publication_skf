@@ -90,6 +90,32 @@ html.dark-layout .watch.to_nav_watch {
   background-color: rgba(67, 89, 113, 0.3);
 }
 
+.pos_card_image_card {
+  position: relative;
+}
+.pos_card_image_card .add_icon {
+  position: absolute;
+  width: calc(100% + 1px);
+  height: calc(100% + 1px);
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%) scale(0);
+      -ms-transform: translate(-50%, -50%) scale(0);
+          transform: translate(-50%, -50%) scale(0);
+  background-color: rgba(0, 0, 0, 0.64);
+  -webkit-backdrop-filter: blur(1px);
+          backdrop-filter: blur(1px);
+  display: grid;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 24px;
+  cursor: pointer;
+}
+
 .vertical-layout.vertical-menu-modern .main-menu .navigation li {
   position: relative;
 }

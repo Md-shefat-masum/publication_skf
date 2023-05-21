@@ -11,6 +11,25 @@
     background-color: rgba(67, 89, 113, .3);
 }
 
+.pos_card_image_card{
+    position: relative;
+    .add_icon{
+        position: absolute;
+        width: calc( 100% + 1px);
+        height: calc( 100% + 1px);
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        background-color: rgb(0 0 0 / 64%);
+        backdrop-filter: blur(1px);
+        display: grid;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+        cursor: pointer;
+    }
+}
+
 .vertical-layout.vertical-menu-modern .main-menu .navigation li {
     position: relative;
 

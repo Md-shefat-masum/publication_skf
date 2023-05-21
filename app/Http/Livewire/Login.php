@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 
 class Login extends Component
@@ -11,13 +12,14 @@ class Login extends Component
     public $password;
     public $auth_check;
     public $access_token;
+    public $error;
 
     public function mount()
     {
         $this->auth_check = auth()->check();
 
 
-        if(auth()->check()){
+        if (auth()->check()) {
             // return header("Location:profile");
             return redirect('/profile');
         }
@@ -37,20 +39,22 @@ class Login extends Component
     {
         $email = $this->email;
         $password = $this->password;
-        $user = User::where(function($q) use($email){
+        $this->error = "";
+        $user = User::where(function ($q) use ($email) {
             return $q->where('email', $email)
                 ->orWhere('user_name', $email)
                 ->orWhere('mobile_number', $email);
         })->first();
-        if($user){
-            auth()->login($user);
-            $this->auth_check = auth()->check();
-            if($user->roles()->where('role_serial','<',5)->first()){
+        if ($user && Hash::check($password, $user->password)) {
+            if ($user->roles()->where('role_serial', '<', 5)->first()) {
                 $this->access_token = $user->createToken('accessToken')->accessToken;
                 return;
-            }else{
+            } else {
+                auth()->login($user);
+                $this->auth_check = auth()->check();
                 return redirect('/profile');
             }
         }
+        $this->error = "user not found";
     }
 }
