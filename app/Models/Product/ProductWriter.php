@@ -9,6 +9,7 @@ class ProductWriter extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    protected $appends = ['image_url'];
 
     public static function boot()
     {
@@ -26,5 +27,14 @@ class ProductWriter extends Model
                 $data->creator = auth()->user()->id;
             }
         });
+    }
+
+    public function getImageUrlAttribute()
+    {
+        if (count(explode('http', $this->image)) > 1) {
+            return $this->image;
+        } else {
+            return url('') . '/' . $this->image;
+        }
     }
 }

@@ -68,7 +68,7 @@
 
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex'
-import PermissionButton from '../components/PermissionButton.vue'
+import PermissionButton from '../../components/PermissionButton.vue'
 /** store and route prefix for export object use */
 import PageSetup from './PageSetup';
 const {route_prefix, store_prefix} = PageSetup;

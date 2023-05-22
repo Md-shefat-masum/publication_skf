@@ -1,5 +1,5 @@
 export default {
-    route_prefix: 'Role',
-    store_prefix: 'user_role',
-    layout_title: 'Role Management',
+    route_prefix: 'AdminTranslator',
+    store_prefix: 'admin_translator',
+    layout_title: 'Translator Management',
 }

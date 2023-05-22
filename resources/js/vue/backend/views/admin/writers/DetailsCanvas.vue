@@ -14,14 +14,9 @@
                             <td>{{ this[`get_${store_prefix}`].id }}</td>
                         </tr>
                         <tr>
-                            <td>Role Name</td>
+                            <td>Name</td>
                             <td>:</td>
                             <td>{{ this[`get_${store_prefix}`].name }}</td>
-                        </tr>
-                        <tr>
-                            <td>Serial</td>
-                            <td>:</td>
-                            <td>{{ this[`get_${store_prefix}`].role_serial }}</td>
                         </tr>
                         <tr>
                             <td>Status</td>

@@ -3,7 +3,7 @@
         <div class="card list_card">
             <div class="card-header">
                 <h4>
-                    All User Roles
+                    All Data
                     <small v-if="this[`get_${store_prefix}_selected`].length">
                         &nbsp; selected:
                         <b class="text-warning">
@@ -71,8 +71,9 @@
                         <tr>
                             <th><input @click="call_store(`set_select_all_${store_prefix}s`)" type="checkbox" class="form-check-input check_all"></th>
                             <table-th :sort="true" :ariaLable="'id'" :tkey="'id'" :title="'ID'" />
-                            <table-th :sort="true" :tkey="'name'" :title="'Title'" />
-                            <table-th :sort="true" :tkey="'role_serial'" :title="'Role Serial'" />
+                            <table-th :sort="true" :tkey="'image'" :title="'Image'" />
+                            <table-th :sort="true" :tkey="'name'" :title="'Name'" />
+                            <table-th :sort="true" :tkey="'role_serial'" :title="'Designation'" />
                             <table-th :sort="true" :tkey="'status'" :title="'Status'" />
                             <th aria-label="actions">Actions</th>
                         </tr>
@@ -85,11 +86,14 @@
                             </td>
                             <td>{{ item.id }}</td>
                             <td>
+                                <img width="30" :src="`/${item.image}`" alt="">
+                            </td>
+                            <td>
                                 <span class="text-warning cursor_pointer" @click.prevent="call_store(`set_${store_prefix}`,item)">
                                     {{ item.name }}
                                 </span>
                             </td>
-                            <td>{{ item.role_serial }}</td>
+                            <td>{{ item.designation }}</td>
                             <td>
                                 <span v-if="item.status == 1" class="badge bg-label-success me-1">active</span>
                                 <span v-if="item.status == 0" class="badge bg-label-success me-1">deactive</span>
@@ -109,7 +113,7 @@
                                         <li>
                                             <permission-button
                                                 :permission="'can_edit'"
-                                                :to="{name:'DetailsRole',params:{id:item.id}}"
+                                                :to="{name:`Details${route_prefix}`,params:{id:item.id}}"
                                                 :classList="''">
                                                 <i class="fa text-secondary fa-eye"></i>
                                                 Details
@@ -118,7 +122,7 @@
                                         <li>
                                             <permission-button
                                                 :permission="'can_edit'"
-                                                :to="{name:'EditRole',params:{id: item.id}}"
+                                                :to="{name:`Edit${route_prefix}`,params:{id: item.id}}"
                                                 :classList="''">
                                                 <i class="fa text-warning fa-pencil"></i>
                                                 Edit
@@ -126,7 +130,7 @@
                                         </li>
                                         <li v-if="item.status == 1">
                                             <permission-button
-                                                :permission="'can_delete'"
+                                                :permission="'can_edit'"
                                                 :to="{}"
                                                 :click="()=>call_store(`soft_delete_${store_prefix}`,item.id)"
                                                 :click_param="item.id"
@@ -137,7 +141,7 @@
                                         </li>
                                         <li v-else>
                                             <permission-button
-                                                :permission="'can_delete'"
+                                                :permission="'can_edit'"
                                                 :to="{}"
                                                 :click="()=>call_store(`restore_${store_prefix}`,item.id)"
                                                 :click_param="item.id"
@@ -184,16 +188,16 @@
 
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex'
-import PermissionButton from '../components/PermissionButton.vue'
 import TableTh from './components/TableTh.vue';
 import DetailsCanvas from './DetailsCanvas.vue';
 import SelectedCanvas from './SelectedCanvas.vue';
 /** store and route prefix for export object use */
 import PageSetup from './PageSetup';
+import PermissionButton from '../../components/PermissionButton.vue';
 const {route_prefix, store_prefix} = PageSetup;
 
 export default {
-    components: { PermissionButton, TableTh, DetailsCanvas, SelectedCanvas },
+    components: { PermissionButton, TableTh, DetailsCanvas, SelectedCanvas, PermissionButton },
     data: function(){
         return {
             /** store prefix for JSX */

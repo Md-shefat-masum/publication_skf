@@ -209,9 +209,9 @@ class StoreModule {
             /** fetch single data */
             [`fetch_${store_prefix}`]: async function ({ state }, { id, render_to_form }) {
                 let url = `/${api_prefix}/${id}`;
-                await axios.get(url).then((res) => {
-                    this.commit(`set_${store_prefix}`, res.data);
-                });
+                let res = await axios.get(url);
+                let data = res.data;
+                this.commit(`set_${store_prefix}`, res.data);
 
                 if (render_to_form) {
                     window.set_form_data(".admin_form", data);

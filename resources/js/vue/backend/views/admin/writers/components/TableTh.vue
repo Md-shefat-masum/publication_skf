@@ -11,7 +11,7 @@
 
 <script>
 import { mapMutations } from "vuex";
-import TableHeadingAscCaret from "../../components/TableHeadingAscCaret.vue";
+import TableHeadingAscCaret from "../../../components/TableHeadingAscCaret.vue";
 /** store and route prefix for export object use */
 import PageSetup from '../PageSetup';
 const {route_prefix, store_prefix} = PageSetup;

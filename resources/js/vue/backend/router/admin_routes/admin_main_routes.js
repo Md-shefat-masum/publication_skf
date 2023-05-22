@@ -6,6 +6,8 @@ import account_category from "./sub_routes/account_category";
 import account_bank from "./sub_routes/account_bank";
 import product from "./sub_routes/product";
 import product_category from "./sub_routes/product_category";
+import translator from "./sub_routes/translator";
+import writer from "./sub_routes/writer";
 
 export default {
     path: "/admin",
@@ -21,6 +23,8 @@ export default {
         account_category,
         account_bank,
         product,
-        product_category
+        product_category,
+        translator,
+        writer,
     ],
 };

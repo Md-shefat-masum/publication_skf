@@ -15,16 +15,31 @@
                     <div class="row justify-content-center">
                         <div class="col-lg-10">
                             <div class="admin_form form_1">
-                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
-                                        :label="`Role Title`"
+                                        :label="`translator Name`"
                                         :name="`name`"
                                     />
                                 </div>
+                                <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
+                                    <input-field
+                                        :label="`Designation`"
+                                        :name="`designation`"
+                                    />
+                                </div>
+                                <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
+                                    <label for="">Address</label>
+                                    <textarea name="address" class="form-control"></textarea>
+                                </div>
+                                <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
+                                    <label for="">Description</label>
+                                    <textarea name="description" class="form-control"></textarea>
+                                </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
-                                        :label="`Role Serial`"
-                                        :name="`role_serial`"
+                                        :label="`Image`"
+                                        :name="`image`"
+                                        :type="`file`"
                                     />
                                 </div>
                             </div>
@@ -44,7 +59,7 @@
 
 <script>
 import { mapActions } from 'vuex'
-import InputField from '../components/InputField.vue'
+import InputField from '../../components/InputField.vue'
 /** store and route prefix for export object use */
 import PageSetup from './PageSetup';
 const {route_prefix, store_prefix} = PageSetup;

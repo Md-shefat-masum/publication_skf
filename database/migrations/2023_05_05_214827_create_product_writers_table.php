@@ -19,7 +19,7 @@ class CreateProductWritersTable extends Migration
             $table->string("designation", 45)->nullable();
             $table->string("address", 45)->nullable();
             // phoner will connected from phone_numbers table
-            $table->string("image", 45)->nullable();
+            $table->string("image", 100)->nullable();
             $table->longText("description")->nullable()->comment("writer bio");
 
             $table->bigInteger('creator')->unsigned()->nullable();

@@ -36,50 +36,51 @@
                                     <nested-category-modal ></nested-category-modal>
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
-                                    <input-field
-                                        :label="`Writer`"
-                                        :name="`writer`"
-                                    />
+                                    <label>Writer</label>
+                                    <writerManagementModal></writerManagementModal>
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
-                                    <input-field
-                                        :label="`Translator`"
-                                        :name="`translator`"
-                                    />
+                                    <label>Translator</label>
+                                    <translatorManagementModal></translatorManagementModal>
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Pages`"
                                         :name="`pages`"
+                                        :type="`number`"
                                     />
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Height`"
                                         :name="`height`"
+                                        :type="`number`"
                                     />
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Width`"
                                         :name="`width`"
+                                        :type="`number`"
                                     />
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Weight`"
                                         :name="`weight`"
+                                        :type="`number`"
                                     />
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Depth`"
                                         :name="`depth`"
+                                        :type="`number`"
                                     />
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
-                                        :label="`Product code`"
+                                        :label="`Product code (SKU)`"
                                         :name="`sku`"
                                     />
                                 </div>
@@ -87,12 +88,6 @@
                                     <input-field
                                         :label="`ISBN`"
                                         :name="`isbn`"
-                                    />
-                                </div>
-                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
-                                    <input-field
-                                        :label="`Page`"
-                                        :name="`page`"
                                     />
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
@@ -168,12 +163,14 @@
 import { mapActions } from 'vuex'
 import InputField from '../../components/InputField.vue'
 import NestedCategoryModal from '../product_categories/components/NestedCategoryModal.vue';
+import writerManagementModal from '../writers/components/ManagementModal.vue';
+import translatorManagementModal from '../translators/components/ManagementModal.vue';
 /** store and route prefix for export object use */
 import PageSetup from './PageSetup';
 const {route_prefix, store_prefix} = PageSetup;
 
 export default {
-    components: { InputField, NestedCategoryModal },
+    components: { InputField, NestedCategoryModal,writerManagementModal,translatorManagementModal },
     data: function(){
         return {
             /** store prefix for JSX */

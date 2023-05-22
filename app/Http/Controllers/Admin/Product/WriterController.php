@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Admin\Product;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product\Brand;
+use App\Models\Product\ProductWriter;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
-class BrandController extends Controller
+class WriterController extends Controller
 {
     public function all()
     {
@@ -22,7 +24,7 @@ class BrandController extends Controller
             $status = request()->status;
         }
 
-        $query = Brand::where('status', $status)->orderBy($orderBy, $orderByType);
+        $query = ProductWriter::where('status', $status)->orderBy($orderBy, $orderByType);
 
         if (request()->has('search_key')) {
             $key = request()->search_key;
@@ -39,7 +41,7 @@ class BrandController extends Controller
 
     public function show($id)
     {
-        $data = Brand::where('id',$id)->first();
+        $data = ProductWriter::where('id',$id)->first();
         if(!$data){
             return response()->json([
                 'err_message' => 'not found',
@@ -52,7 +54,7 @@ class BrandController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make(request()->all(), [
-            'name' => ['required', 'unique:brands']
+            'name' => ['required','unique:product_writers,name']
         ]);
 
         if ($validator->fails()) {
@@ -62,11 +64,17 @@ class BrandController extends Controller
             ], 422);
         }
 
-        $data = new Brand();
+        $data = new ProductWriter();
         $data->name = $request->name;
+        $data->designation = $request->designation;
+        $data->address = $request->address;
+        $data->description = $request->description;
         $data->creator = Auth::user()->id;
         $data->save();
-        $data->slug = $data->id . uniqid(5);
+
+        if(request()->has('image')){
+            $data->image = Storage::put('uploads/writers',request()->file('image'));
+        }
         $data->save();
 
         return response()->json($data, 200);
@@ -75,7 +83,7 @@ class BrandController extends Controller
     public function canvas_store(Request $request)
     {
         $validator = Validator::make(request()->all(), [
-            'name' => ['required', 'unique:brands']
+            'name' => ['required', 'unique:product_writers']
         ]);
 
         if ($validator->fails()) {
@@ -85,11 +93,17 @@ class BrandController extends Controller
             ], 422);
         }
 
-        $data = new Brand();
+        $data = new ProductWriter();
         $data->name = $request->name;
+        $data->designation = $request->designation;
+        $data->address = $request->address;
+        $data->description = $request->description;
         $data->creator = Auth::user()->id;
         $data->save();
-        $data->slug = $data->id . uniqid(5);
+
+        if(request()->has('image')){
+            $data->image = Storage::put('uploads/writers',request()->file('image'));
+        }
         $data->save();
 
         return response()->json($data, 200);
@@ -97,11 +111,11 @@ class BrandController extends Controller
 
     public function update()
     {
-        $data = Brand::find(request()->id);
+        $data = ProductWriter::find(request()->id);
         if(!$data){
             return response()->json([
                 'err_message' => 'validation error',
-                'errors' => ['name'=>['user_role not found by given id '.(request()->id?request()->id:'null')]],
+                'errors' => ['name'=>['data not found by given id '.(request()->id?request()->id:'null')]],
             ], 422);
         }
 
@@ -117,6 +131,16 @@ class BrandController extends Controller
         }
 
         $data->name = request()->name;
+        $data->designation = request()->designation;
+        $data->address = request()->address;
+        $data->description = request()->description;
+        $data->creator = Auth::user()->id;
+        $data->save();
+
+        if(request()->has('image')){
+            $data->image = Storage::put('uploads/writers',request()->file('image'));
+        }
+        $data->save();
         $data->update();
 
         return response()->json($data, 200);
@@ -124,11 +148,11 @@ class BrandController extends Controller
 
     public function canvas_update()
     {
-        $data = Brand::find(request()->id);
+        $data = ProductWriter::find(request()->id);
         if(!$data){
             return response()->json([
                 'err_message' => 'validation error',
-                'errors' => ['name'=>['user_role not found by given id '.(request()->id?request()->id:'null')]],
+                'errors' => ['name'=>['data not found by given id '.(request()->id?request()->id:'null')]],
             ], 422);
         }
 
@@ -144,7 +168,17 @@ class BrandController extends Controller
         }
 
         $data->name = request()->name;
+        $data->designation = request()->designation;
+        $data->address = request()->address;
+        $data->description = request()->description;
+        $data->creator = Auth::user()->id;
         $data->save();
+
+        if(request()->has('image')){
+            $data->image = Storage::put('uploads/writers',request()->file('image'));
+        }
+        $data->save();
+        $data->update();
 
         return response()->json($data, 200);
     }
@@ -152,7 +186,7 @@ class BrandController extends Controller
     public function soft_delete()
     {
         $validator = Validator::make(request()->all(), [
-            'id' => ['required','exists:categories,id'],
+            'id' => ['required','exists:product_writers,id'],
         ]);
 
         if ($validator->fails()) {
@@ -162,7 +196,7 @@ class BrandController extends Controller
             ], 422);
         }
 
-        $data = Brand::find(request()->id);
+        $data = ProductWriter::find(request()->id);
         $data->status = 0;
         $data->save();
 
@@ -178,7 +212,7 @@ class BrandController extends Controller
     public function restore()
     {
         $validator = Validator::make(request()->all(), [
-            'id' => ['required','exists:categories,id'],
+            'id' => ['required','exists:product_writers,id'],
         ]);
 
         if ($validator->fails()) {
@@ -188,7 +222,7 @@ class BrandController extends Controller
             ], 422);
         }
 
-        $data = Brand::find(request()->id);
+        $data = ProductWriter::find(request()->id);
         $data->status = 1;
         $data->save();
 
@@ -214,10 +248,10 @@ class BrandController extends Controller
             $item['created_at'] = $item['created_at'] ? Carbon::parse($item['created_at']): Carbon::now()->toDateTimeString();
             $item['updated_at'] = $item['updated_at'] ? Carbon::parse($item['updated_at']): Carbon::now()->toDateTimeString();
             $item = (object) $item;
-            $check = Brand::where('id',$item->id)->first();
+            $check = ProductWriter::where('id',$item->id)->first();
             if(!$check){
                 try {
-                    Brand::create((array) $item);
+                    ProductWriter::create((array) $item);
                 } catch (\Throwable $th) {
                     return response()->json([
                         'err_message' => 'validation error',

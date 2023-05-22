@@ -22,6 +22,8 @@
             <left-nav-list-group :role_permissions="['admin']" :icon="`fa fa-list`" :text="`Inventory`" :alert_count="0">
                 <left-nav-list-item :to="'AllAdminProduct'" :text="'All Products'" />
                 <left-nav-list-item :to="'AllAdminProductCategory'" :text="'Product Category'" />
+                <left-nav-list-item :to="'AllAdminWriter'" :text="'Product Writer'" />
+                <left-nav-list-item :to="'AllAdminTranslator'" :text="'Product Translator'" />
             </left-nav-list-group>
 
             <left-nav-list-group :role_permissions="['admin']" :icon="`fa fa-list`" :text="`Orders`" :alert_count="0">

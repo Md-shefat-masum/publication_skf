@@ -10,15 +10,15 @@
             <div :class="`cotent_body ${store_prefix}_canvas_edit_form`" @keyup.enter="call_store(`upload_${store_prefix}_edit_canvas_input`)">
                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                     <input-field
-                        :label="`Role Title`"
+                        :label="`Name`"
                         :value="get_store(`get_${store_prefix}`,`name`)"
                         :data_attr="[{name: 'name'}]"
                     />
                 </div>
                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                     <input-field
-                        :label="`Role Serial`"
-                        :data_attr="[{name: 'role_serial'}]"
+                        :label="`Designation`"
+                        :data_attr="[{name: 'designation'}]"
                     />
                 </div>
                 <div class=" form-group text-center mb-2 " >
@@ -31,7 +31,7 @@
 
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex'
-import InputField from '../components/InputField.vue'
+import InputField from '../../components/InputField.vue'
 /** store and route prefix for export object use */
 import PageSetup from './PageSetup';
 const {route_prefix, store_prefix} = PageSetup;
@@ -45,9 +45,9 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['upload_user_role_edit_canvas_input']),
+        ...mapActions([`upload_${store_prefix}_edit_canvas_input`]),
         ...mapMutations([
-            'set_user_role_show_edit_canvas',
+            `set_${store_prefix}_show_edit_canvas`,
         ]),
 
         call_store: function(name, params=null){
