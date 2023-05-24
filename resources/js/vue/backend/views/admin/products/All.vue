@@ -99,7 +99,6 @@
                             <td>{{ item.isbn  }}</td>
                             <td>{{ item.sku }}</td>
                             <td>
-                                <span class="badge bg-label-success me-1">avaiable</span>
                                 <span v-if="item.status == 1" class="badge bg-label-success me-1">active</span>
                                 <span v-if="item.status == 0" class="badge bg-label-success me-1">deactive</span>
                             </td>

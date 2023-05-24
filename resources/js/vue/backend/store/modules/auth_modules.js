@@ -33,7 +33,7 @@ const actions = {
                 // this.commit('set_check_auth', false);
                 // window.localStorage.removeItem('token');
                 console.log('user not authenticated');
-                // window.location.href = '/login';
+                window.location.href = '/login';
             })
     },
     update_user_info: async function(state, data) {
