@@ -2,15 +2,24 @@
 
 namespace App\Models\Product;
 
+use App\Models\Order\OrderDetails;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder as QueryBuilder;
+use Illuminate\Support\Facades\DB;
 
 class Product extends Model
 {
     use HasFactory;
     protected $guarded = [];
-    protected $appends = ["discount_info"];
+    protected $appends = [
+        "discount_info",
+        "stock",
+        "sales",
+        "returns",
+    ];
 
     public static function boot()
     {
@@ -28,6 +37,28 @@ class Product extends Model
         });
     }
 
+    public function getStockAttribute()
+    {
+        $stock = ProductStockLog::where('product_id', $this->id)->sum('qty');
+        return $stock;
+    }
+    public function getReturnsAttribute()
+    {
+        $returns = ProductReturn::where('product_id', $this->id)->sum('qty');
+        return $returns;
+    }
+    public function getSalesAttribute()
+    {
+        $sales = OrderDetails::where('product_id', $this->id)
+            ->whereExists(function ($query) {
+                $query->select(DB::raw("*"))
+                    ->from('orders')
+                    ->whereColumn('orders.id', 'order_details.order_id')
+                    ->where('orders.order_status', '!=', 'pending');
+            })
+            ->sum('qty');
+        return $sales;
+    }
     public function getDiscountInfoAttribute()
     {
         $discount_amount = 0;
@@ -98,8 +129,8 @@ class Product extends Model
 
     public function sales()
     {
-        // return $this->hasMany(OrderDetails::class,'product_id');
-        return $this->hasMany(ProductStockLog::class, 'product_id');
+        return $this->hasMany(OrderDetails::class, 'product_id');
+        // return $this->hasMany(ProductStockLog::class, 'product_id');
     }
 
     public function brand()

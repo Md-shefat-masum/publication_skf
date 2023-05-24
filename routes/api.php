@@ -82,6 +82,36 @@ Route::group(
 
             Route::group( ['prefix'=>'admin'],function(){
 
+                Route::group(['prefix' => 'writer'], function () {
+                    Route::get('/all','Admin\Product\WriterController@all');
+                    Route::post('/store','Admin\Product\WriterController@store');
+                    Route::post('/canvas-store','Admin\Product\WriterController@canvas_store');
+                    Route::post('/update','Admin\Product\WriterController@update');
+                    Route::post('/add-to-top-product','Admin\Product\WriterController@add_to_top_product');
+                    Route::post('/delete-related-image','Admin\Product\WriterController@delete_related_image');
+                    Route::post('/canvas-update','Admin\Product\WriterController@canvas_update');
+                    Route::post('/soft-delete','Admin\Product\WriterController@soft_delete');
+                    Route::post('/destroy','Admin\Product\WriterController@destroy');
+                    Route::post('/restore','Admin\Product\WriterController@restore');
+                    Route::post('/bulk-import','Admin\Product\WriterController@bulk_import');
+                    Route::get('/{id}','Admin\Product\WriterController@show');
+                });
+
+                Route::group(['prefix' => 'translator'], function () {
+                    Route::get('/all','Admin\Product\Translatorontroller@all');
+                    Route::post('/store','Admin\Product\Translatorontroller@store');
+                    Route::post('/canvas-store','Admin\Product\Translatorontroller@canvas_store');
+                    Route::post('/update','Admin\Product\Translatorontroller@update');
+                    Route::post('/add-to-top-product','Admin\Product\Translatorontroller@add_to_top_product');
+                    Route::post('/delete-related-image','Admin\Product\Translatorontroller@delete_related_image');
+                    Route::post('/canvas-update','Admin\Product\Translatorontroller@canvas_update');
+                    Route::post('/soft-delete','Admin\Product\Translatorontroller@soft_delete');
+                    Route::post('/destroy','Admin\Product\Translatorontroller@destroy');
+                    Route::post('/restore','Admin\Product\Translatorontroller@restore');
+                    Route::post('/bulk-import','Admin\Product\Translatorontroller@bulk_import');
+                    Route::get('/{id}','Admin\Product\Translatorontroller@show');
+                });
+
                 Route::group(['prefix' => 'product'], function () {
                     Route::get('/all','Admin\Product\ProductController@all');
                     Route::post('/store','Admin\Product\ProductController@store');

@@ -18,14 +18,22 @@
                                 <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Product Title`"
-                                        :name="`full_name`"
+                                        :name="`product_name`"
+                                    />
+                                </div>
+                                <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
+                                    <input-field
+                                        :label="`Product Title English`"
+                                        :name="`product_name_english`"
                                     />
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
-                                    <input-field
+                                    <!-- <input-field
                                         :label="`Category`"
                                         :name="`category`"
-                                    />
+                                    /> -->
+                                    <label>Category</label>
+                                    <nested-category-modal ></nested-category-modal>
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
@@ -41,8 +49,38 @@
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
+                                        :label="`Pages`"
+                                        :name="`pages`"
+                                    />
+                                </div>
+                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                    <input-field
+                                        :label="`Height`"
+                                        :name="`height`"
+                                    />
+                                </div>
+                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                    <input-field
+                                        :label="`Width`"
+                                        :name="`width`"
+                                    />
+                                </div>
+                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                    <input-field
+                                        :label="`Weight`"
+                                        :name="`weight`"
+                                    />
+                                </div>
+                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                    <input-field
+                                        :label="`Depth`"
+                                        :name="`depth`"
+                                    />
+                                </div>
+                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                    <input-field
                                         :label="`Product code`"
-                                        :name="`code`"
+                                        :name="`sku`"
                                     />
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
@@ -71,21 +109,45 @@
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <label for="">Binding</label>
-                                    <select class="form-control form-select" name="" id="">
-                                        <option value="">hard cover</option>
-                                        <option value="">paper pack</option>
+                                    <select class="form-control form-select" name="binding" id="">
+                                        <option value="hard cover">hard cover</option>
+                                        <option value="paper pack">paper pack</option>
                                     </select>
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
-                                        :label="`Image`"
-                                        :name="`page`"
+                                        :label="`Thumb Image`"
+                                        :name="`thumb_image`"
                                         :type="`file`"
                                     />
                                 </div>
                                 <div class=" form-group d-grid full_width align-content-start gap-1 mb-2 " >
                                     <label for="message">Description</label>
                                     <textarea class="form-control" id="message" name="message"></textarea>
+                                </div>
+                                <div class=" form-group d-grid full_width align-content-start gap-1 mb-2 " >
+                                    <label for="message">Specification</label>
+                                    <textarea class="form-control" id="specification" name="specification"></textarea>
+                                </div>
+
+                                <h3>SEO informations</h3>
+                                <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
+                                    <input-field
+                                        :label="`Search keywords`"
+                                        :name="`search_keywords`"
+                                    />
+                                </div>
+                                <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
+                                    <input-field
+                                        :label="`Page Title`"
+                                        :name="`page_title`"
+                                    />
+                                </div>
+                                <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
+                                    <input-field
+                                        :label="`SEO description`"
+                                        :name="`meta_description`"
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -105,12 +167,13 @@
 <script>
 import { mapActions } from 'vuex'
 import InputField from '../../components/InputField.vue'
+import NestedCategoryModal from '../product_categories/components/NestedCategoryModal.vue';
 /** store and route prefix for export object use */
 import PageSetup from './PageSetup';
 const {route_prefix, store_prefix} = PageSetup;
 
 export default {
-    components: { InputField },
+    components: { InputField, NestedCategoryModal },
     data: function(){
         return {
             /** store prefix for JSX */

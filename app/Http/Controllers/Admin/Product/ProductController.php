@@ -40,8 +40,6 @@ class ProductController extends Controller
                     ->orWhere('sales_price', 'LIKE', '%' . $key . '%');
             });
         }
-        $query->withSum('stocks', 'qty');
-        $query->withSum('sales', 'qty');
         $users = $query->paginate($paginate);
         return response()->json($users);
     }
