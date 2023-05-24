@@ -5,7 +5,7 @@ namespace App\Models\Website;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Banner extends Model
+class About extends Model
 {
     use HasFactory;
     protected $guarded = [];
@@ -22,5 +22,15 @@ class Banner extends Model
             }
             $data->save();
         });
+    }
+
+    static public function short()
+    {
+        return About::where('type',"short_about")->first()->description;
+    }
+
+    static public function long()
+    {
+        return About::where('type',"long_about")->first()->description;
     }
 }

@@ -8,17 +8,13 @@
                         <ul>
                             <li id="custom_html-2">
                                 <div>
-                                    <img src="https://htmldemo.net/boighor/boighor/images/logo/logo.png" alt="" title="">
+                                    <img src="/{{ $logo }}" alt="" title="">
                                     <p class="mt-3 text-white">
-                                        Bookstore is a leading book shop in Bangladesh. We offer thousands of
-                                        islamic, general and academic books at a discounted price. We provide good
-                                        packaging with low shipping cost all over the Bangladesh.
+                                        {{ $short_about }}
                                     </p>
                                 </div>
                             </li>
-
                         </ul>
-
                     </div>
 
                     <div class="col-lg-8 col-md-12">
@@ -74,15 +70,46 @@
                                     <div class="footer-mid-menu">
                                         <ul>
                                             <li style="margin-bottom:10px" class="text-white">
-                                                <i class="fa fa-map-marker"></i>&nbsp;Head Office: <br><span>House 310,
-                                                    Road 21</span> <br>
-                                                <span>Mohakhali DOHS, Dhaka-1206</span>
+                                                <i class="fa fa-map-marker"></i>
+                                                <b>
+                                                    Address:
+                                                </b>
+                                                @foreach ($address as $item)
+                                                    <p>
+                                                        {{ $item->setting_value }}
+                                                    </p>
+                                                @endforeach
                                             </li>
                                             <li class="text-white">
-                                                <i class="fa fa-mobile"></i>&nbsp;Phone:<br><a href="tel:+8801799925050">017-9992-5050</a> <a href="tel:+8809678771365">096-7877-1365</a>
+                                                <div>
+                                                    <i class="fa fa-mobile"></i>
+                                                    &nbsp;
+                                                    <b>
+                                                        Phone:
+                                                    </b>
+                                                    <br>
+                                                </div>
+                                                <div>
+                                                    @foreach ($phone_number as $item)
+                                                        <a href="Tel:{{$item->setting_value}}">
+                                                            {{ $item->setting_value }}
+                                                        </a>
+                                                    @endforeach
+                                                </div>
                                             </li>
                                             <li class="text-white">
-                                                <i class="fa fa-envelope-o"></i>&nbsp;&nbsp;<span>sales@bookstore.com</span>
+                                                <br>
+                                                <i class="fa fa-envelope-o"></i>
+                                                <b>
+                                                    emails:
+                                                </b>
+                                                <div>
+                                                    @foreach ($email as $item)
+                                                        <a href="mailto:{{ $item->setting_value }}">
+                                                            {{ $item->setting_value }}
+                                                        </a>
+                                                    @endforeach
+                                                </div>
                                             </li>
 
                                         </ul>
@@ -107,7 +134,7 @@
                 <div class="row bt-2">
                     <div class="col-lg-6 col-md-6 col-12">
                         <div class="copy-right-area">
-                            <p>&copy; 2022 <strong> Koparion </strong> Mede with ❤️ by <a href="https://techparkit.org/" target="_blank"><strong>Techpark It</strong></a></p>
+                            <p>&copy; <strong> {{ $copy_right }} </strong>. Develop and maintainence by <a href="https://techparkit.org/" target="_blank"><strong>Techpark It</strong></a></p>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6 col-12">

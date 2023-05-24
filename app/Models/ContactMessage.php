@@ -14,8 +14,9 @@ class ContactMessage extends Model
     {
         parent::boot();
 
-        static::saved(function ($data) {
+        static::created(function ($data) {
             $data->slug = $data->id . uniqid();
+            $data->save();
         });
     }
 }

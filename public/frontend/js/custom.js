@@ -408,10 +408,11 @@ function send_message() {
     event.preventDefault();
     window.remove_alerts();
     loader.show();
-    if (!event.target) {
+    let target = event.target;
+    if (!target) {
         return 0;
     }
-    let formData = new FormData(event.target);
+    let formData = new FormData(target);
 
     fetch("/contact-submit", {
         method: "POST",
@@ -433,7 +434,7 @@ function send_message() {
             }
             if (res.status === 200) {
                 window.toaster("success", "Message submitted successfully!");
-                event.target.reset();
+                target.reset();
             }
         });
 }
