@@ -336,6 +336,16 @@ class ApiLoginController extends Controller
 
     public function update_profile_pic(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'image' => ['required','mimes:png,jpg','size:1mb'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'err_message' => 'validation error',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
         if ($request->hasFile('image')) {
             $user = User::find(Auth::user()->id);
             $file = $request->file('image');
@@ -347,8 +357,8 @@ class ApiLoginController extends Controller
             // $user->photo = $path;
 
             $user->save();
-            $data['user'] = User::where('id', Auth::user()->id)->select(['photo'])->first();
-            return response()->json($data, 200);
+            // $data['user'] = User::where('id', Auth::user()->id)->select(['photo'])->first();
+            return response()->json($path, 200);
         }
     }
 

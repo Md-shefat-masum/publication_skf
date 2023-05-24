@@ -20,8 +20,15 @@ class SettingValueSeeder extends Seeder
             "title" => "book publication",
             "logo" => "uploads/logo.png",
             "fabicon" => "uploads/logo.png",
-            "phone_number" => "+880 125468745",
-            "address" => "Head Office: House 310, Road 21 Mohakhali DOHS, Dhaka-1206",
+            "phone_number" => [
+                "+880 125468745",
+                "+880 125369746",
+                "+880 125478747",
+            ],
+            "address" => [
+                "Head Office: House 310, Road 21 Mohakhali DOHS, Dhaka-1206",
+                "Sub Office: House 100, Road 01 Mirpur DOHS, Dhaka-1208",
+            ],
             "company_name" => "best publication",
             "city" => "dhaka",
             "state" => "bangladesh",
@@ -81,10 +88,19 @@ class SettingValueSeeder extends Seeder
 
         foreach ($titles as $key => $item) {
             echo $key."\n";
-            AppSettingValue::create([
-                "setting_id" => AppSettingTitle::select('id')->where('title',$key)->first()->id,
-                'setting_value' => $item,
-            ]);
+            if(is_array($item)){
+                foreach ($item as $value) {
+                    AppSettingValue::create([
+                        "setting_id" => AppSettingTitle::select('id')->where('title',$key)->first()->id,
+                        'setting_value' => $value,
+                    ]);
+                }
+            }else{
+                AppSettingValue::create([
+                    "setting_id" => AppSettingTitle::select('id')->where('title',$key)->first()->id,
+                    'setting_value' => $item,
+                ]);
+            }
         }
     }
 }

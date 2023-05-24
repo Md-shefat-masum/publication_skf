@@ -37,6 +37,13 @@ class AppSettingTitle extends Model
         return $this->hasOne(AppSettingValue::class, 'setting_id');
     }
 
+    /**
+     *
+     ```php
+        AppSettingValue::getValue("address","value"):returns single value;
+        AppSettingValue::getValue("address","values"):returns array;
+     ```
+     */
     public static function getValue($title, $with = "value")
     {
         if ($with == "value") {

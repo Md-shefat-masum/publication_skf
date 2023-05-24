@@ -20,6 +20,29 @@
     }
 }
 
+.contact-info ul li {
+    line-height: 24px;
+    display: flex;
+    gap: 20px;
+    padding: 15px 0px;
+
+    div:first-child {
+        width: 150px;
+    }
+    div:nth-child(2) {
+        flex: 1;
+    }
+}
+.contact-form form .single-form-3,
+.contact-form .single-form-3 {
+    input,
+    textarea {
+        margin-bottom: 0;
+    }
+    div {
+        margin-bottom: 16px;
+    }
+}
 .top_category_names ul li a {
     display: inline-block;
     margin-bottom: 10px;
@@ -180,9 +203,9 @@ main {
         width: 35px;
     }
 }
-.header-search{
+.header-search {
     position: relative;
-    .search_pop_result{
+    .search_pop_result {
         position: absolute;
         left: 0;
         top: 100%;
@@ -241,7 +264,7 @@ main {
     }
 }
 
-.custom_scroll{
+.custom_scroll {
     &::-webkit-scrollbar-track {
         background: transparent;
     }
@@ -259,19 +282,56 @@ main {
     .custom_scroll;
 }
 
-.header-mid-area .my-cart ul li>a>i {
+.header-mid-area .my-cart ul li > a > i {
     font-size: 23px;
     padding-right: 10px;
 }
 
-.flex_1{
+.profile_pic {
+    text-align: center;
+    .img {
+        img {
+            border: 1px solid gray;
+            padding: 4px;
+            max-width: 130px;
+        }
+        display: inline-block;
+        height: 130px;
+        width: 130px;
+        border-radius: 50%;
+        overflow: hidden;
+        position: relative;
+        .change_pic {
+            transition-duration: 0.3s;
+            position: absolute;
+            width: 100%;
+            height: 34px;
+            bottom: -40px;
+            left: 0;
+            background: #0000007a;
+            color: white;
+            backdrop-filter: blur(1px);
+            cursor: pointer;
+            line-height: 30px;
+            input {
+                visibility: hidden;
+                opacity: 0;
+            }
+        }
+        &:hover .change_pic {
+            bottom: 1px;
+        }
+    }
+}
+
+.flex_1 {
     flex: 1;
 }
-.font-16{
+.font-16 {
     font-size: 16px;
 }
 
-.font-18{
+.font-18 {
     font-size: 18px;
 }
 

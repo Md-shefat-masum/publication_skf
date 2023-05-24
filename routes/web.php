@@ -30,9 +30,15 @@ Route::group(['prefix' => '', 'namespace' => "Livewire"], function () {
     Route::get('checkout', "Frontend\Checkout")->name('checkout');
     Route::get('invoice/{invoice}', "Frontend\Invoice")->name('invoice');
     // Route::get('pos', "Frontend\Pos")->name('pos');
+    Route::get('contact', "Frontend\Contact")->name('contact');
     Route::get('/login', "Login")->name('login');
     Route::get('/register', "Register")->name('register');
     Route::get('/profile', "Frontend\CustomerProfile");
+    Route::get('/frequently-asked-questions', "Frontend\Faq");
+    Route::get('/how-to-buy', "Frontend\Howtobuy");
+    Route::get('/terms', "Frontend\Terms");
+    Route::get('/refund-policy', "Frontend\RefundPolicy");
+    Route::get('/privacy-policy', "Frontend\PrivacyPolicy");
 });
 
 Route::group( ['prefix'=>'','namespace' => "Controllers" ],function(){
@@ -45,6 +51,11 @@ Route::group( ['prefix'=>'','namespace' => "Controllers" ],function(){
     });
     Route::post('/profile/address-update','Common\AddressController@update_from_frontend');
     Route::post('/profile/update','Auth\ApiLoginController@update_profile');
+    Route::post('/profile/update-profile-pic','Auth\ApiLoginController@update_profile_pic');
+
+    Route::post('/profile/update-profile-pic','Auth\ApiLoginController@update_profile_pic');
+
+    Route::post('/contact-submit','WebsiteController@contact_submit');
 });
 
 Route::get('/dashboard', function () {

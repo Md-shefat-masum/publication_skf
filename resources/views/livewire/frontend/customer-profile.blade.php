@@ -40,6 +40,19 @@
                             <!-- My Account Tab Menu Start -->
                             <div class="row">
                                 <div class="col-lg-3 col-md-4">
+                                    <div class="profile_pic mb-3">
+                                        <div class="img mb-3 text-center">
+                                            <img src="/{{ auth()->user()->photo ?? 'avatar.jpg' }}" id="p_image_view" class="rounded rounded-circle" alt="profile">
+                                            <label class="change_pic" for="p_image">
+                                                Change
+                                                <input onchange="update_profile_pic()" type="file" id="p_image" accept=".jpg,.png" name="image">
+                                            </label>
+                                        </div>
+                                        <h5 class="text-capitalize text-center">
+                                            {{ auth()->user()->first_name }}
+                                            {{ auth()->user()->last_name }}
+                                        </h5>
+                                    </div>
                                     <div class="myaccount-tab-menu nav" role="tablist">
                                         <a href="#orders" wire:click="change_tab('orders')" class="{{ $active_tab=="orders"?"active":'' }}" data-bs-toggle="tab">
                                             <i class="fa fa-cart-arrow-down"></i>

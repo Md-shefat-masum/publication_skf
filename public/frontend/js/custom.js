@@ -404,6 +404,40 @@ let delivery_method = {
     },
 };
 
+function send_message() {
+    event.preventDefault();
+    window.remove_alerts();
+    loader.show();
+    if (!event.target) {
+        return 0;
+    }
+    let formData = new FormData(event.target);
+
+    fetch("/contact-submit", {
+        method: "POST",
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+        },
+        body: formData,
+    })
+        .then(async (res) => {
+            let response = {};
+            response.status = res.status;
+            response.data = await res.json();
+            return response;
+        })
+        .then((res) => {
+            loader.hide();
+            if (res.status === 422) {
+                error_response(res.data);
+            }
+            if (res.status === 200) {
+                window.toaster("success", "Message submitted successfully!");
+                event.target.reset();
+            }
+        });
+}
+
 function checkout_submit(event) {
     event.preventDefault();
     window.remove_alerts();
@@ -566,6 +600,34 @@ function update_profile() {
             }
         })
 }
+
+function update_profile_pic() {
+    let form_data = new FormData();
+    form_data.append('image',event.target.files[0]);
+    fetch("/profile/update-profile-pic", {
+        method: "POST",
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+        },
+        body: form_data,
+    })
+        .then(async (res) => {
+            let response = {};
+            response.status = res.status;
+            response.data = await res.json();
+            return response;
+        })
+        .then((res)=>{
+            if (res.status === 422) {
+                error_response(res.data);
+            }
+            if(res.status === 200){
+                document.getElementById('p_image_view').src = res.data;
+                window.toaster("success", "profile pic updated.");
+            }
+        })
+}
+
 
 function error_response(data,target='') {
     let object = data.errors || data.data;

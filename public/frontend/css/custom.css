@@ -5,6 +5,28 @@
   font-size: 16px;
   line-height: 24px;
 }
+.contact-info ul li {
+  line-height: 24px;
+  display: flex;
+  gap: 20px;
+  padding: 15px 0px;
+}
+.contact-info ul li div:first-child {
+  width: 150px;
+}
+.contact-info ul li div:nth-child(2) {
+  flex: 1;
+}
+.contact-form form .single-form-3 input,
+.contact-form .single-form-3 input,
+.contact-form form .single-form-3 textarea,
+.contact-form .single-form-3 textarea {
+  margin-bottom: 0;
+}
+.contact-form form .single-form-3 div,
+.contact-form .single-form-3 div {
+  margin-bottom: 16px;
+}
 .top_category_names ul li a {
   display: inline-block;
   margin-bottom: 10px;
@@ -243,6 +265,42 @@ main .loader.active::before {
 .header-mid-area .my-cart ul li > a > i {
   font-size: 23px;
   padding-right: 10px;
+}
+.profile_pic {
+  text-align: center;
+}
+.profile_pic .img {
+  display: inline-block;
+  height: 130px;
+  width: 130px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+}
+.profile_pic .img img {
+  border: 1px solid gray;
+  padding: 4px;
+  max-width: 130px;
+}
+.profile_pic .img .change_pic {
+  transition-duration: 0.3s;
+  position: absolute;
+  width: 100%;
+  height: 34px;
+  bottom: -40px;
+  left: 0;
+  background: #0000007a;
+  color: white;
+  backdrop-filter: blur(1px);
+  cursor: pointer;
+  line-height: 30px;
+}
+.profile_pic .img .change_pic input {
+  visibility: hidden;
+  opacity: 0;
+}
+.profile_pic .img:hover .change_pic {
+  bottom: 1px;
 }
 .flex_1 {
   flex: 1;
