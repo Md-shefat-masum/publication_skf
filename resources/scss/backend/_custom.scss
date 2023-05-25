@@ -11,12 +11,13 @@
     background-color: rgba(67, 89, 113, .3);
 }
 
-.pos_card_image_card{
+.pos_card_image_card {
     position: relative;
-    .add_icon{
+
+    .add_icon {
         position: absolute;
-        width: calc( 100% + 1px);
-        height: calc( 100% + 1px);
+        width: calc(100% + 1px);
+        height: calc(100% + 1px);
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%) scale(0);
@@ -29,8 +30,9 @@
         cursor: pointer;
         transition-duration: .3s;
     }
-    &:hover{
-        span{
+
+    &:hover {
+        span {
             transform: translate(-50%, -50%) scale(.7);
         }
     }
@@ -373,7 +375,7 @@
     }
 }
 
-.main-menu .main-menu-content{
+.main-menu .main-menu-content {
     overflow: auto;
 }
 
@@ -437,4 +439,9 @@
 
 .swal2-container {
     z-index: 99999;
+}
+
+.dark-layout .table.table-hover tbody tr td,
+.dark-layout .table.table-hover tbody tr th {
+    font-size: 16px;
 }

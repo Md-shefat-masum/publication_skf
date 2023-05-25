@@ -11,6 +11,8 @@ import user_contact_message_modules from './modules/user_contact_message_modules
 import branch_product_modules from './modules/branch/branch_product_modules';
 import branch_order_modules from './modules/branch/branch_order_modules';
 
+import admin_product_modules from './modules/admin/admin_product_modules';
+
 import production_product_modules from './modules/production/production_product_modules';
 import production_product_category_modules from './modules/production/production_product_category_modules';
 
@@ -24,8 +26,10 @@ const store = new Vuex.Store({
         branch_product_modules,
         branch_order_modules,
 
+        admin_product_modules,
+
         production_product_modules,
-        production_product_category_modules
+        production_product_category_modules,
     },
     state: {},
     getters: {},

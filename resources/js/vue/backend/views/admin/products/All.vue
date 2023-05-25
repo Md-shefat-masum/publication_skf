@@ -71,34 +71,33 @@
                         <tr>
                             <th><input @click="call_store(`set_select_all_${store_prefix}s`)" type="checkbox" class="form-check-input check_all"></th>
                             <table-th :sort="true" :tkey="'id'" :title="'ID'" :ariaLable="'id'"/>
-                            <table-th :sort="true" :tkey="'full_name'" :title="'Image'" />
-                            <table-th :sort="true" :tkey="'full_name'" :title="'Title'" />
-                            <table-th :sort="true" :tkey="'email'" :title="'Price'" />
-                            <table-th :sort="true" :tkey="'subject'" :title="'Cost'" />
-                            <table-th :sort="true" :tkey="'message'" :title="'Stock'" />
+                            <table-th :sort="false" :tkey="'thumb_image'" :title="'Image'" />
+                            <table-th :sort="false" :tkey="'product_name'" :title="'Title'" />
+                            <table-th :sort="false" :tkey="'sales_price'" :title="'Price'" />
+                            <table-th :sort="false" :tkey="'ISBN'" :title="'ISBN'" />
+                            <table-th :sort="false" :tkey="'SKU'" :title="'SKU'" />
                             <table-th :sort="true" :tkey="'status'" :title="'Status'" />
                             <th aria-label="actions">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
-                        <!-- <tr v-for="item in this[`get_${store_prefix}s`].data" :key="item.id"> -->
-                        <tr v-for="item in data" :key="item.id">
+                        <tr v-for="item in this[`get_${store_prefix}s`].data" :key="item.id">
                             <td>
                                 <input v-if="check_if_data_is_selected(item)" :data-id="item.id" checked @change="call_store(`set_selected_${store_prefix}s`,item)" type="checkbox" class="form-check-input">
                                 <input v-else @change="call_store(`set_selected_${store_prefix}s`,item)" type="checkbox" class="form-check-input">
                             </td>
-                            <td>{{ parseInt(Math.random()*100) }}</td>
+                            <td>{{ item.id }}</td>
                             <td>
-                                <img style="height: 60px;" :src="item.image" alt="">
+                                <img style="height: 60px;" :src="`/${item.thumb_image}`" alt="">
                             </td>
                             <td>
                                 <span class="text-warning cursor_pointer" @click.prevent="call_store(`set_${store_prefix}`,item)">
-                                    {{ item.title }}
+                                    {{ item.product_name }}
                                 </span>
                             </td>
-                            <td>{{ parseInt(Math.random()*100000) }}</td>
-                            <td>{{ parseInt(Math.random()*100000)  }}</td>
-                            <td>{{ parseInt(Math.random()*100000) }}</td>
+                            <td>{{ item.sales_price }}</td>
+                            <td>{{ item.isbn  }}</td>
+                            <td>{{ item.sku }}</td>
                             <td>
                                 <span class="badge bg-label-success me-1">avaiable</span>
                                 <span v-if="item.status == 1" class="badge bg-label-success me-1">active</span>
@@ -208,32 +207,6 @@ export default {
         return {
             store_prefix,
             route_prefix,
-            data: [
-                {
-                    id: parseInt(Math.random()*10000),
-                    title: 'ক্যারিয়ার বিকশিত জীবনের দ্বার',
-                    image: 'http://almari.info/uploads/product/product_main_image/dh2QioXn122GuTfvBBcrEkDKM0XAEiG2z63zwRKC.png',
-                    status: 'avaialbe',
-                },
-                {
-                    id: parseInt(Math.random()*10000),
-                    title: 'বিষয়ভিত্তিক আয়াত ও হাদিস সংকলন (ছোটো)',
-                    image: 'http://almari.info/uploads/product/product_main_image/PWGp7nvai1IYlG3xbEt8WBmV6nZ7V0Rmc3FeM2eP.jpeg',
-                    status: 'avaialbe',
-                },
-                {
-                    id: parseInt(Math.random()*10000),
-                    title: 'এসো আলোর পথে',
-                    image: 'http://almari.info/uploads/product/product_main_image/juRgRV0pxxjFkulEA4flJI1UAKSr966a9JFgyKyb.jpeg',
-                    status: 'avaialbe',
-                },
-                {
-                    id: parseInt(Math.random()*10000),
-                    title: 'বর্ণমালা',
-                    image: 'http://almari.info/uploads/product/product_main_image/1SNDUyvzYwCSyXJHOSAtiVCYj8DinhqVjGEuuwXK.jpeg',
-                    status: 'avaialbe',
-                },
-            ]
         }
     },
     created: function(){
@@ -282,6 +255,10 @@ export default {
             `get_${store_prefix}_selected`,
             `get_${store_prefix}_show_active_data`,
         ]),
+        ...mapGetters({
+            data: `get_${store_prefix}s`,
+            selected_data: `get_${store_prefix}_selected`,
+        }),
     }
 }
 </script>

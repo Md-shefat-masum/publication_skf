@@ -2,27 +2,27 @@ import axios from "axios";
 import management_router from "../../../router/router";
 import StoreModule from "../schema/StoreModule";
 
-let test_module = new StoreModule('admin_product','admin/product','AdminOrder');
+let test_module = new StoreModule('admin_product','admin/product','AdminProduct');
 const {store_prefix, api_prefix, route_prefix} = test_module;
 
 // state list
 const state = {
     ...test_module.states(),
-    orderByAsc: false,
+    orderByAsc: true,
 
-    branch_product_for_order: {},
-    branch_p_search_key: '',
-    branch_oder_cart: [],
+    admin_product_for_order: {},
+    admin_p_search_key: '',
+    admin_oder_cart: [],
 };
 
 // get state
 const getters = {
     ...test_module.getters(),
 
-    get_branch_product_for_order: (state) => state.branch_product_for_order,
-    get_branch_p_search_key: (state) => state.branch_p_search_key,
-    get_branch_oder_cart: (state) => state.branch_oder_cart,
-    get_branch_oder_cart_total: (state) => state.branch_oder_cart.reduce((t,i)=>t+=i.total_price,0),
+    get_admin_product_for_order: (state) => state.admin_product_for_order,
+    get_admin_p_search_key: (state) => state.admin_p_search_key,
+    get_admin_oder_cart: (state) => state.admin_oder_cart,
+    get_admin_oder_cart_total: (state) => state.admin_oder_cart.reduce((t,i)=>t+=i.total_price,0),
 };
 
 // actions
@@ -30,10 +30,10 @@ const actions = {
     ...test_module.actions(),
 
     /** override store */
-    [`fetch_branch_product_for_order`]: async ({commit,dispatch,getters,rootGetters,rootState,state},page=1) => {
-        let s_keys = state.branch_p_search_key.length ? `&search_key=${state.branch_p_search_key}`:'';
-        let products = await axios.get('/branch/all-products?page='+page+s_keys);
-        commit('set_get_branch_product_for_order', products.data);
+    [`fetch_admin_product_for_order`]: async ({commit,dispatch,getters,rootGetters,rootState,state},page=1) => {
+        let s_keys = state.admin_p_search_key.length ? `&search_key=${state.admin_p_search_key}`:'';
+        let products = await axios.get('/admin/all-products?page='+page+s_keys);
+        commit('set_get_admin_product_for_order', products.data);
     },
 
     [`fetch_${store_prefix}`]: async function ({ state }, { id, render_to_form }) {
@@ -45,8 +45,8 @@ const actions = {
                 el.current_price = el.product_price;
             });
             // console.log(res.data.order_details);
-            state.branch_oder_cart = res.data.order_details;
-            state.branch_order = res.data;
+            state.admin_oder_cart = res.data.order_details;
+            state.admin_order = res.data;
             // this.commit(`set_${store_prefix}`, res.data);
         });
 
@@ -72,28 +72,28 @@ const actions = {
             })
     },
 
-    [`store_branch_order`]: async function({state}, {type}){
-        let carts = [...state.branch_oder_cart];
+    [`store_admin_order`]: async function({state}, {type}){
+        let carts = [...state.admin_oder_cart];
         let cconfirm = await window.s_confirm("submit order");
         if(cconfirm){
-            axios.post('/branch/store-order',{carts,type:'create',order_id: state.branch_order?.id})
+            axios.post('/admin/store-order',{carts,type:'create',order_id: state.admin_order?.id})
                 .then(res=>{
                     // console.log(res.data);
-                    state.branch_oder_cart  = [];
+                    state.admin_oder_cart  = [];
                     window.s_alert(`order submitted successfully.`);
                 })
         }
     },
 
-    [`update_branch_order`]: async function({state}){
-        let carts = [...state.branch_oder_cart];
-        if(state.branch_order.order_status == "pending"){
+    [`update_admin_order`]: async function({state}){
+        let carts = [...state.admin_oder_cart];
+        if(state.admin_order.order_status == "pending"){
             let cconfirm = await window.s_confirm("update order");
             if(cconfirm){
-                axios.post('/branch/update-order',{carts, order_id: state.branch_order.id})
+                axios.post('/admin/update-order',{carts, order_id: state.admin_order.id})
                     .then(res=>{
                         // console.log(res.data);
-                        // state.branch_oder_cart  = [];
+                        // state.admin_oder_cart  = [];
                         window.s_alert(`order updated successfully.`);
                     })
             }
@@ -102,17 +102,17 @@ const actions = {
         }
     },
 
-    [`delete_branch_payment`]: async function({state, dispatch},{payment}){
+    [`delete_admin_payment`]: async function({state, dispatch},{payment}){
         console.log(payment);
         if(!payment.approved){
             let cconfirm = await window.s_confirm("delete payment");
             if(cconfirm){
-                axios.post('/branch/delete-payment',{payment_id: payment.id})
+                axios.post('/admin/delete-payment',{payment_id: payment.id})
                     .then(res=>{
                         console.log(res.data);
-                        // state.branch_oder_cart  = [];
+                        // state.admin_oder_cart  = [];
                         window.s_alert(`payement deleted successfully.`);
-                        dispatch("fetch_branch_order",{id: state.branch_order.id, });
+                        dispatch("fetch_admin_order",{id: state.admin_order.id, });
                     })
             }
         }else{
@@ -134,8 +134,8 @@ const actions = {
     //         })
     // },
 
-    [`branch_oder_cart_add`]: function({state},{product,qty}){
-        let products = [...state.branch_oder_cart];
+    [`admin_oder_cart_add`]: function({state},{product,qty}){
+        let products = [...state.admin_oder_cart];
         let cart_product = products.find((p)=>p.id == product.id);
         if(cart_product){
             if(+qty > 0){
@@ -155,40 +155,39 @@ const actions = {
             product.current_price = product.discount_info.discount_price;
         }
 
-        state.branch_oder_cart = products;
+        state.admin_oder_cart = products;
     },
 
     [`remove_product_from_cart`]: function({state}, {product}){
-        let products = [...state.branch_oder_cart];
+        let products = [...state.admin_oder_cart];
         products = products.filter(i=>i.id != product.id);
-        state.branch_oder_cart = products;
+        state.admin_oder_cart = products;
     },
 
-    [`branch_pay_due`]: async function({state, dispatch}, {form}){
+    [`admin_pay_due`]: async function({state, dispatch}, {form}){
         let form_data = new FormData(event.target);
-        form_data.append('order_id',state.branch_order.id);
+        form_data.append('order_id',state.admin_order.id);
         let cconfirm = await window.s_confirm("Submit payment");
         if(cconfirm){
-            axios.post('/branch/pay-due',form_data)
+            axios.post('/admin/pay-due',form_data)
                 .then(res=>{
                     console.log(res.data);
-                    state.branch_oder_cart  = [];
+                    state.admin_oder_cart  = [];
                     window.s_alert(`Transaction completed.`);
-                    dispatch("fetch_branch_order",{id: state.branch_order.id, });
+                    dispatch("fetch_admin_order",{id: state.admin_order.id, });
                 })
         }
     },
-
 }
 
 // mutators
 const mutations = {
     ...test_module.mutations(),
-    set_get_branch_product_for_order: (state, data) => {
-        state.branch_product_for_order = data;
+    set_get_admin_product_for_order: (state, data) => {
+        state.admin_product_for_order = data;
     },
-    set_branch_p_search_key: (state, data) => {
-        state.branch_p_search_key = data;
+    set_admin_p_search_key: (state, data) => {
+        state.admin_p_search_key = data;
     },
 };
 
