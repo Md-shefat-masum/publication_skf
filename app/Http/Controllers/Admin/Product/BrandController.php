@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Product;
 
 use App\Http\Controllers\Controller;
-use App\Models\Brand;
+use App\Models\Product\Brand;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -68,7 +68,7 @@ class BrandController extends Controller
         $data->save();
         $data->slug = $data->id . uniqid(5);
         $data->save();
-    
+
         return response()->json($data, 200);
     }
 

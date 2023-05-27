@@ -127,6 +127,23 @@ Route::group(
             Route::group(['prefix' => 'branch'], function () {
                 Route::get('/all-products','Branch\BranchOrderController@all_products');
                 Route::post('/store-order','Branch\BranchOrderController@store_order');
+
+                Route::group(['prefix' => 'order'], function () {
+                    Route::get('/all','Branch\BranchOrderManagementController@all');
+                    Route::post('/store','Branch\BranchOrderManagementController@store');
+                    Route::post('/canvas-store','Branch\BranchOrderManagementController@canvas_store');
+                    Route::post('/update','Branch\BranchOrderManagementController@update');
+                    Route::post('/canvas-update','Branch\BranchOrderManagementController@canvas_update');
+                    Route::post('/soft-delete','Branch\BranchOrderManagementController@soft_delete');
+                    Route::post('/destroy','Branch\BranchOrderManagementController@destroy');
+                    Route::post('/restore','Branch\BranchOrderManagementController@restore');
+                    Route::post('/bulk-import','Branch\BranchOrderManagementController@bulk_import');
+                    Route::get('/all-json','Branch\BranchOrderManagementController@all_json');
+                    Route::post('/check-exists','Branch\BranchOrderManagementController@check_exists');
+                    Route::post('/add-to-top-cat','Branch\BranchOrderManagementController@add_to_top_cat');
+                    Route::get('/{id}','Branch\BranchOrderManagementController@show');
+                });
+
             });
 
         });

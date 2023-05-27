@@ -2,7 +2,7 @@ import axios from "axios";
 import management_router from "../../../router/router";
 import StoreModule from "../schema/StoreModule";
 
-let test_module = new StoreModule('branch_order','branch-order','BranchOrder');
+let test_module = new StoreModule('branch_order','branch/order','BranchOrder');
 const {store_prefix, api_prefix, route_prefix} = test_module;
 
 // state list

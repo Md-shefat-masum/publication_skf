@@ -75,6 +75,8 @@
                             <table-th :sort="false" :tkey="''" :title="'Branch'" />
                             <table-th :sort="true" :tkey="''" :title="'Contact'" />
                             <table-th :sort="true" :tkey="''" :title="'Sub Total'" />
+                            <table-th :sort="true" :tkey="''" :title="'Discount'" />
+                            <table-th :sort="true" :tkey="''" :title="'Coupon Discount'" />
                             <table-th :sort="true" :tkey="''" :title="'Shipping'" />
                             <table-th :sort="true" :tkey="''" :title="'Total'" />
                             <table-th :sort="true" :tkey="''" :title="'Paid'" />
@@ -85,8 +87,8 @@
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
-                        <!-- <tr v-for="item in this[`get_${store_prefix}s`].data" :key="item.id"> -->
-                        <tr v-for="item in data" :key="item.id">
+                        <tr v-for="item in this[`get_${store_prefix}s`].data" :key="item.id">
+                        <!-- <tr v-for="item in data" :key="item.id"> -->
                             <td>
                                 <input v-if="check_if_data_is_selected(item)" :data-id="item.id" checked @change="call_store(`set_selected_${store_prefix}s`,item)" type="checkbox" class="form-check-input">
                                 <input v-else @change="call_store(`set_selected_${store_prefix}s`,item)" type="checkbox" class="form-check-input">
@@ -94,37 +96,47 @@
                             <td>{{ item.id }}</td>
                             <td>
                                 <span class="text-warning cursor_pointer" @click.prevent="call_store(`set_${store_prefix}`,item)">
-                                    {{ item.order_id }}
+                                    {{ item.invoice_id }}
                                 </span>
                             </td>
-                            <td>{{ item.branch }}</td>
-                            <td>{{ item.contact }}</td>
+                            <td>{{ item.user.first_name +" "+ item.user.last_name }}</td>
+                            <td>{{ item.user.mobile_number }}</td>
                             <td>
                                 <strong class="text-info">
-                                    {{ item.subtotal}}
+                                    {{ item.sub_total}}
                                 </strong>
                             </td>
                             <td>
                                 <strong class="text-info">
-                                    {{ item.shipping}}
+                                    {{ item.discount}}
                                 </strong>
                             </td>
                             <td>
                                 <strong class="text-info">
-                                    {{ item.subtotal * item.shipping}}
+                                    {{ item.coupon_discount}}
+                                </strong>
+                            </td>
+                            <td>
+                                <strong class="text-info">
+                                    {{ item.delivery_charge}}
+                                </strong>
+                            </td>
+                            <td>
+                                <strong class="text-info">
+                                    {{ item.total_price}}
                                 </strong>
                             </td>
                             <td>
                                 <strong class="text-warning">
-                                    {{ item.subtotal * item.paid}}
+                                    {{ item.paid }}
                                 </strong>
                             </td>
                             <td>
                                 <span :class="`badge ${item.payment_status == 'paid'? `bg-secondary`: 'bg-danger'} me-1`">{{ item.payment_status }}</span>
                             </td>
-                            <td>{{ new Date().toDateString() }} {{ new Date().toLocaleTimeString() }}</td>
+                            <td>{{ new Date(item.invoice_date).toDateString() }} {{ new Date(item.invoice_date).toLocaleTimeString() }}</td>
                             <td>
-                                <span :class="`badge ${order_status(item.status)} me-1`">{{ item.status }}</span>
+                                <!-- <span :class="`badge ${order_status(item.status)} me-1`">{{ item.status }}</span> -->
                                 <span v-if="item.status == 1" class="badge bg-label-success me-1">active</span>
                                 <span v-if="item.status == 0" class="badge bg-label-success me-1">deactive</span>
                             </td>
