@@ -7,7 +7,10 @@ import auth_modules from './modules/auth_modules';
 import user_modules from './modules/user_modules';
 import user_role_modules from './modules/user_role_modules';
 import user_contact_message_modules from './modules/user_contact_message_modules';
+
 import branch_product_modules from './modules/branch/branch_product_modules';
+import branch_order_modules from './modules/branch/branch_order_modules';
+
 import production_product_modules from './modules/production/production_product_modules';
 import production_product_category_modules from './modules/production/production_product_category_modules';
 
@@ -17,7 +20,10 @@ const store = new Vuex.Store({
         user_modules,
         user_role_modules,
         user_contact_message_modules,
+
         branch_product_modules,
+        branch_order_modules,
+
         production_product_modules,
         production_product_category_modules
     },

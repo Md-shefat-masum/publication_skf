@@ -124,6 +124,11 @@ Route::group(
                 Route::get('/{id}','Admin\Product\CategoryController@show');
             });
 
+            Route::group(['prefix' => 'branch'], function () {
+                Route::get('/all-products','Branch\BranchOrderController@all_products');
+                Route::post('/store-order','Branch\BranchOrderController@store_order');
+            });
+
         });
     }
 );

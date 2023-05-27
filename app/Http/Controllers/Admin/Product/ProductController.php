@@ -35,9 +35,9 @@ class ProductController extends Controller
             $query->where(function ($q) use ($key) {
                 return $q->where('id', $key)
                     ->orWhere('product_name', $key)
-                    ->orWhere('default_price', $key)
+                    ->orWhere('sales_price', $key)
                     ->orWhere('product_name', 'LIKE', '%' . $key . '%')
-                    ->orWhere('default_price', 'LIKE', '%' . $key . '%');
+                    ->orWhere('sales_price', 'LIKE', '%' . $key . '%');
             });
         }
         $query->withSum('stocks', 'qty');

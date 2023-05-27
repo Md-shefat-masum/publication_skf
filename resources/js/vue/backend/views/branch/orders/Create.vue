@@ -10,27 +10,33 @@
                     </router-link>
                 </div>
             </div>
-            <form @submit.prevent="call_store(`store_${store_prefix}`,$event.target)" autocomplete="false">
+            <!-- <form @submit.prevent="call_store(`store_${store_prefix}`,$event.target)" autocomplete="false"> -->
+            <div onsubmit="event.preventDefault()">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-lg-7">
                             <div class="d-flex gap-2">
-                                <input type="search" placeholder="search" class="form-control">
-                                <button class="btn btn-outline-adn"><i class="fa fa-search"></i></button>
+                                <input @keyup="set_p_search_key($event.target.value)" type="search" placeholder="search" class="form-control">
+                                <button type="button" class="btn btn-outline-adn"><i class="fa fa-search"></i></button>
                             </div>
-                            <div class="row py-3">
-                                <div class="col-lg-3" v-for="item in products.data" :key="item.id">
+                            <div class="row py-3" v-if="products.data && products.data.length">
+                                <div class="col-lg-3" v-for="product in products.data" :key="product.id">
                                     <div class="card h-100 d-flex flex-column justify-between" >
                                         <div class="pos_card_image_card">
-                                            <img :src="item.thumb_image" class="img-fluid" alt=""/>
-                                            <span class="add_icon">
+                                            <img :src="product.thumb_image" class="img-fluid" alt=""/>
+                                            <span @click="add_to_cart({product})" class="add_icon">
                                                 <i class="fa fa-plus"></i>
                                             </span>
                                         </div>
-                                        <h6 style="flex:1" class="mt-2 mb-0">{{ item.product_name }}</h6>
+                                        <div class="mt-1">
+                                            <span v-if="product.discount_info">
+                                                <b>৳ {{ product.discount_info.discount_price.toString().enToBn() }}</b>
+                                                <del>৳ {{ product.sales_price.toString().enToBn() }}</del>
+                                            </span>
+                                        </div>
+                                        <h6 style="flex:1" class="mt-2 mb-0">{{ product.product_name }}</h6>
                                     </div>
                                 </div>
-                                
                             </div>
                         </div>
                         <div class="col-lg-5">
@@ -44,30 +50,35 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="item in data" :key="item.id">
+                                        <tr v-for="product in order_carts" :key="product.id">
                                             <td class="text-start">
-                                                {{ item.title }}
+                                                {{ product.product_name }}
                                                 <br>
-                                                <a href="" class="text-danger">delete</a>
+                                                ৳ {{ product.current_price.toString().enToBn() }}
+                                                <br>
+                                                <a href="#" @click.prevent="remove_cart({product})" class="text-danger">delete</a>
                                             </td>
                                             <td class="text-center">
-                                                <input type="number" value="1" class="form-control">
+                                                <input type="number" min="0"
+                                                    @change="add_to_cart({product,qty: $event.target.value})"
+                                                    @keyup="add_to_cart({product,qty: $event.target.value})"
+                                                    :value="product.qty" style="width: 70px;" class="form-control">
                                             </td>
                                             <td class="text-end">
-                                                {{ item.price }}
+                                                ৳ {{ product.total_price.toString().enToBn() }}
                                             </td>
                                         </tr>
                                     </tbody>
                                     <tfoot>
                                         <tr>
                                             <th colspan="2" class="text-end">total</th>
-                                            <th class="text-end">12343</th>
+                                            <th class="text-end">৳ {{ tota_order_price.toString().enToBn() }}</th>
                                         </tr>
                                     </tfoot>
                                 </table>
-                                <form action="" class="mt-3">
+                                <form action="#" class="mt-3">
                                     <div class="d-flex gap-1 flex-wrap">
-                                        <button type="submit" class="btn btn-outline-info" >
+                                        <button type="button" @click.prevent="store_order"  class="btn btn-outline-info" >
                                             <i class="fa fa-paper-plane"></i>
                                             Create Order
                                         </button>
@@ -79,14 +90,19 @@
                 </div>
                 <div class="card-footer text-center">
                     <!--  -->
+                    <pagination :data="this.products" :limit="5" :size="'small'" :show-disabled="true" :align="'left'"
+                        @pagination-change-page="fetch_branch_product_for_order">
+                        <span slot="prev-nav"><i class="fa fa-angle-left"></i> Previous</span>
+                        <span slot="next-nav">Next <i class="fa fa-angle-right"></i></span>
+                    </pagination>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 import InputField from '../../components/InputField.vue'
 /** store and route prefix for export object use */
 import PageSetup from './PageSetup';
@@ -99,50 +115,40 @@ export default {
             /** store prefix for JSX */
             store_prefix,
             route_prefix,
-            data: [
-                {
-                    id: parseInt(Math.random()*10000),
-                    title: 'ক্যারিয়ার বিকশিত জীবনের দ্বার',
-                    image: 'http://almari.info/uploads/product/product_main_image/dh2QioXn122GuTfvBBcrEkDKM0XAEiG2z63zwRKC.png',
-                    status: 'avaialbe',
-                    price: 500,
-                },
-                {
-                    id: parseInt(Math.random()*10000),
-                    title: 'বিষয়ভিত্তিক আয়াত ও হাদিস সংকলন (ছোটো)',
-                    image: 'http://almari.info/uploads/product/product_main_image/PWGp7nvai1IYlG3xbEt8WBmV6nZ7V0Rmc3FeM2eP.jpeg',
-                    status: 'avaialbe',
-                    price: 250,
-                },
-                {
-                    id: parseInt(Math.random()*10000),
-                    title: 'এসো আলোর পথে',
-                    image: 'http://almari.info/uploads/product/product_main_image/juRgRV0pxxjFkulEA4flJI1UAKSr966a9JFgyKyb.jpeg',
-                    status: 'avaialbe',
-                    price: 50,
-                },
-                {
-                    id: parseInt(Math.random()*10000),
-                    title: 'বর্ণমালা',
-                    image: 'http://almari.info/uploads/product/product_main_image/1SNDUyvzYwCSyXJHOSAtiVCYj8DinhqVjGEuuwXK.jpeg',
-                    status: 'avaialbe',
-                    price: 320,
-                },
-            ]
         }
     },
     created: function () {
-        this.fetch_production_products();
+        this.fetch_branch_product_for_order();
+        this.$watch('products',(n,o)=>{
+            console.log(n, o);
+        })
+        this.$watch('p_search_key',(n,o)=>{
+            this.fetch_branch_product_for_order();
+        })
     },
     methods: {
-        ...mapActions([`store_${store_prefix}`,`fetch_production_products`]),
+        ...mapActions([`store_${store_prefix}`,`fetch_branch_product_for_order`]),
+        ...mapActions({
+            add_to_cart: 'branch_oder_cart_add',
+            remove_cart: "remove_product_from_cart",
+            store_order: "store_branch_order",
+        }),
+        ...mapMutations({
+            set_p_search_key: 'set_branch_p_search_key',
+        }),
         call_store: function(name, params=null){
             this[name](params)
         },
+        bn_price: function(price){
+            return price.toString().enToBn();
+        }
     },
     computed: {
         ...mapGetters({
-            'products': "get_production_products",
+            'products': "get_branch_product_for_order",
+            'p_search_key': "get_branch_p_search_key",
+            "order_carts": "get_branch_oder_cart",
+            "tota_order_price": "get_branch_oder_cart_total"
         })
     }
 };
