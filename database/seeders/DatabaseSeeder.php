@@ -30,6 +30,7 @@ use Database\Seeders\Settings\SettingTitleSeeder;
 use Database\Seeders\Settings\SettingValueSeeder;
 use Database\Seeders\User\CustomerSeeder;
 use Database\Seeders\User\UserSeeder;
+use Database\Seeders\Website\AboutSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -79,6 +80,7 @@ class DatabaseSeeder extends Seeder
             SettingValueSeeder::class,
 
             BannerSeeder::class,
+            AboutSeeder::class,
             AddressSeeder::class,
             MobileNumberSeeder::class,
 
