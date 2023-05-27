@@ -7,7 +7,7 @@ import Import from "../../../views/admin/products/Import";
 
 let prefix = `AdminProduct`;
 export default {
-    path: "product",
+    path: "products",
     component: Layout,
     props: {
         role_permissions: ["admin"],
