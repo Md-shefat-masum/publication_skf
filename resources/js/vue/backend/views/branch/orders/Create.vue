@@ -30,6 +30,7 @@
                                         <h6 style="flex:1" class="mt-2 mb-0">{{ item.product_name }}</h6>
                                     </div>
                                 </div>
+                                
                             </div>
                         </div>
                         <div class="col-lg-5">
