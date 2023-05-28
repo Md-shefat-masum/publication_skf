@@ -26,11 +26,14 @@ class CreateOrdersTable extends Migration
             $table->bigInteger("order_coupon_id")->unsigned()->nullable();
 
             $table->double("sub_total")->unsigned()->default(0);
-            $table->float("discount")->unsigned()->default(0);
-            $table->float("coupon_discount")->unsigned()->default(0);
             $table->float("delivery_charge")->unsigned()->default(0);
             $table->float("variant_price")->unsigned()->default(0);
+
+            $table->float("discount")->unsigned()->default(0);
+            $table->float("coupon_discount")->unsigned()->default(0);
+
             $table->double("total_price")->unsigned()->default(0);
+            $table->double("total_paid")->unsigned()->default(0);
 
             $table->string("payment_status", 20)->default("pending")->comment("pending, partially paid, paid");
             $table->string("delivery_method", 20)->default("pickup");

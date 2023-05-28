@@ -3,7 +3,22 @@
         <div class="content right" v-if="this[`get_${store_prefix}`]">
             <div class="content_header">
                 <h3 class="offcanvas-title">Details</h3>
-                <i @click="call_store(`set_${store_prefix}`,null)" class="fa fa-times"></i>
+                <div>
+                    <router-link
+                        :to="{name:`Details${route_prefix}`,params:{id: this[`get_${store_prefix}`].id}}">
+                        <span class="btn btn-sm btn-outline-success rounded-pill me-2">
+                            Details
+                        </span>
+                    </router-link>
+                    <router-link
+                        v-if="this[`get_${store_prefix}`].order_status == 'pending'"
+                        :to="{name:`Edit${route_prefix}`,params:{id: this[`get_${store_prefix}`].id}}">
+                        <span class="btn btn-sm btn-outline-warning rounded-pill me-2">
+                            Edit
+                        </span>
+                    </router-link>
+                    <i @click="call_store(`set_${store_prefix}`,null)" class="fa fa-times"></i>
+                </div>
             </div>
             <div class="cotent_body pe-2">
                 <table class="table" >
@@ -11,17 +26,22 @@
                         <tr>
                             <td>Order Id</td>
                             <td>:</td>
-                            <td>{{ this[`get_${store_prefix}`].order_id }}</td>
+                            <td>{{ this[`get_${store_prefix}`].invoice_id }}</td>
                         </tr>
                         <tr>
                             <td>Branch</td>
                             <td>:</td>
-                            <td>{{ this[`get_${store_prefix}`].branch }}</td>
+                            <td>
+                                {{ this[`get_${store_prefix}`].user.first_name }}
+                                {{ this[`get_${store_prefix}`].user.last_name }}
+                            </td>
                         </tr>
                         <tr>
                             <td>contact</td>
                             <td>:</td>
-                            <td>{{ this[`get_${store_prefix}`].contact }}</td>
+                            <td>
+                                {{ this[`get_${store_prefix}`].user.mobile_number }}
+                            </td>
                         </tr>
                         <tr>
                             <td>payment status</td>
@@ -31,13 +51,16 @@
                         <tr>
                             <td>date</td>
                             <td>:</td>
-                            <td>{{ this[`get_${store_prefix}`].created_at }}</td>
+                            <td>
+                                {{ new Date(this[`get_${store_prefix}`].created_at).toDateString() }}
+                                {{ new Date(this[`get_${store_prefix}`].created_at).toLocaleTimeString() }}
+                            </td>
                         </tr>
                         <tr>
                             <td>Status</td>
                             <td>:</td>
                             <td>
-                                {{ this[`get_${store_prefix}`].status }}
+                                <!-- {{ this[`get_${store_prefix}`].status }} -->
                                 <span v-if="this[`get_${store_prefix}`].status == 1" class="badge bg-label-success me-1">active</span>
                                 <span v-if="this[`get_${store_prefix}`].status == 0" class="badge bg-label-success me-1">deactive</span>
                             </td>
@@ -63,10 +86,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="item in this[`get_${store_prefix}`].products" :key="item.id">
-                            <td>{{ item.title }}</td>
-                            <td class="text-center">{{ item.price }} * {{ item.qty }}</td>
-                            <td class="text-end">{{ item.price * item.qty }}</td>
+                        <tr v-for="item in this[`get_${store_prefix}`].order_details" :key="item.id">
+                            <td>{{ item.product_name }}</td>
+                            <td class="text-center">{{ item.sales_price.toString().enToBn() }} * {{ item.qty.toString().enToBn() }}</td>
+                            <td class="text-end">{{ number_format( item.sales_price * item.qty ).enToBn() }}</td>
                         </tr>
                     </tbody>
                     <tfoot>
@@ -75,7 +98,7 @@
                                 <b>Sub Total</b>
                             </td>
                             <td class="text-end">
-                                {{ number_format( total_amount ) }}
+                                {{ number_format( this[`get_${store_prefix}`].sub_total).enToBn() }}
                             </td>
                         </tr>
                         <tr>
@@ -83,39 +106,39 @@
                                 <b>Shipping</b>
                             </td>
                             <td class="text-end">
-                                {{ number_format( this[`get_${store_prefix}`].shipping ) }}
+                                {{ number_format( this[`get_${store_prefix}`].delivery_charge ).enToBn() }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="text-end">
+                                <b>Discount</b>
+                            </td>
+                            <td class="text-end">
+                                - {{ number_format( this[`get_${store_prefix}`].discount ).enToBn() }}
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2" class="text-end">
                                 <b>Total</b>
                             </td>
-                            <td class="text-end">
-                                {{ number_format(  shipping +  total_amount )}}
+                            <td class="text-end text-success">
+                                {{ number_format( this[`get_${store_prefix}`].total_price ).enToBn() }}
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2" class="text-end">
                                 <b>Paid</b>
                             </td>
-                            <td class="text-end">
-                                {{ number_format( this[`get_${store_prefix}`].paid )}}
+                            <td class="text-end text-warning">
+                                - {{ number_format( this[`get_${store_prefix}`].order_payments_sum_amount ).enToBn() }}
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2" class="text-end">
                                 <b>Due</b>
                             </td>
-                            <td class="text-end">
-                                {{ number_format( shipping + total_amount + this[`get_${store_prefix}`].paid )}}
-                            </td>
-                        </tr>
-                        <tr style="border-top: 2px solid gray;">
-                            <td colspan="2" class="text-end">
-                                <b>Payable</b>
-                            </td>
-                            <td class="text-end">
-                                {{ number_format( shipping + total_amount + this[`get_${store_prefix}`].paid )}}
+                            <td class="text-end text-danger">
+                                {{ number_format( this[`get_${store_prefix}`].total_price - this[`get_${store_prefix}`].total_paid ).enToBn()}}
                             </td>
                         </tr>
                     </tfoot>

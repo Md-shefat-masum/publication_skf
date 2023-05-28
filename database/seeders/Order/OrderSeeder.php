@@ -124,7 +124,8 @@ class OrderSeeder extends Seeder
                     'order_details_id' => $order_details->id,
                     'product_id' => $product->id,
                     'variant_name' => "color",
-                    'variant_value' => rand(30, 70),
+                    // 'variant_value' => rand(30, 70),
+                    'variant_value' => 0,
                 ]);
 
                 // update production log
@@ -165,7 +166,7 @@ class OrderSeeder extends Seeder
                 "coupon_discount" => 0,
                 "delivery_charge" => $delivery_method["price"],
                 "variant_price" => $variant_price, // extra charge for product variants
-                "total_price" => ($subtotal - $total_discount_price) + $delivery_method["price"] + $variant_price,
+                "total_price" => ($subtotal + $delivery_method["price"] + $variant_price ) - $total_discount_price,
 
                 "payment_status" => explode(',', 'pending, partially paid, paid')[rand(0, 2)], // pending, partially paid, paid
                 "delivery_method" => $delivery_method["type"],
@@ -190,9 +191,13 @@ class OrderSeeder extends Seeder
                 "number" => "+880 14523698",
                 "trx_id" => uniqid(),
                 "amount" => rand($order->total_price - round($order->total_price / 2), $order->total_price),
+                "approved" => rand(0,1),
             ]);
 
-            if ($payment->amount ==  0) $order->payment_status = "pending";
+            $order->total_paid = $payment->amount;
+            $order->save();
+
+            if ($payment->amount ==  0) $order->payment_status = "due";
             if ($payment->amount > 0 && $payment->amount < $order->total_price) $order->payment_status = "partially paid";
             if ($payment->amount == $order->total_price) $order->payment_status = "paid";
             $order->save();

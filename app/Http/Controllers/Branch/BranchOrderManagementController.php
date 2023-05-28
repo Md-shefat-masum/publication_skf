@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Branch;
 use App\Http\Controllers\Controller;
 use App\Models\Order\Order;
 use App\Models\Product\Brand;
+use App\Models\Settings\AppSettingTitle;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +25,8 @@ class BranchOrderManagementController extends Controller
         }
 
         $query = Order::where('status', $status)
-            ->with(["user"])
+            ->with(["user", "order_details"])
+            ->withSum('order_payments', 'amount')
             ->orderBy($orderBy, $orderByType);
 
         if (request()->has('search_key')) {
@@ -32,7 +34,10 @@ class BranchOrderManagementController extends Controller
             $query->where(function ($q) use ($key) {
                 return $q->where('id', $key)
                     ->orWhere('invoice_id', $key)
-                    ->orWhere('invoice_id', 'LIKE', '%' . $key . '%');
+                    ->orWhere('invoice_id', 'LIKE', '%' . $key . '%')
+                    ->orWhere('order_status', 'LIKE', '%' . $key . '%')
+                    ->orWhere('payment_status', 'LIKE', '%' . $key . '%')
+                    ->orWhere('delivery_method', 'LIKE', '%' . $key . '%');
             });
         }
 
@@ -42,14 +47,31 @@ class BranchOrderManagementController extends Controller
 
     public function show($id)
     {
-        $data = Brand::where('id',$id)->first();
-        if(!$data){
+        $data = Order::where('id', $id)
+            ->with(["user", "order_details"])
+            ->withSum('order_payments', 'amount')
+            ->where('id', $id)
+            ->first();
+        $data->payment_records = $data->order_payments()
+            ->select(['id', 'order_id', 'number', 'payment_method', 'trx_id', 'amount'])
+            ->get();
+        $data->payment_accounts = AppSettingTitle::select('id', 'title')
+            ->whereIn('title', [
+                'bkash', 'nagad',
+                'rocket', 'bank'
+            ])->where('status', 1)->with([
+                'values' => function ($q) {
+                    return $q->select(['id', 'setting_id', 'title', 'setting_value']);
+                }
+            ])->get();
+
+        if (!$data) {
             return response()->json([
                 'err_message' => 'not found',
-                'errors' => ['role'=>['data not found']],
+                'errors' => ['role' => ['data not found']],
             ], 422);
         }
-        return response()->json($data,200);
+        return response()->json($data, 200);
     }
 
     public function store(Request $request)
@@ -101,10 +123,10 @@ class BranchOrderManagementController extends Controller
     public function update()
     {
         $data = Brand::find(request()->id);
-        if(!$data){
+        if (!$data) {
             return response()->json([
                 'err_message' => 'validation error',
-                'errors' => ['name'=>['user_role not found by given id '.(request()->id?request()->id:'null')]],
+                'errors' => ['name' => ['user_role not found by given id ' . (request()->id ? request()->id : 'null')]],
             ], 422);
         }
 
@@ -128,10 +150,10 @@ class BranchOrderManagementController extends Controller
     public function canvas_update()
     {
         $data = Brand::find(request()->id);
-        if(!$data){
+        if (!$data) {
             return response()->json([
                 'err_message' => 'validation error',
-                'errors' => ['name'=>['user_role not found by given id '.(request()->id?request()->id:'null')]],
+                'errors' => ['name' => ['user_role not found by given id ' . (request()->id ? request()->id : 'null')]],
             ], 422);
         }
 
@@ -155,7 +177,7 @@ class BranchOrderManagementController extends Controller
     public function soft_delete()
     {
         $validator = Validator::make(request()->all(), [
-            'id' => ['required','exists:categories,id'],
+            'id' => ['required', 'exists:categories,id'],
         ]);
 
         if ($validator->fails()) {
@@ -170,7 +192,7 @@ class BranchOrderManagementController extends Controller
         $data->save();
 
         return response()->json([
-                'result' => 'deactivated',
+            'result' => 'deactivated',
         ], 200);
     }
 
@@ -181,7 +203,7 @@ class BranchOrderManagementController extends Controller
     public function restore()
     {
         $validator = Validator::make(request()->all(), [
-            'id' => ['required','exists:categories,id'],
+            'id' => ['required', 'exists:categories,id'],
         ]);
 
         if ($validator->fails()) {
@@ -196,14 +218,14 @@ class BranchOrderManagementController extends Controller
         $data->save();
 
         return response()->json([
-                'result' => 'activated',
+            'result' => 'activated',
         ], 200);
     }
 
     public function bulk_import()
     {
         $validator = Validator::make(request()->all(), [
-            'data' => ['required','array'],
+            'data' => ['required', 'array'],
         ]);
 
         if ($validator->fails()) {
@@ -214,11 +236,11 @@ class BranchOrderManagementController extends Controller
         }
 
         foreach (request()->data as $item) {
-            $item['created_at'] = $item['created_at'] ? Carbon::parse($item['created_at']): Carbon::now()->toDateTimeString();
-            $item['updated_at'] = $item['updated_at'] ? Carbon::parse($item['updated_at']): Carbon::now()->toDateTimeString();
+            $item['created_at'] = $item['created_at'] ? Carbon::parse($item['created_at']) : Carbon::now()->toDateTimeString();
+            $item['updated_at'] = $item['updated_at'] ? Carbon::parse($item['updated_at']) : Carbon::now()->toDateTimeString();
             $item = (object) $item;
-            $check = Brand::where('id',$item->id)->first();
-            if(!$check){
+            $check = Brand::where('id', $item->id)->first();
+            if (!$check) {
                 try {
                     Brand::create((array) $item);
                 } catch (\Throwable $th) {

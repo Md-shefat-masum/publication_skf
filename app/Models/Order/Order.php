@@ -21,26 +21,31 @@ class Order extends Model
                 $data->creator = auth()->user()->id;
             }
         });
-
     }
 
     public function order_details()
     {
-        return $this->hasMany(OrderDetails::class,'order_id');
+        return $this->hasMany(OrderDetails::class, 'order_id')->select([
+            'id', 'order_id', 'customer_id', 'user_id', 'product_id',
+            'product_name', 'product_price', 'discount_price', 'sales_price', 'qty'
+        ]);
     }
 
     public function order_delivery_info()
     {
-        return $this->hasOne(OrderDeliveryInfo::class,'order_id');
+        return $this->hasOne(OrderDeliveryInfo::class, 'order_id');
     }
 
     public function order_payments()
     {
-        return $this->hasMany(OrderPayment::class,'order_id');
+        return $this->hasMany(OrderPayment::class, 'order_id');
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class,'user_id')->select(['id','first_name',"last_name","mobile_number","photo"]);
+        return $this->belongsTo(User::class, 'user_id')->select([
+            'id', 'first_name', "last_name",
+            "mobile_number", "photo"
+        ]);
     }
 }

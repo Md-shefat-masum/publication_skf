@@ -14,7 +14,7 @@
             </div>
             <div class="card-body pb-5 ">
                 <div class="row justify-content-center">
-                    <div class="col-lg-12 " v-if="data.length">
+                    <div class="col-lg-12 " v-if="data && data.order_details.length">
                         <table class="table w-100">
                             <thead>
                                 <tr>
@@ -24,10 +24,10 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="item in data[0].products" :key="item.id">
-                                    <td>{{ item.title }}</td>
-                                    <td class="text-end">{{ item.price }} * {{ item.qty }}</td>
-                                    <td class="text-end">{{ item.price * item.qty }}</td>
+                                <tr v-for="item in data.order_details" :key="item.id">
+                                    <td>{{ item.product_name }}</td>
+                                    <td class="text-end">{{ item.sales_price }} * {{ item.qty }}</td>
+                                    <td class="text-end">{{ item.sales_price * item.qty }}</td>
                                 </tr>
                             </tbody>
                             <tfoot>
@@ -37,7 +37,7 @@
                                         <b>Sub Total</b>
                                     </td>
                                     <td class="text-end" >
-                                        {{ number_format( total_amount ) }}
+                                        {{ number_format( data.sub_total ) }}
                                     </td>
                                 </tr>
                                 <tr style="border-top: 0">
@@ -46,7 +46,16 @@
                                         <b>Shipping</b>
                                     </td>
                                     <td class="text-end border-top-2">
-                                        {{ number_format( data[0].shipping ) }}
+                                        {{ number_format( data.delivery_charge ) }}
+                                    </td>
+                                </tr>
+                                <tr style="border-top: 0">
+                                    <td class="border-0"></td>
+                                    <td class="text-end border-top-2">
+                                        <b>Discount</b>
+                                    </td>
+                                    <td class="text-end border-top-2">
+                                        - {{ number_format( data.discount ) }}
                                     </td>
                                 </tr>
                                 <tr style="border-top: 0">
@@ -55,7 +64,7 @@
                                         <b>Total</b>
                                     </td>
                                     <td class="text-end border-top-2">
-                                        {{ number_format(  shipping +  total_amount )}}
+                                        {{ number_format(  data.total_price )}}
                                     </td>
                                 </tr>
                                 <tr style="border-top: 0">
@@ -64,7 +73,7 @@
                                         <b>Paid</b>
                                     </td>
                                     <td class="text-end border-top-2">
-                                        {{ number_format( data[0].paid )}}
+                                        {{ number_format( data.order_payments_sum_amount )}}
                                     </td>
                                 </tr>
                                 <tr style="border-top: 0">
@@ -73,16 +82,7 @@
                                         <b>Due</b>
                                     </td>
                                     <td class="text-end border-top-2">
-                                        {{ number_format( shipping + total_amount + data[0].paid )}}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="border-0"></td>
-                                    <td class="text-end border-top-2 border-bottom-0" >
-                                        <b>Payable</b>
-                                    </td>
-                                    <td class="text-end border-top-2 border-bottom-0">
-                                        {{ number_format( shipping + total_amount + data[0].paid )}}
+                                        {{ number_format( data.total_price - data.order_payments_sum_amount )}}
                                     </td>
                                 </tr>
                             </tfoot>
@@ -91,64 +91,124 @@
                         <br>
                     </div>
 
-                    <div class="col-lg-5 py-4">
-                        <h4>Payment Information</h4>
+                    <div class="col-lg-5 py-4" v-if="data">
+                        <h4>Order Details</h4>
+                        <table class="table" >
+                            <tbody>
+                                <tr>
+                                    <td>Invoice ID</td>
+                                    <td class="px-0">:</td>
+                                    <td>
+                                        {{ data.invoice_id }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Name</td>
+                                    <td class="px-0">:</td>
+                                    <td>
+                                        {{ data.user.first_name }}
+                                        {{ data.user.last_name }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Mobile Number</td>
+                                    <td class="px-0">:</td>
+                                    <td>
+                                        {{ data.user.mobile_number }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Delivery Method</td>
+                                    <td class="px-0">:</td>
+                                    <td>
+                                        {{ data.delivery_method }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Payment Status</td>
+                                    <td class="px-0">:</td>
+                                    <td>
+                                        {{ data.payment_status }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h4 class="mt-4">Payment Information</h4>
                         <table class="table mt-2">
                             <thead>
                                 <tr>
                                     <th>Media</th>
                                     <th>TR No</th>
+                                    <th>Approved</th>
                                     <th>Amount</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody v-for="record in data.payment_records" :key="record.id">
                                 <tr>
-                                    <td>Islami Bank</td>
-                                    <td>392775847223</td>
-                                    <td>2000</td>
-                                </tr>
-                                <tr>
-                                    <td>Bkash</td>
-                                    <td>3927223</td>
-                                    <td>4000</td>
-                                </tr>
-                                <tr>
-                                    <td>Islami Bank</td>
-                                    <td>992277583423</td>
-                                    <td>4000</td>
+                                    <td>{{ record.payment_method }}</td>
+                                    <td>{{ record.number }}</td>
+                                    <td>
+                                        <span v-if="record.approved" class="badge bg-success">yes</span>
+                                        <span v-else class="badge bg-secondary">no</span>
+                                        {{ record.approved }}
+                                    </td>
+                                    <td class="text-end">{{ record.amount.toString().enToBn() }}</td>
                                 </tr>
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="2" class="text-end">Total</th>
+                                    <th class="text-end">{{ data.order_payments_sum_amount.toString().enToBn() }}</th>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
-                    <div class="col-lg-2"></div>
+                    <div class="col-lg-1"></div>
                     <div class="col-lg-5 py-4">
-                        <h4>Receive Payment</h4>
-                        <form action="" class="mt-2">
-                            <div class="form-group mb-2">
+                        <form v-if="data && data.total_paid < data.total_price " @submit.prevent="branch_pay_due" action="" class="mt-2">
+                            <h4>Pay due amount</h4>
+                            <div class="form-group mb-2 mt-2">
                                 <label for="Account">Account</label>
-                                <select name="" id="" class="form-select">
-                                    <option value="">Bkash</option>
-                                    <option value="">Rocket</option>
-                                    <option value="">Islami Bank</option>
+                                <select id="account_id" @change="set_selected_account_values($event.target.value)" name="account_id" class="form-select">
+                                    <option value="">select</option>
+                                    <option  v-for="account in data.payment_accounts" :key="account.id" :value="account.id">
+                                        {{ account.title.replaceAll('_',' ') }}
+                                    </option>
                                 </select>
+                                <br>
+                                <label :for="value.id" v-for="value in account_vlaues" :key="value.id">
+                                    <div class="d-flex flex-wrap">
+                                        <input class="order-1" :id="value.id" name="payment_method" type="radio" :value="JSON.stringify(value)">
+                                        <div class="order-2">
+                                            {{ value.setting_value }}
+                                            &nbsp;
+                                            &nbsp;
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="form-group mb-2">
+                                <label for="">TRX ID</label>
+                                <input type="text" id="trx_id" name="trx_id" class="form-control">
                             </div>
                             <div class="form-group mb-2">
                                 <label for="">Amount</label>
-                                <input type="text" class="form-control">
+                                <input type="number" name="amount" id="amount" min="10" :max="data.total_price - data.order_payments_sum_amount" :value="data.total_price - data.order_payments_sum_amount" class="form-control">
                             </div>
-                            <button class="btn btn-outline-adn">Take Payment</button>
+                            <button class="btn btn-outline-adn">Submit</button>
                         </form>
                     </div>
                 </div>
             </div>
             <div class="card-footer text-center">
-                <permission-button
+                <!-- <permission-button
                     :permission="'can_edit'"
                     :to="{name:`EditContactMessage`,params:{id:$route.params.id}}"
                     :classList="'btn btn-outline-info'">
                     <i class="fa text-info fa-pencil"></i> &nbsp;
                     Edit
-                </permission-button>
+                </permission-button> -->
             </div>
         </div>
     </div>
@@ -168,22 +228,26 @@ export default {
             /** store prefix for JSX */
             store_prefix,
             route_prefix,
-            data: [],
+
+            account_vlaues: [],
         }
     },
     created: function () {
-        // this[`fetch_${store_prefix}`]({id: this.$route.params.id, select_all:1})
-        this.make_data();
+        this[`fetch_${store_prefix}`]({id: this.$route.params.id, select_all:1})
     },
     methods: {
         ...mapActions([
             `fetch_${store_prefix}`,
+            'branch_pay_due',
         ]),
         ...mapMutations([
             `set_${store_prefix}`
         ]),
         call_store: function(name, params=null){
             this[name](params)
+        },
+        set_selected_account_values: function(account_id){
+            this.account_vlaues = this.data.payment_accounts.find(i=>i.id==account_id)?.values || [];
         },
         number_format: (number) => new Intl.NumberFormat().format(number),
         make_data: function(){
@@ -239,7 +303,9 @@ export default {
         },
     },
     computed: {
-        ...mapGetters([`get_${store_prefix}`]),
+        ...mapGetters({
+            data: `get_${store_prefix}`
+        }),
         total_amount: function(){
             return [...this.data[0]?.products]?.reduce((total,i)=>(total+=(i.price*i.qty)), 0)
         },

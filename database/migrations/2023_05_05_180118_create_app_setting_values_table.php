@@ -16,6 +16,7 @@ class CreateAppSettingValuesTable extends Migration
         Schema::create('app_setting_values', function (Blueprint $table) {
             $table->id();
             $table->bigInteger("setting_id")->unsigned()->nullable();
+            $table->string("title",70)->nullable();
             $table->text("setting_value")->nullable();
 
             $table->bigInteger('creator')->unsigned()->nullable();

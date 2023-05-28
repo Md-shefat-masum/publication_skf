@@ -119,9 +119,9 @@ export default {
     },
     created: function () {
         this.fetch_branch_product_for_order();
-        this.$watch('products',(n,o)=>{
-            console.log(n, o);
-        })
+        // this.$watch('products',(n,o)=>{
+        //     console.log(n, o);
+        // })
         this.$watch('p_search_key',(n,o)=>{
             this.fetch_branch_product_for_order();
         })

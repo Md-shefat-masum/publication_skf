@@ -71,17 +71,20 @@
                         <tr>
                             <th><input @click="call_store(`set_select_all_${store_prefix}s`)" type="checkbox" class="form-check-input check_all"></th>
                             <table-th :sort="true" :tkey="'id'" :title="'ID'" :ariaLable="'id'"/>
-                            <table-th :sort="true" :tkey="''" :title="'Order ID'" />
+                            <table-th :sort="true" :tkey="'invoice_id'" :title="'Order ID'" />
+                            <table-th :sort="true" :tkey="'order_status'" :title="'Order Status'" />
                             <table-th :sort="false" :tkey="''" :title="'Branch'" />
-                            <table-th :sort="true" :tkey="''" :title="'Contact'" />
-                            <table-th :sort="true" :tkey="''" :title="'Sub Total'" />
-                            <table-th :sort="true" :tkey="''" :title="'Discount'" />
-                            <table-th :sort="true" :tkey="''" :title="'Coupon Discount'" />
-                            <table-th :sort="true" :tkey="''" :title="'Shipping'" />
-                            <table-th :sort="true" :tkey="''" :title="'Total'" />
-                            <table-th :sort="true" :tkey="''" :title="'Paid'" />
-                            <table-th :sort="true" :tkey="''" :title="'payment status'" />
-                            <table-th :sort="false" :tkey="''" :title="'Date'" />
+                            <table-th :sort="false" :tkey="''" :title="'Contact'" />
+                            <table-th :sort="true" :tkey="'sub_total'" :title="'Sub Total'" />
+                            <table-th :sort="true" :tkey="'delivery_charge'" :title="'Shipping'" />
+                            <!-- <table-th :sort="true" :tkey="'coupon_discount'" :title="'Coupon Discount'" /> -->
+                            <table-th :sort="true" :tkey="'discount'" :title="'Discount'" />
+                            <table-th :sort="true" :tkey="'total_price'" :title="'Total'" />
+                            <table-th :sort="false" :tkey="''" :title="'Paid'" />
+                            <table-th :sort="false" :tkey="''" :title="'Due'" />
+                            <table-th :sort="true" :tkey="'payment_status'" :title="'payment Status'" />
+                            <table-th :sort="true" :tkey="'delivery_method'" :title="'Delivery Method'" />
+                            <table-th :sort="true" :tkey="'created_at'" :title="'Date'" />
                             <table-th :sort="true" :tkey="'status'" :title="'Status'" />
                             <th aria-label="actions">Actions</th>
                         </tr>
@@ -99,6 +102,9 @@
                                     {{ item.invoice_id }}
                                 </span>
                             </td>
+                            <td>
+                                {{ item.order_status }}
+                            </td>
                             <td>{{ item.user.first_name +" "+ item.user.last_name }}</td>
                             <td>{{ item.user.mobile_number }}</td>
                             <td>
@@ -108,19 +114,20 @@
                             </td>
                             <td>
                                 <strong class="text-info">
-                                    {{ item.discount}}
+                                    + {{ item.delivery_charge}}
                                 </strong>
                             </td>
-                            <td>
+                            <!-- <td>
                                 <strong class="text-info">
                                     {{ item.coupon_discount}}
                                 </strong>
-                            </td>
+                            </td> -->
                             <td>
                                 <strong class="text-info">
-                                    {{ item.delivery_charge}}
+                                    - {{ item.discount}}
                                 </strong>
                             </td>
+
                             <td>
                                 <strong class="text-info">
                                     {{ item.total_price}}
@@ -128,11 +135,19 @@
                             </td>
                             <td>
                                 <strong class="text-warning">
-                                    {{ item.paid }}
+                                   - {{ item.order_payments_sum_amount }}
+                                </strong>
+                            </td>
+                            <td>
+                                <strong class="text-warning">
+                                   {{ item.total_price - item.order_payments_sum_amount }}
                                 </strong>
                             </td>
                             <td>
                                 <span :class="`badge ${item.payment_status == 'paid'? `bg-secondary`: 'bg-danger'} me-1`">{{ item.payment_status }}</span>
+                            </td>
+                            <td>
+                                {{ item.delivery_method }}
                             </td>
                             <td>{{ new Date(item.invoice_date).toDateString() }} {{ new Date(item.invoice_date).toLocaleTimeString() }}</td>
                             <td>
@@ -140,6 +155,7 @@
                                 <span v-if="item.status == 1" class="badge bg-label-success me-1">active</span>
                                 <span v-if="item.status == 0" class="badge bg-label-success me-1">deactive</span>
                             </td>
+
                             <td>
                                 <div class="table_actions">
                                     <a href="#" @click.prevent="()=>''" class="btn btn-sm btn-outline-secondary">
@@ -153,22 +169,13 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <permission-button
+                                            <router-link
                                                 :permission="'can_edit'"
                                                 :to="{name:`Details${route_prefix}`,params:{id:item.id}}"
                                                 :classList="''">
                                                 <i class="fa text-secondary fa-eye"></i>
                                                 Details
-                                            </permission-button>
-                                        </li>
-                                        <li>
-                                            <permission-button
-                                                :permission="'can_edit'"
-                                                :to="{name:`Edit${route_prefix}`,params:{id: item.id}}"
-                                                :classList="''">
-                                                <i class="fa text-warning fa-pencil"></i>
-                                                Edit
-                                            </permission-button>
+                                            </router-link>
                                         </li>
                                         <li v-if="item.status == 1">
                                             <permission-button

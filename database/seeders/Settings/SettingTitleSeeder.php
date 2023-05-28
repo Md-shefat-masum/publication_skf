@@ -29,9 +29,10 @@ class SettingTitleSeeder extends Seeder
             "email",
             "map",
 
-            "bkash_marchant_numbers",
-            "nagad_marchant_numbers",
-            "rocket_marchants_numbers",
+            "bkash",
+            "nagad",
+            "rocket",
+            "bank_account",
 
             "home_delivery_cost",
             "out_dhaka_home_delivery_cost",

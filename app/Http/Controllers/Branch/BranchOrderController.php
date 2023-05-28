@@ -7,6 +7,7 @@ use App\Http\Controllers\HelperController;
 use App\Models\Order\Order;
 use App\Models\Order\OrderDeliveryInfo;
 use App\Models\Order\OrderDetails;
+use App\Models\Order\OrderPayment;
 use App\Models\Product\Product;
 use App\Models\Settings\AppSettingTitle;
 use App\Models\User\Address;
@@ -18,6 +19,8 @@ use Illuminate\Support\Facades\Validator;
 class BranchOrderController extends Controller
 {
     public $message = "";
+    public $order_id = null;
+    public $type = "update";
 
     public function all_products(Request $request)
     {
@@ -56,7 +59,6 @@ class BranchOrderController extends Controller
         ], [
             "carts.required" => ["there is no product into cart list."]
         ]);
-
         if ($validator->fails()) {
             return response()->json([
                 'err_message' => 'validation error',
@@ -90,7 +92,83 @@ class BranchOrderController extends Controller
             "coupon_info" => "",
         ]);
 
-        $this->make_message($message_products, $sub_total_cost, $shipping_cost, 0, $total_cost, "", "", "", $order->invoice_id);
+        $this->make_message([
+            "message_products" => $message_products,
+            "sub_total_cost" => $sub_total_cost,
+            "shipping_cost" => $shipping_cost,
+            "coupon_discount" => 0,
+            "total_cost" => $total_cost,
+            "name" => auth()->user()->first_name . ' ' . auth()->user()->last_name,
+            "mobile_number" => auth()->user()->mobile_number,
+            "address" => "",
+            "invoice_id" => $order->invoice_id,
+            "type" => "update_order",
+        ]);
+
+        return response()->json([
+            "message" => "Order Completed Successfully",
+            "order" => $order->invoice_id,
+        ], 200);
+    }
+
+    public function update_order()
+    {
+        $this->type = "update";
+        if (request()->has('order_id') && request()->order_id) {
+            $this->order_id = request()->order_id;
+        }
+        $data = request()->all();
+        $validator = Validator::make($data, [
+            "order_id" => ['required'],
+            "carts" => ["required", "array", "min:1"],
+        ], [
+            "carts.required" => ["there is no product into cart list."]
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'err_message' => 'validation error',
+                'data' => $validator->errors(),
+            ], 422);
+        }
+
+        $carts = request()->carts;
+        $products = [];
+        $sub_total_cost = 0;
+        $total_cost = 0;
+        $shipping_cost = 0;
+        $total_discount = 0;
+        $message_products = "";
+
+        $get_product_details = $this->get_product_details($carts, request()->all());
+        $products = $get_product_details['products'];
+        $sub_total_cost = $get_product_details['sub_total_cost'];
+        $total_discount = $get_product_details['total_discount'];
+        $shipping_cost = $get_product_details['shipping_cost'];
+        $total_cost = $get_product_details['total_cost'];
+        $message_products = $get_product_details['message_products'];
+
+        $order = $this->save_order([
+            "products" => $products,
+            "request" => request()->except('carts'),
+            "sub_total_cost" => $sub_total_cost,
+            "total_cost" => $total_cost,
+            "total_discount" => $total_discount,
+            "shipping_cost" => $shipping_cost,
+            "coupon_info" => "",
+        ]);
+
+        $this->make_message([
+            "message_products" => $message_products,
+            "sub_total_cost" => $sub_total_cost,
+            "shipping_cost" => $shipping_cost,
+            "coupon_discount" => 0,
+            "total_cost" => $total_cost,
+            "name" => auth()->user()->first_name . ' ' . auth()->user()->last_name,
+            "mobile_number" => auth()->user()->mobile_number,
+            "address" => "",
+            "invoice_id" => $order->invoice_id,
+            "type" => "update_order",
+        ]);
 
         return response()->json([
             "message" => "Order Completed Successfully",
@@ -121,8 +199,8 @@ class BranchOrderController extends Controller
 
         foreach ($carts as $key => $item) {
             $item = (object) $item;
+            $product = Product::find($item->product_id);
             $si = $key + 1;
-            $product = Product::findById($item->id);
             $product->qty = $item->qty;
             $products[] = $product;
             $main_price = $product->sales_price;
@@ -162,7 +240,7 @@ class BranchOrderController extends Controller
         $variant_price = 0;
         $invoice_prefix = AppSettingTitle::getValue("invoice_prefix");
 
-        $order = Order::create([
+        $order_data = [
             'user_id' => $auth_user ? $auth_user->id : null, // user id
             "customer_id" => null, //customer id
             "address_id" => $address->id, // user address id, customer
@@ -182,10 +260,22 @@ class BranchOrderController extends Controller
 
             "payment_status" => "pending", // pending, partially paid, paid
             // "delivery_method" => $request->shipping_method,
-            "delivery_method" => " ",
-        ]);
+            "delivery_method" => "courier_out_dhaka", // courier_in_dhaka, courier_out_dhaka, pickup
+        ];
 
-        $order->invoice_id .= $order->id;
+        $order = new Order();
+        if ($this->type == "update") {
+            $order = Order::find($this->order_id);
+            unset($order_data['invoice_id']);
+            unset($order_data['invoice_date']);
+            $order->fill($order_data);
+            OrderDetails::where('order_id', $this->order_id)->delete();
+        } else {
+            $order = Order::create($order_data);
+            $order->invoice_id .= $order->id;
+        }
+        // 01712 061020
+
         $order->save();
 
         foreach ($products as $product) {
@@ -214,7 +304,7 @@ class BranchOrderController extends Controller
             "order_id" => $order->id,
             "user_id" => $auth_user ? $auth_user->id : null,
             "customer_id" => null,
-            "delivery_method" => isset($request->shipping_method)?$request->shipping_method:'',
+            "delivery_method" => isset($request->shipping_method) ? $request->shipping_method : '',
             "delivery_cost" => $shipping_cost,
             "courier_name" => "",
             "address_id" => $address->id,
@@ -228,8 +318,8 @@ class BranchOrderController extends Controller
         $address = null;
         $request = (object) $request;
         if ($auth_user) {
-            $address = Address::where('table_name', 'users')->where('table_id', $auth_user->id)->orderBy('id','DESC')->first();
-            if(!$address){
+            $address = Address::where('table_name', 'users')->where('table_id', $auth_user->id)->orderBy('id', 'DESC')->first();
+            if (!$address) {
                 $address = new Address();
             }
         }
@@ -254,13 +344,45 @@ class BranchOrderController extends Controller
         return $address;
     }
 
-
-    public function make_message($message_products, $sub_total_cost, $shipping_cost, $coupon_discount, $total_cost, $name, $mobile_number, $address, $invoice_id)
+    /**
+     * ```php
+     make_message([
+        "message_products" => $message_products,
+        "sub_total_cost" => $sub_total_cost,
+        "shipping_cost" => $shipping_cost,
+        "coupon_discount" => 0,
+        "total_cost" => $total_cost,
+        "name" => auth()->user()->first_name.' '.auth()->user()->last_name,
+        "mobile_number" => auth()->user()->mobile_number,
+        "address" => "",
+        "invoice_id" => $order->invoice_id,
+        "type" => "update_order",
+     ]);
+     *```
+     */
+    public function make_message($data)
     {
+        $message_products = $data["message_products"];
+        $sub_total_cost = $data["sub_total_cost"];
+        $shipping_cost = $data["shipping_cost"];
+        $coupon_discount = $data["coupon_discount"];
+        $total_cost = $data["total_cost"];
+        $name = $data["name"];
+        $mobile_number = $data["mobile_number"];
+        $address = $data["address"];
+        $invoice_id = $data["invoice_id"];
+        $type = $data["type"];
+
         $now = Carbon::now()->format("d M, Y h:i a");
         $invoice_url = url("/invoice/$invoice_id");
         $this->message .= "আসসালামু আলাইকুম ওয়ারহমাতুল্লাহ। \n";
-        $this->message .= "নতুন অর্ডার এসেছে \n";
+
+        if ($type == "update_order") {
+            $this->message .= "একটি অর্ডার আপডেট হয়েছে \n";
+        } else {
+            $this->message .= "নতুন অর্ডার এসেছে \n";
+        }
+
         $this->message .= "অর্ডার এর সময়:  $now \n";
         $this->message .= "অর্ডার এর বিবরণ \n";
 
@@ -299,5 +421,99 @@ class BranchOrderController extends Controller
 
         $response = Http::get($url . '?chat_id=' . $parameters['chat_id'] . '&text=' . $parameters['text']);
         return $response->json();
+    }
+
+    public function pay_due()
+    {
+        // dd(request()->all());
+        $validator = Validator::make(request()->all(), [
+            "order_id" => ["required"],
+            "account_id" => ["required"],
+            "payment_method" => ["required"],
+            "trx_id" => ["required"],
+            "amount" => ["required"],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'err_message' => 'validation error',
+                'data' => $validator->errors(),
+            ], 422);
+        }
+
+        $payment_method_info = json_decode(request()->payment_method);
+        $order_payment = OrderPayment::create([
+            "order_id" => request()->order_id,
+            "user_id" => auth()->user()->id,
+            "payment_method" => $payment_method_info->title,
+            "number" => $payment_method_info->setting_value,
+            "trx_id" => request()->trx_id,
+            "amount" => request()->amount,
+        ]);
+
+        $order = Order::find(request()->order_id);
+        $total_paid = OrderPayment::where('order_id', $order->id)->sum('amount');
+        $order->total_paid = $total_paid;
+        if ($total_paid < $order->total_price) {
+            $order->payment_status =  'partially paid';
+        }
+        if ($total_paid == 0) {
+            $order->payment_status =  'due';
+        }
+        if ($total_paid >= $order->total_price) {
+            $order->payment_status =  'paid';
+        }
+        $order->save();
+
+        $this->make_due_pay_message([
+            "transaction_media" => $payment_method_info->title,
+            "transaction_id" => request()->trx_id,
+            "transaction_amount" => enToBn(number_format(request()->amount)),
+            "total" => enToBn(number_format($order->total_price)),
+            "paid" => enToBn(number_format($order->total_paid)),
+            "due" => enToBn(number_format($order->total_price - $order->total_paid)),
+            "name" => auth()->user()->first_name.' '.auth()->user()->last_name,
+            "mobile_number" => auth()->user()->mobile_number,
+            "invoice" => url("/invoice".'/'.$order->invoice_id),
+            "time" => Carbon::now()->format('d M, Y h:i a'),
+        ]);
+        return response()->json([$order, $order_payment]);
+    }
+
+    public function make_due_pay_message($data=[])
+    {
+        $transaction_media = $data["transaction_media"];
+        $transaction_id = $data["transaction_id"];
+        $transaction_amount = $data["transaction_amount"];
+        $total = $data["total"];
+        $paid = $data["paid"];
+        $due = $data["due"];
+        $name = $data["name"];
+        $mobile_number = $data["mobile_number"];
+        $invoice = $data["invoice"];
+        $time = $data["time"];
+
+        $message = "আসসালামু আলাইকুম ওয়ারহমাতুল্লাহ। \n";
+        $message .= "আপনার একাউন্ট এ লেনদেন হয়েছে \n";
+        $message .= "সময় : $time  \n";
+
+        $message .= "ট্রাকজেকশন এর বিবরণ  \n";
+        $message .= "------------------- \n";
+        $message .= "ট্রাকজেকশন মাধ্যম : $transaction_media \n";
+        $message .= "ট্রাকজেকশন আইডি : $transaction_id \n";
+        $message .= "ট্রাকজেকশন পরিমাণ : $transaction_amount \n";
+        $message .= "------------------- \n";
+        $message .= "Total :   $total \n";
+        $message .= "Paid  : - $paid \n";
+        $message .= "Due   :   $due \n";
+        $message .= "------------------- \n";
+        $message .= "অর্ডারকারীর বিবরণ \n";
+        $message .= "নাম : $name \n";
+        $message .= "মোবাইল নাম্বার : $mobile_number \n";
+        // $message .= "ঠিকানা :  \n";
+        $message .= "------------------- \n";
+        $message .= "বিস্তারিত : $invoice";
+        $this->send_telegram($message);
+
     }
 }

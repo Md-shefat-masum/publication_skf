@@ -35,6 +35,25 @@ const actions = {
         commit('set_get_branch_product_for_order', products.data);
     },
 
+    [`fetch_${store_prefix}`]: async function ({ state }, { id, render_to_form }) {
+        let url = `/${api_prefix}/${id}`;
+        await axios.get(url).then((res) => {
+            console.log(res.data);
+            res.data.order_details.forEach(el => {
+                el.total_price = el.sales_price;
+                el.current_price = el.product_price;
+            });
+            console.log(res.data.order_details);
+            state.branch_oder_cart = res.data.order_details;
+            state.branch_order = res.data;
+            // this.commit(`set_${store_prefix}`, res.data);
+        });
+
+        if (render_to_form) {
+            window.set_form_data(".admin_form", data);
+        }
+    },
+
     [`store_${store_prefix}`]: function({state, getters, commit}){
         const {form_values, form_inputs, form_data} = window.get_form_data('.user_create_form');
         const {get_user_role_selected: role} = getters;
@@ -52,11 +71,11 @@ const actions = {
             })
     },
 
-    [`store_branch_order`]: async function({state}, {product}){
+    [`store_branch_order`]: async function({state}, {type}){
         let carts = [...state.branch_oder_cart];
         let cconfirm = await window.s_confirm("submit order");
         if(cconfirm){
-            axios.post('/branch/store-order',{carts})
+            axios.post('/branch/store-order',{carts,type: type||'create',order_id: state.branch_order?.id})
                 .then(res=>{
                     console.log(res.data);
                     state.branch_oder_cart  = [];
@@ -65,19 +84,36 @@ const actions = {
         }
     },
 
-    /** override update */
-    [`update_${store_prefix}`]: function({state, getters, commit}){
-        const {form_values, form_inputs, form_data} = window.get_form_data('.user_edit_form');
-        const {get_user_role_selected: role, get_user: user} = getters;
-        role.forEach(i=>form_data.append('user_role_id[]',i.role_serial));
-        form_data.append('id',user.id);
-
-        axios.post('/user/update',form_data)
-            .then(({data})=>{
-                commit('set_user',data.result);
-                window.s_alert('user has been updated');
-            })
+    [`update_branch_order`]: async function({state}){
+        let carts = [...state.branch_oder_cart];
+        if(state.branch_order.order_status == "pending"){
+            let cconfirm = await window.s_confirm("update order");
+            if(cconfirm){
+                axios.post('/branch/update-order',{carts, order_id: state.branch_order.id})
+                    .then(res=>{
+                        console.log(res.data);
+                        // state.branch_oder_cart  = [];
+                        window.s_alert(`order updated successfully.`);
+                    })
+            }
+        }else{
+            window.s_alert("Can not edit ! <br/> this order already in process.","warning")
+        }
     },
+
+    /** override update */
+    // [`update_${store_prefix}`]: function({state, getters, commit}){
+    //     const {form_values, form_inputs, form_data} = window.get_form_data('.user_edit_form');
+    //     const {get_user_role_selected: role, get_user: user} = getters;
+    //     role.forEach(i=>form_data.append('user_role_id[]',i.role_serial));
+    //     form_data.append('id',user.id);
+
+    //     axios.post('/user/update',form_data)
+    //         .then(({data})=>{
+    //             commit('set_user',data.result);
+    //             window.s_alert('user has been updated');
+    //         })
+    // },
 
     [`branch_oder_cart_add`]: function({state},{product,qty}){
         let products = [...state.branch_oder_cart];
@@ -107,6 +143,21 @@ const actions = {
         let products = [...state.branch_oder_cart];
         products = products.filter(i=>i.id != product.id);
         state.branch_oder_cart = products;
+    },
+
+    [`branch_pay_due`]: async function({state, dispatch}, {form}){
+        let form_data = new FormData(event.target);
+        form_data.append('order_id',state.branch_order.id);
+        let cconfirm = await window.s_confirm("Submit payment");
+        if(cconfirm){
+            axios.post('/branch/pay-due',form_data)
+                .then(res=>{
+                    console.log(res.data);
+                    state.branch_oder_cart  = [];
+                    window.s_alert(`Transaction completed.`);
+                    dispatch("fetch_branch_order",{id: state.branch_order.id, });
+                })
+        }
     },
 
 }

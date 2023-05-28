@@ -63,7 +63,7 @@ window.axios.interceptors.response.use(
     },
     (error) => {
         remove_form_action_classes();
-        let object = error.response?.data?.errors;
+        let object = error.response?.data?.errors || error.response?.data?.data;
         render_form_errors(object);
 
         if (typeof error ?.response ?.data === "string") {

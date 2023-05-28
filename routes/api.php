@@ -127,6 +127,8 @@ Route::group(
             Route::group(['prefix' => 'branch'], function () {
                 Route::get('/all-products','Branch\BranchOrderController@all_products');
                 Route::post('/store-order','Branch\BranchOrderController@store_order');
+                Route::post('/update-order','Branch\BranchOrderController@update_order');
+                Route::post('/pay-due','Branch\BranchOrderController@pay_due');
 
                 Route::group(['prefix' => 'order'], function () {
                     Route::get('/all','Branch\BranchOrderManagementController@all');

@@ -8,7 +8,7 @@ import Import from "../../../views/branch/orders/Import";
 
 let prefix = `BranchOrder`
 export default {
-    path: "branch",
+    path: "order",
     component: Layout,
     props: {
         role_permissions: ["branch"],
