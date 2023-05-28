@@ -25,6 +25,7 @@ class BranchOrderManagementController extends Controller
         }
 
         $query = Order::where('status', $status)
+            ->where('user_id',auth()->user()->id)
             ->with(["user", "order_details"])
             ->withSum('order_payments', 'amount')
             ->orderBy($orderBy, $orderByType);
@@ -53,7 +54,7 @@ class BranchOrderManagementController extends Controller
             ->where('id', $id)
             ->first();
         $data->payment_records = $data->order_payments()
-            ->select(['id', 'order_id', 'number', 'payment_method', 'trx_id', 'amount'])
+            ->select(['id', 'order_id', 'number', 'payment_method', 'trx_id', 'amount', 'approved'])
             ->get();
         $data->payment_accounts = AppSettingTitle::select('id', 'title')
             ->whereIn('title', [

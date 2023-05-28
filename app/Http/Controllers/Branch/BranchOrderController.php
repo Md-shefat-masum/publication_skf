@@ -20,7 +20,7 @@ class BranchOrderController extends Controller
 {
     public $message = "";
     public $order_id = null;
-    public $type = "update";
+    public $type = "create";
 
     public function all_products(Request $request)
     {
@@ -102,7 +102,7 @@ class BranchOrderController extends Controller
             "mobile_number" => auth()->user()->mobile_number,
             "address" => "",
             "invoice_id" => $order->invoice_id,
-            "type" => "update_order",
+            "type" => "create order",
         ]);
 
         return response()->json([
@@ -196,10 +196,13 @@ class BranchOrderController extends Controller
         $shipping_cost = $delivery_cost->out_dhaka_home_delivery_cost;
         $total_discount = 0;
         $message_products = "";
-
         foreach ($carts as $key => $item) {
             $item = (object) $item;
-            $product = Product::find($item->product_id);
+            if(isset($item->product_id)){
+                $product = Product::find($item->product_id);
+            }else{
+                $product = Product::find($item->id);
+            }
             $si = $key + 1;
             $product->qty = $item->qty;
             $products[] = $product;
@@ -465,6 +468,7 @@ class BranchOrderController extends Controller
         }
         $order->save();
 
+
         $this->make_due_pay_message([
             "transaction_media" => $payment_method_info->title,
             "transaction_id" => request()->trx_id,
@@ -515,5 +519,38 @@ class BranchOrderController extends Controller
         $message .= "বিস্তারিত : $invoice";
         $this->send_telegram($message);
 
+    }
+
+    public function delete_payment()
+    {
+        $validator = Validator::make(request()->all(), [
+            "payment_id" => ["required", "exists:order_payments,id"],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'err_message' => 'validation error',
+                'data' => $validator->errors(),
+            ], 422);
+        }
+        $payment = OrderPayment::find(request()->payment_id);
+        if($payment && $payment->approved){
+            return response()->json([
+                'err_message' => 'validation error',
+                'data' => ["payment_id"=>["deleting this payment is not permitted."]],
+            ], 422);
+        }
+        if($payment){
+            $amount = $payment->amount;
+            $order = Order::find($payment->order_id);
+            $order->total_paid -= $amount;
+            if($order->total_paid > $order->total_paid){
+                $order->payment_status = 'partially paid';
+            }
+            $order->save();
+            $payment->delete();
+        }
+
+        return response()->json('success');
     }
 }

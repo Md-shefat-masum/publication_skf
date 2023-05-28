@@ -294,57 +294,6 @@ export default {
                 return false;
             }
         },
-        make_data: function(){
-            this.data = [
-                `মোমেনশাহী জেলা দক্ষিণ`,
-                `কিশোরগঞ্জ জেলা উত্তর`,
-                `কিশোরগঞ্জ জেলা দক্ষিণ`,
-                `নেত্রকোনা জেলা`,
-                `চট্টগ্রাম মহানগর উত্তর`,
-                `চট্টগ্রাম মহানগর দক্ষিণ`,
-                `চট্টগ্রাম বিশ্ববিদ্যালয়`,
-                `চট্টগ্রাম জেলা উত্তর`
-            ].map((i, index)=>{
-                return {
-                        id:parseInt(Math.random()*1000),
-                        order_id: `#202204`+parseInt(Math.random()*1000),
-                        branch: i,
-                        contact: '+880 1646376015',
-                        subtotal: parseInt(Math.random()*10000),
-                        shipping: parseInt(Math.random()*100),
-                        paid: 2000,
-                        payment_status: ['due','paid','pertially-paid','due','paid','pertially-paid','due','paid','pertially-paid'][index],
-                        status: ['pending','accepted','processing','delivered','canceled'][index],
-                        created_at: new Date().toDateString() + ' ' + new Date().toLocaleTimeString(),
-                        products: [
-                            {
-                                id:parseInt(Math.random()*1000),
-                                price:parseInt(Math.random()*1000),
-                                title: 'ক্যারিয়ার বিকশিত জীবনের দ্বার',
-                                image: 'http://almari.info/uploads/product/product_main_image/dh2QioXn122GuTfvBBcrEkDKM0XAEiG2z63zwRKC.png',
-                                status: 'designing',
-                                qty: 300,
-                            },
-                            {
-                                id:parseInt(Math.random()*1000),
-                                price:parseInt(Math.random()*1000),
-                                title: 'বিষয়ভিত্তিক আয়াত ও হাদিস সংকলন (ছোটো)',
-                                image: 'http://almari.info/uploads/product/product_main_image/PWGp7nvai1IYlG3xbEt8WBmV6nZ7V0Rmc3FeM2eP.jpeg',
-                                status: 'binding',
-                                qty: 500,
-                            },
-                            {
-                                id:parseInt(Math.random()*1000),
-                                price:parseInt(Math.random()*1000),
-                                title: 'এসো আলোর পথে',
-                                image: 'http://almari.info/uploads/product/product_main_image/juRgRV0pxxjFkulEA4flJI1UAKSr966a9JFgyKyb.jpeg',
-                                status: 'printing',
-                                qty: 450,
-                            },
-                        ]
-                    }
-            })
-        },
         order_status: function(status){
             let class_name = '';
             switch (status) {

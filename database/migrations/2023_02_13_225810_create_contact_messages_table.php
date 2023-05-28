@@ -18,7 +18,7 @@ class CreateContactMessagesTable extends Migration
             $table->string('full_name', 50)->nullable();
             $table->string('email', 50)->nullable();
             $table->string('subject', 100)->nullable();
-            $table->tinyText('message')->nullable();
+            $table->text('message')->nullable();
 
             $table->bigInteger('creator')->unsigned()->nullable();
             $table->string('slug', 50)->nullable();

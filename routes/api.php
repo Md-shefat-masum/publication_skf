@@ -129,6 +129,7 @@ Route::group(
                 Route::post('/store-order','Branch\BranchOrderController@store_order');
                 Route::post('/update-order','Branch\BranchOrderController@update_order');
                 Route::post('/pay-due','Branch\BranchOrderController@pay_due');
+                Route::post('/delete-payment','Branch\BranchOrderController@delete_payment');
 
                 Route::group(['prefix' => 'order'], function () {
                     Route::get('/all','Branch\BranchOrderManagementController@all');
