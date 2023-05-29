@@ -71,22 +71,27 @@
                         <tr>
                             <th><input @click="call_store(`set_select_all_${store_prefix}s`)" type="checkbox" class="form-check-input check_all"></th>
                             <table-th :sort="true" :tkey="'id'" :title="'ID'" :ariaLable="'id'"/>
-                            <table-th :sort="true" :tkey="''" :title="'Order ID'" />
-                            <table-th :sort="false" :tkey="''" :title="'Branch'" />
-                            <table-th :sort="true" :tkey="''" :title="'Contact'" />
-                            <table-th :sort="true" :tkey="''" :title="'Sub Total'" />
-                            <table-th :sort="true" :tkey="''" :title="'Shipping'" />
-                            <table-th :sort="true" :tkey="''" :title="'Total'" />
-                            <table-th :sort="true" :tkey="''" :title="'Paid'" />
-                            <table-th :sort="true" :tkey="''" :title="'payment status'" />
-                            <table-th :sort="false" :tkey="''" :title="'Date'" />
+                            <table-th :sort="true" :tkey="'invoice_id'" :title="'Order ID'" />
+                            <table-th :sort="true" :tkey="'order_status'" :title="'Order Status'" />
+                            <table-th :sort="false" :tkey="''" :title="'User Name'" />
+                            <table-th :sort="false" :tkey="''" :title="'Contact'" />
+                            <table-th :sort="true" :tkey="'sub_total'" :title="'Sub Total'" />
+                            <table-th :sort="true" :tkey="'delivery_charge'" :title="'Shipping'" />
+                            <!-- <table-th :sort="true" :tkey="'coupon_discount'" :title="'Coupon Discount'" /> -->
+                            <table-th :sort="true" :tkey="'discount'" :title="'Discount'" />
+                            <table-th :sort="true" :tkey="'total_price'" :title="'Total'" />
+                            <table-th :sort="false" :tkey="''" :title="'Paid'" />
+                            <table-th :sort="false" :tkey="''" :title="'Due'" />
+                            <table-th :sort="true" :tkey="'payment_status'" :title="'payment Status'" />
+                            <table-th :sort="true" :tkey="'delivery_method'" :title="'Delivery Method'" />
+                            <table-th :sort="true" :tkey="'created_at'" :title="'Date'" />
                             <table-th :sort="true" :tkey="'status'" :title="'Status'" />
                             <th aria-label="actions">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
-                        <!-- <tr v-for="item in this[`get_${store_prefix}s`].data" :key="item.id"> -->
-                        <tr v-for="item in data" :key="item.id">
+                        <tr v-for="item in this[`get_${store_prefix}s`].data" :key="item.id">
+                        <!-- <tr v-for="item in data" :key="item.id"> -->
                             <td>
                                 <input v-if="check_if_data_is_selected(item)" :data-id="item.id" checked @change="call_store(`set_selected_${store_prefix}s`,item)" type="checkbox" class="form-check-input">
                                 <input v-else @change="call_store(`set_selected_${store_prefix}s`,item)" type="checkbox" class="form-check-input">
@@ -94,40 +99,63 @@
                             <td>{{ item.id }}</td>
                             <td>
                                 <span class="text-warning cursor_pointer" @click.prevent="call_store(`set_${store_prefix}`,item)">
-                                    {{ item.order_id }}
+                                    {{ item.invoice_id }}
                                 </span>
                             </td>
-                            <td>{{ item.branch }}</td>
-                            <td>{{ item.contact }}</td>
+                            <td>
+                                {{ item.order_status }}
+                            </td>
+                            <td>{{ item.user.first_name +" "+ item.user.last_name }}</td>
+                            <td>{{ item.user.mobile_number }}</td>
                             <td>
                                 <strong class="text-info">
-                                    {{ item.subtotal}}
+                                    {{ item.sub_total}}
                                 </strong>
                             </td>
                             <td>
                                 <strong class="text-info">
-                                    {{ item.shipping}}
+                                    + {{ item.delivery_charge}}
                                 </strong>
                             </td>
+                            <!-- <td>
+                                <strong class="text-info">
+                                    {{ item.coupon_discount}}
+                                </strong>
+                            </td> -->
                             <td>
                                 <strong class="text-info">
-                                    {{ item.subtotal * item.shipping}}
+                                    - {{ item.discount}}
+                                </strong>
+                            </td>
+
+                            <td>
+                                <strong class="text-info">
+                                    {{ item.total_price}}
                                 </strong>
                             </td>
                             <td>
                                 <strong class="text-warning">
-                                    {{ item.subtotal * item.paid}}
+                                   - {{ item.order_payments_sum_amount }}
+                                </strong>
+                            </td>
+                            <td>
+                                <strong class="text-warning">
+                                   {{ item.total_price - item.order_payments_sum_amount }}
                                 </strong>
                             </td>
                             <td>
                                 <span :class="`badge ${item.payment_status == 'paid'? `bg-secondary`: 'bg-danger'} me-1`">{{ item.payment_status }}</span>
                             </td>
-                            <td>{{ new Date().toDateString() }} {{ new Date().toLocaleTimeString() }}</td>
                             <td>
-                                <span :class="`badge ${order_status(item.status)} me-1`">{{ item.status }}</span>
+                                {{ item.delivery_method }}
+                            </td>
+                            <td>{{ new Date(item.invoice_date).toDateString() }} {{ new Date(item.invoice_date).toLocaleTimeString() }}</td>
+                            <td>
+                                <!-- <span :class="`badge ${order_status(item.status)} me-1`">{{ item.status }}</span> -->
                                 <span v-if="item.status == 1" class="badge bg-label-success me-1">active</span>
                                 <span v-if="item.status == 0" class="badge bg-label-success me-1">deactive</span>
                             </td>
+
                             <td>
                                 <div class="table_actions">
                                     <a href="#" @click.prevent="()=>''" class="btn btn-sm btn-outline-secondary">
@@ -141,22 +169,13 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <permission-button
+                                            <router-link
                                                 :permission="'can_edit'"
                                                 :to="{name:`Details${route_prefix}`,params:{id:item.id}}"
                                                 :classList="''">
                                                 <i class="fa text-secondary fa-eye"></i>
                                                 Details
-                                            </permission-button>
-                                        </li>
-                                        <li>
-                                            <permission-button
-                                                :permission="'can_edit'"
-                                                :to="{name:`Edit${route_prefix}`,params:{id: item.id}}"
-                                                :classList="''">
-                                                <i class="fa text-warning fa-pencil"></i>
-                                                Edit
-                                            </permission-button>
+                                            </router-link>
                                         </li>
                                         <li v-if="item.status == 1">
                                             <permission-button
@@ -236,8 +255,8 @@ export default {
         }
     },
     created: function(){
+        this.set_order_type('ecommerce');
         this[`fetch_${store_prefix}s`]();
-        this.make_data();
     },
     methods: {
         ...mapActions([
@@ -258,6 +277,7 @@ export default {
             `set_select_all_${store_prefix}s`,
             `set_clear_selected_${store_prefix}s`,
             `set_${store_prefix}_show_selected`,
+            `set_order_type`,
         ]),
 
         call_store: function(name, params=null){
@@ -274,57 +294,6 @@ export default {
             }else{
                 return false;
             }
-        },
-        make_data: function(){
-            this.data = [
-                `মোমেনশাহী জেলা দক্ষিণ`,
-                `কিশোরগঞ্জ জেলা উত্তর`,
-                `কিশোরগঞ্জ জেলা দক্ষিণ`,
-                `নেত্রকোনা জেলা`,
-                `চট্টগ্রাম মহানগর উত্তর`,
-                `চট্টগ্রাম মহানগর দক্ষিণ`,
-                `চট্টগ্রাম বিশ্ববিদ্যালয়`,
-                `চট্টগ্রাম জেলা উত্তর`
-            ].map((i, index)=>{
-                return {
-                        id:parseInt(Math.random()*1000),
-                        order_id: `#202204`+parseInt(Math.random()*1000),
-                        branch: i,
-                        contact: '+880 1646376015',
-                        subtotal: parseInt(Math.random()*10000),
-                        shipping: parseInt(Math.random()*100),
-                        paid: 2000,
-                        payment_status: ['due','paid','pertially-paid','due','paid','pertially-paid','due','paid','pertially-paid'][index],
-                        status: ['pending','accepted','processing','delivered','canceled'][index],
-                        created_at: new Date().toDateString() + ' ' + new Date().toLocaleTimeString(),
-                        products: [
-                            {
-                                id:parseInt(Math.random()*1000),
-                                price:parseInt(Math.random()*1000),
-                                title: 'ক্যারিয়ার বিকশিত জীবনের দ্বার',
-                                image: 'http://almari.info/uploads/product/product_main_image/dh2QioXn122GuTfvBBcrEkDKM0XAEiG2z63zwRKC.png',
-                                status: 'designing',
-                                qty: 300,
-                            },
-                            {
-                                id:parseInt(Math.random()*1000),
-                                price:parseInt(Math.random()*1000),
-                                title: 'বিষয়ভিত্তিক আয়াত ও হাদিস সংকলন (ছোটো)',
-                                image: 'http://almari.info/uploads/product/product_main_image/PWGp7nvai1IYlG3xbEt8WBmV6nZ7V0Rmc3FeM2eP.jpeg',
-                                status: 'binding',
-                                qty: 500,
-                            },
-                            {
-                                id:parseInt(Math.random()*1000),
-                                price:parseInt(Math.random()*1000),
-                                title: 'এসো আলোর পথে',
-                                image: 'http://almari.info/uploads/product/product_main_image/juRgRV0pxxjFkulEA4flJI1UAKSr966a9JFgyKyb.jpeg',
-                                status: 'printing',
-                                qty: 450,
-                            },
-                        ]
-                    }
-            })
         },
         order_status: function(status){
             let class_name = '';

@@ -14,6 +14,7 @@ import branch_order_modules from './modules/branch/branch_order_modules';
 import admin_product_modules from './modules/admin/admin_product_modules';
 import admin_writer_modules from './modules/admin/admin_writer_modules';
 import admin_translator_modules from './modules/admin/admin_translator_modules';
+import admin_order_modules from './modules/admin/admin_order_modules';
 
 import production_product_modules from './modules/production/production_product_modules';
 import production_product_category_modules from './modules/production/production_product_category_modules';
@@ -31,6 +32,7 @@ const store = new Vuex.Store({
         admin_product_modules,
         admin_translator_modules,
         admin_writer_modules,
+        admin_order_modules,
 
         production_product_modules,
         production_product_category_modules,

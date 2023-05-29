@@ -27,7 +27,7 @@
             </left-nav-list-group>
 
             <left-nav-list-group :role_permissions="['admin']" :icon="`fa fa-list`" :text="`Orders`" :alert_count="0">
-                <left-nav-list-item :to="'AllAdminOrder'" :text="'Branch Orders'" />
+                <left-nav-list-item :to="'BranchOrder'" :text="'Branch Orders'" />
                 <left-nav-list-item :to="'AllEcommerceAdminOrder'" :text="'Ecommerce Orders'" />
             </left-nav-list-group>
 

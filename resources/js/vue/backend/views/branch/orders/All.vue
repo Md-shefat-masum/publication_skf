@@ -256,7 +256,6 @@ export default {
     },
     created: function(){
         this[`fetch_${store_prefix}s`]();
-        this.make_data();
     },
     methods: {
         ...mapActions([

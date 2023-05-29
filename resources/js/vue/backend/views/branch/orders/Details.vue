@@ -134,45 +134,6 @@
                             </tbody>
                         </table>
 
-                        <div v-if="data.payment_records.length">
-                            <div>
-                                <h4 id="payment_id" class="mt-4">Payment Information</h4>
-                            </div>
-                            <table class="table mt-2">
-                                <thead>
-                                    <tr>
-                                        <th>Media</th>
-                                        <th>TR No</th>
-                                        <th>Approved</th>
-                                        <th>Amount</th>
-                                    </tr>
-                                </thead>
-                                <tbody v-for="record in data.payment_records" :key="record.id">
-                                    <tr>
-                                        <td>
-                                            {{ record.payment_method }}
-                                            <br>
-                                            <a v-if="[0,2].includes(record.approved)" href="" @click.prevent="delete_branch_payment({payment:record})" class="text-danger">
-                                                delete
-                                            </a>
-                                        </td>
-                                        <td>{{ record.number }}</td>
-                                        <td>
-                                            <span v-if="record.approved == 1" class="badge bg-success">yes</span>
-                                            <span v-else-if="record.approved == 2" class="badge bg-danger">cancled</span>
-                                            <span v-else class="badge bg-secondary">no</span>
-                                        </td>
-                                        <td class="text-end">{{ record.amount.toString().enToBn() }}</td>
-                                    </tr>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th colspan="3" class="text-end">Total</th>
-                                        <th class="text-end">{{ data.order_payments_sum_amount.toString().enToBn() }}</th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
                     </div>
                     <div class="col-lg-1"></div>
                     <div class="col-lg-5 py-4">
@@ -208,6 +169,53 @@
                             </div>
                             <button class="btn btn-outline-adn">Submit</button>
                         </form>
+                    </div>
+
+                    <div v-if="data" class="col-12">
+
+                        <div v-if="data.payment_records.length">
+                            <div>
+                                <h4 id="payment_id" class="mt-4">Payment Information</h4>
+                            </div>
+                            <table class="table mt-2">
+                                <thead>
+                                    <tr>
+                                        <th>Media</th>
+                                        <th>Contact No</th>
+                                        <th>TR No</th>
+                                        <th>Approved</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody v-for="record in data.payment_records" :key="record.id">
+                                    <tr>
+                                        <td>
+                                            {{ record.payment_method }}
+                                            <br>
+                                            <a v-if="[0,2].includes(record.approved)" href="" @click.prevent="delete_branch_payment({payment:record})" class="text-danger">
+                                                delete
+                                            </a>
+                                        </td>
+                                        <td>{{ record.number }}</td>
+                                        <td>
+                                            {{ record.trx_id }}
+                                        </td>
+                                        <td>
+                                            <span v-if="record.approved == 1" class="badge bg-success">yes</span>
+                                            <span v-else-if="record.approved == 2" class="badge bg-danger">cancled</span>
+                                            <span v-else class="badge bg-secondary">no</span>
+                                        </td>
+                                        <td class="text-end">{{ record.amount.toString().enToBn() }}</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="4" class="text-end">Total</th>
+                                        <th class="text-end">{{ data.order_payments_sum_amount.toString().enToBn() }}</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

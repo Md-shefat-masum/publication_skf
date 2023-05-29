@@ -88,6 +88,7 @@ class OrderSeeder extends Seeder
         OrderVariant::truncate();
         OrderDeliveryInfo::truncate();
 
+        $order_si = 1;
         for ($user_id=4; $user_id <= 6; $user_id++) {
             for ($order_no = 1; $order_no < 12; $order_no++) {
                 $rand_produts = Product::with('discount')->get()->random(4);
@@ -109,7 +110,7 @@ class OrderSeeder extends Seeder
                         $total_discount_price += $discount_price;
                     }
                     $order_details = OrderDetails::create([
-                        "order_id" => $order_no,
+                        "order_id" => $order_si,
                         "user_id" => $user_id,
                         "product_id" => $product->id,
                         "product_name" => $product->product_name,
@@ -121,7 +122,7 @@ class OrderSeeder extends Seeder
                     ]);
 
                     $variant = OrderVariant::create([
-                        'order_id' => $order_no,
+                        'order_id' => $order_si,
                         'order_details_id' => $order_details->id,
                         'product_id' => $product->id,
                         'variant_name' => "color",
@@ -156,9 +157,9 @@ class OrderSeeder extends Seeder
                     "user_id" => $user_id, // user id
                     "customer_id" => null, //customer id
                     "address_id" => 6, // user address id, customer
-                    "invoice_id" => generateInvoiceId() . $order_no,
+                    "invoice_id" => generateInvoiceId() . $order_si,
                     "invoice_date" => Carbon::now()->subDays(rand(1, 5))->toDateTimeString(),
-                    "order_type" => ["quotation", "invoice", "ecomerce"][rand(0,2)], // Quotation, Pos order, Ecomerce order
+                    "order_type" => ["quotation", "invoice", "ecommerce"][rand(0,2)], // Quotation, Pos order, Ecomerce order
                     "order_status" => ["pending", "accepted", "processing", "delevered", "canceled"][rand(0, 4)],
                     "order_coupon_id" => null,
 
@@ -202,6 +203,7 @@ class OrderSeeder extends Seeder
                 if ($payment->amount > 0 && $payment->amount < $order->total_price) $order->payment_status = "partially paid";
                 if ($payment->amount == $order->total_price) $order->payment_status = "paid";
                 $order->save();
+                $order_si++;
             }
         }
     }

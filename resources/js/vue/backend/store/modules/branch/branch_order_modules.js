@@ -32,7 +32,7 @@ const actions = {
     /** override store */
     [`fetch_branch_product_for_order`]: async ({commit,dispatch,getters,rootGetters,rootState,state},page=1) => {
         let s_keys = state.branch_p_search_key.length ? `&search_key=${state.branch_p_search_key}`:'';
-        let products = await axios.get('/branch/all-products?page='+page+s_keys);
+        let products = await axios.get('/all-products?page='+page+s_keys);
         commit('set_get_branch_product_for_order', products.data);
     },
 
@@ -41,7 +41,7 @@ const actions = {
         await axios.get(url).then((res) => {
             // console.log(res.data);
             res.data.order_details.forEach(el => {
-                el.total_price = el.sales_price;
+                el.total_price = el.sales_price * el.qty;
                 el.current_price = el.product_price;
             });
             // console.log(res.data.order_details);

@@ -1,6 +1,7 @@
 import Layout from "../../../views/admin/orders/Layout";
 import All from "../../../views/admin/orders/All";
-import AllEcommerceOrder from "../../../views/admin/orders/AllEcommerceOrder";
+import BranchOrder from "../../../views/admin/orders/BranchOrder";
+import EcommerceOrder from "../../../views/admin/orders/EcommerceOrder";
 import Create from "../../../views/admin/orders/Create";
 import Edit from "../../../views/admin/orders/Edit";
 import Details from "../../../views/admin/orders/Details";
@@ -21,9 +22,14 @@ export default {
             component: All,
         },
         {
+            path: `branch-orders`,
+            name: `BranchOrder`,
+            component: BranchOrder,
+        },
+        {
             path: `ecomerce-orders`,
             name: `AllEcommerce${prefix}`,
-            component: AllEcommerceOrder,
+            component: EcommerceOrder,
         },
         {
             path: `import`,
