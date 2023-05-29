@@ -75,13 +75,89 @@
                             <td>{{ new Date(this[`get_${store_prefix}`].updated_at).toLocaleString() }}</td>
                         </tr> -->
                     </tbody>
+                    <tbody>
+                        <tr>
+                            <td>Order Id</td>
+                            <td>:</td>
+                            <td>{{ this[`get_${store_prefix}`].invoice_id }}</td>
+                        </tr>
+                        <tr>
+                            <td>Branch</td>
+                            <td>:</td>
+                            <td>
+                                {{ this[`get_${store_prefix}`].user.first_name }}
+                                {{ this[`get_${store_prefix}`].user.last_name }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>contact</td>
+                            <td>:</td>
+                            <td>
+                                {{ this[`get_${store_prefix}`].user.mobile_number }}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>date</td>
+                            <td>:</td>
+                            <td>
+                                {{ new Date(this[`get_${store_prefix}`].created_at).toDateString() }}
+                                {{ new Date(this[`get_${store_prefix}`].created_at).toLocaleTimeString() }}
+                            </td>
+                        </tr>
+                        <!-- <tr>
+                            <td>Status</td>
+                            <td>:</td>
+                            <td>
+                                <span v-if="this[`get_${store_prefix}`].status == 1" class="badge bg-label-success me-1">active</span>
+                                <span v-if="this[`get_${store_prefix}`].status == 0" class="badge bg-label-success me-1">deactive</span>
+                            </td>
+                        </tr> -->
+                        <tr>
+                            <td>Order status</td>
+                            <td>:</td>
+                            <td>
+                                <span class="text-warning">
+                                    {{ this[`get_${store_prefix}`].order_status }}
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    Update Payment Status
+                                </div>
+                            </td>
+                            <td>:</td>
+                            <td>
+                                <select name="" @change="update_order_status({status: $event.target.value})" :value="this[`get_${store_prefix}`].order_status" class="form-select">
+                                    <option value="pending">pending</option>
+                                    <option value="accepted">accepted</option>
+                                    <option value="processing">processing</option>
+                                    <option value="delivered">delivered</option>
+                                    <option value="canceled">canceled</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <!-- <tr>
+                            <td>created at</td>
+                            <td>:</td>
+                            <td>{{ new Date(this[`get_${store_prefix}`].created_at).toLocaleString() }}</td>
+                        </tr>
+                        <tr>
+                            <td>udpated at</td>
+                            <td>:</td>
+                            <td>{{ new Date(this[`get_${store_prefix}`].updated_at).toLocaleString() }}</td>
+                        </tr> -->
+                    </tbody>
                 </table>
+
                 <table class="table mt-5">
                     <thead>
                         <tr>
                             <th style="width: 245px;">Items</th>
                             <th style="width: 145px;" class="text-center">Qty</th>
-                            <th class="text-end">Total</th>
+                            <th class="text-end" style="width:135px;">Total</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -148,7 +224,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 /** store and route prefix for export object use */
 import PageSetup from './PageSetup';
 const {route_prefix, store_prefix} = PageSetup;
@@ -158,9 +234,11 @@ export default {
             /** store prefix for JSX */
             store_prefix,
             route_prefix,
+            payment_status: 'pending',
         }
     },
     methods: {
+        ...mapActions([`update_order_status`]),
         ...mapMutations([`set_${store_prefix}`]),
         call_store: function(name, params=null){
             this[name](params)
@@ -168,7 +246,9 @@ export default {
         number_format: (number) => new Intl.NumberFormat().format(number),
     },
     computed: {
-        ...mapGetters([`get_${store_prefix}`]),
+        ...mapGetters(
+            [`get_${store_prefix}`]
+        ),
         shipping: function(){
             return this[`get_${store_prefix}`].shipping;
         }

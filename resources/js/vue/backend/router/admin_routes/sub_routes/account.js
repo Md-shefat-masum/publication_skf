@@ -4,6 +4,7 @@ import Create from "../../../views/admin/accounts/Create";
 import Edit from "../../../views/admin/accounts/Edit";
 import Details from "../../../views/admin/accounts/Details";
 import Import from "../../../views/admin/accounts/Import";
+import AllPaymentRequest from "../../../views/admin/accounts/AllPaymentRequest";
 
 let prefix = "AdminAccount"
 export default {
@@ -18,6 +19,11 @@ export default {
             path: ``,
             name: `All${prefix}`,
             component: All,
+        },
+        {
+            path: `all-payment-request`,
+            name: `AllPaymentRequest`,
+            component: AllPaymentRequest,
         },
         {
             path: `import`,

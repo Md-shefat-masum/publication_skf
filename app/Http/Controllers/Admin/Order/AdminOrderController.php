@@ -200,9 +200,9 @@ class AdminOrderController extends Controller
         $message_products = "";
         foreach ($carts as $key => $item) {
             $item = (object) $item;
-            if(isset($item->product_id)){
+            if (isset($item->product_id)) {
                 $product = Product::find($item->product_id);
-            }else{
+            } else {
                 $product = Product::find($item->id);
             }
             $si = $key + 1;
@@ -486,7 +486,7 @@ class AdminOrderController extends Controller
         return response()->json([$order, $order_payment]);
     }
 
-    public function make_due_pay_message($data=[])
+    public function make_due_pay_message($data = [])
     {
         $transaction_media = $data["transaction_media"];
         $transaction_id = $data["transaction_id"];
@@ -520,7 +520,6 @@ class AdminOrderController extends Controller
         $message .= "------------------- \n";
         $message .= "বিস্তারিত : $invoice";
         $this->send_telegram($message);
-
     }
 
     public function delete_payment()
@@ -536,17 +535,17 @@ class AdminOrderController extends Controller
             ], 422);
         }
         $payment = OrderPayment::find(request()->payment_id);
-        if($payment && $payment->approved){
+        if ($payment && $payment->approved) {
             return response()->json([
                 'err_message' => 'validation error',
-                'data' => ["payment_id"=>["deleting this payment is not permitted."]],
+                'data' => ["payment_id" => ["deleting this payment is not permitted."]],
             ], 422);
         }
-        if($payment){
+        if ($payment) {
             $amount = $payment->amount;
             $order = Order::find($payment->order_id);
             $order->total_paid -= $amount;
-            if($order->total_paid > $order->total_paid){
+            if ($order->total_paid > $order->total_paid) {
                 $order->payment_status = 'partially paid';
             }
             $order->save();
@@ -554,5 +553,28 @@ class AdminOrderController extends Controller
         }
 
         return response()->json('success');
+    }
+
+    public function update_order_status()
+    {
+        $validator = Validator::make(request()->all(), [
+            "order_id" => ["required", "exists:orders,id"],
+            "status" => ['required'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'err_message' => 'validation error',
+                'data' => $validator->errors(),
+            ], 422);
+        }
+        $order = Order::find(request()->order_id);
+        $order_status = request()->status;
+
+        $order->order_status = $order_status;
+        $order->save();
+
+        return response()->json($order);
+        dd($order->toArray(), $order_status);
     }
 }

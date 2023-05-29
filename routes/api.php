@@ -130,6 +130,7 @@ Route::group(
                 Route::group(['prefix' => 'order'], function () {
                     Route::post('/store-order', 'Admin\Order\AdminOrderController@store_order');
                     Route::post('/update-order', 'Admin\Order\AdminOrderController@update_order');
+                    Route::post('/update-order-status', 'Admin\Order\AdminOrderController@update_order_status');
                     Route::post('/receive-due', 'Admin\Order\AdminOrderController@receive_due');
                     Route::post('/delete-payment', 'Admin\Order\AdminOrderController@delete_payment');
 

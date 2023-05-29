@@ -160,7 +160,7 @@ class OrderSeeder extends Seeder
                     "invoice_id" => generateInvoiceId() . $order_si,
                     "invoice_date" => Carbon::now()->subDays(rand(1, 5))->toDateTimeString(),
                     "order_type" => ["quotation", "invoice", "ecommerce"][rand(0,2)], // Quotation, Pos order, Ecomerce order
-                    "order_status" => ["pending", "accepted", "processing", "delevered", "canceled"][rand(0, 4)],
+                    "order_status" => ["pending", "accepted", "processing", "delivered", "canceled"][rand(0, 4)],
                     "order_coupon_id" => null,
 
                     "sub_total" => $subtotal,

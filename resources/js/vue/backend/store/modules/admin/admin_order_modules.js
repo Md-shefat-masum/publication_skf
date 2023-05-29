@@ -69,7 +69,6 @@ const actions = {
         }
     },
 
-
     [`store_admin_order`]: async function({state}, {type}){
         let carts = [...state.admin_oder_cart];
         let cconfirm = await window.s_confirm("submit order");
@@ -92,6 +91,20 @@ const actions = {
                     // console.log(res.data);
                     // state.admin_oder_cart  = [];
                     window.s_alert(`order updated successfully.`);
+                })
+        }
+    },
+
+    [`update_order_status`]: async function({state, dispatch, rootState}, {status}){
+        let cconfirm = await window.s_confirm("update status into "+status);
+        if(cconfirm){
+            axios.post('/admin/order/update-order-status',{status, order_id: state.admin_order.id})
+                .then(res=>{
+                    let product = rootState.admin_order_modules.admin_orders.data.find(i=>i.id == res.data.id);
+                    // console.log(product);
+                    product.status = status;
+                    dispatch('fetch_admin_order',{id: product.id })
+                    window.s_alert(`order status updated successfully.`);
                 })
         }
     },

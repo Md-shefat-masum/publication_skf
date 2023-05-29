@@ -172,8 +172,8 @@
                         </form>
                     </div>
 
-                    <div class="col-12" v-if="data">
-                        <div v-if="data.payment_records.length">
+                    <div class="col-12" v-if="data && data.payment_records">
+                        <div >
                             <div>
                                 <h4 id="payment_id" class="mt-4">Payment Information</h4>
                             </div>
@@ -222,13 +222,15 @@
                 </div>
             </div>
             <div class="card-footer text-center">
-                <!-- <permission-button
-                    :permission="'can_edit'"
-                    :to="{name:`EditContactMessage`,params:{id:$route.params.id}}"
-                    :classList="'btn btn-outline-info'">
-                    <i class="fa text-info fa-pencil"></i> &nbsp;
-                    Edit
-                </permission-button> -->
+                <!--
+                    <permission-button
+                        :permission="'can_edit'"
+                        :to="{name:`EditContactMessage`,params:{id:$route.params.id}}"
+                        :classList="'btn btn-outline-info'">
+                        <i class="fa text-info fa-pencil"></i> &nbsp;
+                        Edit
+                    </permission-button>
+                -->
             </div>
         </div>
     </div>

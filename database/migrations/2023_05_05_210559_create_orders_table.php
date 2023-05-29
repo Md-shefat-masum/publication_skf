@@ -22,7 +22,7 @@ class CreateOrdersTable extends Migration
             $table->string("invoice_id", 100)->nullable();
             $table->timestamp("invoice_date")->nullable();
             $table->enum("order_type", ["quotation", "invoice", "ecommerce"])->nullable()->comment("quotation, invoice, ecomerce order");
-            $table->enum("order_status", ["pending", "accepted", "processing", "delevered", "canceled"])->default("pending")->comment("pending, accepted, processing, delevered, canceled");
+            $table->enum("order_status", ["pending", "accepted", "processing", "delivered", "canceled"])->default("pending")->comment("pending, accepted, processing, delivered, canceled");
             $table->bigInteger("order_coupon_id")->unsigned()->nullable();
 
             $table->double("sub_total")->unsigned()->default(0);

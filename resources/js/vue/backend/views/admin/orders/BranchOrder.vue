@@ -255,6 +255,7 @@ export default {
         }
     },
     created: function(){
+        this.set_order_type('invoice');
         this[`fetch_${store_prefix}s`]();
     },
     methods: {
@@ -276,6 +277,7 @@ export default {
             `set_select_all_${store_prefix}s`,
             `set_clear_selected_${store_prefix}s`,
             `set_${store_prefix}_show_selected`,
+            `set_order_type`,
         ]),
 
         call_store: function(name, params=null){
