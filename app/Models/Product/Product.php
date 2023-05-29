@@ -19,6 +19,7 @@ class Product extends Model
         "stock",
         "sales",
         "returns",
+        "thumb_image_url"
     ];
 
     public static function boot()
@@ -35,6 +36,15 @@ class Product extends Model
                 $data->creator = auth()->user()->id;
             }
         });
+    }
+
+    public function getThumbImageUrlAttribute()
+    {
+        if (count(explode('http', $this->thumb_image)) > 1) {
+            return $this->thumb_image;
+        } else {
+            return url('') . '/' . $this->thumb_image;
+        }
     }
 
     public function getStockAttribute()

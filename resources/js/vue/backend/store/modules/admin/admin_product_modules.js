@@ -30,17 +30,59 @@ const actions = {
     ...test_module.actions(),
 
     /** override store */
-    [`store_${store_prefix}`]: function({state, getters, commit}){
-        const {form_values, form_inputs, form_data} = window.get_form_data('.user_create_form');
-        const {get_user_role_selected: role} = getters;
-        role.forEach(i=>form_data.append('user_role_id[]',i.role_serial));
+    [`store_${store_prefix}`]: function({state, getters, commit, rootState}){
+
+        const {form_values, form_inputs, form_data} = window.get_form_data('.create_form');
+        const {get_category_selected: category} = getters;
+        const {get_admin_writer_selected: writer} = getters;
+        const {get_admin_translator_selected: translator} = getters;
+
+        category.forEach(i=>form_data.append('category_id[]',i.id));
+        writer.forEach(i=>form_data.append('writer_id[]',i.id));
+        translator.forEach(i=>form_data.append('translator_id[]',i.id));
 
         axios.post(`/${api_prefix}/store`,form_data)
             .then(res=>{
-                window.s_alert('new user has been created');
-                $('.user_create_form input').val('');
-                commit('set_clear_selected_user_roles',false);
-                management_router.push({name:`All${route_prefix}`})
+                $('.create_form input').val('');
+
+                rootState.admin_writer_modules.admin_writer_selected = [];
+                rootState.admin_translator_modules.admin_translator_selected = [];
+                rootState.production_product_category_modules.category_selected = [];
+
+                if(res.data.status == 'success'){
+                    window.s_alert('new product has been created');
+                }else{
+                    window.s_alert(res.data.message, 'error');
+                    console.log(res.data.error);
+                }
+                management_router.push({name:`Edit${route_prefix}`,params:{id:res.data.product.id}})
+            })
+            .catch(error=>{
+
+            })
+    },
+
+    /** override update */
+    [`update_${store_prefix}`]: function({state, getters, commit, rootState}){
+        const {form_values, form_inputs, form_data} = window.get_form_data('.create_form');
+        const {get_category_selected: category} = getters;
+        const {get_admin_writer_selected: writer} = getters;
+        const {get_admin_translator_selected: translator} = getters;
+
+        form_data.append('id',state.admin_product.id);
+        category.forEach(i=>form_data.append('category_id[]',i.id));
+        writer.forEach(i=>form_data.append('writer_id[]',i.id));
+        translator.forEach(i=>form_data.append('translator_id[]',i.id));
+
+        axios.post(`/${api_prefix}/update`,form_data)
+            .then(res=>{
+
+                if(res.data.status == 'success'){
+                    window.s_alert('product has been updated');
+                }else{
+                    window.s_alert(res.data.message, 'error');
+                    console.log(res.data.error);
+                }
             })
             .catch(error=>{
 
@@ -53,41 +95,25 @@ const actions = {
         commit('set_get_admin_product_for_order', products.data);
     },
 
-    [`fetch_${store_prefix}`]: async function ({ state }, { id, render_to_form }) {
+    [`fetch_${store_prefix}`]: async function ({ state, rootState }, { id, render_to_form }) {
         let url = `/${api_prefix}/${id}`;
-        await axios.get(url).then((res) => {
-            // console.log(res.data);
-            res.data.order_details.forEach(el => {
-                el.total_price = el.sales_price;
-                el.current_price = el.product_price;
+        let res = await axios.get(url);
+        let data = res.data;
+
+        this.commit(`set_${store_prefix}`, data);
+        window.set_form_data(".admin_form", data);
+
+        rootState.admin_writer_modules.admin_writer_selected = data.writers;
+        rootState.admin_translator_modules.admin_translator_selected = data.translators;
+        rootState.production_product_category_modules.category_selected = data.categories;
+
+        setTimeout(() => {
+            data.categories.forEach(i => {
+                document.querySelector(`input[data-id="${i.id}"]`).checked = true;
             });
-            // console.log(res.data.order_details);
-            state.admin_oder_cart = res.data.order_details;
-            state.admin_order = res.data;
-            // this.commit(`set_${store_prefix}`, res.data);
-        });
-
-        if (render_to_form) {
-            window.set_form_data(".admin_form", data);
-        }
+        }, 500);
     },
 
-    [`store_${store_prefix}`]: function({state, getters, commit}){
-        const {form_values, form_inputs, form_data} = window.get_form_data('.user_create_form');
-        const {get_user_role_selected: role} = getters;
-        role.forEach(i=>form_data.append('user_role_id[]',i.role_serial));
-
-        axios.post(`/${api_prefix}/store`,form_data)
-            .then(res=>{
-                window.s_alert('new user has been created');
-                $('.user_create_form input').val('');
-                commit('set_clear_selected_user_roles',false);
-                management_router.push({name:`All${route_prefix}`})
-            })
-            .catch(error=>{
-
-            })
-    },
 
     [`store_admin_order`]: async function({state}, {type}){
         let carts = [...state.admin_oder_cart];
@@ -137,19 +163,7 @@ const actions = {
         }
     },
 
-    /** override update */
-    // [`update_${store_prefix}`]: function({state, getters, commit}){
-    //     const {form_values, form_inputs, form_data} = window.get_form_data('.user_edit_form');
-    //     const {get_user_role_selected: role, get_user: user} = getters;
-    //     role.forEach(i=>form_data.append('user_role_id[]',i.role_serial));
-    //     form_data.append('id',user.id);
 
-    //     axios.post('/user/update',form_data)
-    //         .then(({data})=>{
-    //             commit('set_user',data.result);
-    //             window.s_alert('user has been updated');
-    //         })
-    // },
 
     [`admin_oder_cart_add`]: function({state},{product,qty}){
         let products = [...state.admin_oder_cart];

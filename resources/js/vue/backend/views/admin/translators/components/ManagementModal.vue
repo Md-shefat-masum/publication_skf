@@ -1,5 +1,5 @@
 <template>
-    <div class="multiple_select_body" :id="`${store_prefix}_id`">
+    <div class="multiple_select_body" :id="`translator_id`">
         <div class="multiple_select_data"
             @click="call_store(`set_${store_prefix}_show_management_modal`,true)">
             <div v-for="item in this[`get_${store_prefix}_selected`]" :key="item.id" class="item">
@@ -124,7 +124,6 @@ export default {
     },
     created: function(){
         this[`set_${this.store_prefix}_paginate`](9);
-        this[`fetch_${this.store_prefix}s`]();
     },
     methods: {
         ...mapActions([`fetch_${store_prefix}s`]),

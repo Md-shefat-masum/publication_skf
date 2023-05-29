@@ -47,19 +47,22 @@ class ProductController extends Controller
     public function show($id)
     {
         $data = Product::where('id', $id)->with([
-            'categories' => function($q){
-                return $q->select('categories.id','categories.parent_id','categories.name');
+            'categories' => function ($q) {
+                return $q->select('categories.id', 'categories.parent_id', 'categories.name');
             },
-            'brand' => function($q){
-                return $q->select('id','name');
+            'writers' => function ($q) {
+                return $q->select('product_writers.id', 'product_writers.name');
             },
-            'discount' => function($q){
-                return $q->where('discount_last_date','>',Carbon::today())->orderBy('id','DESC');
+            'translators' => function ($q) {
+                return $q->select('product_translators.id', 'product_translators.name');
             },
         ])
-        ->withSum('stocks', 'qty')
-        ->withSum('sales', 'qty')
         ->first();
+
+        $stock = ProductStockLog::where('product_id',$data->id)->first();
+        if($stock){
+            $data->initial_stock = $stock->qty;
+        }
 
         if (!$data) {
             return response()->json([
@@ -72,24 +75,20 @@ class ProductController extends Controller
 
     public function store()
     {
+
         $validator = Validator::make(request()->all(), [
-            'product_name' => ['required'],
-            'default_price' => ['required'],
-            'brand_id' => ['required'],
-            'selected_categories' => ['required'],
-            'specification' => ['required'],
-            'description' => ['required'],
+            'product_name' => ['required','unique:products'],
+            'product_name_english' => ['required'],
+            'pages' => ['required'],
+            'initial_stock' => ['required'],
+            'stock_alert_qty' => ['required'],
             'search_keywords' => ['required'],
             'page_title' => ['required'],
-            'image1' => ['required'],
-            // 'product_url' => ['required', 'unique:products'],
             'meta_description' => ['required'],
-            'track_inventory_on_the_variant_level_stock' => ['required'],
-            'track_inventory_on_the_variant_level_low_stock' => ['required'],
-        ],[
-            'track_inventory_on_the_variant_level_stock.required' => 'stock is required',
-            'track_inventory_on_the_variant_level_low_stock.required' => 'low stock is required',
-            'image1.required' => 'thumbnail image is required',
+            'meta_description' => ['required'],
+            'category_id' => ['required'],
+            'writer_id' => ['required'],
+            'thumb_image' => ['required'],
         ]);
 
         if ($validator->fails()) {
@@ -100,49 +99,44 @@ class ProductController extends Controller
         }
 
         $product_info = request()->except([
-            'selected_categories',
-            'image1',
-            'image2',
-            'image3',
-            'image4',
+            'category_id',
+            'writer_id',
+            'translator_id',
+            'thumb_image',
+            "initial_stock",
         ]);
 
-        $product_info['selected_categories'] = json_encode(request()->selected_categories);
-        // $product_info['custom_fields'] = $request->custom_fields;
-        // $product_info['hs_codes'] = $request->hs_codes;
+        $product = Product::create($product_info);
 
-        $related_images = [];
-        for ($i=1; $i <=4; $i++) {
-            if(request()->hasFile('image'.$i)){
-                try {
-                    $path = $this->store_product_file(request()->file('image'.$i));
-                    array_push($related_images, $this->save_image($path));
-                } catch (\Throwable $e) {
-                    return response()->json($e, 500);
-                }
+        if (request()->has('initial_stock')){
+            ProductStockLog::create([
+                "product_id" => $product->id,
+                "qty" => request()->initial_stock,
+                "type" => "initial stock",
+            ]);
+        }
+
+        if (request()->has('category_id'))
+            $product->categories()->attach(request()->category_id);
+        if (request()->has('writer_id'))
+            $product->writers()->attach(request()->writer_id);
+        if (request()->has('translator_id'))
+            $product->translators()->attach(request()->translator_id);
+
+        if (request()->hasFile('thumb_image')) {
+            try {
+                $product->thumb_image = $this->store_product_file(request()->file('thumb_image'));
+                $product->save();
+            } catch (\Throwable $e) {
+                return response()->json([
+                    "product"=>$product,"status"=>"failed",
+                    "message"=>"product created without image",
+                    "error"=>$e->getMessage(),
+                ]);
             }
         }
 
-        if (count($related_images) > 0) {
-            $product = Product::create($product_info);
-            $product->categories()->attach(request()->selected_categories);
-
-            $this->product_stock_set(null, $product->id, $product->created_at, $product->track_inventory_on_the_variant_level_stock);
-            $this->product_stock_log_set($product->id, $product->track_inventory_on_the_variant_level_stock, 'initial');
-
-            for ($i = 0; $i < count($related_images); $i++) {
-                $related_iamge = $related_images[$i];
-                $related_iamge->product_id = $product->id;
-                $related_iamge->save();
-            }
-
-            $message = "product created!";
-            return response()->json([
-                'message' => $message
-            ], 200);
-        } else {
-            return response()->json('Upload valid jpg or jpeg image.', 500);
-        }
+        return response()->json(["product"=>$product,"status"=>"success"]);
     }
 
     public function product_stock_set($supplier_id = null, $product_id, $purchase_date, $qty)
@@ -186,15 +180,16 @@ class ProductController extends Controller
         // $image->save($path);
         // $this->image_save_to_db($path);
 
-        // square
-        $canvas = interImage::canvas(400, 400);
-        $image->fit(400, 400, function ($constraint) {
+        $width = 192 + 200;
+        $height = 254 + 200;
+        $canvas = interImage::canvas($width, $height);
+        $image->fit($width, $height, function ($constraint) {
             $constraint->aspectRatio();
         });
         $canvas->insert($image);
         // $canvas->insert(interImage::make(public_path('ilogo.png')), 'bottom-right');
 
-        $path = 'uploads/product/product_image_400x400_' . $temp_name . '.' . $extension;
+        $path = 'uploads/products/product_' . $temp_name . '.' . $extension;
         $canvas->save($path);
 
         return $path;
@@ -229,18 +224,18 @@ class ProductController extends Controller
     public function update()
     {
         $validator = Validator::make(request()->all(), [
+            'id' => ['required',"exists:products"],
             'product_name' => ['required'],
-            'default_price' => ['required'],
-            'brand_id' => ['required'],
-            'selected_categories' => ['required'],
-            'specification' => ['required'],
-            'description' => ['required'],
+            'product_name_english' => ['required'],
+            'pages' => ['required'],
+            'initial_stock' => ['required'],
+            'stock_alert_qty' => ['required'],
             'search_keywords' => ['required'],
             'page_title' => ['required'],
-            // 'product_url' => ['required', 'unique:products'],
             'meta_description' => ['required'],
-            'track_inventory_on_the_variant_level_stock' => ['required'],
-            'track_inventory_on_the_variant_level_low_stock' => ['required'],
+            'meta_description' => ['required'],
+            'category_id' => ['required'],
+            'writer_id' => ['required'],
         ]);
 
         if ($validator->fails()) {
@@ -251,54 +246,48 @@ class ProductController extends Controller
         }
 
         $product_info = request()->except([
-            'selected_categories',
-            'image1',
-            'image2',
-            'image3',
-            'image4',
+            'category_id',
+            'writer_id',
+            'translator_id',
+            'thumb_image',
+            "initial_stock",
         ]);
-        $product_info['selected_categories'] = json_encode(request()->selected_categories);
 
         $product = Product::find(request()->id);
         $product->fill($product_info);
+        $product->save();
 
-        $product_images = $product->related_image()->get();
-        for ($i=1; $i <=4; $i++) {
-            if(request()->hasFile('image'.$i)){
-                if(isset($product_images[$i-1])){
-                    $single_image = $product_images[$i-1];
-                    $path = public_path($single_image->image);
-                    if(file_exists($path)){
-                        unlink($path);
-                    }
-                    try {
-                        $path = $this->store_product_file(request()->file('image'.$i));
-                        $single_image->image = $path;
-                        $single_image->save();
-                    } catch (\Throwable $e) {
-                        return response()->json($e, 500);
-                    }
-                }else{
-                    try {
-                        $path = $this->store_product_file(request()->file('image'.$i));
-                        $product_image = $this->save_image($path);
-                        $product_image->product_id = $product->id;
-                        $product_image->save();
-                    } catch (\Throwable $e) {
-                        return response()->json($e, 500);
-                    }
+        if (request()->has('initial_stock')){
+            ProductStockLog::where('product_id',$product->id)->update([
+                "qty" => request()->initial_stock,
+                "type" => "initial stock",
+            ]);
+        }
+
+        if (request()->has('category_id'))
+            $product->categories()->sync(request()->category_id);
+        if (request()->has('writer_id'))
+            $product->writers()->sync(request()->writer_id);
+        if (request()->has('translator_id'))
+            $product->translators()->sync(request()->translator_id);
+
+        if (request()->hasFile('thumb_image')) {
+            try {
+                if(file_exists(public_path($product->thumb_image))){
+                    unlink(public_path($product->thumb_image));
                 }
+                $product->thumb_image = $this->store_product_file(request()->file('thumb_image'));
+                $product->save();
+            } catch (\Throwable $e) {
+                return response()->json([
+                    "product"=>$product,"status"=>"failed",
+                    "message"=>"product updated without image",
+                    "error"=>$e->getMessage(),
+                ]);
             }
         }
 
-        $product->save();
-        $product->categories()->sync(request()->selected_categories);
-
-        // $path = '';
-        $message = "product updated!";
-        return response()->json([
-            'message' => $message
-        ], 200);
+        return response()->json(["product"=>$product,"status"=>"success"]);
     }
 
     public function add_to_top_product()
@@ -321,8 +310,8 @@ class ProductController extends Controller
     {
         $id = request()->id;
         $related_image = ProductImage::find($id);
-        if($related_image){
-            if(file_exists(public_path($related_image->image))){
+        if ($related_image) {
+            if (file_exists(public_path($related_image->image))) {
                 unlink(public_path($related_image->image));
             }
             $related_image->delete();
@@ -330,7 +319,8 @@ class ProductController extends Controller
         return response()->json('file deleted');
     }
 
-    public function save_image($path){
+    public function save_image($path)
+    {
         return ProductImage::create([
             // 'product_id' => $product->id,
             'product_id' => 0,

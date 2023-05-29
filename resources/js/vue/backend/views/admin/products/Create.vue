@@ -10,7 +10,7 @@
                     </router-link>
                 </div>
             </div>
-            <form @submit.prevent="call_store(`store_${store_prefix}`,$event.target)" autocomplete="false">
+            <form @submit.prevent="call_store(`store_${store_prefix}`,$event.target)" class="create_form" autocomplete="false">
                 <div class="card-body">
                     <div class="row justify-content-center">
                         <div class="col-lg-10">
@@ -94,12 +94,14 @@
                                     <input-field
                                         :label="`Initial stock`"
                                         :name="`initial_stock`"
+                                        :type="`number`"
                                     />
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Alert qty`"
-                                        :name="`alert_qty`"
+                                        :name="`stock_alert_qty`"
+                                        :type="'number'"
                                     />
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
@@ -118,7 +120,7 @@
                                 </div>
                                 <div class=" form-group d-grid full_width align-content-start gap-1 mb-2 " >
                                     <label for="message">Description</label>
-                                    <textarea class="form-control" id="message" name="message"></textarea>
+                                    <textarea class="form-control" id="message" name="description"></textarea>
                                 </div>
                                 <div class=" form-group d-grid full_width align-content-start gap-1 mb-2 " >
                                     <label for="message">Specification</label>

@@ -51,7 +51,7 @@ window.demo_data = () => {
                 i.value = i.name + " " + unique_str() + "@gmail.com";
                 break;
             case "number":
-                i.value = unique_str();
+                i.value = parseInt(Math.random()*1000);
                 break;
             case "password":
                 i.value = "12345678";
