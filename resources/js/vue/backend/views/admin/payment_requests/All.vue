@@ -21,13 +21,13 @@
                     </form>
                 </div>
                 <div class="btns d-flex gap-2 align-items-center">
-                    <router-link
+                    <permission-button
                         :permission="'can_create'"
                         :to="{name: `Create${route_prefix}`}"
-                        :class="'btn rounded-pill btn-outline-info'">
+                        :classList="'btn rounded-pill btn-outline-info'">
                         <i class="fa fa-pencil me-5px"></i>
                         Create
-                    </router-link>
+                    </permission-button>
                     <div class="table_actions">
                         <a href="#" @click.prevent="()=>''" class="btn px-1 btn-outline-secondary">
                             <i class="fa fa-list"></i>
@@ -71,34 +71,50 @@
                         <tr>
                             <th><input @click="call_store(`set_select_all_${store_prefix}s`)" type="checkbox" class="form-check-input check_all"></th>
                             <table-th :sort="true" :tkey="'id'" :title="'ID'" :ariaLable="'id'"/>
-                            <table-th :sort="true" :tkey="'full_name'" :title="'Title'" />
-                            <table-th :sort="true" :tkey="'full_name'" :title="'Type'" />
-                            <table-th :sort="true" :tkey="'full_name'" :title="'category'" />
-                            <table-th :sort="true" :tkey="'email'" :title="'Amount'" />
-                            <table-th :sort="true" :tkey="'subject'" :title="'Account'" />
-                            <table-th :sort="true" :tkey="'subject'" :title="'Date'" />
+                            <table-th :sort="true" :tkey="'order_id'" :title="'Order'"/>
+                            <table-th :sort="false" :tkey="'user_id'" :title="'User'"/>
+                            <table-th :sort="true" :tkey="'payment_method'" :title="'Payment Method'" />
+                            <table-th :sort="false" :tkey="''" :title="'Number'" />
+                            <table-th :sort="false" :tkey="''" :title="'Account no'" />
+                            <table-th :sort="false" :tkey="''" :title="'TRX ID'" />
+                            <table-th :sort="true" :tkey="'amount'" :title="'Amount'" />
+                            <table-th :sort="true" :tkey="'approved'" :title="'Approved'" />
+                            <table-th :sort="true" :tkey="'created_at'" :title="'Date'" />
                             <th aria-label="actions">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
-                        <!-- <tr v-for="item in this[`get_${store_prefix}s`].data" :key="item.id"> -->
-                        <tr v-for="item in data" :key="item.id">
+                        <tr v-for="item in data.data" :key="item.id">
                             <td>
                                 <input v-if="check_if_data_is_selected(item)" :data-id="item.id" checked @change="call_store(`set_selected_${store_prefix}s`,item)" type="checkbox" class="form-check-input">
                                 <input v-else @change="call_store(`set_selected_${store_prefix}s`,item)" type="checkbox" class="form-check-input">
                             </td>
-                            <td>{{ parseInt(Math.random()*100) }}</td>
                             <td>
-                                {{ item.title }}
+                                {{ item.id }}
                             </td>
                             <td>
-                                <span class="text-warning cursor_pointer" @click.prevent="call_store(`set_${store_prefix}`,item)">
-                                    {{ item.type }}
-                                </span>
+                                {{ item.order_id }}
                             </td>
-                            <td>{{ item.category }}</td>
+                            <td>
+                                {{ item.user.first_name  }}
+                                {{ item.user.last_name  }}
+                            </td>
+                            <td>
+                                {{ item.payment_method }}
+                            </td>
+                            <td>
+                                {{ item.number }}
+                            </td>
+                            <td>{{ item.account_no }}</td>
+                            <td>{{ item.trx_id  }}</td>
                             <td><b>{{ item.amount  }}</b> tk</td>
-                            <td><b>{{ item.account  }}</b></td>
+                            <td>
+                                <div class="form-check form-switch">
+                                    <label class="form-check-label" for="flexSwitchCheckChecked">
+                                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                                    </label>
+                                </div>
+                            </td>
                             <td>{{ new Date().toLocaleString() }}</td>
 
                             <td>
@@ -205,46 +221,10 @@ export default {
         return {
             store_prefix,
             route_prefix,
-            data: [
-                {
-                    title: 'Rent/Mortgage',
-                    type: 'Expense',
-                    category: 'rent' ,
-                    amount: 400,
-                    account:  'Bkash',
-                },
-                {
-                    title: 'Clothing',
-                    type: 'Expense',
-                    category: 'assets' ,
-                    amount: 4000,
-                    account:  'Bkash',
-                },
-                {
-                    title: 'Groceries/Food',
-                    type: 'Expense',
-                    category: 'food' ,
-                    amount: 400,
-                    account:  'Rocket',
-                },
-                {
-                    title: 'Furniture/Appliances',
-                    type: 'Expense',
-                    category: 'assets' ,
-                    amount: 50000,
-                    account:  'Islami Bank',
-                },
-                {
-                    title: 'Book order',
-                    type: 'Income',
-                    category: 'sale' ,
-                    amount: 8000,
-                    account:  'Islami Bank',
-                },
-            ]
         }
     },
     created: function(){
+        console.log(this.store_prefix);
         this[`fetch_${store_prefix}s`]();
     },
     methods: {
@@ -283,6 +263,30 @@ export default {
                 return false;
             }
         },
+        order_status: function(status){
+            let class_name = '';
+            switch (status) {
+                case 'pending':
+                    class_name =  'bg-info text-black'
+                    break;
+                case 'accepted':
+                    class_name =  'bg-primary'
+                    break;
+                case 'processing':
+                    class_name =  'bg-warning text-black'
+                    break;
+                case 'delivered':
+                    class_name =  'bg-success text-black'
+                    break;
+                case 'canceled':
+                    class_name =  'bg-danger text-black'
+                    break;
+
+                default:
+                    break;
+            }
+            return class_name;
+        }
     },
     computed: {
         ...mapGetters([
@@ -290,6 +294,9 @@ export default {
             `get_${store_prefix}_selected`,
             `get_${store_prefix}_show_active_data`,
         ]),
+        ...mapGetters({
+            data: `get_${store_prefix}s`,
+        }),
     }
 }
 </script>
@@ -298,4 +305,3 @@ export default {
 
 </style>
 
-PermissionButton

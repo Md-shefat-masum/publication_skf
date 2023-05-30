@@ -21,13 +21,13 @@
                     </form>
                 </div>
                 <div class="btns d-flex gap-2 align-items-center">
-                    <permission-button
+                    <router-link
                         :permission="'can_create'"
                         :to="{name: `Create${route_prefix}`}"
-                        :classList="'btn rounded-pill btn-outline-info'">
+                        :class="'btn rounded-pill btn-outline-info'">
                         <i class="fa fa-pencil me-5px"></i>
                         Create
-                    </permission-button>
+                    </router-link>
                     <div class="table_actions">
                         <a href="#" @click.prevent="()=>''" class="btn px-1 btn-outline-secondary">
                             <i class="fa fa-list"></i>
@@ -71,16 +71,12 @@
                         <tr>
                             <th><input @click="call_store(`set_select_all_${store_prefix}s`)" type="checkbox" class="form-check-input check_all"></th>
                             <table-th :sort="true" :tkey="'id'" :title="'ID'" :ariaLable="'id'"/>
-                            <table-th :sort="true" :tkey="''" :title="'Order ID'" />
-                            <table-th :sort="false" :tkey="''" :title="'Branch'" />
-                            <table-th :sort="true" :tkey="''" :title="'Contact'" />
-                            <table-th :sort="true" :tkey="''" :title="'Sub Total'" />
-                            <table-th :sort="true" :tkey="''" :title="'Shipping'" />
-                            <table-th :sort="true" :tkey="''" :title="'Total'" />
-                            <table-th :sort="true" :tkey="''" :title="'Paid'" />
-                            <table-th :sort="true" :tkey="''" :title="'payment status'" />
-                            <table-th :sort="false" :tkey="''" :title="'Date'" />
-                            <table-th :sort="true" :tkey="'status'" :title="'Status'" />
+                            <table-th :sort="true" :tkey="'full_name'" :title="'Title'" />
+                            <table-th :sort="true" :tkey="'full_name'" :title="'Type'" />
+                            <table-th :sort="true" :tkey="'full_name'" :title="'category'" />
+                            <table-th :sort="true" :tkey="'email'" :title="'Amount'" />
+                            <table-th :sort="true" :tkey="'subject'" :title="'Account'" />
+                            <table-th :sort="true" :tkey="'subject'" :title="'Date'" />
                             <th aria-label="actions">Actions</th>
                         </tr>
                     </thead>
@@ -91,43 +87,20 @@
                                 <input v-if="check_if_data_is_selected(item)" :data-id="item.id" checked @change="call_store(`set_selected_${store_prefix}s`,item)" type="checkbox" class="form-check-input">
                                 <input v-else @change="call_store(`set_selected_${store_prefix}s`,item)" type="checkbox" class="form-check-input">
                             </td>
-                            <td>{{ item.id }}</td>
+                            <td>{{ parseInt(Math.random()*100) }}</td>
+                            <td>
+                                {{ item.title }}
+                            </td>
                             <td>
                                 <span class="text-warning cursor_pointer" @click.prevent="call_store(`set_${store_prefix}`,item)">
-                                    {{ item.order_id }}
+                                    {{ item.type }}
                                 </span>
                             </td>
-                            <td>{{ item.branch }}</td>
-                            <td>{{ item.contact }}</td>
-                            <td>
-                                <strong class="text-info">
-                                    {{ item.subtotal}}
-                                </strong>
-                            </td>
-                            <td>
-                                <strong class="text-info">
-                                    {{ item.shipping}}
-                                </strong>
-                            </td>
-                            <td>
-                                <strong class="text-info">
-                                    {{ item.subtotal * item.shipping}}
-                                </strong>
-                            </td>
-                            <td>
-                                <strong class="text-warning">
-                                    {{ item.subtotal * item.paid}}
-                                </strong>
-                            </td>
-                            <td>
-                                <span :class="`badge ${item.payment_status == 'paid'? `bg-secondary`: 'bg-danger'} me-1`">{{ item.payment_status }}</span>
-                            </td>
-                            <td>{{ new Date().toDateString() }} {{ new Date().toLocaleTimeString() }}</td>
-                            <td>
-                                <span :class="`badge ${order_status(item.status)} me-1`">{{ item.status }}</span>
-                                <span v-if="item.status == 1" class="badge bg-label-success me-1">active</span>
-                                <span v-if="item.status == 0" class="badge bg-label-success me-1">deactive</span>
-                            </td>
+                            <td>{{ item.category }}</td>
+                            <td><b>{{ item.amount  }}</b> tk</td>
+                            <td><b>{{ item.account  }}</b></td>
+                            <td>{{ new Date().toLocaleString() }}</td>
+
                             <td>
                                 <div class="table_actions">
                                     <a href="#" @click.prevent="()=>''" class="btn btn-sm btn-outline-secondary">
@@ -232,12 +205,47 @@ export default {
         return {
             store_prefix,
             route_prefix,
-            data: []
+            data: [
+                {
+                    title: 'Rent/Mortgage',
+                    type: 'Expense',
+                    category: 'rent' ,
+                    amount: 400,
+                    account:  'Bkash',
+                },
+                {
+                    title: 'Clothing',
+                    type: 'Expense',
+                    category: 'assets' ,
+                    amount: 4000,
+                    account:  'Bkash',
+                },
+                {
+                    title: 'Groceries/Food',
+                    type: 'Expense',
+                    category: 'food' ,
+                    amount: 400,
+                    account:  'Rocket',
+                },
+                {
+                    title: 'Furniture/Appliances',
+                    type: 'Expense',
+                    category: 'assets' ,
+                    amount: 50000,
+                    account:  'Islami Bank',
+                },
+                {
+                    title: 'Book order',
+                    type: 'Income',
+                    category: 'sale' ,
+                    amount: 8000,
+                    account:  'Islami Bank',
+                },
+            ]
         }
     },
     created: function(){
         this[`fetch_${store_prefix}s`]();
-        this.make_data();
     },
     methods: {
         ...mapActions([
@@ -275,81 +283,6 @@ export default {
                 return false;
             }
         },
-        make_data: function(){
-            this.data = [
-                `আব্দুল্লাহ আল মামুন`,
-                `মোঃ সোহাগ`,
-                `রাজিবুর রহমান`,
-                `সেলিম উদ্দিন`,
-                `আশিকুর রহমান`,
-                `মিঃ শাকিল`,
-                `সবুর উদ্দিন`,
-                `আব্দুর জব্বার`
-            ].map((i, index)=>{
-                return {
-                        id:parseInt(Math.random()*1000),
-                        order_id: `#202204`+parseInt(Math.random()*1000),
-                        branch: i,
-                        contact: '+880 1646376015',
-                        subtotal: parseInt(Math.random()*10000),
-                        shipping: parseInt(Math.random()*100),
-                        paid: 2000,
-                        payment_status: parseInt(Math.random()*10) % 2==0?'due':'paid',
-                        status: ['pending','accepted','processing','delivered','canceled'][index],
-                        created_at: new Date().toDateString() + ' ' + new Date().toLocaleTimeString(),
-                        products: [
-                            {
-                                id:parseInt(Math.random()*1000),
-                                price:parseInt(Math.random()*1000),
-                                title: 'ক্যারিয়ার বিকশিত জীবনের দ্বার',
-                                image: 'http://almari.info/uploads/product/product_main_image/dh2QioXn122GuTfvBBcrEkDKM0XAEiG2z63zwRKC.png',
-                                status: 'designing',
-                                qty: 300,
-                            },
-                            {
-                                id:parseInt(Math.random()*1000),
-                                price:parseInt(Math.random()*1000),
-                                title: 'বিষয়ভিত্তিক আয়াত ও হাদিস সংকলন (ছোটো)',
-                                image: 'http://almari.info/uploads/product/product_main_image/PWGp7nvai1IYlG3xbEt8WBmV6nZ7V0Rmc3FeM2eP.jpeg',
-                                status: 'binding',
-                                qty: 500,
-                            },
-                            {
-                                id:parseInt(Math.random()*1000),
-                                price:parseInt(Math.random()*1000),
-                                title: 'এসো আলোর পথে',
-                                image: 'http://almari.info/uploads/product/product_main_image/juRgRV0pxxjFkulEA4flJI1UAKSr966a9JFgyKyb.jpeg',
-                                status: 'printing',
-                                qty: 450,
-                            },
-                        ]
-                    }
-            })
-        },
-        order_status: function(status){
-            let class_name = '';
-            switch (status) {
-                case 'pending':
-                    class_name =  'bg-info text-black'
-                    break;
-                case 'accepted':
-                    class_name =  'bg-primary'
-                    break;
-                case 'processing':
-                    class_name =  'bg-warning text-black'
-                    break;
-                case 'delivered':
-                    class_name =  'bg-success text-black'
-                    break;
-                case 'canceled':
-                    class_name =  'bg-danger text-black'
-                    break;
-
-                default:
-                    break;
-            }
-            return class_name;
-        }
     },
     computed: {
         ...mapGetters([
@@ -365,3 +298,4 @@ export default {
 
 </style>
 
+PermissionButton

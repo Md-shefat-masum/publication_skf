@@ -8,22 +8,13 @@ const {store_prefix, api_prefix, route_prefix} = test_module;
 // state list
 const state = {
     ...test_module.states(),
-    orderByAsc: true,
-    order_type: 'invoice',
+    orderByAsc: false,
 
-    admin_product_for_order: {},
-    admin_p_search_key: '',
-    admin_oder_cart: [],
 };
 
 // get state
 const getters = {
     ...test_module.getters(),
-
-    get_admin_product_for_order: (state) => state.admin_product_for_order,
-    get_admin_p_search_key: (state) => state.admin_p_search_key,
-    get_admin_oder_cart: (state) => state.admin_oder_cart,
-    get_admin_oder_cart_total: (state) => state.admin_oder_cart.reduce((t,i)=>t+=i.total_price,0),
 };
 
 // actions
@@ -74,13 +65,6 @@ const actions = {
 // mutators
 const mutations = {
     ...test_module.mutations(),
-    set_get_admin_product_for_order: (state, data) => {
-        state.admin_product_for_order = data;
-    },
-    set_admin_p_search_key: (state, data) => {
-        state.admin_p_search_key = data;
-    },
-    set_order_type: (state,order_type) => state.order_type = order_type,
 };
 
 export default {
