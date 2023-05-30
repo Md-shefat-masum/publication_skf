@@ -14,19 +14,39 @@
                             <td>{{ this[`get_${store_prefix}`].id }}</td>
                         </tr>
                         <tr>
-                            <td>Name</td>
+                            <td>Supplier Name</td>
                             <td>:</td>
-                            <td>{{ this[`get_${store_prefix}`].full_name }}</td>
+                            <td>{{ this[`get_${store_prefix}`].supplier_name }}</td>
                         </tr>
                         <tr>
-                            <td>Subject</td>
+                            <td>Paper Name</td>
                             <td>:</td>
-                            <td>{{ this[`get_${store_prefix}`].subject }}</td>
+                            <td>{{ this[`get_${store_prefix}`].paper_name }}</td>
                         </tr>
                         <tr>
-                            <td>Message</td>
+                            <td>Paper Type</td>
                             <td>:</td>
-                            <td>{{ this[`get_${store_prefix}`].message }}</td>
+                            <td>{{ this[`get_${store_prefix}`].paper_type }}</td>
+                        </tr>
+                        <tr>
+                            <td>Cost Per Paper</td>
+                            <td>:</td>
+                            <td>{{ this[`get_${store_prefix}`].cost_per_paper }}</td>
+                        </tr>
+                        <tr>
+                            <td>Cost Per Ream</td>
+                            <td>:</td>
+                            <td>{{ this[`get_${store_prefix}`].cost_per_ream }}</td>
+                        </tr>
+                        <tr>
+                            <td>Purchase Date</td>
+                            <td>:</td>
+                            <td>{{ new Date(this[`get_${store_prefix}`].purchase_date).toLocaleString() }}</td>
+                        </tr>
+                        <tr>
+                            <td>Description</td>
+                            <td>:</td>
+                            <td>{{ this[`get_${store_prefix}`].description }}</td>
                         </tr>
                         <tr>
                             <td>Status</td>

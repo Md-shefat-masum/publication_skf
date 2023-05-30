@@ -21,13 +21,13 @@
                     </form>
                 </div>
                 <div class="btns d-flex gap-2 align-items-center">
-                    <permission-button
+                    <!-- <permission-button
                         :permission="'can_create'"
                         :to="{name: `Create${route_prefix}`}"
                         :classList="'btn rounded-pill btn-outline-info'">
                         <i class="fa fa-pencil me-5px"></i>
                         Create
-                    </permission-button>
+                    </permission-button> -->
                     <div class="table_actions">
                         <a href="#" @click.prevent="()=>''" class="btn px-1 btn-outline-secondary">
                             <i class="fa fa-list"></i>
@@ -73,11 +73,11 @@
                             <table-th :sort="true" :tkey="'id'" :title="'ID'" :ariaLable="'id'"/>
                             <table-th :sort="true" :tkey="'order_id'" :title="'Order'"/>
                             <table-th :sort="false" :tkey="'user_id'" :title="'User'"/>
+                            <table-th :sort="true" :tkey="'amount'" :title="'Amount'" />
+                            <table-th :sort="false" :tkey="''" :title="'TRX ID'" />
                             <table-th :sort="true" :tkey="'payment_method'" :title="'Payment Method'" />
                             <table-th :sort="false" :tkey="''" :title="'Number'" />
                             <table-th :sort="false" :tkey="''" :title="'Account no'" />
-                            <table-th :sort="false" :tkey="''" :title="'TRX ID'" />
-                            <table-th :sort="true" :tkey="'amount'" :title="'Amount'" />
                             <table-th :sort="true" :tkey="'approved'" :title="'Approved'" />
                             <table-th :sort="true" :tkey="'created_at'" :title="'Date'" />
                             <th aria-label="actions">Actions</th>
@@ -93,12 +93,16 @@
                                 {{ item.id }}
                             </td>
                             <td>
-                                {{ item.order_id }}
+                                <span class="text-warning cursor_pointer" @click.prevent="call_store(`set_${store_prefix}`,item.order)">
+                                    {{ item.order.invoice_id }}
+                                </span>
                             </td>
                             <td>
                                 {{ item.user.first_name  }}
                                 {{ item.user.last_name  }}
                             </td>
+                            <td><b>{{ number_format(item.amount).enToBn()  }}</b> tk</td>
+                            <td>{{ item.trx_id  }}</td>
                             <td>
                                 {{ item.payment_method }}
                             </td>
@@ -106,12 +110,12 @@
                                 {{ item.number }}
                             </td>
                             <td>{{ item.account_no }}</td>
-                            <td>{{ item.trx_id  }}</td>
-                            <td><b>{{ item.amount  }}</b> tk</td>
+
                             <td>
                                 <div class="form-check form-switch">
                                     <label class="form-check-label" for="flexSwitchCheckChecked">
-                                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                                        <input @change="approve({id: item.id})" v-if="item.approved" checked class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" >
+                                        <input @change="approve({id: item.id})" v-else class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" >
                                     </label>
                                 </div>
                             </td>
@@ -129,7 +133,7 @@
                                                 Quick View
                                             </a>
                                         </li>
-                                        <li>
+                                        <!-- <li>
                                             <permission-button
                                                 :permission="'can_edit'"
                                                 :to="{name:`Details${route_prefix}`,params:{id:item.id}}"
@@ -137,7 +141,7 @@
                                                 <i class="fa text-secondary fa-eye"></i>
                                                 Details
                                             </permission-button>
-                                        </li>
+                                        </li> -->
                                         <li>
                                             <permission-button
                                                 :permission="'can_edit'"
@@ -147,7 +151,7 @@
                                                 Edit
                                             </permission-button>
                                         </li>
-                                        <li v-if="item.status == 1">
+                                        <!-- <li v-if="item.status == 1">
                                             <permission-button
                                                 :permission="'can_delete'"
                                                 :to="{}"
@@ -157,8 +161,8 @@
                                                 <i class="fa text-danger fa-trash"></i>
                                                 Deactive
                                             </permission-button>
-                                        </li>
-                                        <li v-else>
+                                        </li> -->
+                                        <!-- <li v-else>
                                             <permission-button
                                                 :permission="'can_delete'"
                                                 :to="{}"
@@ -168,7 +172,7 @@
                                                 <i class="fa text-danger fa-recycle"></i>
                                                 Activate
                                             </permission-button>
-                                        </li>
+                                        </li> -->
                                     </ul>
                                 </div>
                             </td>
@@ -224,7 +228,6 @@ export default {
         }
     },
     created: function(){
-        console.log(this.store_prefix);
         this[`fetch_${store_prefix}s`]();
     },
     methods: {
@@ -235,6 +238,9 @@ export default {
             `export_${store_prefix}_all`,
             `export_selected_${store_prefix}_csv`,
         ]),
+        ...mapActions({
+            approve: `${store_prefix}_approve`,
+        }),
         ...mapMutations([
             `set_${store_prefix}_paginate`,
             `set_${store_prefix}_page`,
@@ -263,6 +269,7 @@ export default {
                 return false;
             }
         },
+        number_format: (number) => new Intl.NumberFormat().format(number),
         order_status: function(status){
             let class_name = '';
             switch (status) {

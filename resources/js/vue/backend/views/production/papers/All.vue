@@ -84,27 +84,26 @@
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
-                        <!-- <tr v-for="item in this[`get_${store_prefix}s`].data" :key="item.id"> -->
-                        <tr v-for="item in data" :key="item.id">
+                        <tr v-for="item in this[`get_${store_prefix}s`].data" :key="item.id">
                             <td>
                                 <input v-if="check_if_data_is_selected(item)" :data-id="item.id" checked @change="call_store(`set_selected_${store_prefix}s`,item)" type="checkbox" class="form-check-input">
                                 <input v-else @change="call_store(`set_selected_${store_prefix}s`,item)" type="checkbox" class="form-check-input">
                             </td>
-                            <td>{{ parseInt(Math.random()*100) }}</td>
+                            <td>{{ item.id }}</td>
                             <td>
-                                {{ item.supplier }}
+                                {{ item.supplier_name }}
                             </td>
                             <td>
                                 <span class="text-warning cursor_pointer" @click.prevent="call_store(`set_${store_prefix}`,item)">
-                                    {{ item.paper }}
+                                    {{ item.paper_name }}
                                 </span>
                             </td>
-                            <td>{{ item.type }}</td>
-                            <td><b>{{ item.cost  }}</b> tk</td>
-                            <td><b>{{ item.cost_ream  }}</b> tk</td>
-                            <td>{{ item.stock }} Ream</td>
-                            <td>{{ item.current_stock }} Ream</td>
-                            <td><b>{{ item.stock * item.cost_ream }}</b> Tk</td>
+                            <td>{{ item.paper_type }}</td>
+                            <td><b>{{ item.cost_per_paper  }}</b> tk</td>
+                            <td><b>{{ item.cost_per_ream  }}</b> tk</td>
+                            <td>{{ item.stock || 0 }} Ream</td>
+                            <td>{{ item.current_stock || 0 }} Ream</td>
+                            <td><b>{{ item.stock || 0 * item.cost_per_ream }}</b> Tk</td>
                             <td>
                                 <span class="badge bg-label-success me-1">{{ item.status }}</span>
                                 <span v-if="item.status == 1" class="badge bg-label-success me-1">active</span>
@@ -122,18 +121,18 @@
                                                 Quick View
                                             </a>
                                         </li>
-                                        <li>
+                                        <!-- <li>
                                             <permission-button
-                                                :permission="'can_edit'"
+                                                :permission="'can_create'"
                                                 :to="{name:`Details${route_prefix}`,params:{id:item.id}}"
                                                 :classList="''">
                                                 <i class="fa text-secondary fa-eye"></i>
                                                 Details
                                             </permission-button>
-                                        </li>
+                                        </li> -->
                                         <li>
                                             <permission-button
-                                                :permission="'can_edit'"
+                                                :permission="'can_create'"
                                                 :to="{name:`Edit${route_prefix}`,params:{id: item.id}}"
                                                 :classList="''">
                                                 <i class="fa text-warning fa-pencil"></i>
@@ -214,39 +213,7 @@ export default {
         return {
             store_prefix,
             route_prefix,
-            data: [
-                {
-                    supplier: 'print and bind',
-                    paper: 'Offset White (80 gsm, Bothside)',
-                    type: 'offset',
-                    cost: 1,
-                    cost_ream: 288,
-                    stock: 10,
-                    current_stock: 5,
-                    status: 'avaialbe',
-                },
-                {
-                    supplier: 'bd paper stall',
-                    paper: 'Offset White (80 gsm, Bothside)',
-                    type: 'offset',
-                    cost: 1.5,
-                    cost_ream: 300,
-                    stock: 11,
-                    current_stock: 0,
-                    status: 'finished',
-                },
-                {
-                    supplier: 'book printer',
-                    paper: 'Offset White (80 gsm, Bothside)',
-                    type: 'offset',
-                    cost: .8,
-                    cost_ream: 200,
-                    stock: 20,
-                    current_stock: 0,
-                    status: 'finished',
-                },
 
-            ]
         }
     },
     created: function(){

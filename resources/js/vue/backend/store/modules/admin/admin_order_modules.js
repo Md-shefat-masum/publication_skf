@@ -95,15 +95,21 @@ const actions = {
         }
     },
 
-    [`update_order_status`]: async function({state, dispatch, rootState}, {status}){
+    [`update_order_status`]: async function({state, dispatch, rootState}, {status,order_id}){
         let cconfirm = await window.s_confirm("update status into "+status);
+        if(state.admin_order?.id){
+            order_id = state.admin_order.id;
+        }
         if(cconfirm){
-            axios.post('/admin/order/update-order-status',{status, order_id: state.admin_order.id})
+            axios.post('/admin/order/update-order-status',{status, order_id})
                 .then(res=>{
-                    let product = rootState.admin_order_modules.admin_orders.data.find(i=>i.id == res.data.id);
+                    let orders = rootState.admin_order_modules.admin_orders;
+                    let product = orders?.data?.find(i=>i.id == res.data.id);
                     // console.log(product);
-                    product.status = status;
-                    dispatch('fetch_admin_order',{id: product.id })
+                    if(product){
+                        product.status = status;
+                        dispatch('fetch_admin_order',{id: product.id })
+                    }
                     window.s_alert(`order status updated successfully.`);
                 })
         }

@@ -223,7 +223,8 @@ class StoreModule {
                 let form_data = new FormData(event);
                 await axios.post(`/${api_prefix}/store`, form_data).then((res) => {
                     event.reset();
-                    document.querySelector(".file_preview").innerHTML = "";
+                    let file_preview = document.querySelector(".file_preview")
+                    file_preview && (file_preview.innerHTML = "");
                     window.s_alert("new data been created");
                 });
             },

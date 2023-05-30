@@ -80,6 +80,29 @@ Route::group(
                 Route::post('/bulk-import', 'Admin\ContactMessageController@bulk_import');
             });
 
+            Route::group( ['prefix'=>'production'],function(){
+                Route::group(['prefix' => 'product'], function () {
+                    Route::get('/all', 'Production\Product\ProductController@all');
+                    Route::get('/{id}', 'Production\Product\ProductController@show');
+                });
+
+                Route::group(['prefix' => 'paper'], function () {
+                    Route::get('/all', 'Production\Supplier\PaperController@all');
+                    Route::post('/store', 'Production\Supplier\PaperController@store');
+                    Route::post('/canvas-store', 'Production\Supplier\PaperController@canvas_store');
+                    Route::post('/update', 'Production\Supplier\PaperController@update');
+                    Route::post('/add-to-top-product', 'Production\Supplier\PaperController@add_to_top_product');
+                    Route::post('/delete-related-image', 'Production\Supplier\PaperController@delete_related_image');
+                    Route::post('/canvas-update', 'Production\Supplier\PaperController@canvas_update');
+                    Route::post('/soft-delete', 'Production\Supplier\PaperController@soft_delete');
+                    Route::post('/destroy', 'Production\Supplier\PaperController@destroy');
+                    Route::post('/restore', 'Production\Supplier\PaperController@restore');
+                    Route::post('/bulk-import', 'Production\Supplier\PaperController@bulk_import');
+                    Route::get('/{id}', 'Production\Supplier\PaperController@show');
+                });
+
+            });
+
             Route::group(['prefix' => 'admin'], function () {
 
                 Route::group(['prefix' => 'writer'], function () {
@@ -150,6 +173,8 @@ Route::group(
                 });
 
                 Route::group(['prefix' => 'payment-request'], function () {
+                    Route::post('/approve', 'Admin\Order\PaymentRequestController@approve');
+
                     Route::get('/all', 'Admin\Order\PaymentRequestController@all');
                     Route::post('/store', 'Admin\Order\PaymentRequestController@store');
                     Route::post('/canvas-store', 'Admin\Order\PaymentRequestController@canvas_store');

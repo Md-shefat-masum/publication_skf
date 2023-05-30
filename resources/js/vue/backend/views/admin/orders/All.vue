@@ -94,7 +94,7 @@
                             <td>{{ item.id }}</td>
                             <td>
                                 <span class="text-warning cursor_pointer" @click.prevent="call_store(`set_${store_prefix}`,item)">
-                                    {{ item.order_id }}
+                                    {{ item.invoice_id }}
                                 </span>
                             </td>
                             <td>{{ item.branch }}</td>

@@ -24,6 +24,7 @@ Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component('input-field', require('./views/components/InputField.vue').default);
 Vue.component('user-management-modal', require('./views/users/components/UserManagementModal.vue').default);
 Vue.component('ex-app', require('./App.vue').default);
+Vue.prototype.number_format = (number = 0) => new Intl.NumberFormat().format(number);
 
 if (document.getElementById('app')) {
     new Vue({

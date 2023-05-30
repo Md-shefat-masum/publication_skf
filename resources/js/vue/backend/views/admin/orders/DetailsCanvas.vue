@@ -243,7 +243,6 @@ export default {
         call_store: function(name, params=null){
             this[name](params)
         },
-        number_format: (number) => new Intl.NumberFormat().format(number),
     },
     computed: {
         ...mapGetters(

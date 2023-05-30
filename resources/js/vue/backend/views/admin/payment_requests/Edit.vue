@@ -19,29 +19,40 @@
                             <div class="admin_form form_1" v-if="this[`get_${store_prefix}`]">
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
-                                        :label="`Name`"
-                                        :name="`full_name`"
-                                        :value="this[`get_${store_prefix}`]['full_name']"
+                                        :label="`Payment Method`"
+                                        :name="`payment_method`"
+                                        :value="this[`get_${store_prefix}`]['payment_method']"
                                     />
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
-                                        :label="`Email`"
-                                        :name="`email`"
-                                        :value="this[`get_${store_prefix}`]['email']"
+                                        :label="`Number`"
+                                        :name="`number`"
+                                        :value="this[`get_${store_prefix}`]['number']"
                                     />
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
-                                        :label="`Subject`"
-                                        :name="`subject`"
-                                        :value="this[`get_${store_prefix}`]['subject']"
+                                        :label="`Account No`"
+                                        :name="`account_no`"
+                                        :value="this[`get_${store_prefix}`]['account_no']"
                                     />
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
-                                    <label for="message">Message</label>
-                                    <textarea class="form-control" :value="this[`get_${store_prefix}`]['message']" id="message" name="message"></textarea>
+                                    <input-field
+                                        :label="`Transaction ID`"
+                                        :name="`trx_id`"
+                                        :value="this[`get_${store_prefix}`]['trx_id']"
+                                    />
                                 </div>
+                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                    <input-field
+                                        :label="`Amount`"
+                                        :name="`amount`"
+                                        :value="this[`get_${store_prefix}`]['amount']"
+                                    />
+                                </div>
+
                             </div>
                         </div>
                     </div>

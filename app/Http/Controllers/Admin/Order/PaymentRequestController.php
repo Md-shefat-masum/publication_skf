@@ -26,7 +26,12 @@ class PaymentRequestController extends Controller
         }
 
         $query = OrderPayment::where('status', $status)
-            ->with(['user','order'])
+            ->with([
+                'user',
+                'order' => function ($q) {
+                    return $q->with(['order_details', 'user']);
+                }
+            ])
             ->orderBy($orderBy, $orderByType);
 
         if (request()->has('search_key')) {
@@ -45,31 +50,47 @@ class PaymentRequestController extends Controller
         return response()->json($users);
     }
 
+    public function approve()
+    {
+        $validator = Validator::make(request()->all(), [
+            'payment_id' => ['required', 'exists:order_payments,id']
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'err_message' => 'validation error',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        $order_payment = OrderPayment::find(request()->payment_id);
+        if ($order_payment->approved == 1) {
+            $order_payment->approved = 0;
+            $order_payment->save();
+            return response()->json("rejected");
+        } else {
+            $order_payment->approved = 1;
+            $order_payment->save();
+            return response()->json("approved");
+        }
+    }
 
     public function show($id)
     {
-        $data = Order::where('id', $id)
-            ->with(["user", "order_details"])
-            ->withSum('order_payments', 'amount')
+        $data = OrderPayment::where('id', $id)
+            ->with([
+                'user',
+                'order' => function ($q) {
+                    return $q->with(['order_details', 'user']);
+                }
+            ])
             ->where('id', $id)
             ->first();
-        $data->payment_records = $data->order_payments()
-            ->select(['id', 'order_id', 'number', 'payment_method', 'trx_id', 'amount', 'approved'])
-            ->get();
-        $data->payment_accounts = AppSettingTitle::select('id', 'title')
-            ->whereIn('title', [
-                'bkash', 'nagad',
-                'rocket', 'bank'
-            ])->where('status', 1)->with([
-                'values' => function ($q) {
-                    return $q->select(['id', 'setting_id', 'title', 'setting_value']);
-                }
-            ])->get();
 
         if (!$data) {
             return response()->json([
                 'err_message' => 'not found',
-                'errors' => ['role' => ['data not found']],
+                'errors' => ['amount' => ['data not found']],
             ], 422);
         }
         return response()->json($data, 200);
@@ -101,7 +122,9 @@ class PaymentRequestController extends Controller
     public function canvas_store(Request $request)
     {
         $validator = Validator::make(request()->all(), [
-            'name' => ['required', 'unique:brands']
+            'amount' => ['required'],
+            'payment_method' => ['required'],
+            'trx_id' => ['required'],
         ]);
 
         if ($validator->fails()) {
@@ -123,16 +146,19 @@ class PaymentRequestController extends Controller
 
     public function update()
     {
-        $data = Brand::find(request()->id);
+        $data = OrderPayment::find(request()->id);
         if (!$data) {
             return response()->json([
                 'err_message' => 'validation error',
-                'errors' => ['name' => ['user_role not found by given id ' . (request()->id ? request()->id : 'null')]],
+                'errors' => ['payment_method' => ['data not found by given id ' . (request()->id ? request()->id : 'null')]],
             ], 422);
         }
 
         $validator = Validator::make(request()->all(), [
-            'name' => ['required'],
+            'id' => ['required'],
+            'amount' => ['required'],
+            'payment_method' => ['required'],
+            'trx_id' => ['required'],
         ]);
 
         if ($validator->fails()) {
@@ -142,8 +168,12 @@ class PaymentRequestController extends Controller
             ], 422);
         }
 
-        $data->name = request()->name;
-        $data->update();
+        $data->id = request()->id;
+        $data->number = request()->number;
+        $data->account_no = request()->account_no;
+        $data->trx_id = request()->trx_id;
+        $data->amount = request()->amount;
+        $data->save();
 
         return response()->json($data, 200);
     }

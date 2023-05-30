@@ -19,6 +19,9 @@ import admin_payment_request_modules from './modules/admin/admin_payment_request
 
 import production_product_modules from './modules/production/production_product_modules';
 import production_product_category_modules from './modules/production/production_product_category_modules';
+import production_paper_modules from './modules/production/production_paper_modules';
+import production_print_modules from './modules/production/production_print_modules';
+import production_binding_modules from './modules/production/production_binding_modules';
 
 const store = new Vuex.Store({
     modules: {
@@ -38,6 +41,9 @@ const store = new Vuex.Store({
 
         production_product_modules,
         production_product_category_modules,
+        production_paper_modules,
+        production_print_modules,
+        production_binding_modules,
     },
     state: {},
     getters: {},

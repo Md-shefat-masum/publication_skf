@@ -98,7 +98,7 @@ class UserSeeder extends Seeder
         $user->password = Hash::make('12345678');
         $user->save();
         $user->roles()->attach([2]);
-        $user->permissions()->attach([1,2]);
+        $user->permissions()->attach([1,2,3]);
 
         $user = new User();
         $user->first_name = 'mr';
@@ -111,6 +111,7 @@ class UserSeeder extends Seeder
         $user->password = Hash::make('12345678');
         $user->save();
         $user->roles()->attach([3]);
+        $user->permissions()->attach([1,2,3]);
 
         $user = new User();
         $user->first_name = 'mr';
@@ -123,6 +124,7 @@ class UserSeeder extends Seeder
         $user->password = Hash::make('12345678');
         $user->save();
         $user->roles()->attach([4]);
+        $user->permissions()->attach([1,2,3]);
 
         $user = new User();
         $user->first_name = 'mr';
