@@ -148,6 +148,21 @@ Route::group(
                     Route::post('/add-to-top-cat', 'Admin\Order\AdminOrderManagementController@add_to_top_cat');
                     Route::get('/{id}', 'Admin\Order\AdminOrderManagementController@show');
                 });
+
+                Route::group(['prefix' => 'payment-request'], function () {
+                    Route::get('/all', 'Admin\Order\PaymentRequestController@all');
+                    Route::post('/store', 'Admin\Order\PaymentRequestController@store');
+                    Route::post('/canvas-store', 'Admin\Order\PaymentRequestController@canvas_store');
+                    Route::post('/update', 'Admin\Order\PaymentRequestController@update');
+                    Route::post('/add-to-top-product', 'Admin\Order\PaymentRequestController@add_to_top_product');
+                    Route::post('/delete-related-image', 'Admin\Order\PaymentRequestController@delete_related_image');
+                    Route::post('/canvas-update', 'Admin\Order\PaymentRequestController@canvas_update');
+                    Route::post('/soft-delete', 'Admin\Order\PaymentRequestController@soft_delete');
+                    Route::post('/destroy', 'Admin\Order\PaymentRequestController@destroy');
+                    Route::post('/restore', 'Admin\Order\PaymentRequestController@restore');
+                    Route::post('/bulk-import', 'Admin\Order\PaymentRequestController@bulk_import');
+                    Route::get('/{id}', 'Admin\Order\PaymentRequestController@show');
+                });
             });
 
             Route::group(['prefix' => 'product_stock'], function () {

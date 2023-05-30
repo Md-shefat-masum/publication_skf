@@ -32,7 +32,7 @@
             </left-nav-list-group>
 
             <left-nav-list-group :role_permissions="['admin']" :icon="`fa fa-list`" :text="`Accounts`" :alert_count="0">
-                <left-nav-list-item :to="'AllPaymentRequest'" :text="'Payment Requests'" />
+                <left-nav-list-item :to="'AllAdminPaymentRequest'" :text="'Payment Requests'" />
                 <left-nav-list-item :to="'AllAdminAccount'" :text="'Income & expenses'" />
                 <left-nav-list-item :to="'AllAdminAccountCategory'" :text="'Categories'" />
                 <left-nav-list-item :to="'AllAdminAccountBank'" :text="'Accounts'" />

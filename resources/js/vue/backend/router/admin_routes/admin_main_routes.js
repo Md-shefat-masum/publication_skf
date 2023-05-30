@@ -8,6 +8,7 @@ import product from "./sub_routes/product";
 import product_category from "./sub_routes/product_category";
 import translator from "./sub_routes/translator";
 import writer from "./sub_routes/writer";
+import payment_request from "./sub_routes/payment_request";
 
 export default {
     path: "/admin",
@@ -26,5 +27,6 @@ export default {
         product_category,
         translator,
         writer,
+        payment_request,
     ],
 };
