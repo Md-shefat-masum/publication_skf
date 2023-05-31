@@ -45,6 +45,11 @@ export default {
             type: String,
             default: '',
         },
+        id: {
+            type: String,
+            default: null,
+            required: false,
+        },
         name: {
             type: String,
             default: null,
@@ -133,7 +138,7 @@ export default {
             }
         },
         uninque_id_for_label: function(){
-            let id = this.name || (this.data_attr?.name && 'data-'.data_attr?.name);
+            let id = this.id || this.name || (this.data_attr?.name && 'data-'.data_attr?.name);
             return this.input_not_text?this.label.replaceAll(' ','_'):id
         },
 

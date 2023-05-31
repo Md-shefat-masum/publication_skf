@@ -47,8 +47,12 @@ class PaperController extends Controller
         if(!$data){
             return response()->json([
                 'err_message' => 'not found',
-                'errors' => ['role'=>['data not found']],
+                'errors' => ['supplier_name'=>['data not found']],
             ], 422);
+        }
+        $mobile_number = PhoneNumber::where('table_id',$data->id)->where('table_name','supplier_papers')->get();
+        foreach ($mobile_number as $key=>$number) {
+            $data->{"mobile_number_".($key+1)} = $number->mobile_number;
         }
         return response()->json($data,200);
     }
@@ -146,17 +150,25 @@ class PaperController extends Controller
         }
 
         $data->supplier_name = request()->supplier_name;
-        $data->designation = request()->designation;
-        $data->address = request()->address;
+        $data->paper_name = request()->paper_name;
+        $data->paper_type = request()->paper_type;
+        $data->cost_per_paper = request()->cost_per_paper;
+        $data->cost_per_ream = request()->cost_per_ream;
+        $data->purchase_date = request()->purchase_date;
         $data->description = request()->description;
-        $data->creator = Auth::user()->id;
         $data->save();
 
-        if(request()->has('image')){
-            $data->image = Storage::put('uploads/writers',request()->file('image'));
+        if(request()->has('mobile_number') && count(request()->mobile_number)){
+            PhoneNumber::where('table_id',$data->id)->where('table_name','supplier_papers')->delete();
+            foreach (request()->mobile_number as $mobile_number) {
+                if($mobile_number)
+                PhoneNumber::create([
+                    'table_id' => $data->id,
+                    'table_name' => 'supplier_papers',
+                    'mobile_number' => $mobile_number,
+                ]);
+            }
         }
-        $data->save();
-        $data->update();
 
         return response()->json($data, 200);
     }
