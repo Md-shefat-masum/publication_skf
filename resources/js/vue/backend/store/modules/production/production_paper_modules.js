@@ -18,8 +18,6 @@ const getters = {
 // actions
 const actions = {
     ...test_module.actions(),
-
-
 }
 
 // mutators

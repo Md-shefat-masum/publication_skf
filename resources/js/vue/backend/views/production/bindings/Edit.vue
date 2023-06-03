@@ -17,30 +17,69 @@
                     <div class="row justify-content-center">
                         <div class="col-lg-10">
                             <div class="admin_form form_1" v-if="this[`get_${store_prefix}`]">
-                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
-                                        :label="`Name`"
-                                        :name="`full_name`"
-                                        :value="this[`get_${store_prefix}`]['full_name']"
+                                        :label="`Company Name`"
+                                        :name="`company_name`"
+                                        :value="this[`get_${store_prefix}`].company_name"
                                     />
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
-                                        :label="`Email`"
-                                        :name="`email`"
-                                        :value="this[`get_${store_prefix}`]['email']"
+                                        :label="`Each Book Binding Cost`"
+                                        :name="`binding_cost`"
+                                        :type="`number`"
+                                        :value="this[`get_${store_prefix}`].binding_cost"
                                     />
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
-                                        :label="`Subject`"
-                                        :name="`subject`"
-                                        :value="this[`get_${store_prefix}`]['subject']"
+                                        :label="`Total Books`"
+                                        :name="`total_book`"
+                                        :type="`number`"
+                                        :value="this[`get_${store_prefix}`].total_book"
                                     />
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
-                                    <label for="message">Message</label>
-                                    <textarea class="form-control" :value="this[`get_${store_prefix}`]['message']" id="message" name="message"></textarea>
+                                    <input-field
+                                        :label="`Contact date`"
+                                        :name="`contact_date`"
+                                        :type="`date`"
+                                        :value="this[`get_${store_prefix}`].contact_date"
+                                    />
+                                </div>
+                                <div class=" form-group d-grid full_width align-content-start gap-1 mb-2 " >
+                                    <label for="address">Address</label>
+                                    <textarea class="form-control" id="address" :value="this[`get_${store_prefix}`].address" name="address"></textarea>
+                                </div>
+                                <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
+                                    <div class="row">
+                                        <div class="col-lg-6 mb-2">
+                                            <input-field
+                                                :label="`mobile_number 1`"
+                                                :name="`mobile_number[]`"
+                                                :value="(data.mobile_numbers.length && data.mobile_numbers[0]) ? data.mobile_numbers[0].mobile_number : ''"
+                                            />
+                                        </div>
+                                        <div class="col-lg-6 mb-2">
+                                            <input-field
+                                                :label="`mobile_number 2`"
+                                                :name="`mobile_number[]`"
+                                                :value="(data.mobile_numbers.length && data.mobile_numbers[1]) ? data.mobile_numbers[1].mobile_number : ''"
+                                            />
+                                        </div>
+                                        <div class="col-lg-6 mb-2">
+                                            <input-field
+                                                :label="`mobile_number 3`"
+                                                :name="`mobile_number[]`"
+                                                :value="(data.mobile_numbers.length && data.mobile_numbers[2]) ? data.mobile_numbers[2].mobile_number : ''"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class=" form-group d-grid full_width align-content-start gap-1 mb-2 " >
+                                    <label for="description">Description</label>
+                                    <textarea class="form-control" :value="this[`get_${store_prefix}`].description" id="description" name="description"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -88,7 +127,10 @@ export default {
         },
     },
     computed: {
-        ...mapGetters([`get_${store_prefix}`])
+        ...mapGetters([`get_${store_prefix}`]),
+        ...mapGetters({
+            data: `get_${store_prefix}`
+        }),
     }
 };
 </script>

@@ -30,13 +30,13 @@ class SupplierPrintSeeder extends Seeder
             "Meghna Publications"
         );
 
-        function generateRandomMobileNumber()
-        {
-            $prefixes = ['+1', '+44', '+61', '+49'];
-            $number = rand(100000000, 999999999);
-            $prefix = $prefixes[rand(0, count($prefixes) - 1)];
-            return $prefix . $number;
-        }
+        // function generateRandomMobileNumber()
+        // {
+        //     $prefixes = ['+1', '+44', '+61', '+49'];
+        //     $number = rand(100000000, 999999999);
+        //     $prefix = $prefixes[rand(0, count($prefixes) - 1)];
+        //     return $prefix . $number;
+        // }
         foreach ($data as $item) {
             $data = SupplierPrint::create([
                 'company_name' => $item,

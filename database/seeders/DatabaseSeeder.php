@@ -49,6 +49,7 @@ class DatabaseSeeder extends Seeder
             CustomerSeeder::class,
             // ExtraUserSeeder::class,
             ContactMessageSeeder::class,
+            MobileNumberSeeder::class,
 
             AccountSeeder::class,
             AccountCategoryTypeSeeder::class,
@@ -82,8 +83,6 @@ class DatabaseSeeder extends Seeder
             BannerSeeder::class,
             AboutSeeder::class,
             AddressSeeder::class,
-            MobileNumberSeeder::class,
-
         ]);
     }
 }

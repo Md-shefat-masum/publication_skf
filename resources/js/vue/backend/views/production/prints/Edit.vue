@@ -62,21 +62,21 @@
                                             <input-field
                                                 :label="`mobile_number 1`"
                                                 :name="`mobile_number[]`"
-                                                :value="(data.mobile_numbers.length && data.mobile_numbers[0]) ? data.mobile_numbers[0].mobile_number : 0"
+                                                :value="(data.mobile_numbers.length && data.mobile_numbers[0]) ? data.mobile_numbers[0].mobile_number : ''"
                                             />
                                         </div>
                                         <div class="col-lg-6 mb-2">
                                             <input-field
                                                 :label="`mobile_number 2`"
                                                 :name="`mobile_number[]`"
-                                                :value="(data.mobile_numbers.length && data.mobile_numbers[1]) ? data.mobile_numbers[1].mobile_number : 0"
+                                                :value="(data.mobile_numbers.length && data.mobile_numbers[1]) ? data.mobile_numbers[1].mobile_number : ''"
                                             />
                                         </div>
                                         <div class="col-lg-6 mb-2">
                                             <input-field
                                                 :label="`mobile_number 3`"
                                                 :name="`mobile_number[]`"
-                                                :value="(data.mobile_numbers.length && data.mobile_numbers[2]) ? data.mobile_numbers[2].mobile_number : 0"
+                                                :value="(data.mobile_numbers.length && data.mobile_numbers[2]) ? data.mobile_numbers[2].mobile_number : ''"
                                             />
                                         </div>
                                     </div>
