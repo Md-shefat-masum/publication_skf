@@ -16,27 +16,25 @@
                         <div class="col-lg-10">
                             <div class="admin_form form_1">
                                 <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
-                                    <input-field
-                                        :label="`Product Name`"
-                                        :name="`full_name`"
-                                    />
+                                    <ProductModal :select_qty="1"></ProductModal>
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Paper amount <sub>ream</sub>`"
-                                        :name="`full_name`"
+                                        :name="`paper_amount`"
+                                        :type="`number`"
                                     />
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Print Qty`"
-                                        :name="`qty`"
+                                        :name="`print_qty`"
                                     />
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Book cover designer`"
-                                        :name="`subject`"
+                                        :name="`book_cover_designer`"
                                     />
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
@@ -86,12 +84,12 @@
 <script>
 import { mapActions } from 'vuex'
 import InputField from '../../components/InputField.vue'
+import ProductModal from "../products/components/ManagementModal.vue"
 /** store and route prefix for export object use */
 import PageSetup from './PageSetup';
 const {route_prefix, store_prefix} = PageSetup;
-
 export default {
-    components: { InputField },
+    components: { InputField, ProductModal },
     data: function(){
         return {
             /** store prefix for JSX */
