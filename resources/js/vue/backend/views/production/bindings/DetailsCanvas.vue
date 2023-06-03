@@ -14,19 +14,24 @@
                             <td>{{ this[`get_${store_prefix}`].id }}</td>
                         </tr>
                         <tr>
-                            <td>Name</td>
+                            <td>Company Name</td>
                             <td>:</td>
-                            <td>{{ this[`get_${store_prefix}`].full_name }}</td>
+                            <td>{{ this[`get_${store_prefix}`].company_name }}</td>
                         </tr>
                         <tr>
-                            <td>Subject</td>
+                            <td>Binding Cost</td>
                             <td>:</td>
-                            <td>{{ this[`get_${store_prefix}`].subject }}</td>
+                            <td>{{ this[`get_${store_prefix}`].binding_cost }}</td>
                         </tr>
                         <tr>
-                            <td>Message</td>
+                            <td>Total Book</td>
                             <td>:</td>
-                            <td>{{ this[`get_${store_prefix}`].message }}</td>
+                            <td>{{ this[`get_${store_prefix}`].total_book }}</td>
+                        </tr>
+                        <tr>
+                            <td>Description</td>
+                            <td>:</td>
+                            <td>{{ this[`get_${store_prefix}`].description }}</td>
                         </tr>
                         <tr>
                             <td>Status</td>

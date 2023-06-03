@@ -19,8 +19,8 @@ class CreateSupplierBindingsTable extends Migration
             $table->float("binding_cost")->default(0);
             $table->integer('total_book')->default(0);
             $table->dateTime("contact_date")->nullable();
+            $table->text("address")->nullable();
             $table->text("description")->nullable();
-            $table->text("adddress")->nullable();
             // phone number into phone_numbers table
 
             $table->bigInteger('creator')->unsigned()->nullable();

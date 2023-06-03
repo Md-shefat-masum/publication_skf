@@ -49,7 +49,7 @@ class PrintController extends Controller
                 'errors' => ['supplier_name'=>['data not found']],
             ], 422);
         }
-        $mobile_number = PhoneNumber::where('table_id',$data->id)->where('table_name','supplier_papers')->get();
+        $mobile_number = PhoneNumber::where('table_id',$data->id)->where('table_name','supplier_prints')->get();
         foreach ($mobile_number as $key=>$number) {
             $data->{"mobile_number_".($key+1)} = $number->mobile_number;
         }

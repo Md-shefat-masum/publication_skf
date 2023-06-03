@@ -36,6 +36,5 @@ class SupplierPrint extends Model
     public function getMobileNumbersAttribute()
     {
         return PhoneNumber::select(['id','table_id','table_name','mobile_number'])->where('table_id',$this->id)->where('table_name','supplier_prints')->get();
-
     }
 }

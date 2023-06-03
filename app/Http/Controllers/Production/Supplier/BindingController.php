@@ -50,7 +50,7 @@ class BindingController extends Controller
                 'errors' => ['supplier_name'=>['data not found']],
             ], 422);
         }
-        $mobile_number = PhoneNumber::where('table_id',$data->id)->where('table_name','supplier_papers')->get();
+        $mobile_number = PhoneNumber::where('table_id',$data->id)->where('table_name','supplier_bindings')->get();
         foreach ($mobile_number as $key=>$number) {
             $data->{"mobile_number_".($key+1)} = $number->mobile_number;
         }
@@ -61,10 +61,10 @@ class BindingController extends Controller
     {
         $validator = Validator::make(request()->all(), [
             'company_name' => ['required'],
-            'print_cost' => ['required'],
-            'total_page' => ['required'],
-            'per_page_cost' => ['required'],
+            'binding_cost' => ['required'],
             'contact_date' => ['required'],
+            'address' => ['required'],
+            'total_book' => ['required'],
         ]);
 
         if ($validator->fails()) {
@@ -82,7 +82,7 @@ class BindingController extends Controller
             foreach (request()->mobile_number as $mobile_number) {
                 PhoneNumber::create([
                     'table_id' => $data->id,
-                    'table_name' => 'supplier_prints',
+                    'table_name' => 'supplier_bindings',
                     'mobile_number' => $mobile_number,
                 ]);
             }
@@ -145,12 +145,12 @@ class BindingController extends Controller
         $data->save();
 
         if(request()->has('mobile_number') && count(request()->mobile_number)){
-            PhoneNumber::where('table_id',$data->id)->where('table_name','supplier_prints')->delete();
+            PhoneNumber::where('table_id',$data->id)->where('table_name','supplier_bindings')->delete();
             foreach (request()->mobile_number as $mobile_number) {
                 if($mobile_number)
                 PhoneNumber::create([
                     'table_id' => $data->id,
-                    'table_name' => 'supplier_prints',
+                    'table_name' => 'supplier_bindings',
                     'mobile_number' => $mobile_number,
                 ]);
             }
