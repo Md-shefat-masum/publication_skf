@@ -34,7 +34,7 @@ class SupplierPrintSeeder extends Seeder
                 'company_name' => $item,
                 'print_cost' => rand(100, 200),
                 'total_page' => rand(100, 500),
-                'per_page_cost' => rand(.5,2),
+                'per_page_cost' => rand(1,2),
                 'contact_date' => '2023'.'-'.rand(1,5).'-'.rand(1,28),
             ]);
         }

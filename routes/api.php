@@ -101,6 +101,36 @@ Route::group(
                     Route::get('/{id}', 'Production\Supplier\PaperController@show');
                 });
 
+                Route::group(['prefix' => 'print'], function () {
+                    Route::get('/all', 'Production\Supplier\PrintController@all');
+                    Route::post('/store', 'Production\Supplier\PrintController@store');
+                    Route::post('/canvas-store', 'Production\Supplier\PrintController@canvas_store');
+                    Route::post('/update', 'Production\Supplier\PrintController@update');
+                    Route::post('/add-to-top-product', 'Production\Supplier\PrintController@add_to_top_product');
+                    Route::post('/delete-related-image', 'Production\Supplier\PrintController@delete_related_image');
+                    Route::post('/canvas-update', 'Production\Supplier\PrintController@canvas_update');
+                    Route::post('/soft-delete', 'Production\Supplier\PrintController@soft_delete');
+                    Route::post('/destroy', 'Production\Supplier\PrintController@destroy');
+                    Route::post('/restore', 'Production\Supplier\PrintController@restore');
+                    Route::post('/bulk-import', 'Production\Supplier\PrintController@bulk_import');
+                    Route::get('/{id}', 'Production\Supplier\PrintController@show');
+                });
+
+                Route::group(['prefix' => 'binding'], function () {
+                    Route::get('/all', 'Production\Supplier\BindingController@all');
+                    Route::post('/store', 'Production\Supplier\BindingController@store');
+                    Route::post('/canvas-store', 'Production\Supplier\BindingController@canvas_store');
+                    Route::post('/update', 'Production\Supplier\BindingController@update');
+                    Route::post('/add-to-top-product', 'Production\Supplier\BindingController@add_to_top_product');
+                    Route::post('/delete-related-image', 'Production\Supplier\BindingController@delete_related_image');
+                    Route::post('/canvas-update', 'Production\Supplier\BindingController@canvas_update');
+                    Route::post('/soft-delete', 'Production\Supplier\BindingController@soft_delete');
+                    Route::post('/destroy', 'Production\Supplier\BindingController@destroy');
+                    Route::post('/restore', 'Production\Supplier\BindingController@restore');
+                    Route::post('/bulk-import', 'Production\Supplier\BindingController@bulk_import');
+                    Route::get('/{id}', 'Production\Supplier\BindingController@show');
+                });
+
             });
 
             Route::group(['prefix' => 'admin'], function () {

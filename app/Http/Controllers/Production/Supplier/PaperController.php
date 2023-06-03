@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Production\Supplier;
 
 use App\Http\Controllers\Controller;
-use App\Models\Product\Brand;
-use App\Models\Product\ProductWriter;
 use App\Models\Production\SupplierPaper;
 use App\Models\User\PhoneNumber;
 use Carbon\Carbon;

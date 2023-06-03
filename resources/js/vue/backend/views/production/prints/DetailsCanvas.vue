@@ -14,19 +14,30 @@
                             <td>{{ this[`get_${store_prefix}`].id }}</td>
                         </tr>
                         <tr>
-                            <td>Name</td>
+                            <td>Company</td>
                             <td>:</td>
-                            <td>{{ this[`get_${store_prefix}`].full_name }}</td>
+                            <td>{{ this[`get_${store_prefix}`].company_name }}</td>
                         </tr>
                         <tr>
-                            <td>Subject</td>
+                            <td>Contact date</td>
                             <td>:</td>
-                            <td>{{ this[`get_${store_prefix}`].subject }}</td>
+                            <td>{{ this[`get_${store_prefix}`].contact_date }}</td>
                         </tr>
                         <tr>
-                            <td>Message</td>
+                            <td>Description</td>
                             <td>:</td>
-                            <td>{{ this[`get_${store_prefix}`].message }}</td>
+                            <td>{{ this[`get_${store_prefix}`].description }}</td>
+                        </tr>
+                        <tr>
+                            <td>Phone Numbers</td>
+                            <td>:</td>
+                            <td>
+                                <ul>
+                                    <li v-for="number in this[`get_${store_prefix}`].mobile_numbers" :key="number.id">
+                                        {{ number.mobile_number }}
+                                    </li>
+                                </ul>
+                            </td>
                         </tr>
                         <tr>
                             <td>Status</td>

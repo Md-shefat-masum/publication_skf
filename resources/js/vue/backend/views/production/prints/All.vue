@@ -71,38 +71,40 @@
                         <tr>
                             <th><input @click="call_store(`set_select_all_${store_prefix}s`)" type="checkbox" class="form-check-input check_all"></th>
                             <table-th :sort="true" :tkey="'id'" :title="'ID'" :ariaLable="'id'"/>
-                            <table-th :sort="true" :tkey="'full_name'" :title="'Company'" />
-                            <table-th :sort="true" :tkey="'full_name'" :title="'Each Book Printing Cost'" />
-                            <table-th :sort="true" :tkey="'email'" :title="'Per Page Cost'" />
-                            <table-th :sort="true" :tkey="'email'" :title="'Total Book'" />
-                            <table-th :sort="true" :tkey="'subject'" :title="'Total Cost'" />
+                            <table-th :sort="true" :tkey="'company_name'" :title="'Company'" />
+                            <table-th :sort="true" :tkey="'contact_date'" :title="'Contact Date'" />
+                            <table-th :sort="true" :tkey="'print_cost'" :title="'Each Book Printing Cost'" />
+                            <table-th :sort="true" :tkey="'per_page_cost'" :title="'Per Page Cost'" />
+                            <table-th :sort="true" :tkey="'total_page'" :title="'Total Pages'" />
+                            <table-th :sort="false" :tkey="''" :title="'Per Page Total Cost'" />
                             <table-th :sort="true" :tkey="'status'" :title="'Status'" />
                             <th aria-label="actions">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
-                        <!-- <tr v-for="item in this[`get_${store_prefix}s`].data" :key="item.id"> -->
-                        <tr v-for="item in data" :key="item.id">
+                        <tr v-for="item in this[`get_${store_prefix}s`].data" :key="item.id">
                             <td>
                                 <input v-if="check_if_data_is_selected(item)" :data-id="item.id" checked @change="call_store(`set_selected_${store_prefix}s`,item)" type="checkbox" class="form-check-input">
                                 <input v-else @change="call_store(`set_selected_${store_prefix}s`,item)" type="checkbox" class="form-check-input">
                             </td>
-                            <td>{{ parseInt(Math.random()*100) }}</td>
+                            <td>{{ item.id }}</td>
                             <td>
                                 <span class="text-warning cursor_pointer" @click.prevent="call_store(`set_${store_prefix}`,item)">
-                                    {{ item.company }}
+                                    {{ item.company_name }}
                                 </span>
                             </td>
                             <td>
-                                {{ item.printing_cost }}
+                                {{ item.contact_date }}
+                            </td>
+                            <td>
+                                {{ item.print_cost }}
                             </td>
                             <td>
                                 {{ item.per_page_cost }}
                             </td>
-                            <td>{{ item.total_book }}</td>
-                            <td>{{ item.total_book * item.printing_cost }}</td>
+                            <td>{{ item.total_page }}</td>
+                            <td>{{ item.total_page * item.per_page_cost }}</td>
                             <td>
-                                <span class="badge bg-label-success me-1">avaiable</span>
                                 <span v-if="item.status == 1" class="badge bg-label-success me-1">active</span>
                                 <span v-if="item.status == 0" class="badge bg-label-success me-1">deactive</span>
                             </td>
@@ -210,32 +212,6 @@ export default {
         return {
             store_prefix,
             route_prefix,
-            data: [
-                {
-                    company: 'E boi ghor',
-                    printing_cost: 300,
-                    total_book: 3500,
-                    per_page_cost: 2,
-                },
-                {
-                    company: 'B.K. Printers',
-                    printing_cost: 200,
-                    total_book: 500,
-                    per_page_cost: 2,
-                },
-                {
-                    company: 'Dhaka Printing and Packaging',
-                    printing_cost: 700,
-                    total_book: 300,
-                    per_page_cost: 1.5,
-                },
-                {
-                    company: 'Canvas- Design & Printing Press',
-                    printing_cost: 100,
-                    total_book: 5000,
-                    per_page_cost: 2.2,
-                },
-            ]
         }
     },
     created: function(){

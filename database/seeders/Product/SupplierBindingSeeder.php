@@ -32,6 +32,7 @@ class SupplierBindingSeeder extends Seeder
             SupplierBinding::create([
                 'company_name' => $item,
                 'binding_cost' => rand(10, 20),
+                'total_book' => rand(100, 150),
                 'contact_date' => '2023'.'-'.rand(1,5).'-'.rand(1,28),
             ]);
         }
