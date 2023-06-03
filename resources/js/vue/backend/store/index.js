@@ -22,6 +22,7 @@ import production_product_category_modules from './modules/production/production
 import production_paper_modules from './modules/production/production_paper_modules';
 import production_print_modules from './modules/production/production_print_modules';
 import production_binding_modules from './modules/production/production_binding_modules';
+import production_designer_modules from './modules/production/production_designer_modules';
 
 const store = new Vuex.Store({
     modules: {
@@ -44,6 +45,7 @@ const store = new Vuex.Store({
         production_paper_modules,
         production_print_modules,
         production_binding_modules,
+        production_designer_modules,
     },
     state: {},
     getters: {},
