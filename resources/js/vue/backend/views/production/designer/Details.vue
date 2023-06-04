@@ -22,41 +22,27 @@
                             </tr>
                             <tr>
                                 <td>Name</td>
-                                <td>{{ this[`get_${store_prefix}`].full_name }}</td>
+                                <td>{{ this[`get_${store_prefix}`].name }}</td>
                             </tr>
                             <tr>
-                                <td>Email</td>
-                                <td>{{ this[`get_${store_prefix}`].email }}</td>
-                            </tr>
-                            <tr>
-                                <td>Subject</td>
-                                <td>{{ this[`get_${store_prefix}`].subject }}</td>
+                                <td>Address</td>
+                                <td>{{ this[`get_${store_prefix}`].address }}</td>
                             </tr>
                             <tr>
                                 <td>Description</td>
                                 <td>{{ this[`get_${store_prefix}`].description }}</td>
                             </tr>
                             <tr>
-                                <td>status </td>
+                                <td>Phone Numbers</td>
                                 <td>
-                                    <span v-if="this[`get_${store_prefix}`].status == 1" class="badge bg-label-success me-1">active</span>
-                                    <span v-if="this[`get_${store_prefix}`].status == 0" class="badge bg-label-success me-1">deactive</span>
+                                    <ul>
+                                        <li v-for="number in this[`get_${store_prefix}`].mobile_numbers" :key="number.id">
+                                            {{ number.mobile_number }}
+                                        </li>
+                                    </ul>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>created at </td>
-                                <td>
-                                    {{ new Date(this[`get_${store_prefix}`].created_at).toDateString()  }}, &nbsp;
-                                    {{ new Date(this[`get_${store_prefix}`].created_at).toLocaleTimeString()  }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>updated at </td>
-                                <td>
-                                    {{ new Date(this[`get_${store_prefix}`].updated_at).toDateString()  }}, &nbsp;
-                                    {{ new Date(this[`get_${store_prefix}`].updated_at).toLocaleTimeString()  }}
-                                </td>
-                            </tr>
+
                         </table>
                     </div>
                 </div>

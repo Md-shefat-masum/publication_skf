@@ -14,19 +14,25 @@
                             <td>{{ this[`get_${store_prefix}`].id }}</td>
                         </tr>
                         <tr>
-                            <td>Company Name</td>
+                            <td>Name</td>
                             <td>:</td>
-                            <td>{{ this[`get_${store_prefix}`].company_name }}</td>
+                            <td>{{ this[`get_${store_prefix}`].name }}</td>
                         </tr>
                         <tr>
-                            <td>Binding Cost</td>
+                            <td>Address</td>
                             <td>:</td>
-                            <td>{{ this[`get_${store_prefix}`].binding_cost }}</td>
+                            <td>{{ this[`get_${store_prefix}`].address }}</td>
                         </tr>
                         <tr>
-                            <td>Total Book</td>
+                            <td>Phone Numbers</td>
                             <td>:</td>
-                            <td>{{ this[`get_${store_prefix}`].total_book }}</td>
+                            <td>
+                                <ul>
+                                    <li v-for="number in this[`get_${store_prefix}`].mobile_numbers" :key="number.id">
+                                        {{ number.mobile_number }}
+                                    </li>
+                                </ul>
+                            </td>
                         </tr>
                         <tr>
                             <td>Description</td>

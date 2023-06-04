@@ -17,6 +17,11 @@
                         <div class="col-lg-7">
                             <div class="d-flex gap-2">
                                 <input @keyup="set_p_search_key($event.target.value)" type="search" placeholder="search" class="form-control">
+                                <!-- <select name="" id="">
+                                    <option value="">category1</option>
+                                    <option value="">category1</option>
+                                    <option value="">category1</option>
+                                </select> -->
                                 <button type="button" class="btn btn-outline-adn"><i class="fa fa-search"></i></button>
                             </div>
                             <div class="row py-3" v-if="products.data && products.data.length">

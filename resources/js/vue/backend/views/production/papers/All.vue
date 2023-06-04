@@ -103,9 +103,8 @@
                             <td><b>{{ item.cost_per_ream  }}</b> tk</td>
                             <td>{{ item.stock || 0 }} Ream</td>
                             <td>{{ item.current_stock || 0 }} Ream</td>
-                            <td><b>{{ item.stock || 0 * item.cost_per_ream }}</b> Tk</td>
+                            <td><b>{{ item.stock * item.cost_per_ream || 0 * item.cost_per_ream }}</b> Tk</td>
                             <td>
-                                <span class="badge bg-label-success me-1">{{ item.status }}</span>
                                 <span v-if="item.status == 1" class="badge bg-label-success me-1">active</span>
                                 <span v-if="item.status == 0" class="badge bg-label-success me-1">deactive</span>
                             </td>

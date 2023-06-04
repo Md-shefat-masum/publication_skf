@@ -71,10 +71,10 @@
                         <tr>
                             <th><input @click="call_store(`set_select_all_${store_prefix}s`)" type="checkbox" class="form-check-input check_all"></th>
                             <table-th :sort="true" :tkey="'id'" :title="'ID'" :ariaLable="'id'"/>
-                            <table-th :sort="true" :tkey="'full_name'" :title="'Company'" />
-                            <table-th :sort="true" :tkey="'full_name'" :title="'Each Book Binding Cost'" />
-                            <table-th :sort="true" :tkey="'email'" :title="'Total Book'" />
-                            <table-th :sort="true" :tkey="'subject'" :title="'Total Cost'" />
+                            <table-th :sort="true" :tkey="'company_name'" :title="'Company'" />
+                            <table-th :sort="true" :tkey="'binding_cost'" :title="'Each Book Binding Cost'" />
+                            <table-th :sort="true" :tkey="'total_book'" :title="'Total Book'" />
+                            <table-th :sort="false" :tkey="'subject'" :title="'Total Cost'" />
                             <table-th :sort="true" :tkey="'status'" :title="'Status'" />
                             <th aria-label="actions">Actions</th>
                         </tr>

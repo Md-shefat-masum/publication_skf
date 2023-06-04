@@ -86,6 +86,21 @@ Route::group(
                     Route::get('/{id}', 'Production\Product\ProductController@show');
                 });
 
+                Route::group(['prefix' => 'production'], function () {
+                    Route::get('/all', 'Production\ProductionController@all');
+                    Route::post('/store', 'Production\ProductionController@store');
+                    Route::post('/canvas-store', 'Production\ProductionController@canvas_store');
+                    Route::post('/update', 'Production\ProductionController@update');
+                    Route::post('/add-to-top-product', 'Production\ProductionController@add_to_top_product');
+                    Route::post('/delete-related-image', 'Production\ProductionController@delete_related_image');
+                    Route::post('/canvas-update', 'Production\ProductionController@canvas_update');
+                    Route::post('/soft-delete', 'Production\ProductionController@soft_delete');
+                    Route::post('/destroy', 'Production\ProductionController@destroy');
+                    Route::post('/restore', 'Production\ProductionController@restore');
+                    Route::post('/bulk-import', 'Production\ProductionController@bulk_import');
+                    Route::get('/{id}', 'Production\ProductionController@show');
+                });
+
                 Route::group(['prefix' => 'paper'], function () {
                     Route::get('/all', 'Production\Supplier\PaperController@all');
                     Route::post('/store', 'Production\Supplier\PaperController@store');
@@ -129,6 +144,21 @@ Route::group(
                     Route::post('/restore', 'Production\Supplier\BindingController@restore');
                     Route::post('/bulk-import', 'Production\Supplier\BindingController@bulk_import');
                     Route::get('/{id}', 'Production\Supplier\BindingController@show');
+                });
+
+                Route::group(['prefix' => 'designer'], function () {
+                    Route::get('/all', 'Production\Supplier\DesignerController@all');
+                    Route::post('/store', 'Production\Supplier\DesignerController@store');
+                    Route::post('/canvas-store', 'Production\Supplier\DesignerController@canvas_store');
+                    Route::post('/update', 'Production\Supplier\DesignerController@update');
+                    Route::post('/add-to-top-product', 'Production\Supplier\DesignerController@add_to_top_product');
+                    Route::post('/delete-related-image', 'Production\Supplier\DesignerController@delete_related_image');
+                    Route::post('/canvas-update', 'Production\Supplier\DesignerController@canvas_update');
+                    Route::post('/soft-delete', 'Production\Supplier\DesignerController@soft_delete');
+                    Route::post('/destroy', 'Production\Supplier\DesignerController@destroy');
+                    Route::post('/restore', 'Production\Supplier\DesignerController@restore');
+                    Route::post('/bulk-import', 'Production\Supplier\DesignerController@bulk_import');
+                    Route::get('/{id}', 'Production\Supplier\DesignerController@show');
                 });
 
             });

@@ -2,6 +2,7 @@
 
 namespace App\Models\Production;
 
+use App\Models\Product\Product;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,6 +10,20 @@ class Production extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    protected $appends = [
+        'production_status',
+        'product_info',
+    ];
+
+    public function getProductionStatusAttribute()
+    {
+        return ProductionStatus::select('id','production_id','status','description')->where('production_id',$this->id)->get();
+    }
+
+    public function getProductInfoAttribute()
+    {
+        return Product::select('id','product_name','thumb_image','sales_price')->where('id',$this->product_id)->first();
+    }
 
     public static function boot()
     {
@@ -27,4 +42,5 @@ class Production extends Model
             }
         });
     }
+
 }

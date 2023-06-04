@@ -15,7 +15,8 @@
     <!-- END: Vendor CSS-->
 
     <!-- BEGIN: Theme CSS-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('backend') }}/assets/css/all.min.css">
+    {{-- <link rel="stylesheet" href="/frontend/css/font-awesome.min.css"> --}}
     <script src="/js/sweat-alert.js"></script>
     <link rel="stylesheet" type="text/css" href="{{ asset('backend') }}/app-assets/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="{{ asset('backend') }}/app-assets/css/bootstrap-extended.min.css">
@@ -34,6 +35,8 @@
     <!-- END: Custom CSS-->
     <link rel="stylesheet" href="/css/tailwind/tailwind.css">
     <link rel="stylesheet" href="/css/backend.css">
+    <script src="/backend/assets/js/jquery-3.6.3.min.js"></script>
+    <script src="/js/pace.min.js"></script>
     <script src="/js/vue/dashboard.js" defer></script>
 
     <script>
@@ -99,17 +102,17 @@
     <button class="btn btn-primary btn-icon scroll-top" type="button"><i data-feather="arrow-up"></i></button>
     <!-- END: Footer-->
 
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js"></script>
-    <!-- BEGIN: Vendor JS-->
-    {{-- <script src="{{ asset('backend') }}/app-assets/vendors/js/vendors.min.js"></script> --}}
-    <!-- BEGIN Vendor JS-->
 
-    <!-- BEGIN: Theme JS-->
+
+    {{-- <!-- BEGIN: Vendor JS--> --}}
+    {{-- <script src="{{ asset('backend') }}/app-assets/vendors/js/vendors.min.js"></script> --}}
+    {{-- <!-- BEGIN Vendor JS--> --}}
+
+    {{-- <!-- BEGIN: Theme JS--> --}}
     {{-- <script src="{{ asset('backend') }}/app-assets/js/core/app-menu.min.js"></script> --}}
     {{-- <script src="{{ asset('backend') }}/app-assets/js/core/app.min.js"></script> --}}
     {{-- <script src="{{ asset('backend') }}/app-assets/js/scripts/customizer.min.js"></script> --}}
-    <!-- END: Theme JS-->
+    {{-- <!-- END: Theme JS--> --}}
 
 </body>
 

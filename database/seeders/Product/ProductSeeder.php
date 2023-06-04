@@ -20,9 +20,12 @@ class ProductSeeder extends Seeder
     {
         Product::truncate();
         ProductDiscount::truncate();
+        ProductStockLog::truncate();
+
         DB::table('brand_product')->truncate();
         DB::table('category_product')->truncate();
-        ProductStockLog::truncate();
+        DB::table('product_product_writer')->truncate();
+        DB::table('product_product_translator')->truncate();
 
         $descriptions = [
             "আল কুদস প্রখ্যাত মিশরীয় ইসলামী চিন্তাবিদ ড. মুহাম্মাদ ইমারাহ রহ.-এর সাড়াজাগানো পুস্তিকা। বইটিতে পশ্চিমা খ্রিষ্টান বিশ্বের যোগসাজশে জায়নবাদী ইসরাইল প্রতিষ্ঠার আদ্যোপান্ত তথ্যভিত্তিক সংক্ষিপ্ত বর্ণনায় ফুটে উঠেছে। বইটির লেখক ঐতিহাসিক তথ্য-প্রমাণ ও দলিলের মাধ্যমে প্রমাণ করেছেন—জেরুসালেম নগরীর প্রকৃত অধিকার কার।",
@@ -128,6 +131,7 @@ class ProductSeeder extends Seeder
                     "meta_description" => $item["product_name"],
                 ]
             );
+
 
             $product->brand()->attach(rand(1, 20));
             $product->categories()->attach([rand(1, 19)]);

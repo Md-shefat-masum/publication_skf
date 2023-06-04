@@ -15,9 +15,9 @@ class ProductionStatus extends Model
         parent::boot();
 
         static::creating(function ($data) {
-            if (auth()->check()) {
-                $data->creator = auth()->user()->id;
-            }
+            // if (auth()->check()) {
+            //     $data->creator = auth()->user()->id;
+            // }
         });
     }
 }

@@ -4,7 +4,7 @@
             <div class="card-header">
                 <h4>Details</h4>
                 <div class="btns">
-                    <a href="" @click.prevent="call_store(`set_${store_prefix}`,null), $router.push({ name: `All${route_prefix}` })"  class="btn rounded-pill btn-outline-warning" >
+                    <a href="" @click.prevent="call_store(`set_${store_prefix}`,null), $router.push({ name: `AllProductions` })"  class="btn rounded-pill btn-outline-warning" >
                         <i class="fa fa-arrow-left me-5px"></i>
                         <span >
                             Back
@@ -21,20 +21,29 @@
                                 <td>{{ this[`get_${store_prefix}`].id }}</td>
                             </tr>
                             <tr>
-                                <td>Name</td>
-                                <td>{{ this[`get_${store_prefix}`].full_name }}</td>
+                                <td>product</td>
+                                <td>{{ data.product_info.product_name }}</td>
                             </tr>
                             <tr>
-                                <td>Email</td>
-                                <td>{{ this[`get_${store_prefix}`].email }}</td>
+                                <td>print qty</td>
+                                <td>{{ data.print_qty }}</td>
                             </tr>
                             <tr>
-                                <td>Subject</td>
-                                <td>{{ this[`get_${store_prefix}`].subject }}</td>
+                                <td>Paper amount</td>
+                                <td>{{ data.paper_amount }} ream</td>
                             </tr>
                             <tr>
-                                <td>Description</td>
-                                <td>{{ this[`get_${store_prefix}`].description }}</td>
+                                <td>Designer</td>
+                                <td>{{ data.design.name }}</td>
+                            </tr>
+                            <tr>
+                                <td>production statuses</td>
+                                <td>
+                                    <div v-for="(statuss, index) in data.production_status" :key="statuss.id" class="d-flex gap-2">
+                                        <div><b>{{index}}. {{ statuss.status }}</b>: </div>
+                                        <div>{{ statuss.description }}</div>
+                                    </div>
+                                </td>
                             </tr>
                             <tr>
                                 <td>status </td>
@@ -79,8 +88,8 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
 import PermissionButton from '../../components/PermissionButton.vue'
 /** store and route prefix for export object use */
 import PageSetup from './PageSetup';
-const {route_prefix, store_prefix} = PageSetup;
-
+const {route_prefix} = PageSetup;
+const store_prefix = 'production_production';
 export default {
     components: { PermissionButton },
     data: function(){
@@ -91,11 +100,11 @@ export default {
         }
     },
     created: function () {
-        this[`fetch_${store_prefix}`]({id: this.$route.params.id, select_all:1})
+        this[`fetch_production`]({id: this.$route.params.id, select_all:1})
     },
     methods: {
         ...mapActions([
-            `fetch_${store_prefix}`,
+            `fetch_production`,
         ]),
         ...mapMutations([
             `set_${store_prefix}`
@@ -105,7 +114,10 @@ export default {
         },
     },
     computed: {
-        ...mapGetters([`get_${store_prefix}`])
+        ...mapGetters([`get_${store_prefix}`]),
+        ...mapGetters({
+            data: `get_${store_prefix}`
+        }),
     }
 }
 </script>

@@ -423,6 +423,10 @@ html.nav-hide-hover .header-navbar.floating-nav {
   font-size: 16px;
 }
 
+.page-link .sr-only {
+  display: none;
+}
+
 .custom_scroll, .canvas_backdrop .content .cotent_body, .list_card .card-body {
   /* width */
   /* Track */

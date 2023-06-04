@@ -1,7 +1,9 @@
 import Layout from "../../../views/production/orders/Layout";
 import All from "../../../views/production/orders/All";
+import AllProduction from "../../../views/production/orders/AllProduction";
 import Create from "../../../views/production/orders/Create";
 import Production from "../../../views/production/orders/Production";
+import ProductionEdit from "../../../views/production/orders/ProductionEdit";
 import Pricing from "../../../views/production/orders/Pricing";
 import Edit from "../../../views/production/orders/Edit";
 import Details from "../../../views/production/orders/Details";
@@ -21,6 +23,11 @@ export default {
             component: All,
         },
         {
+            path: "productions",
+            name: "AllProductions",
+            component: AllProduction,
+        },
+        {
             path: "import",
             name: "ImportProductionOrder",
             component: Import,
@@ -34,6 +41,11 @@ export default {
             path: "production",
             name: "ProductionProductionOrder",
             component: Production,
+        },
+        {
+            path: "production/:id",
+            name: "ProductionProductionEdit",
+            component: ProductionEdit,
         },
         {
             path: "pricing",

@@ -23,7 +23,7 @@ const actions = {
     fetch_check_auth: function (state) {
         axios.post('/user/check-auth')
             .then((res) => {
-                $('#app_pre_loader').toggleClass('d-none');
+                document.querySelector('#app_pre_loader')?.classList.toggle('d-none');
                 this.commit('set_check_auth', res.data.auth_status);
                 this.commit('set_auth_information', res.data.auth_information);
                 this.commit('set_auth_roles');
@@ -33,6 +33,7 @@ const actions = {
                 // this.commit('set_check_auth', false);
                 // window.localStorage.removeItem('token');
                 console.log('user not authenticated');
+                console.log(err);
                 // window.location.href = '/login';
             })
     },

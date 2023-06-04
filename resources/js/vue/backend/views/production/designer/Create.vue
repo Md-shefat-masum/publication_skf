@@ -17,29 +17,8 @@
                             <div class="admin_form form_1">
                                 <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
-                                        :label="`Company Name`"
-                                        :name="`company_name`"
-                                    />
-                                </div>
-                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
-                                    <input-field
-                                        :label="`Each Book Binding Cost`"
-                                        :name="`binding_cost`"
-                                        :type="`number`"
-                                    />
-                                </div>
-                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
-                                    <input-field
-                                        :label="`Total Books`"
-                                        :name="`total_book`"
-                                        :type="`number`"
-                                    />
-                                </div>
-                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
-                                    <input-field
-                                        :label="`Contact date`"
-                                        :name="`contact_date`"
-                                        :type="`date`"
+                                        :label="`Name`"
+                                        :name="`name`"
                                     />
                                 </div>
                                 <div class=" form-group d-grid full_width align-content-start gap-1 mb-2 " >

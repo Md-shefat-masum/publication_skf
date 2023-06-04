@@ -19,33 +19,9 @@
                             <div class="admin_form form_1" v-if="this[`get_${store_prefix}`]">
                                 <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
-                                        :label="`Company Name`"
-                                        :name="`company_name`"
-                                        :value="this[`get_${store_prefix}`].company_name"
-                                    />
-                                </div>
-                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
-                                    <input-field
-                                        :label="`Each Book Binding Cost`"
-                                        :name="`binding_cost`"
-                                        :type="`number`"
-                                        :value="this[`get_${store_prefix}`].binding_cost"
-                                    />
-                                </div>
-                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
-                                    <input-field
-                                        :label="`Total Books`"
-                                        :name="`total_book`"
-                                        :type="`number`"
-                                        :value="this[`get_${store_prefix}`].total_book"
-                                    />
-                                </div>
-                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
-                                    <input-field
-                                        :label="`Contact date`"
-                                        :name="`contact_date`"
-                                        :type="`date`"
-                                        :value="this[`get_${store_prefix}`].contact_date"
+                                        :label="`Name`"
+                                        :name="`name`"
+                                        :value="this[`get_${store_prefix}`].name"
                                     />
                                 </div>
                                 <div class=" form-group d-grid full_width align-content-start gap-1 mb-2 " >

@@ -72,6 +72,7 @@ class SupplierPaperSeeder extends Seeder
                 'cost_per_paper' => rand(.3, 2),
                 'cost_per_ream' => rand(300, 500),
                 'purchase_date' => '2023'.'-'.rand(1,5).'-'.rand(1,28),
+                "stock" => rand(50,60),
             ]);
 
             PhoneNumber::create([

@@ -21,16 +21,24 @@
                                 <td>{{ this[`get_${store_prefix}`].id }}</td>
                             </tr>
                             <tr>
-                                <td>Name</td>
-                                <td>{{ this[`get_${store_prefix}`].full_name }}</td>
+                                <td>company name</td>
+                                <td>{{ this[`get_${store_prefix}`].company_name }}</td>
                             </tr>
                             <tr>
-                                <td>Email</td>
-                                <td>{{ this[`get_${store_prefix}`].email }}</td>
+                                <td>print cost</td>
+                                <td>{{ this[`get_${store_prefix}`].print_cost }}</td>
                             </tr>
                             <tr>
-                                <td>Subject</td>
-                                <td>{{ this[`get_${store_prefix}`].subject }}</td>
+                                <td>total page</td>
+                                <td>{{ this[`get_${store_prefix}`].total_page }}</td>
+                            </tr>
+                            <tr>
+                                <td>per page cost</td>
+                                <td>{{ this[`get_${store_prefix}`].per_page_cost }}</td>
+                            </tr>
+                            <tr>
+                                <td>contact date</td>
+                                <td>{{ this[`get_${store_prefix}`].contact_date }}</td>
                             </tr>
                             <tr>
                                 <td>Description</td>
