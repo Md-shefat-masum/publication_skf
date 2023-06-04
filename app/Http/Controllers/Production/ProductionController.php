@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Production;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product\Product;
+use App\Models\Product\ProductDiscount;
 use App\Models\Production\Production;
+use App\Models\Production\ProductionCost;
 use App\Models\Production\ProductionDesigner;
 use App\Models\Production\ProductionStatus;
 use App\Models\Production\SupplierBinding;
@@ -95,6 +97,39 @@ class ProductionController extends Controller
         $data->status = $production_status->status;
         $data->description = $production_status->description;
         $data->status_id = $production_status->id;
+
+        return response()->json($data, 200);
+    }
+
+    public function store_cost(Request $request)
+    {
+        $validator = Validator::make(request()->all(), [
+            'product_id' => ['required'],
+            'design_cost' => ['required'],
+            'printing_cost' => ['required'],
+            'binding_cost' => ['required'],
+            'other_cost' => ['required'],
+            'sales_price' => ['required'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'err_message' => 'validation error',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        $data = ProductionCost::create(request()->all());
+        $data->save();
+
+        $product = Product::find(request()->product_id);
+        $product->cost = $data->final_cost;
+        $product->sales_price = $data->sales_price;
+        $product->save();
+
+        $discount = ProductDiscount::where('product_id',$product->id)->latest()->first();
+        $discount->main_price = $data->sales_price;
+        $discount->save();
 
         return response()->json($data, 200);
     }

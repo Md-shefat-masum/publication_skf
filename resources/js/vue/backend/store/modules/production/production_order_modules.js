@@ -90,6 +90,7 @@ const actions = {
 
             })
     },
+
     [`update_production_production_order`]: function (
         { commit, dispatch, getters, rootGetters, rootState, state },
         target
@@ -119,6 +120,27 @@ const actions = {
             })
             .catch(error=>{
                 console.log(error);
+            })
+    },
+
+    [`store_production_cost`]: function (
+        { commit, dispatch, getters, rootGetters, rootState, state },
+        target
+    ) {
+        let { get_production_product_selected: products } = getters;
+
+        let formData = new FormData(target);
+        formData.append("product_id", products[0]?.id);
+
+        axios.post(`/${api_prefix}/store-cost`,formData)
+            .then(res=>{
+                $('.create_form input').val('');
+                rootState.production_product_modules.production_product_selected = [];
+                window.s_alert('new data has been created');
+                // management_router.push({name:`All${route_prefix}`})
+            })
+            .catch(error=>{
+
             })
     },
 };

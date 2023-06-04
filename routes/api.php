@@ -89,6 +89,7 @@ Route::group(
                 Route::group(['prefix' => 'production'], function () {
                     Route::get('/all', 'Production\ProductionController@all');
                     Route::post('/store', 'Production\ProductionController@store');
+                    Route::post('/store-cost', 'Production\ProductionController@store_cost');
                     Route::post('/canvas-store', 'Production\ProductionController@canvas_store');
                     Route::post('/update', 'Production\ProductionController@update');
                     Route::post('/add-to-top-product', 'Production\ProductionController@add_to_top_product');
