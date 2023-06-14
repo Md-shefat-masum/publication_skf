@@ -28,7 +28,7 @@ class ApiLoginController extends Controller
 
     public function auth_check()
     {
-        if (Auth::check()) {
+        if (Auth::guard('api')->check()) {
             return response()->json([
                 "auth_status" => true,
                 "auth_information" => Auth::user(),
@@ -407,7 +407,7 @@ class ApiLoginController extends Controller
     {
         $auth_status = false;
         $auth_information = [];
-        if(Auth::check()){
+        if(Auth::guard('api')->check()){
             $auth_status = true;
             $auth_information = User::where('id',Auth::user()->id)
                 ->with([

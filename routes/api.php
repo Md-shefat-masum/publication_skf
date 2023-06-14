@@ -15,24 +15,30 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+    return [$request->user(), auth()->user()];
+});
+
+Route::middleware('cors')->get('/t',function(){
+    return ['ok'];
 });
 
 Route::group(
     ['prefix' => 'v1', 'namespace' => 'Controllers'],
     function () {
+        // Route::group(['prefix' => '/user', 'middleware' => ['guest:api']], function () {
         Route::group(['prefix' => '/user', 'middleware' => ['guest:api']], function () {
             Route::post('/get-token', 'Auth\ApiLoginController@get_token');
             Route::post('/api-login', 'Auth\ApiLoginController@login');
             Route::post('/api-register', 'Auth\ApiLoginController@register');
-            Route::get('/auth-check', 'Auth\ApiLoginController@auth_check');
             Route::post('/forget-mail', 'Auth\ApiLoginController@forget_mail');
-            Route::post('/check-code', 'Auth\ApiLoginController@check_code');
             Route::post('/logout-from-all-devices', 'Auth\ApiLoginController@logout_from_all_devices');
         });
 
         Route::group(['middleware' => ['auth:api']], function () {
             Route::group(['prefix' => 'user'], function () {
+                Route::get('/auth-check', 'Auth\ApiLoginController@auth_check');
+                Route::post('/check-code', 'Auth\ApiLoginController@check_code');
+
                 Route::post('/api-logout', 'Auth\ApiLoginController@logout');
                 Route::post('/user_info', 'Auth\ApiLoginController@user_info');
                 Route::post('/check-auth', 'Auth\ApiLoginController@check_auth');
@@ -52,6 +58,12 @@ Route::group(
                 Route::post('/destroy', 'Auth\UserController@destroy');
                 Route::post('/restore', 'Auth\UserController@restore');
                 Route::post('/bulk-import', 'Auth\UserController@bulk_import');
+            });
+
+            Route::group(['prefix' => 'app'], function () {
+                Route::get('/top-categories', 'AppApi\CommonController@top_categories');
+                Route::get('/banners', 'AppApi\CommonController@banners');
+                Route::get('/products', 'AppApi\CommonController@products');
             });
 
             Route::group(['prefix' => 'user-role'], function () {
@@ -80,7 +92,7 @@ Route::group(
                 Route::post('/bulk-import', 'Admin\ContactMessageController@bulk_import');
             });
 
-            Route::group( ['prefix'=>'production'],function(){
+            Route::group(['prefix' => 'production'], function () {
                 Route::group(['prefix' => 'product'], function () {
                     Route::get('/all', 'Production\Product\ProductController@all');
                     Route::get('/{id}', 'Production\Product\ProductController@show');
@@ -161,7 +173,6 @@ Route::group(
                     Route::post('/bulk-import', 'Production\Supplier\DesignerController@bulk_import');
                     Route::get('/{id}', 'Production\Supplier\DesignerController@show');
                 });
-
             });
 
             Route::group(['prefix' => 'admin'], function () {
@@ -275,6 +286,7 @@ Route::group(
                 Route::post('/restore', 'Admin\Product\CategoryController@restore');
                 Route::post('/bulk-import', 'Admin\Product\CategoryController@bulk_import');
                 Route::get('/all-json', 'Admin\Product\CategoryController@all_json');
+                Route::get('/{id}/products', 'Admin\Product\CategoryController@products');
                 Route::post('/check-exists', 'Admin\Product\CategoryController@check_exists');
                 Route::post('/add-to-top-cat', 'Admin\Product\CategoryController@add_to_top_cat');
                 Route::get('/{id}', 'Admin\Product\CategoryController@show');

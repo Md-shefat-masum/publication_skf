@@ -9,6 +9,12 @@ class Banner extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    protected $appends = ['image_url'];
+
+    public function getImageUrlAttribute()
+    {
+        return url('').'/'.$this->image;
+    }
 
     public static function boot()
     {

@@ -8,11 +8,14 @@ use App\Models\Order\Order;
 use App\Models\Order\OrderDeliveryInfo;
 use App\Models\Order\OrderDetails;
 use App\Models\Order\OrderPayment;
+use App\Models\Product\Category;
 use App\Models\Product\Product;
 use App\Models\Settings\AppSettingTitle;
 use App\Models\User\Address;
 use Carbon\Carbon;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 
@@ -24,7 +27,7 @@ class BranchOrderController extends Controller
 
     public function all_products(Request $request)
     {
-        $paginate = (int) 10;
+        $paginate = (int) 12;
         $orderBy = "id";
         $orderByType = "ASC";
 
@@ -35,10 +38,16 @@ class BranchOrderController extends Controller
 
         $query = Product::where('status', $status)->orderBy($orderBy, $orderByType);
 
+        if(request()->has('category_id') && request()->get('category_id')){
+            $category_id = request()->get('category_id');
+            $category = Category::where('id',$category_id)->first();
+            $query = $category->products();
+        }
+
         if (request()->has('search_key')) {
             $key = request()->search_key;
             $query->where(function ($q) use ($key) {
-                return $q->where('id', $key)
+                return $q->where('products.id', $key)
                     ->orWhere('product_name', $key)
                     ->orWhere('sales_price', $key)
                     ->orWhere('product_name', 'LIKE', '%' . $key . '%')

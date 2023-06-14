@@ -20,7 +20,9 @@
                 @endforeach
             </div>
             <script>
-                slider_reboot();
+                setTimeout(() => {
+                    slider_reboot();
+                }, 800);
             </script>
         </div>
     </div>

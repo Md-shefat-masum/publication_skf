@@ -13,6 +13,8 @@ const state = {
     branch_product_for_order: {},
     branch_p_search_key: '',
     branch_oder_cart: [],
+
+    branch_product_category: null,
 };
 
 // get state
@@ -32,9 +34,17 @@ const actions = {
     /** override store */
     [`fetch_branch_product_for_order`]: async ({commit,dispatch,getters,rootGetters,rootState,state},page=1) => {
         let s_keys = state.branch_p_search_key.length ? `&search_key=${state.branch_p_search_key}`:'';
-        let products = await axios.get('/all-products?page='+page+s_keys);
+        let cat_id = state.branch_product_category ? `&category_id=${state.branch_product_category}`:'';
+        let products = await axios.get('/all-products?page='+page+s_keys+cat_id);
         commit('set_get_branch_product_for_order', products.data);
     },
+
+    // [`load_category_product`]: async function({state, rootState}, page=1){
+    //     console.log(state, rootState);
+    //     let id = state.branch_product_category;
+    //     let res = await axios.get(`/category/${id}/products?page=${page}`)
+    //     console.log(res.data);
+    // },
 
     [`fetch_${store_prefix}`]: async function ({ state }, { id, render_to_form }) {
         let url = `/${api_prefix}/${id}`;
@@ -189,6 +199,10 @@ const mutations = {
     },
     set_branch_p_search_key: (state, data) => {
         state.branch_p_search_key = data;
+    },
+    set_branch_product_category: function(state, data){
+        state.branch_product_category = data;
+        this.dispatch('fetch_branch_product_for_order',1);
     },
 };
 

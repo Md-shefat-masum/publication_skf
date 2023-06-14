@@ -56,7 +56,7 @@ const actions = {
           .toLowerCase() // convert to lowercase
           .replace(/[^a-z0-9]+/g, '-') // replace all non-alphanumeric characters with hyphens
           .replace(/(^-|-$)+/g, '') // remove hyphens from the beginning or end of the string
-      }
+    }
 };
 
 // mutators

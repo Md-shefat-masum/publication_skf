@@ -17,22 +17,19 @@ class Login extends Component
     public function mount()
     {
         $this->auth_check = auth()->check();
-
-
-        if (auth()->check()) {
-            // return header("Location:profile");
+        if(auth()->check()){
             return redirect('/profile');
         }
     }
 
     public function render()
     {
-
         return view('livewire.login')
             ->extends('layouts.app', [
                 'title' => 'login',
                 'meta_image' => 'https://www.prossodprokashon.com/uploads/file_manager/fm_image_350x500_106195df55457491637211989.jpg',
             ]);
+
     }
 
     public function login_submit()
