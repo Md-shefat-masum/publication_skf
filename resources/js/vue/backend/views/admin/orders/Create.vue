@@ -90,19 +90,19 @@
                                     </div>
                                     <div class="mb-2">
                                         <label class="mb-1">Discount %</label>
-                                        <input max="100" min="0" class="form-control" name=""/>
+                                        <input max="100" @keyup="set_admin_order_discount($event)" type="number" min="0" class="form-control"/>
                                     </div>
                                     <div class="mb-2">
                                         <label class="mb-1">Total Amount</label>
-                                        <input class="form-control" readonly name="" style="cursor: no-drop;"/>
+                                        <input class="form-control" :value="admin_cart_total" readonly name="" style="cursor: no-drop;"/>
                                     </div>
                                     <div class="mb-2">
                                         <label class="mb-1">Paid Amount</label>
-                                        <input class="form-control" name=""/>
+                                        <input @keyup="set_admin_paid_amount($event.target.value)" class="form-control" name=""/>
                                     </div>
                                     <div class="mb-2">
                                         <label class="mb-1">Due Amount</label>
-                                        <input class="form-control" name="" readonly style="cursor: no-drop;"/>
+                                        <input class="form-control" :value="admin_due_amount" name="" readonly style="cursor: no-drop;"/>
                                     </div>
                                     <div class="d-flex gap-1 flex-wrap">
                                         <button type="button" @click.prevent="store_order"  class="btn btn-outline-info" >
@@ -152,6 +152,9 @@ export default {
         this.$watch('p_search_key',(n,o)=>{
             this.fetch_branch_product_for_order();
         })
+        this.$watch('discount',(n,o)=>{
+            console.log(n, o);
+        })
     },
     methods: {
         ...mapActions([
@@ -159,7 +162,7 @@ export default {
             `fetch_branch_product_for_order`,
         ]),
         ...mapActions({
-            add_to_cart: 'branch_oder_cart_add',
+            add_to_cart: 'admin_oder_cart_add',
             remove_cart: "remove_product_from_cart",
             store_order: "store_branch_order",
             fetch_category: "fetch_category_all_json",
@@ -167,6 +170,8 @@ export default {
         ...mapMutations({
             set_p_search_key: "set_branch_p_search_key",
             set_branch_product_category: "set_branch_product_category",
+            set_admin_order_discount: "set_admin_order_discount",
+            set_admin_paid_amount: "set_admin_paid_amount",
         }),
         call_store: function(name, params=null){
             this[name](params)
@@ -179,11 +184,13 @@ export default {
         ...mapGetters({
             'products': "get_branch_product_for_order",
             'p_search_key': "get_branch_p_search_key",
-            "order_carts": "get_branch_oder_cart",
-            "tota_order_price": "get_branch_oder_cart_total",
+            "order_carts": "get_admin_oder_cart",
+            "tota_order_price": "get_admin_oder_cart_total",
             "all_categories": "get_category_all_json",
+            "discount": "get_admin_order_discount",
+            "admin_cart_total": "get_admin_cart_total",
+            "admin_due_amount": "get_admin_due_amount",
         }),
-
     }
 };
 </script>
