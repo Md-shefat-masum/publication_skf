@@ -14,6 +14,11 @@ const state = {
     admin_product_for_order: {},
     admin_p_search_key: '',
     admin_oder_cart: [],
+
+    admin_order_discount: 0,
+    admin_cart_total: 0,
+    admin_paid_amount: 0,
+    admin_due_amount: 0,
 };
 
 // get state
@@ -24,6 +29,10 @@ const getters = {
     get_admin_p_search_key: (state) => state.admin_p_search_key,
     get_admin_oder_cart: (state) => state.admin_oder_cart,
     get_admin_oder_cart_total: (state) => state.admin_oder_cart.reduce((t,i)=>t+=i.total_price,0),
+    get_admin_order_discount: (state) => state.admin_order_discount,
+    get_admin_cart_total: (state) => state.admin_cart_total,
+    get_admin_paid_amount: (state) => state.admin_paid_amount,
+    get_admin_due_amount: (state) => state.admin_due_amount,
 };
 
 // actions
@@ -153,7 +162,7 @@ const actions = {
             product.total_price = product.qty*product.discount_info.discount_price;
             product.current_price = product.discount_info.discount_price;
         }
-
+        state.admin_cart_total = products.reduce((t,i)=>t+=i.total_price,0)
         state.admin_oder_cart = products;
     },
 
@@ -189,6 +198,29 @@ const mutations = {
         state.admin_p_search_key = data;
     },
     set_order_type: (state,order_type) => state.order_type = order_type,
+    set_admin_paid_amount: (state,admin_paid_amount) => {
+        state.admin_paid_amount = admin_paid_amount;
+        state.admin_due_amount = state.admin_cart_total - admin_paid_amount;
+    },
+    set_admin_order_discount: (state,event) => {
+        let admin_order_discount = event.target.value;
+        if(admin_order_discount>100){
+            admin_order_discount = 100;
+        }
+        if(admin_order_discount<0){
+            admin_order_discount = 0;
+        }
+        event.target.value = admin_order_discount;
+        state.admin_order_discount = admin_order_discount;
+
+        let total = state.admin_oder_cart.reduce((t,i)=>t+=i.total_price,0);
+        if(admin_order_discount>0){
+            state.admin_cart_total = Math.round(total - ( total * admin_order_discount / 100 ));
+        }else{
+            state.admin_cart_total = Math.round(total);
+        }
+
+    },
 };
 
 export default {
