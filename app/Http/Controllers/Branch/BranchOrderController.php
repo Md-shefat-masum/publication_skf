@@ -27,7 +27,7 @@ class BranchOrderController extends Controller
 
     public function all_products(Request $request)
     {
-        $paginate = (int) 12;
+        $paginate = (int) 16;
         $orderBy = "id";
         $orderByType = "ASC";
 
