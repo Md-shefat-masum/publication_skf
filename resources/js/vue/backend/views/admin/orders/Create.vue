@@ -83,9 +83,26 @@
                                         </tr>
                                     </tfoot>
                                 </table>
-                                <form action="#" class="mt-3">
-                                    <div class="mb-3">
+                                <form action="#" class="mt-3" v-if="order_carts.length">
+                                    <div class="mb-2">
+                                        <label class="mb-1">Select Customer</label>
                                         <UserManagementModal :select_qty="1"></UserManagementModal>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="mb-1">Discount %</label>
+                                        <input max="100" min="0" class="form-control" name=""/>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="mb-1">Total Amount</label>
+                                        <input class="form-control" readonly name="" style="cursor: no-drop;"/>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="mb-1">Paid Amount</label>
+                                        <input class="form-control" name=""/>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="mb-1">Due Amount</label>
+                                        <input class="form-control" name="" readonly style="cursor: no-drop;"/>
                                     </div>
                                     <div class="d-flex gap-1 flex-wrap">
                                         <button type="button" @click.prevent="store_order"  class="btn btn-outline-info" >
