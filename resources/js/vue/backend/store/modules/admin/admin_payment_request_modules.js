@@ -13,24 +13,48 @@ const { store_prefix, api_prefix, route_prefix } = test_module;
 const state = {
     ...test_module.states(),
     orderByAsc: false,
+
+    transaction_accounts: [],
 };
 
 // get state
 const getters = {
     ...test_module.getters(),
+    get_transaction_accounts: (state) => state.transaction_accounts,
 };
 
 // actions
 const actions = {
     ...test_module.actions(),
 
-    [`${store_prefix}_approve`]: async function ({ state }, { id }) {
+    [`${store_prefix}_approve`]: async function ({ state }, { id, event }) {
         let url = `/${api_prefix}/approve`;
         let cconfirm = await window.s_confirm("confirm action?.");
-        cconfirm &&
-            (await axios.post(url,{payment_id: id}).then((res) => {
+        if(cconfirm){
+            await axios.post(url,{payment_id: id}).then((res) => {
                 window.s_alert(`payment status `+res.data);
-            }));
+            });
+        }else{
+            event.target.checked = cconfirm
+        }
+    },
+
+    [`fetch_transaction_accounts`]: async function ({ state }) {
+        let url = `/accounts/all`;
+        let response = await axios.get(url);
+        // console.log(response.data);
+        state.transaction_accounts = response.data;
+    },
+
+    /** update data */
+    [`update_${store_prefix}`]:async function ({ state }, event) {
+        let form_data = new FormData(event);
+        form_data.append("id", state[store_prefix].id);
+        await axios.post(`/${api_prefix}/update`, form_data).then((res) => {
+            /** reset loaded user_role after data update */
+            // this.commit(`set_${store_prefix}`, null);
+            window.s_alert("data updated");
+        });
     },
 
     // [`fetch_admin_product_for_order`]: async ({commit,dispatch,getters,rootGetters,rootState,state},page=1) => {

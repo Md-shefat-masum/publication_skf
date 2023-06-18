@@ -34,7 +34,7 @@ const actions = {
                 // window.localStorage.removeItem('token');
                 console.log('user not authenticated');
                 console.log(err);
-                // window.location.href = '/login';
+                window.location.href = '/login';
             })
     },
     update_user_info: async function(state, data) {
