@@ -105,8 +105,16 @@
                             <td>
                                 {{ item.order_status }}
                             </td>
-                            <td>{{ item.user.first_name +" "+ item.user.last_name }}</td>
-                            <td>{{ item.user.mobile_number }}</td>
+                            <td>
+                                <span v-if="item.user">
+                                    {{ item.user.first_name +" "+ item.user.last_name }}
+                                </span>
+                            </td>
+                            <td>
+                                <span v-if="item.user">
+                                    {{ item.user.mobile_number }}
+                                </span>
+                            </td>
                             <td>
                                 <strong class="text-info">
                                     {{ item.sub_total}}
