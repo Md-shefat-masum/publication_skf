@@ -38,6 +38,9 @@
                 <!-- <left-nav-list-item :to="'AllAdminAccountBank'" :text="'Accounts'" /> -->
             </left-nav-list-group>
 
+            <left-nav-list-item :to="{name: ''
+        }"></left-nav-list-item>
+
             <li class="nav-item">
                 <a @click.prevent="fetch_logout()" class="d-flex align-items-center" href="#">
                     <i class="fa-solid fa-power-off"></i>
