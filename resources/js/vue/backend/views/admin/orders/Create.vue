@@ -4,7 +4,7 @@
             <div class="card-header">
                 <h4>Create</h4>
                 <div class="btns">
-                    <router-link :to="{ name: `All${route_prefix}` }" class="btn rounded-pill btn-outline-warning" >
+                    <router-link :to="{ name: `BranchOrder` }" class="btn rounded-pill btn-outline-warning" >
                         <i class="fa fa-arrow-left me-5px"></i>
                         Back
                     </router-link>
@@ -86,24 +86,24 @@
                                 <form action="#" class="mt-3" v-if="order_carts.length">
                                     <div class="mb-2">
                                         <label class="mb-1">Select Customer</label>
-                                        <UserManagementModal :select_qty="1"></UserManagementModal>
+                                        <UserManagementModal :id="`customer_id`" :select_qty="1"></UserManagementModal>
                                     </div>
-                                    <div class="mb-2">
+                                    <!-- <div class="mb-2">
                                         <label class="mb-1">Discount %</label>
                                         <input max="100" @keyup="set_admin_order_discount($event)" type="number" min="0" class="form-control"/>
-                                    </div>
-                                    <div class="mb-2">
+                                    </div> -->
+                                    <!-- <div class="mb-2">
                                         <label class="mb-1">Total Amount</label>
                                         <input class="form-control" :value="admin_cart_total" readonly name="" style="cursor: no-drop;"/>
-                                    </div>
-                                    <div class="mb-2">
+                                    </div> -->
+                                    <!-- <div class="mb-2">
                                         <label class="mb-1">Paid Amount</label>
                                         <input @keyup="set_admin_paid_amount($event.target.value)" class="form-control" name=""/>
-                                    </div>
-                                    <div class="mb-2">
+                                    </div> -->
+                                    <!-- <div class="mb-2">
                                         <label class="mb-1">Due Amount</label>
                                         <input class="form-control" :value="admin_due_amount" name="" readonly style="cursor: no-drop;"/>
-                                    </div>
+                                    </div> -->
                                     <div class="d-flex gap-1 flex-wrap">
                                         <button type="button" @click.prevent="store_order"  class="btn btn-outline-info" >
                                             <i class="fa fa-paper-plane"></i>
@@ -153,7 +153,7 @@ export default {
             this.fetch_branch_product_for_order();
         })
         this.$watch('discount',(n,o)=>{
-            console.log(n, o);
+            // console.log(n, o);
         })
     },
     methods: {
@@ -164,7 +164,7 @@ export default {
         ...mapActions({
             add_to_cart: 'admin_oder_cart_add',
             remove_cart: "remove_product_from_cart",
-            store_order: "store_branch_order",
+            store_order: "store_admin_order",
             fetch_category: "fetch_category_all_json",
         }),
         ...mapMutations({
