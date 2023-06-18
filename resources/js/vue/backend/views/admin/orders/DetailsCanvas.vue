@@ -125,7 +125,7 @@
                         <tr>
                             <td>
                                 <div>
-                                    Update Payment Status
+                                    Update Status
                                 </div>
                             </td>
                             <td>:</td>
