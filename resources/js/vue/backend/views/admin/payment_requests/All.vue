@@ -114,8 +114,8 @@
                             <td>
                                 <div class="form-check form-switch">
                                     <label class="form-check-label" for="flexSwitchCheckChecked">
-                                        <input @change="approve({id: item.id})" v-if="item.approved" checked class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" >
-                                        <input @change="approve({id: item.id})" v-else class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" >
+                                        <input @change="approve({id: item.id, event: $event,})" v-if="item.approved" checked class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" >
+                                        <input @change="approve({id: item.id, event: $event,})" v-else class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" >
                                     </label>
                                 </div>
                             </td>
