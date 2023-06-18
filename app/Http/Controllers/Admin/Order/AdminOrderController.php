@@ -58,6 +58,7 @@ class AdminOrderController extends Controller
         $data = request()->all();
         $validator = Validator::make($data, [
             "carts" => ["required", "array", "min:1"],
+            "customer_id" => ["required"]
         ], [
             "carts.required" => ["there is no product into cart list."]
         ]);
@@ -244,6 +245,7 @@ class AdminOrderController extends Controller
         $address = $this->save_address($request);
         $variant_price = 0;
         $invoice_prefix = AppSettingTitle::getValue("invoice_prefix");
+        $user_id = $request->customer_id ?? null;
 
         $order_data = [
             // 'user_id' => $auth_user ? $auth_user->id : null, // user id
@@ -278,8 +280,8 @@ class AdminOrderController extends Controller
         } else {
             $order = Order::create($order_data);
             $order->invoice_id .= $order->id;
+            $order->user_id = $user_id;
         }
-        // 01712 061020
 
         $order->save();
 
@@ -293,6 +295,7 @@ class AdminOrderController extends Controller
                 "discount_price" => $product->discount_info->discount_amount,
                 "sales_price" => $product->discount_info->discount_price,
                 "qty" => $product->qty,
+                "user_id" => $order->user_id,
             ]);
         }
 
@@ -305,9 +308,14 @@ class AdminOrderController extends Controller
     public function save_delivery_info($order, $request, $shipping_cost, $address)
     {
         $auth_user = auth()->check() ? auth()->user() : null;
+        if(isset($request->customer_id)){
+            $user_id = $request->customer_id;
+        }else{
+            $user_id = $auth_user ? $auth_user->id : null;
+        }
         OrderDeliveryInfo::create([
             "order_id" => $order->id,
-            "user_id" => $auth_user ? $auth_user->id : null,
+            "user_id" => $user_id,
             "customer_id" => null,
             "delivery_method" => isset($request->shipping_method) ? $request->shipping_method : '',
             "delivery_cost" => $shipping_cost,
