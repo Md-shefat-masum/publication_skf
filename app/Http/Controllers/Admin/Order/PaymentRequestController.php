@@ -159,6 +159,7 @@ class PaymentRequestController extends Controller
             'amount' => ['required'],
             'payment_method' => ['required'],
             'trx_id' => ['required'],
+            'number' => ['required']
         ]);
 
         if ($validator->fails()) {
