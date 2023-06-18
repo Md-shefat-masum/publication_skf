@@ -175,6 +175,10 @@ Route::group(
                 });
             });
 
+            Route::group(['prefix' => 'accounts'], function () {
+                Route::get('/all', 'Admin\TransactionAccountController@accounts');
+            });
+
             Route::group(['prefix' => 'admin'], function () {
 
                 Route::group(['prefix' => 'writer'], function () {
