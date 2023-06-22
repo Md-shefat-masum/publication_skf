@@ -45,9 +45,7 @@ export default {
         }
     },
     created: function(){
-        // console.log(this.role_permissions);
         document.querySelector('html').classList.add('nav-hide');
-        console.log(this.nav);
     },
     computed: {
         ...mapGetters(['get_auth_roles']),

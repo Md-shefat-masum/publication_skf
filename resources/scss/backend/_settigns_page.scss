@@ -6,6 +6,7 @@
     .left_setting_nav {
         height: calc(100vh - 155px);
         overflow-y: auto;
+
         ul {
             padding: 0;
             margin: 0;
@@ -13,6 +14,7 @@
 
             li {
                 margin-bottom: 10px;
+
                 a {
                     display: block;
                     color: var(--white);
@@ -29,7 +31,7 @@
                         background-color: rgba(67, 89, 113, 0.3);
                     }
 
-                    &.active.router-link-active{
+                    &.active.router-link-active {
                         background-color: #161D31 !important;
                     }
                 }
@@ -39,18 +41,34 @@
 
     .right_settings_outlet {}
 
-    .form_area{
+    .form_area {
         height: calc(100vh - 225px);
         overflow-y: auto;
     }
-    .setting_form{
+
+    .setting_form {
         display: flex;
         margin-bottom: 30px;
-        align-items: center;
-        label{
+
+        label {
             width: 180px;
             font-weight: 700;
             padding-right: 40px;
+        }
+
+        >div {
+            flex: 1;
+            display: grid;
+            gap: 20px;
+
+            >.images {
+                display: flex;
+                gap: 10px;
+
+                img {
+                    height: 30px;
+                }
+            }
         }
     }
 }
