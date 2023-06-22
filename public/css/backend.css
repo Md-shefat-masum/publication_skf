@@ -1211,7 +1211,11 @@ html.nav-hide-hover .header-navbar.floating-nav {
 .setting_pages_body {
   display: grid;
   grid-template-columns: 300px 1fr;
-  gap: 2px;
+  gap: 10px;
+}
+.setting_pages_body .left_setting_nav {
+  height: calc(100vh - 155px);
+  overflow-y: auto;
 }
 .setting_pages_body .left_setting_nav ul {
   padding: 0;
@@ -1219,7 +1223,7 @@ html.nav-hide-hover .header-navbar.floating-nav {
   list-style-type: none;
 }
 .setting_pages_body .left_setting_nav ul li {
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 .setting_pages_body .left_setting_nav ul li a {
   display: block;
@@ -1237,6 +1241,24 @@ html.nav-hide-hover .header-navbar.floating-nav {
 }
 .setting_pages_body .left_setting_nav ul li a.active.router-link-active {
   background-color: #161D31 !important;
+}
+.setting_pages_body .form_area {
+  height: calc(100vh - 225px);
+  overflow-y: auto;
+}
+.setting_pages_body .setting_form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 30px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.setting_pages_body .setting_form label {
+  width: 180px;
+  font-weight: 700;
+  padding-right: 40px;
 }
 
 /*# sourceMappingURL=backend.css.map*/

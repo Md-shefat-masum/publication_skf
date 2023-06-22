@@ -1,8 +1,18 @@
 <template>
     <div class="conatiner-fulid">
         <div class="card rounded-none ">
-            <div class="card-body ">
-                WebsiteHeadInfo
+            <div class="card-header">
+                <h4> Website Head Info </h4>
+            </div>
+            <div class="card-body px-4 pt-4 form_area custom_scroll">
+                <div class="form-group setting_form">
+                    <label for="header_title">header title</label>
+                    <input type="text" id="header_title" name="header_title" class="form-control">
+                </div>
+                <div class="form-group setting_form">
+                    <label for="copy_right">copy right</label>
+                    <input type="text" id="copy_right" name="copy_right" class="form-control">
+                </div>
             </div>
         </div>
     </div>

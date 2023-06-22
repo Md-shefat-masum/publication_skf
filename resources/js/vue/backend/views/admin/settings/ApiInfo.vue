@@ -1,8 +1,14 @@
 <template>
     <div class="conatiner-fulid">
         <div class="card rounded-none ">
-            <div class="card-body ">
-                ApiInfo
+            <div class="card-header">
+                <h4>API Info</h4>
+            </div>
+            <div class="card-body px-4 pt-4 form_area custom_scroll">
+                <div class="form-group setting_form">
+                    <label for="telegram_bot_api">telegram bot API</label>
+                    <input type="text" id="telegram_bot_api" name="telegram_bot_api" class="form-control">
+                </div>
             </div>
         </div>
     </div>

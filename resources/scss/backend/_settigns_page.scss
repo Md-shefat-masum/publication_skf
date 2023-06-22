@@ -1,16 +1,18 @@
 .setting_pages_body {
     display: grid;
     grid-template-columns: 300px 1fr;
-    gap: 2px;
+    gap: 10px;
 
     .left_setting_nav {
+        height: calc(100vh - 155px);
+        overflow-y: auto;
         ul {
             padding: 0;
             margin: 0;
             list-style-type: none;
 
             li {
-                margin-bottom: 5px;
+                margin-bottom: 10px;
                 a {
                     display: block;
                     color: var(--white);
@@ -36,4 +38,19 @@
     }
 
     .right_settings_outlet {}
+
+    .form_area{
+        height: calc(100vh - 225px);
+        overflow-y: auto;
+    }
+    .setting_form{
+        display: flex;
+        margin-bottom: 30px;
+        align-items: center;
+        label{
+            width: 180px;
+            font-weight: 700;
+            padding-right: 40px;
+        }
+    }
 }

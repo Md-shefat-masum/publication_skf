@@ -39,7 +39,6 @@ class SettingTitleSeeder extends Seeder
 
             "company_start_time",
             "company_end_time",
-
             "time_zone",
 
             // "about_us",
@@ -75,8 +74,6 @@ class SettingTitleSeeder extends Seeder
             "mail_password",
             "mail_from_address",
             "mail_from_name",
-            "mail_from_address",
-            "mail_from_address",
 
             "shut_down_website",
         ];

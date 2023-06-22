@@ -2,8 +2,8 @@
     <div>
         <h3 class="mb-2">{{ layout_title }}</h3>
         <div class="setting_pages_body">
-            <div class="left_setting_nav">
-                <div class="card rounded-none">
+            <div class="left_setting_nav custom_scroll">
+                <div class="card rounded-none h-100 mb-0">
                     <div class="card-body">
                         <ul>
                             <li v-for="(i,index) in nav" :key="index">
