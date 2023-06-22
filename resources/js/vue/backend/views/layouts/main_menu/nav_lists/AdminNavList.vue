@@ -38,8 +38,7 @@
                 <!-- <left-nav-list-item :to="'AllAdminAccountBank'" :text="'Accounts'" /> -->
             </left-nav-list-group>
 
-            <left-nav-list-item :to="{name: ''
-        }"></left-nav-list-item>
+            <left-nav-list-single :to="'AllAdminSetting'" :icon="'fas fa-gears'" :text="`Settings`" :role_permissions="['admin']"></left-nav-list-single>
 
             <li class="nav-item">
                 <a @click.prevent="fetch_logout()" class="d-flex align-items-center" href="#">

@@ -16,6 +16,7 @@ import admin_writer_modules from './modules/admin/admin_writer_modules';
 import admin_translator_modules from './modules/admin/admin_translator_modules';
 import admin_order_modules from './modules/admin/admin_order_modules';
 import admin_payment_request_modules from './modules/admin/admin_payment_request_modules';
+import admin_setting_modules from './modules/admin/admin_setting_modules';
 
 import production_product_modules from './modules/production/production_product_modules';
 import production_product_category_modules from './modules/production/production_product_category_modules';
@@ -40,6 +41,7 @@ const store = new Vuex.Store({
         admin_writer_modules,
         admin_order_modules,
         admin_payment_request_modules,
+        admin_setting_modules,
 
         production_product_modules,
         production_product_category_modules,

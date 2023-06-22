@@ -1208,4 +1208,35 @@ html.nav-hide-hover .header-navbar.floating-nav {
   display: block !important;
 }
 
+.setting_pages_body {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 2px;
+}
+.setting_pages_body .left_setting_nav ul {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+.setting_pages_body .left_setting_nav ul li {
+  margin-bottom: 5px;
+}
+.setting_pages_body .left_setting_nav ul li a {
+  display: block;
+  color: var(--white);
+  font-weight: 600;
+  text-transform: capitalize;
+  padding: 10px 15px;
+}
+.setting_pages_body .left_setting_nav ul li a i {
+  padding-right: 5px;
+  width: 30px;
+}
+.setting_pages_body .left_setting_nav ul li a:hover {
+  background-color: rgba(67, 89, 113, 0.3);
+}
+.setting_pages_body .left_setting_nav ul li a.active.router-link-active {
+  background-color: #161D31 !important;
+}
+
 /*# sourceMappingURL=backend.css.map*/

@@ -234,6 +234,7 @@ class PaymentRequestController extends Controller
 
     public function restore()
     {
+        
         $validator = Validator::make(request()->all(), [
             'id' => ['required', 'exists:categories,id'],
         ]);

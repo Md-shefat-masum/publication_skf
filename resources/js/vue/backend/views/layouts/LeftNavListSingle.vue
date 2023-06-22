@@ -1,19 +1,19 @@
 <template>
     <li v-if="is_role_permitted" class="nav-item">
-        <a class="d-flex align-items-center nav_link_item" @click="hide_menu" href="#">
+        <router-link class="d-flex align-items-center nav_link_item" @click="hide_menu" :to="{name:to}" >
             <i :class="icon"></i>
             <span class="menu-title text-truncate">{{ text }}</span>
             <span v-if="alert_count" class="badge badge-light-warning rounded-pill ms-auto me-1">
                 {{ alert_count }}
             </span>
-        </a>
+        </router-link>
     </li>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 export default {
-    props: ['icon', 'text', 'alert_count', 'role_permissions'],
+    props: ['icon', 'to', 'text', 'alert_count', 'role_permissions'],
     methods: {
         toggleLi: function (e) {
             e.currentTarget.parentNode.classList.toggle('open');
