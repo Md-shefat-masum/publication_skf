@@ -68,13 +68,17 @@ const mutations = {
     },
     [`set_${store_prefix}_all_json`]: function(state, category){
         state[`${store_prefix}_all_json`] = category;
+        // console.log(category,this);
         this.commit(`set_${store_prefix}_create_nested`);
     },
     [`set_${store_prefix}_create_nested`]: (state) => {
         let category = state[`${store_prefix}_all_json`];
+
+        category.forEach(i=>(i.parent_id = parseInt(i.parent_id)) );
         let parents = category.filter((i) => !i.parent_id > 0);
         let childs = category.filter((i) => i.parent_id > 0);
 
+        // console.log('all',category);
         state[`${store_prefix}_all_json_nested`] = parents
             .filter((i) => i.parent_id == 0)
             .map((p) => {
@@ -83,6 +87,8 @@ const mutations = {
                     child: find_childs(childs, p),
                 };
             });
+
+        // console.log('nested', state[`${store_prefix}_all_json_nested`]);
 
         function find_childs(arr, item) {
             let temp = arr

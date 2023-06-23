@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class HelperController extends Controller
 {
 
-    public function delivery_cost()
+    public static function delivery_cost()
     {
         $home_delivery_cost = AppSettingTitle::select([
             'app_setting_titles.id',

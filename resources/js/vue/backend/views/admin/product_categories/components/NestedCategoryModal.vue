@@ -68,10 +68,13 @@ export default {
             route_prefix,
         }
     },
-    created: function(){
+    created: async function(){
         // this[`set_${this.store_prefix}_paginate`](9);
         // this[`fetch_${this.store_prefix}s`]();
-        this[`fetch_${this.store_prefix}_all_json`]();
+        await this[`fetch_${this.store_prefix}_all_json`]();
+        this.$watch("get_category_all_json_nested", function(n){
+            // console.log(n);
+        })
     },
     methods: {
         ...mapActions([

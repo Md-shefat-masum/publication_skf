@@ -129,7 +129,7 @@ export default {
         },
         changed_price: function({value, name, event}){
             this['cost'][name] = +value;
-            console.log(value, name, event);
+            // console.log(value, name, event);
         }
     },
 };

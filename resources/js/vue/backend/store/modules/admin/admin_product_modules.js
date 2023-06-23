@@ -86,6 +86,7 @@ const actions = {
         let data = res.data;
 
         this.commit(`set_${store_prefix}`, data);
+        
         window.set_form_data(".admin_form", data);
 
         rootState.admin_writer_modules.admin_writer_selected = data.writers;

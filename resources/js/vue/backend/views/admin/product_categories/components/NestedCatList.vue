@@ -39,7 +39,7 @@ export default {
     components: { NewCatLi },
     props: ["child", "array_depth", "task_depth", "id", "parent"],
     created: function () {
-
+        // console.log(this.child);
     },
     data: function () {
         return {
