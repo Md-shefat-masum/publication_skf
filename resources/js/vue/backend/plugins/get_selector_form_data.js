@@ -59,6 +59,7 @@ function get_el_value(el) {
                 case "number":
                 case "date":
                 case "time":
+                case "datetime-local":
                 case "hidden":
                 case "password":
                 case "button":

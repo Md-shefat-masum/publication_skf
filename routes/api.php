@@ -214,6 +214,7 @@ Route::group(
                 Route::group(['prefix' => 'product'], function () {
                     Route::get('/all', 'Admin\Product\ProductController@all');
                     Route::post('/store', 'Admin\Product\ProductController@store');
+                    Route::post('/store-discount', 'Admin\Product\ProductController@store_discount');
                     Route::post('/canvas-store', 'Admin\Product\ProductController@canvas_store');
                     Route::post('/update', 'Admin\Product\ProductController@update');
                     Route::post('/add-to-top-product', 'Admin\Product\ProductController@add_to_top_product');

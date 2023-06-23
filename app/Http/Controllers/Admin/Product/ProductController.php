@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Product;
 use App\Http\Controllers\Controller;
 use App\Models\ContactMessage;
 use App\Models\Product\Product;
+use App\Models\Product\ProductDiscount;
 use App\Models\Product\ProductImage;
 use App\Models\Product\ProductStock;
 use App\Models\Product\ProductStockLog;
@@ -442,5 +443,37 @@ class ProductController extends Controller
         }
 
         return response()->json('success', 200);
+    }
+
+    public function store_discount()
+    {
+        $validator = Validator::make(request()->all(), [
+            'product_id' => ['required','numeric','exists:products,id'],
+            'main_price' => ['required'],
+            'expire_date' => ['required'],
+            'discount_amount' => ['required','numeric','min:1'],
+        ],[
+            'discount_amount.required' => ["discount not set"],
+            'discount_amount.min' => ["numeric"=>"discount not set"],
+            'product_id.required' => ["no product is selected"],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'err_message' => 'validation error',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        $product = Product::find(request()->product_id);
+        $discount = ProductDiscount::create([
+            'product_id' => $product->id,
+            'main_price' => $product->sales_price,
+            'parcent_discount' => request()->percent_discount > 0 ?  request()->percent_discount : null,
+            'flat_discount' => request()->flat_discount > 0 ?  request()->flat_discount : null,
+            'expire_date' => $product->expire_date,
+        ]);
+
+        return response()->json(request()->all(), 200);
     }
 }

@@ -986,7 +986,7 @@ html.nav-hide-hover .header-navbar.floating-nav {
 }
 .multiple_select_body .multiple_select_data .item {
   background-color: #7367f0;
-  color: #b4b7be;
+  color: white;
   border-radius: 3px;
   padding: 2px 6px;
 }

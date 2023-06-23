@@ -16,8 +16,8 @@
                         <div class="col-lg-10">
                             <div class="admin_form form_1">
                                 <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
-                                    <label>Select Product</label>
-                                    <management-modal :select_qty="1"></management-modal>
+                                    <label >Select Product</label>
+                                    <management-modal  :id="'product_id'" :select_qty="1"></management-modal>
                                 </div>
                                 <div v-if="Object.keys(selected).length" class="form-group full_width d-grid align-content-start gap-1 mb-2 " >
                                     <div>
@@ -69,7 +69,7 @@
                                     <input-field
                                         :label="`Expire Date`"
                                         :name="`expire_date`"
-                                        :type="'date'"
+                                        :type="'datetime-local'"
                                     />
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
@@ -79,6 +79,7 @@
                                         :type="'text'"
                                         :readonly="true"
                                         :styles="'cursor:not-allowed;'"
+                                        :value="discount_amount"
                                     />
                                 </div>
                             </div>
@@ -112,6 +113,7 @@ export default {
             store_prefix,
             route_prefix,
             selected: {},
+            discount_amount: 0,
         }
     },
     created: function () {
@@ -124,12 +126,38 @@ export default {
         call_store: function(name, params=null){
             this[name](params)
         },
-        discount_change: function(value){
+        discount_change: function({value, name, event}){
+            if(value < 0 ){
+                event.target.value = 0;
+            }
+            if(value > 100){
+                event.target.value = 100;
+            }
+            document.querySelector('input[name="flat_discount"]').value = 0;
+            this.calc_discount_price(+value, "percent");
+            console.log(value);
+
+        },
+        flat_discount_change: function({value, name, event}){
+            if(value < 0 ){
+                event.target.value = 0;
+            }
+            if(value > this.selected.sales_price ){
+                event.target.value = this.selected.sales_price;
+            }
+            document.querySelector('input[name="percent_discount"]').value = 0;
+            this.calc_discount_price(+value, "flat");
             console.log(value);
         },
-        flat_discount_change: function(value){
-            console.log(value);
-        },
+        calc_discount_price: function(value=0, type="flat"){
+            if(type=='percent'){
+                this.discount_amount = this.selected.sales_price - ( this.selected.sales_price*value/100 )
+            }
+            if(type=='flat'){
+                this.discount_amount = this.selected.sales_price - value;
+            }
+            this.discount_amount = Math.ceil(this.discount_amount);
+        }
     },
     computed: {
         ...mapGetters({
