@@ -104,7 +104,7 @@ class CheckoutController extends Controller
             "shipping_cost" => $shipping_cost,
             "coupon_info" => $coupon_info,
         ]);
-        $this->make_message($message_products, $sub_total_cost, $shipping_cost, $coupon_info["coupon_discount"], $total_cost, $name, $mobile_number, $address);
+        $this->make_message($message_products, $sub_total_cost, $shipping_cost, $coupon_info["coupon_discount"], $total_cost, $name, $mobile_number, $address,$order->invoice_id);
 
         return response()->json([
             "message" => "Order Completed Successfully",
@@ -133,7 +133,7 @@ class CheckoutController extends Controller
             "address_id" => $address->id, // user address id, customer
             "invoice_id" => $invoice_prefix."-" . Carbon::now()->format("Ymd"),
             "invoice_date" => Carbon::now()->toDateTimeString(),
-            "order_type" => "ecomerce", // Quotation, Pos order, Ecomerce order
+            "order_type" => "ecommerce", // Quotation, Pos order, Ecomerce order
             "order_status" => "pending",
             "order_coupon_id" => $coupon_info["order_coupon_id"],
 
@@ -241,10 +241,10 @@ class CheckoutController extends Controller
         return $address;
     }
 
-    public function make_message($message_products, $sub_total_cost, $shipping_cost, $coupon_discount, $total_cost, $name, $mobile_number, $address)
+    public function make_message($message_products, $sub_total_cost, $shipping_cost, $coupon_discount, $total_cost, $name, $mobile_number, $address,$invoice_id)
     {
         $now = Carbon::now()->format("d M, Y h:i a");
-        $invoice_url = url('/invoice');
+        $invoice_url = url('/invoice')."/".$invoice_id;
         $this->message .= "আসসালামু আলাইকুম ওয়ারহমাতুল্লাহ। \n";
         $this->message .= "নতুন অর্ডার এসেছে \n";
         $this->message .= "অর্ডার এর সময়:  $now \n";

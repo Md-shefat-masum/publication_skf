@@ -15,24 +15,30 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+    return [$request->user(), auth()->user()];
+});
+
+Route::middleware('cors')->get('/t',function(){
+    return ['ok'];
 });
 
 Route::group(
     ['prefix' => 'v1', 'namespace' => 'Controllers'],
     function () {
+        // Route::group(['prefix' => '/user', 'middleware' => ['guest:api']], function () {
         Route::group(['prefix' => '/user', 'middleware' => ['guest:api']], function () {
             Route::post('/get-token', 'Auth\ApiLoginController@get_token');
             Route::post('/api-login', 'Auth\ApiLoginController@login');
             Route::post('/api-register', 'Auth\ApiLoginController@register');
-            Route::get('/auth-check', 'Auth\ApiLoginController@auth_check');
             Route::post('/forget-mail', 'Auth\ApiLoginController@forget_mail');
-            Route::post('/check-code', 'Auth\ApiLoginController@check_code');
             Route::post('/logout-from-all-devices', 'Auth\ApiLoginController@logout_from_all_devices');
         });
 
         Route::group(['middleware' => ['auth:api']], function () {
             Route::group(['prefix' => 'user'], function () {
+                Route::get('/auth-check', 'Auth\ApiLoginController@auth_check');
+                Route::post('/check-code', 'Auth\ApiLoginController@check_code');
+
                 Route::post('/api-logout', 'Auth\ApiLoginController@logout');
                 Route::post('/user_info', 'Auth\ApiLoginController@user_info');
                 Route::post('/check-auth', 'Auth\ApiLoginController@check_auth');
@@ -52,6 +58,12 @@ Route::group(
                 Route::post('/destroy', 'Auth\UserController@destroy');
                 Route::post('/restore', 'Auth\UserController@restore');
                 Route::post('/bulk-import', 'Auth\UserController@bulk_import');
+            });
+
+            Route::group(['prefix' => 'app'], function () {
+                Route::get('/top-categories', 'AppApi\CommonController@top_categories');
+                Route::get('/banners', 'AppApi\CommonController@banners');
+                Route::get('/products', 'AppApi\CommonController@products');
             });
 
             Route::group(['prefix' => 'user-role'], function () {
@@ -78,6 +90,93 @@ Route::group(
                 Route::post('/destroy', 'Admin\ContactMessageController@destroy');
                 Route::post('/restore', 'Admin\ContactMessageController@restore');
                 Route::post('/bulk-import', 'Admin\ContactMessageController@bulk_import');
+            });
+
+            Route::group(['prefix' => 'production'], function () {
+                Route::group(['prefix' => 'product'], function () {
+                    Route::get('/all', 'Production\Product\ProductController@all');
+                    Route::get('/{id}', 'Production\Product\ProductController@show');
+                });
+
+                Route::group(['prefix' => 'production'], function () {
+                    Route::get('/all', 'Production\ProductionController@all');
+                    Route::post('/store', 'Production\ProductionController@store');
+                    Route::post('/store-cost', 'Production\ProductionController@store_cost');
+                    Route::post('/canvas-store', 'Production\ProductionController@canvas_store');
+                    Route::post('/update', 'Production\ProductionController@update');
+                    Route::post('/add-to-top-product', 'Production\ProductionController@add_to_top_product');
+                    Route::post('/delete-related-image', 'Production\ProductionController@delete_related_image');
+                    Route::post('/canvas-update', 'Production\ProductionController@canvas_update');
+                    Route::post('/soft-delete', 'Production\ProductionController@soft_delete');
+                    Route::post('/destroy', 'Production\ProductionController@destroy');
+                    Route::post('/restore', 'Production\ProductionController@restore');
+                    Route::post('/bulk-import', 'Production\ProductionController@bulk_import');
+                    Route::get('/{id}', 'Production\ProductionController@show');
+                });
+
+                Route::group(['prefix' => 'paper'], function () {
+                    Route::get('/all', 'Production\Supplier\PaperController@all');
+                    Route::post('/store', 'Production\Supplier\PaperController@store');
+                    Route::post('/canvas-store', 'Production\Supplier\PaperController@canvas_store');
+                    Route::post('/update', 'Production\Supplier\PaperController@update');
+                    Route::post('/add-to-top-product', 'Production\Supplier\PaperController@add_to_top_product');
+                    Route::post('/delete-related-image', 'Production\Supplier\PaperController@delete_related_image');
+                    Route::post('/canvas-update', 'Production\Supplier\PaperController@canvas_update');
+                    Route::post('/soft-delete', 'Production\Supplier\PaperController@soft_delete');
+                    Route::post('/destroy', 'Production\Supplier\PaperController@destroy');
+                    Route::post('/restore', 'Production\Supplier\PaperController@restore');
+                    Route::post('/bulk-import', 'Production\Supplier\PaperController@bulk_import');
+                    Route::get('/{id}', 'Production\Supplier\PaperController@show');
+                });
+
+                Route::group(['prefix' => 'print'], function () {
+                    Route::get('/all', 'Production\Supplier\PrintController@all');
+                    Route::post('/store', 'Production\Supplier\PrintController@store');
+                    Route::post('/canvas-store', 'Production\Supplier\PrintController@canvas_store');
+                    Route::post('/update', 'Production\Supplier\PrintController@update');
+                    Route::post('/add-to-top-product', 'Production\Supplier\PrintController@add_to_top_product');
+                    Route::post('/delete-related-image', 'Production\Supplier\PrintController@delete_related_image');
+                    Route::post('/canvas-update', 'Production\Supplier\PrintController@canvas_update');
+                    Route::post('/soft-delete', 'Production\Supplier\PrintController@soft_delete');
+                    Route::post('/destroy', 'Production\Supplier\PrintController@destroy');
+                    Route::post('/restore', 'Production\Supplier\PrintController@restore');
+                    Route::post('/bulk-import', 'Production\Supplier\PrintController@bulk_import');
+                    Route::get('/{id}', 'Production\Supplier\PrintController@show');
+                });
+
+                Route::group(['prefix' => 'binding'], function () {
+                    Route::get('/all', 'Production\Supplier\BindingController@all');
+                    Route::post('/store', 'Production\Supplier\BindingController@store');
+                    Route::post('/canvas-store', 'Production\Supplier\BindingController@canvas_store');
+                    Route::post('/update', 'Production\Supplier\BindingController@update');
+                    Route::post('/add-to-top-product', 'Production\Supplier\BindingController@add_to_top_product');
+                    Route::post('/delete-related-image', 'Production\Supplier\BindingController@delete_related_image');
+                    Route::post('/canvas-update', 'Production\Supplier\BindingController@canvas_update');
+                    Route::post('/soft-delete', 'Production\Supplier\BindingController@soft_delete');
+                    Route::post('/destroy', 'Production\Supplier\BindingController@destroy');
+                    Route::post('/restore', 'Production\Supplier\BindingController@restore');
+                    Route::post('/bulk-import', 'Production\Supplier\BindingController@bulk_import');
+                    Route::get('/{id}', 'Production\Supplier\BindingController@show');
+                });
+
+                Route::group(['prefix' => 'designer'], function () {
+                    Route::get('/all', 'Production\Supplier\DesignerController@all');
+                    Route::post('/store', 'Production\Supplier\DesignerController@store');
+                    Route::post('/canvas-store', 'Production\Supplier\DesignerController@canvas_store');
+                    Route::post('/update', 'Production\Supplier\DesignerController@update');
+                    Route::post('/add-to-top-product', 'Production\Supplier\DesignerController@add_to_top_product');
+                    Route::post('/delete-related-image', 'Production\Supplier\DesignerController@delete_related_image');
+                    Route::post('/canvas-update', 'Production\Supplier\DesignerController@canvas_update');
+                    Route::post('/soft-delete', 'Production\Supplier\DesignerController@soft_delete');
+                    Route::post('/destroy', 'Production\Supplier\DesignerController@destroy');
+                    Route::post('/restore', 'Production\Supplier\DesignerController@restore');
+                    Route::post('/bulk-import', 'Production\Supplier\DesignerController@bulk_import');
+                    Route::get('/{id}', 'Production\Supplier\DesignerController@show');
+                });
+            });
+
+            Route::group(['prefix' => 'accounts'], function () {
+                Route::get('/all', 'Admin\TransactionAccountController@accounts');
             });
 
             Route::group(['prefix' => 'admin'], function () {
@@ -150,6 +249,8 @@ Route::group(
                 });
 
                 Route::group(['prefix' => 'payment-request'], function () {
+                    Route::post('/approve', 'Admin\Order\PaymentRequestController@approve');
+
                     Route::get('/all', 'Admin\Order\PaymentRequestController@all');
                     Route::post('/store', 'Admin\Order\PaymentRequestController@store');
                     Route::post('/canvas-store', 'Admin\Order\PaymentRequestController@canvas_store');
@@ -162,6 +263,12 @@ Route::group(
                     Route::post('/restore', 'Admin\Order\PaymentRequestController@restore');
                     Route::post('/bulk-import', 'Admin\Order\PaymentRequestController@bulk_import');
                     Route::get('/{id}', 'Admin\Order\PaymentRequestController@show');
+                });
+
+                Route::group(['prefix' => 'settings'], function () {
+                    Route::get('/set/{key}', 'Admin\SettingController@set');
+                    Route::get('/get/{key}', 'Admin\SettingController@get');
+                    Route::post('/get-by-keys', 'Admin\SettingController@get_by_keys');
                 });
             });
 
@@ -189,6 +296,7 @@ Route::group(
                 Route::post('/restore', 'Admin\Product\CategoryController@restore');
                 Route::post('/bulk-import', 'Admin\Product\CategoryController@bulk_import');
                 Route::get('/all-json', 'Admin\Product\CategoryController@all_json');
+                Route::get('/{id}/products', 'Admin\Product\CategoryController@products');
                 Route::post('/check-exists', 'Admin\Product\CategoryController@check_exists');
                 Route::post('/add-to-top-cat', 'Admin\Product\CategoryController@add_to_top_cat');
                 Route::get('/{id}', 'Admin\Product\CategoryController@show');

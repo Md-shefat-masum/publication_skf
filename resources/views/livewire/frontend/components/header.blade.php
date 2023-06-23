@@ -4,8 +4,10 @@
             <div class="row">
                 <div class="col-md-4 col-12">
                     <div class="logo-area text-left logo-xs-mrg">
-                        <a href="/"><img src="https://htmldemo.net/boighor/boighor/images/logo/logo.png"
-                                alt="logo" /></a>
+                        <a href="/">
+                            <img src="https://htmldemo.net/boighor/boighor/images/logo/logo.png"
+                                alt="logo" />
+                        </a>
                     </div>
                 </div>
                 <div style="flex: 1;">
@@ -70,7 +72,7 @@
                     <div class="my-cart">
                         <ul class="d-flex flex-wrap gap-4 justify-content-end align-items-center">
                             <li>
-                                <a href="/login">
+                                <a href="{{auth()->check()?"/profile":"/login"}}">
                                     <i class="fa fa-user"></i>
                                     <div class="d-inline-block">
                                         @if (auth()->check())

@@ -15,8 +15,13 @@ class OrderDetails extends Model
         parent::boot();
 
         static::creating(function ($data) {
-            if (auth()->check()) {
-                $data->user_id = auth()->user()->id;
+            if (auth()->check() && auth()->user()->roles()->count()) {
+                /**
+                 * if not admin save user_id
+                 */
+                if(auth()->user()->roles()->get()->whereNotIn('role_serial',[1,2,3])->count()){
+                    $data->user_id = auth()->user()->id;
+                }
             }
         });
     }

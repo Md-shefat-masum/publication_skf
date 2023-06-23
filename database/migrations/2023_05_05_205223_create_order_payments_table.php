@@ -24,6 +24,7 @@ class CreateOrderPaymentsTable extends Migration
             $table->string("account_no", 100)->nullable();
             $table->string("trx_id", 100)->nullable();
             $table->double("amount")->unsigned()->default(0);
+            $table->date('date')->nullable();
             $table->tinyInteger("approved")->unsigned()->default(0);
 
             $table->bigInteger('creator')->unsigned()->nullable();

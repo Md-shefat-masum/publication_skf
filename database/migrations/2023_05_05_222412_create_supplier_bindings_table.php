@@ -16,10 +16,11 @@ class CreateSupplierBindingsTable extends Migration
         Schema::create('supplier_bindings', function (Blueprint $table) {
             $table->id();
             $table->string("company_name", 45)->nullable();
-            $table->float("binding_cost")->nullable();
-            $table->dateTime("contact_date")->nullable();
+            $table->float("binding_cost")->default(0);
+            $table->integer('total_book')->default(0);
+            $table->date("contact_date")->nullable();
+            $table->text("address")->nullable();
             $table->text("description")->nullable();
-            $table->text("adddress")->nullable();
             // phone number into phone_numbers table
 
             $table->bigInteger('creator')->unsigned()->nullable();

@@ -1,9 +1,9 @@
 <template>
-    <div class="multiple_select_body" :id="`${store_prefix}_id`">
+    <div class="multiple_select_body" :id="`writer_id`">
         <div class="multiple_select_data"
             @click="call_store(`set_${store_prefix}_show_management_modal`,true)">
-            <div v-for="item in this[`get_${store_prefix}_selected`]" :key="item.id" class="item">
-                {{ item.name }}
+            <div v-for="item in selected" :key="item.id" class="item">
+                {{ item.product_name }}
             </div>
             <div class="btn btn-sm btn-outline-danger" v-if="!this[`get_${store_prefix}_selected`].length">
                 no data selected
@@ -19,14 +19,14 @@
                     </div>
                     <div class="action_btns">
                         <a @click.prevent="call_store(`set_clear_selected_${store_prefix}s`)" v-if="this[`get_${store_prefix}_selected`].length" href="#" class="btn rounded-pill btn-outline-danger me-2"><i class="fa fa-trash"></i> remove selected</a>
-                        <a @click.prevent="call_store(`set_${store_prefix}_show_create_canvas`,true)" href="#" class="btn rounded-pill btn-outline-primary"><i class="fa fa-pencil"></i> create</a>
+                        <!-- <a @click.prevent="call_store(`set_${store_prefix}_show_create_canvas`,true)" href="#" class="btn rounded-pill btn-outline-primary"><i class="fa fa-pencil"></i> create</a> -->
                     </div>
                 </div>
                 <div class="selected">
-                    <div class="item" v-for="user in get_user_role_selected" :key="user.id">
-                        <button @click.prevent="set_selected_user_roles(user)" class="btn rounded-pill btn-outline-secondary" type="button">
+                    <div class="item" v-for="item in this[`get_${store_prefix}_selected`]" :key="item.id">
+                        <button @click.prevent="call_store(`set_selected_${store_prefix}s`,item)" class="btn rounded-pill btn-outline-secondary" type="button">
                             <span>
-                                {{ user.name }}
+                                {{ item.product_name }}
                             </span>
                             <span>|</span>
                             <i class="fa fa-times"></i>
@@ -37,32 +37,31 @@
                     <table class="table table-hover table-bordered">
                         <thead class="table-light">
                             <tr>
-                                <th><input @click="set_select_all_user_roles()" type="checkbox" class="form-check-input"></th>
+                                <th><input @click="call_store(`set_selected_all_${store_prefix}s`)" type="checkbox" class="form-check-input"></th>
                                 <table-th :sort="true" :ariaLable="'id'" :tkey="'id'" :title="'ID'" />
-                                <table-th :sort="true" :tkey="'name'" :title="'Title'" />
-                                <table-th :sort="true" :tkey="'role_serial'" :title="'Role Serial'" />
-                                <table-th :sort="true" :tkey="'status'" :title="'Status'" />
-                                <th aria-label="actions">Actions</th>
+                                <table-th :sort="false" :tkey="'thumb_image'" :title="'Image'" />
+                                <table-th :sort="true" :tkey="'product_name'" :title="'Product Name'" />
+                                <table-th :sort="true" :tkey="'sales_price'" :title="'Price'" />
+                                <!-- <th aria-label="actions">Actions</th> -->
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
-                            <tr v-for="item in get_user_roles.data" :key="item.id">
+                            <tr v-for="item in this[`get_${store_prefix}s`].data" :key="item.id">
                                 <td>
-                                    <input v-if="check_if_data_is_selected(item)" :data-id="item.id" checked @change="set_selected_user_roles(item)" type="checkbox" class="form-check-input">
-                                    <input v-else @change="set_selected_user_roles(item)" type="checkbox" class="form-check-input">
+                                    <input v-if="check_if_data_is_selected(item)" :data-id="item.id" checked @change="call_store(`set_selected_${store_prefix}s`,item)" type="checkbox" class="form-check-input">
+                                    <input v-else @change="call_store(`set_selected_${store_prefix}s`,item)" type="checkbox" class="form-check-input">
                                 </td>
                                 <td>{{ item.id }}</td>
                                 <td>
-                                    <span class="text-warning cursor_pointer" @click.prevent="set_user_role(item)">
-                                        {{ item.name }}
+                                    <img :src="item.thumb_image_url" style="width: 30px;" alt="">
+                                </td>
+                                <td>
+                                    <span class="text-warning cursor_pointer" @click.prevent="call_store(`set_${store_prefix}`,item)">
+                                        {{ item.product_name }}
                                     </span>
                                 </td>
-                                <td>{{ item.role_serial }}</td>
-                                <td>
-                                    <span v-if="item.status == 1" class="badge bg-label-success me-1">active</span>
-                                    <span v-if="item.status == 0" class="badge bg-label-success me-1">deactive</span>
-                                </td>
-                                <td>
+                                <td>{{ item.sales_price }}</td>
+                                <!-- <td>
                                     <div class="table_actions">
                                         <a href="#" @click.prevent="()=>''" class="btn btn-sm btn-outline-secondary">
                                             <i class="fa fa-gears"></i>
@@ -79,7 +78,7 @@
                                             </li>
                                         </ul>
                                     </div>
-                                </td>
+                                </td> -->
                             </tr>
                         </tbody>
                     </table>
@@ -98,8 +97,8 @@
             </div>
         </div>
 
-        <create-canvas></create-canvas>
-        <edit-canvas></edit-canvas>
+        <!-- <create-canvas></create-canvas> -->
+        <!-- <edit-canvas></edit-canvas> -->
     </div>
 </template>
 
@@ -115,6 +114,9 @@ const {route_prefix, store_prefix} = PageSetup;
 
 export default {
     components: { TableTh, CreateCanvas, EditCanvas },
+    props: {
+        'select_qty': Number,
+    },
     data: function(){
         return {
             /** store prefix for JSX */
@@ -124,7 +126,9 @@ export default {
     },
     created: function(){
         this[`set_${this.store_prefix}_paginate`](9);
-        this[`fetch_${this.store_prefix}s`]();
+        if(this.select_qty){
+            this[`set_${this.store_prefix}_modal_selected_qty`](this.select_qty)
+        }
     },
     methods: {
         ...mapActions([`fetch_${store_prefix}s`]),
@@ -138,8 +142,8 @@ export default {
             `set_select_all_${store_prefix}s`,
             `set_clear_selected_${store_prefix}s`,
             `set_${store_prefix}_show_selected`,
+            `set_${store_prefix}_modal_selected_qty`,
 
-            `set_${store_prefix}_show_selected`,
             `set_${store_prefix}_show_create_canvas`,
             `set_${store_prefix}_show_edit_canvas`,
             `set_${store_prefix}_show_management_modal`,
@@ -164,8 +168,13 @@ export default {
         ...mapGetters([
             `get_${store_prefix}s`,
             `get_${store_prefix}_selected`,
-            `get_${store_prefix}_show_management_modal`
+            `get_${store_prefix}_show_management_modal`,
+            `get_${store_prefix}_show_create_canvas`,
         ]),
+        ...mapGetters({
+            data: `get_${store_prefix}s`,
+            selected:`get_${store_prefix}_selected`,
+        }),
     }
 };
 </script>

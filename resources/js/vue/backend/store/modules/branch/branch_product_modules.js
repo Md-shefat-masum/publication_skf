@@ -50,6 +50,7 @@ const actions = {
                 window.s_alert('user has been updated');
             })
     },
+
 }
 
 // mutators

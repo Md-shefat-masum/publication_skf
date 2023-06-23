@@ -18,49 +18,68 @@
                                 <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Supplier Name`"
-                                        :name="`full_name`"
-                                    />
-                                </div>
-                                <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
-                                    <input-field
-                                        :label="`mobile_number`"
-                                        :name="`mobile_number`"
+                                        :name="`supplier_name`"
                                     />
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Paper Name`"
-                                        :name="`category`"
+                                        :name="`paper_name`"
                                     />
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Paper Type`"
-                                        :name="`writer`"
+                                        :name="`paper_type`"
                                     />
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Cost Per Page`"
-                                        :name="`translator`"
+                                        :name="`cost_per_paper`"
+                                        :type="`number`"
                                     />
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Cost Per Ream`"
-                                        :name="`code`"
+                                        :name="`cost_per_ream`"
+                                        :type="`number`"
                                     />
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Purchase date`"
-                                        :name="`code`"
+                                        :name="`purchase_date`"
                                         :type="`date`"
                                     />
                                 </div>
                                 <div class=" form-group d-grid full_width align-content-start gap-1 mb-2 " >
-                                    <label for="message">Description</label>
-                                    <textarea class="form-control" id="message" name="message"></textarea>
+                                    <label for="description">Description</label>
+                                    <textarea class="form-control" id="message" name="description"></textarea>
+                                </div>
+                                <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
+                                    <div class="row">
+                                        <div class="col-lg-6 mb-2">
+                                            <input-field
+                                                :label="`mobile_number 1`"
+                                                :name="`mobile_number[]`"
+                                            />
+                                        </div>
+                                        <div class="col-lg-6 mb-2">
+                                            <input-field
+                                                :label="`mobile_number 2`"
+                                                :name="`mobile_number[]`"
+                                            />
+                                        </div>
+                                        <div class="col-lg-6 mb-2">
+                                            <input-field
+                                                :label="`mobile_number 3`"
+                                                :name="`mobile_number[]`"
+                                            />
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>

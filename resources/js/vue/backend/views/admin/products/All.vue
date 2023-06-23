@@ -106,15 +106,43 @@
                                 </span>
                             </td>
 
-                            <td>{{ item.sales_price }}</td>
-                            <td>{{ item.discount_info && item.discount_info.discount_percent }}%</td>
-                            <td>- {{ item.discount_info && item.discount_info.discount_amount }} ৳</td>
-                            <td>{{ item.discount_info.discount_price ? item.discount_info.discount_price: item.sales_price }} ৳</td>
+                            <td>
+                                <b class="text-success">
+                                    {{ item.sales_price }}
+                                </b>
+                            </td>
+                            <td>
+                                <b class="text-primary">
+                                    {{ item.discount_info && item.discount_info.discount_percent }}%
+                                </b>
+                            </td>
+                            <td>
+                                <b class="text-info">
+                                    - {{ item.discount_info && item.discount_info.discount_amount }} ৳
+                                </b>
+                            </td>
+                            <td>
+                                <b class="text-info">
+                                    {{ item.discount_info.discount_price ? item.discount_info.discount_price: item.sales_price }} ৳
+                                </b>
+                            </td>
 
-                            <td>+ {{ item.stock }}</td>
+                            <td>
+                                <b class="text-">
+                                    + {{ item.stock }}
+                                </b>
+                            </td>
                             <td>- {{ item.sales }}</td>
-                            <td>+ {{ item.returns }}</td>
-                            <td>= {{ item.stock - item.sales + item.returns }}</td>
+                            <td>
+                                <b class="text-danger">
+                                    + {{ item.returns }}
+                                </b>
+                            </td>
+                            <td>
+                                <b class="text-success">
+                                    = {{ item.stock - item.sales + item.returns }}
+                                </b>
+                            </td>
 
                             <td>{{ item.isbn  }}</td>
                             <td>{{ item.sku }}</td>

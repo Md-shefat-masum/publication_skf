@@ -18,37 +18,63 @@
                                 <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Company Name`"
-                                        :name="`full_name`"
+                                        :name="`company_name`"
                                     />
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Each Book Printing Cost`"
-                                        :name="`category`"
+                                        :name="`print_cost`"
+                                        :type="`number`"
                                     />
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Total Page`"
-                                        :name="`category`"
+                                        :name="`total_page`"
+                                        :type="`number`"
                                     />
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Per page cost`"
-                                        :name="`category`"
+                                        :name="`per_page_cost`"
+                                        :type="`number`"
                                     />
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Contact date`"
-                                        :name="`code`"
+                                        :name="`contact_date`"
                                         :type="`date`"
                                     />
                                 </div>
+                                <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
+                                    <div class="row">
+                                        <div class="col-lg-6 mb-2">
+                                            <input-field
+                                                :label="`mobile_number 1`"
+                                                :name="`mobile_number[]`"
+                                            />
+                                        </div>
+                                        <div class="col-lg-6 mb-2">
+                                            <input-field
+                                                :label="`mobile_number 2`"
+                                                :name="`mobile_number[]`"
+                                            />
+                                        </div>
+                                        <div class="col-lg-6 mb-2">
+                                            <input-field
+                                                :label="`mobile_number 3`"
+                                                :name="`mobile_number[]`"
+                                            />
+                                        </div>
+                                    </div>
+
+                                </div>
                                 <div class=" form-group d-grid full_width align-content-start gap-1 mb-2 " >
-                                    <label for="message">Description</label>
-                                    <textarea class="form-control" id="message" name="message"></textarea>
+                                    <label for="description">Description</label>
+                                    <textarea class="form-control" id="description" name="description"></textarea>
                                 </div>
                             </div>
                         </div>

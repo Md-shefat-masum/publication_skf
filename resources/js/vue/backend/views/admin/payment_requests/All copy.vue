@@ -3,7 +3,7 @@
         <div class="card list_card">
             <div class="card-header">
                 <h4>
-                    All Payemnt Requests
+                    All
                     <small v-if="this[`get_${store_prefix}_selected`].length">
                         &nbsp; selected:
                         <b class="text-warning">
@@ -71,14 +71,11 @@
                         <tr>
                             <th><input @click="call_store(`set_select_all_${store_prefix}s`)" type="checkbox" class="form-check-input check_all"></th>
                             <table-th :sort="true" :tkey="'id'" :title="'ID'" :ariaLable="'id'"/>
-                            <table-th :sort="false" :tkey="''" :title="'Approved'" />
-                            <table-th :sort="false" :tkey="''" :title="'Order'" />
-                            <table-th :sort="false" :tkey="''" :title="'User'" />
-                            <table-th :sort="false" :tkey="''" :title="'Amount'" />
-                            <table-th :sort="false" :tkey="''" :title="'Payment Method'" />
-                            <table-th :sort="false" :tkey="''" :title="'Account No'" />
-                            <table-th :sort="false" :tkey="''" :title="'Number'" />
-                            <table-th :sort="false" :tkey="''" :title="'Account'" />
+                            <table-th :sort="true" :tkey="'full_name'" :title="'Title'" />
+                            <table-th :sort="true" :tkey="'full_name'" :title="'Type'" />
+                            <table-th :sort="true" :tkey="'full_name'" :title="'category'" />
+                            <table-th :sort="true" :tkey="'email'" :title="'Amount'" />
+                            <table-th :sort="true" :tkey="'subject'" :title="'Account'" />
                             <table-th :sort="true" :tkey="'subject'" :title="'Date'" />
                             <th aria-label="actions">Actions</th>
                         </tr>

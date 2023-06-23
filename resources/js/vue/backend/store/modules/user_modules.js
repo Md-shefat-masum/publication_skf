@@ -8,6 +8,11 @@ const {store_prefix, api_prefix, route_prefix} = test_module;
 // state list
 const state = {
     ...test_module.states(),
+    filter_guest_role: false,
+    filter_branch_role: false,
+
+    get_filter_guest_role: (state) => state.filter_guest_role,
+    get_filter_branch_role: (state) => state.filter_branch_role,
 };
 
 // get state

@@ -2,49 +2,60 @@ import axios from "axios";
 import management_router from "../../../router/router";
 import StoreModule from "../schema/StoreModule";
 
-let test_module = new StoreModule('admin_payment_request','admin/payment-request','AdminPaymentRequest');
-const {store_prefix, api_prefix, route_prefix} = test_module;
+let test_module = new StoreModule(
+    "admin_payment_request",
+    "admin/payment-request",
+    "AdminPaymentRequest"
+);
+const { store_prefix, api_prefix, route_prefix } = test_module;
 
 // state list
 const state = {
     ...test_module.states(),
-    orderByAsc: true,
-    order_type: 'invoice',
+    orderByAsc: false,
 
-    admin_product_for_order: {},
-    admin_p_search_key: '',
-    admin_oder_cart: [],
+    transaction_accounts: [],
 };
 
 // get state
 const getters = {
     ...test_module.getters(),
-
-    get_admin_product_for_order: (state) => state.admin_product_for_order,
-    get_admin_p_search_key: (state) => state.admin_p_search_key,
-    get_admin_oder_cart: (state) => state.admin_oder_cart,
-    get_admin_oder_cart_total: (state) => state.admin_oder_cart.reduce((t,i)=>t+=i.total_price,0),
+    get_transaction_accounts: (state) => state.transaction_accounts,
 };
 
 // actions
 const actions = {
     ...test_module.actions(),
 
-    // [`fetch_${store_prefix}s`]: async function ({ state }) {
-    //     let url = `/${api_prefix}/all?page=${state[`${store_prefix}_page`]}&order_type=${state.order_type}&status=${state[`${store_prefix}_show_active_data`]}&paginate=${state[`${store_prefix}_paginate`]}`;
-    //     url += `&orderBy=${state.orderByCol}`;
-    //     if (state.orderByAsc) {
-    //         url += `&orderByType=ASC`;
-    //     } else {
-    //         url += `&orderByType=DESC`;
-    //     }
-    //     if (state[`${store_prefix}_search_key`]) {
-    //         url += `&search_key=${state[`${store_prefix}_search_key`]}`;
-    //     }
-    //     await axios.get(url).then((res) => {
-    //         this.commit(`set_${store_prefix}s`, res.data);
-    //     });
-    // },
+    [`${store_prefix}_approve`]: async function ({ state }, { id, event }) {
+        let url = `/${api_prefix}/approve`;
+        let cconfirm = await window.s_confirm("confirm action?.");
+        if(cconfirm){
+            await axios.post(url,{payment_id: id}).then((res) => {
+                window.s_alert(`payment status `+res.data);
+            });
+        }else{
+            event.target.checked = cconfirm
+        }
+    },
+
+    [`fetch_transaction_accounts`]: async function ({ state }) {
+        let url = `/accounts/all`;
+        let response = await axios.get(url);
+        // console.log(response.data);
+        state.transaction_accounts = response.data;
+    },
+
+    /** update data */
+    [`update_${store_prefix}`]:async function ({ state }, event) {
+        let form_data = new FormData(event);
+        form_data.append("id", state[store_prefix].id);
+        await axios.post(`/${api_prefix}/update`, form_data).then((res) => {
+            /** reset loaded user_role after data update */
+            // this.commit(`set_${store_prefix}`, null);
+            window.s_alert("data updated");
+        });
+    },
 
     // [`fetch_admin_product_for_order`]: async ({commit,dispatch,getters,rootGetters,rootState,state},page=1) => {
     //     let s_keys = state.admin_p_search_key.length ? `&search_key=${state.admin_p_search_key}`:'';
@@ -68,19 +79,11 @@ const actions = {
     //         window.set_form_data(".admin_form", data);
     //     }
     // },
-
-}
+};
 
 // mutators
 const mutations = {
     ...test_module.mutations(),
-    set_get_admin_product_for_order: (state, data) => {
-        state.admin_product_for_order = data;
-    },
-    set_admin_p_search_key: (state, data) => {
-        state.admin_p_search_key = data;
-    },
-    set_order_type: (state,order_type) => state.order_type = order_type,
 };
 
 export default {

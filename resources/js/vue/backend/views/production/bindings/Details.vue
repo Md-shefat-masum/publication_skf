@@ -21,20 +21,38 @@
                                 <td>{{ this[`get_${store_prefix}`].id }}</td>
                             </tr>
                             <tr>
-                                <td>Name</td>
-                                <td>{{ this[`get_${store_prefix}`].full_name }}</td>
+                                <td>company</td>
+                                <td>{{ this[`get_${store_prefix}`].company_name }}</td>
                             </tr>
                             <tr>
-                                <td>Email</td>
-                                <td>{{ this[`get_${store_prefix}`].email }}</td>
+                                <td>binding cost</td>
+                                <td>{{ this[`get_${store_prefix}`].binding_cost }}</td>
                             </tr>
                             <tr>
-                                <td>Subject</td>
-                                <td>{{ this[`get_${store_prefix}`].subject }}</td>
+                                <td>contact date</td>
+                                <td>{{ this[`get_${store_prefix}`].contact_date }}</td>
                             </tr>
                             <tr>
                                 <td>Description</td>
                                 <td>{{ this[`get_${store_prefix}`].description }}</td>
+                            </tr>
+                            <tr>
+                                <td>address</td>
+                                <td>{{ this[`get_${store_prefix}`].address }}</td>
+                            </tr>
+                            <tr>
+                                <td>total book</td>
+                                <td>{{ this[`get_${store_prefix}`].total_book }}</td>
+                            </tr>
+                            <tr>
+                                <td>Phone Numbers</td>
+                                <td>
+                                    <ul>
+                                        <li v-for="number in this[`get_${store_prefix}`].mobile_numbers" :key="number.id">
+                                            {{ number.mobile_number }}
+                                        </li>
+                                    </ul>
+                                </td>
                             </tr>
                             <tr>
                                 <td>status </td>

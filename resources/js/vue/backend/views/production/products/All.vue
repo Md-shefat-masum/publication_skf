@@ -71,11 +71,21 @@
                         <tr>
                             <th><input @click="call_store(`set_select_all_${store_prefix}s`)" type="checkbox" class="form-check-input check_all"></th>
                             <table-th :sort="true" :tkey="'id'" :title="'ID'" :ariaLable="'id'"/>
-                            <table-th :sort="true" :tkey="'full_name'" :title="'Image'" />
-                            <table-th :sort="true" :tkey="'full_name'" :title="'Title'" />
-                            <table-th :sort="true" :tkey="'email'" :title="'Price'" />
-                            <table-th :sort="true" :tkey="'subject'" :title="'Cost'" />
-                            <table-th :sort="true" :tkey="'message'" :title="'Stock'" />
+                            <table-th :sort="false" :tkey="'thumb_image'" :title="'Image'" />
+                            <table-th :sort="false" :tkey="'product_name'" :title="'Title'" />
+
+                            <table-th :sort="false" :tkey="'sales_price'" :title="'Sales Price'" />
+                            <table-th :sort="false" :tkey="''" :title="'discount %'" />
+                            <table-th :sort="false" :tkey="''" :title="'discount ৳'" />
+                            <table-th :sort="false" :tkey="''" :title="'current price'" />
+
+                            <table-th :sort="false" :tkey="''" :title="'stock'" />
+                            <table-th :sort="false" :tkey="''" :title="'sales'" />
+                            <table-th :sort="false" :tkey="''" :title="'returns'" />
+                            <table-th :sort="false" :tkey="''" :title="'Current stock'" />
+
+                            <table-th :sort="false" :tkey="''" :title="'ISBN'" />
+                            <table-th :sort="false" :tkey="''" :title="'SKU'" />
                             <table-th :sort="true" :tkey="'status'" :title="'Status'" />
                             <th aria-label="actions">Actions</th>
                         </tr>
@@ -86,20 +96,30 @@
                                 <input v-if="check_if_data_is_selected(item)" :data-id="item.id" checked @change="call_store(`set_selected_${store_prefix}s`,item)" type="checkbox" class="form-check-input">
                                 <input v-else @change="call_store(`set_selected_${store_prefix}s`,item)" type="checkbox" class="form-check-input">
                             </td>
-                            <td>{{ parseInt(Math.random()*100) }}</td>
+                            <td>{{ item.id }}</td>
                             <td>
-                                <img style="height: 60px;" :src="item.thumb_image" alt="">
+                                <img style="height: 60px;" :src="`/${item.thumb_image}`" alt="">
                             </td>
                             <td>
                                 <span class="text-warning cursor_pointer" @click.prevent="call_store(`set_${store_prefix}`,item)">
                                     {{ item.product_name }}
                                 </span>
                             </td>
+
                             <td>{{ item.sales_price }}</td>
-                            <td>{{ item.cost  }}</td>
-                            <td>{{ parseInt(Math.random()*100000) }}</td>
+                            <td>{{ item.discount_info && item.discount_info.discount_percent }}%</td>
+                            <td>- {{ item.discount_info && item.discount_info.discount_amount }} ৳</td>
+                            <td>{{ item.discount_info.discount_price ? item.discount_info.discount_price: item.sales_price }} ৳</td>
+
+                            <td>+ {{ item.stock }}</td>
+                            <td>- {{ item.sales }}</td>
+                            <td>+ {{ item.returns }}</td>
+                            <td>= {{ item.stock - item.sales + item.returns }}</td>
+
+                            <td>{{ item.isbn  }}</td>
+                            <td>{{ item.sku }}</td>
+
                             <td>
-                                <span class="badge bg-label-success me-1">avaiable</span>
                                 <span v-if="item.status == 1" class="badge bg-label-success me-1">active</span>
                                 <span v-if="item.status == 0" class="badge bg-label-success me-1">deactive</span>
                             </td>
@@ -255,6 +275,10 @@ export default {
             `get_${store_prefix}_selected`,
             `get_${store_prefix}_show_active_data`,
         ]),
+        ...mapGetters({
+            data: `get_${store_prefix}s`,
+            selected_data: `get_${store_prefix}_selected`,
+        }),
     }
 }
 </script>

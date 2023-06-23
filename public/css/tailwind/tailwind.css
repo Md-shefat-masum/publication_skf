@@ -197,6 +197,9 @@
 .rounded-sm{
     border-radius: 0.125rem
 }
+.rounded-none{
+    border-radius: 0px
+}
 .border-0{
     border-width: 0px
 }
@@ -245,6 +248,10 @@
     padding-left: 0px;
     padding-right: 0px
 }
+.px-4{
+    padding-left: 1rem;
+    padding-right: 1rem
+}
 .pl-4{
     padding-left: 1rem
 }
@@ -259,6 +266,9 @@
 }
 .pb-4{
     padding-bottom: 1rem
+}
+.pt-4{
+    padding-top: 1rem
 }
 .text-left{
     text-align: left

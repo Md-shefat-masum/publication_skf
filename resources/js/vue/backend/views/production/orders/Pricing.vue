@@ -10,57 +10,66 @@
                     </router-link>
                 </div>
             </div>
-            <form @submit.prevent="call_store(`store_${store_prefix}`,$event.target)" autocomplete="false">
+            <form @submit.prevent="store_production_cost($event.target)" autocomplete="false">
                 <div class="card-body">
                     <div class="row justify-content-center">
                         <div class="col-lg-10">
                             <div class="admin_form form_1">
                                 <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
-                                    <input-field
-                                        :label="`Product Name`"
-                                        :name="`full_name`"
-                                    />
+                                    <label for="" id="product_id">Select Product</label>
+                                    <ProductModal :select_qty="1"></ProductModal>
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Design cost`"
-                                        :name="`full_name`"
+                                        :name="`design_cost`"
+                                        :type="`number`"
+                                        :mutator="changed_price"
                                     />
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Printing cost`"
-                                        :name="`qty`"
+                                        :name="`printing_cost`"
+                                        :type="`number`"
+                                        :mutator="changed_price"
                                     />
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Binding Cost`"
-                                        :name="`subject`"
+                                        :name="`binding_cost`"
+                                        :type="`number`"
+                                        :mutator="changed_price"
                                     />
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Other Cost`"
-                                        :name="`subject`"
+                                        :name="`other_cost`"
+                                        :type="`number`"
+                                        :mutator="changed_price"
                                     />
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
-                                    <input-field
-                                        :label="`Final Cost`"
-                                        :name="`subject`"
-                                    />
+                                    <div class="field_wrapper">
+                                        <label for="final_cost" class="text-capitalize d-block">
+                                            <span class="mb-2 d-block">Final Cost</span>
+                                            <input :value="cost.final_cost" readonly type="number" id="final_cost" name="final_cost" class="form-control" />
+                                        </label>
+                                    </div>
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Sales price`"
-                                        :name="`subject`"
+                                        :name="`sales_price`"
+                                        :type="`number`"
                                     />
                                 </div>
 
                                 <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
-                                    <label for="message">Description</label>
-                                    <textarea class="form-control" id="message" name="message"></textarea>
+                                    <label for="description">Description</label>
+                                    <textarea class="form-control" id="description" name="description"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -83,22 +92,45 @@ import InputField from '../../components/InputField.vue'
 /** store and route prefix for export object use */
 import PageSetup from './PageSetup';
 const {route_prefix, store_prefix} = PageSetup;
+import ProductModal from "../products/components/ManagementModal.vue"
 
 export default {
-    components: { InputField },
+    components: { InputField, ProductModal },
     data: function(){
         return {
             /** store prefix for JSX */
             store_prefix,
-            route_prefix
+            route_prefix,
+            cost: {
+                design_cost: 0,
+                printing_cost: 0,
+                binding_cost: 0,
+                other_cost: 0,
+                final_cost: 0,
+                sales_price: 0,
+            },
         }
     },
     created: function () {},
+    watch: {
+        cost: {
+            handler: function(newv){
+                console.log(newv);
+                const { binding_cost, design_cost, other_cost, printing_cost, final_cost, sales_price} = this.cost;
+                this.cost.final_cost =  binding_cost+ design_cost+ other_cost+ printing_cost;
+            },
+            deep: true,
+        }
+    },
     methods: {
-        ...mapActions([`store_${store_prefix}`]),
+        ...mapActions([`store_production_cost`]),
         call_store: function(name, params=null){
             this[name](params)
         },
+        changed_price: function({value, name, event}){
+            this['cost'][name] = +value;
+            console.log(value, name, event);
+        }
     },
 };
 </script>

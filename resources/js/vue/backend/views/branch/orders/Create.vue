@@ -17,6 +17,12 @@
                         <div class="col-lg-7">
                             <div class="d-flex gap-2">
                                 <input @keyup="set_p_search_key($event.target.value)" type="search" placeholder="search" class="form-control">
+                                <select class="form-select" @change="set_branch_product_category($event.target.value)">
+                                    <option value="">সকল বই</option>
+                                    <option v-for="category in all_categories"  :key="category.id" :value="category.id">
+                                        {{ category.name }}
+                                    </option>
+                                </select>
                                 <button type="button" class="btn btn-outline-adn"><i class="fa fa-search"></i></button>
                             </div>
                             <div class="row py-3" v-if="products.data && products.data.length">
@@ -102,7 +108,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from 'vuex'
+import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
 import InputField from '../../components/InputField.vue'
 /** store and route prefix for export object use */
 import PageSetup from './PageSetup';
@@ -117,24 +123,27 @@ export default {
             route_prefix,
         }
     },
-    created: function () {
-        this.fetch_branch_product_for_order();
-        // this.$watch('products',(n,o)=>{
-        //     console.log(n, o);
-        // })
+    created: async function () {
+        await this.fetch_branch_product_for_order();
+        await this.fetch_category();
         this.$watch('p_search_key',(n,o)=>{
             this.fetch_branch_product_for_order();
         })
     },
     methods: {
-        ...mapActions([`store_${store_prefix}`,`fetch_branch_product_for_order`]),
+        ...mapActions([
+            `store_${store_prefix}`,
+            `fetch_branch_product_for_order`,
+        ]),
         ...mapActions({
             add_to_cart: 'branch_oder_cart_add',
             remove_cart: "remove_product_from_cart",
             store_order: "store_branch_order",
+            fetch_category: "fetch_category_all_json",
         }),
         ...mapMutations({
-            set_p_search_key: 'set_branch_p_search_key',
+            set_p_search_key: "set_branch_p_search_key",
+            set_branch_product_category: "set_branch_product_category",
         }),
         call_store: function(name, params=null){
             this[name](params)
@@ -148,8 +157,10 @@ export default {
             'products': "get_branch_product_for_order",
             'p_search_key': "get_branch_p_search_key",
             "order_carts": "get_branch_oder_cart",
-            "tota_order_price": "get_branch_oder_cart_total"
-        })
+            "tota_order_price": "get_branch_oder_cart_total",
+            "all_categories": "get_category_all_json",
+        }),
+
     }
 };
 </script>

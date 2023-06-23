@@ -3,7 +3,6 @@ let slider_reboot = () => '';
 document.addEventListener("DOMContentLoaded", () => {
     slider_reboot = function() {
         $(".slider-active")
-            .off()
             .owlCarousel({
                 smartSpeed: 1000,
                 margin: 0,

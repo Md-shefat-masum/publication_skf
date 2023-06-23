@@ -8,12 +8,17 @@ const {store_prefix, api_prefix, route_prefix} = test_module;
 // state list
 const state = {
     ...test_module.states(),
-    orderByAsc: true,
-    order_type: 'invoice',
+    orderByAsc: false,
+    order_type: 'id',
 
     admin_product_for_order: {},
     admin_p_search_key: '',
     admin_oder_cart: [],
+
+    admin_order_discount: 0,
+    admin_cart_total: 0,
+    admin_paid_amount: 0,
+    admin_due_amount: 0,
 };
 
 // get state
@@ -24,6 +29,10 @@ const getters = {
     get_admin_p_search_key: (state) => state.admin_p_search_key,
     get_admin_oder_cart: (state) => state.admin_oder_cart,
     get_admin_oder_cart_total: (state) => state.admin_oder_cart.reduce((t,i)=>t+=i.total_price,0),
+    get_admin_order_discount: (state) => state.admin_order_discount,
+    get_admin_cart_total: (state) => state.admin_cart_total,
+    get_admin_paid_amount: (state) => state.admin_paid_amount,
+    get_admin_due_amount: (state) => state.admin_due_amount,
 };
 
 // actions
@@ -59,6 +68,7 @@ const actions = {
             res.data.order_details.forEach(el => {
                 el.total_price = el.sales_price * el.qty;
                 el.current_price = el.product_price;
+                el.id = el.product_id;
             });
             state.admin_oder_cart = res.data.order_details;
             state.admin_order = res.data;
@@ -69,11 +79,13 @@ const actions = {
         }
     },
 
-    [`store_admin_order`]: async function({state}, {type}){
+    [`store_admin_order`]: async function({state, rootGetters}, {type}){
         let carts = [...state.admin_oder_cart];
+        let discount = state.admin_order_discount;
+        let customer_id = rootGetters.get_user_selected[0]?.id
         let cconfirm = await window.s_confirm("submit order");
         if(cconfirm){
-            axios.post('/admin/store-order',{carts,type:'create',order_id: state.admin_order?.id})
+            axios.post('/admin/order/store-order',{carts, discount, customer_id , type:'create', order_id: state.admin_order?.id})
                 .then(res=>{
                     // console.log(res.data);
                     state.admin_oder_cart  = [];
@@ -95,15 +107,21 @@ const actions = {
         }
     },
 
-    [`update_order_status`]: async function({state, dispatch, rootState}, {status}){
+    [`update_order_status`]: async function({state, dispatch, rootState}, {status,order_id}){
         let cconfirm = await window.s_confirm("update status into "+status);
+        if(state.admin_order?.id){
+            order_id = state.admin_order.id;
+        }
         if(cconfirm){
-            axios.post('/admin/order/update-order-status',{status, order_id: state.admin_order.id})
+            axios.post('/admin/order/update-order-status',{status, order_id})
                 .then(res=>{
-                    let product = rootState.admin_order_modules.admin_orders.data.find(i=>i.id == res.data.id);
-                    // console.log(product);
-                    product.status = status;
-                    dispatch('fetch_admin_order',{id: product.id })
+                    let orders = rootState.admin_order_modules.admin_orders;
+                    let product = orders?.data?.find(i=>i.id == res.data.id);
+                    // console.log(product, status);
+                    if(product){
+                        product.order_status = status;
+                        dispatch('fetch_admin_order',{id: product.id })
+                    }
                     window.s_alert(`order status updated successfully.`);
                 })
         }
@@ -127,7 +145,7 @@ const actions = {
         }
     },
 
-    [`admin_oder_cart_add`]: function({state},{product,qty}){
+    [`admin_oder_cart_add`]: function({state, commit},{product,qty}){
         let products = [...state.admin_oder_cart];
         let cart_product = products.find((p)=>p.id == product.id);
         if(cart_product){
@@ -147,14 +165,17 @@ const actions = {
             product.total_price = product.qty*product.discount_info.discount_price;
             product.current_price = product.discount_info.discount_price;
         }
-
         state.admin_oder_cart = products;
+        commit('set_admin_cart_total')
+        commit('calc_discount_amount')
     },
 
-    [`remove_product_from_cart`]: function({state}, {product}){
+    [`remove_product_from_cart`]: function({state,commit}, {product}){
         let products = [...state.admin_oder_cart];
         products = products.filter(i=>i.id != product.id);
         state.admin_oder_cart = products;
+        commit('set_admin_cart_total');
+        commit('calc_discount_amount');
     },
 
     [`admin_receive_due`]: async function({state, dispatch}, {form}){
@@ -183,6 +204,40 @@ const mutations = {
         state.admin_p_search_key = data;
     },
     set_order_type: (state,order_type) => state.order_type = order_type,
+    set_admin_paid_amount: function(state,admin_paid_amount){
+        state.admin_paid_amount = admin_paid_amount;
+        this.commit('set_admin_due_amount');
+    },
+    set_admin_due_amount: function(){
+        state.admin_due_amount = state.admin_cart_total - state.admin_paid_amount;
+    },
+    set_admin_cart_total: function(){
+        state.admin_cart_total = state.admin_oder_cart.reduce((t,i)=>t+=i.total_price,0);
+        this.commit('set_admin_due_amount');
+    },
+    set_admin_order_discount: function(state,event) {
+        let admin_order_discount = event.target.value;
+        if(admin_order_discount>100){
+            admin_order_discount = 100;
+        }
+        if(admin_order_discount<0){
+            admin_order_discount = 0;
+        }
+        event.target.value = admin_order_discount;
+        state.admin_order_discount = admin_order_discount;
+        this.commit('set_admin_cart_total')
+        this.commit('calc_discount_amount')
+    },
+    calc_discount_amount: function(state){
+        let total = state.admin_cart_total;
+        let admin_order_discount = state.admin_order_discount
+        if(admin_order_discount>0){
+            state.admin_cart_total = Math.round(total - ( (total * admin_order_discount) / 100 ));
+        }else{
+            state.admin_cart_total = Math.round(total);
+        }
+        this.commit('set_admin_due_amount');
+    }
 };
 
 export default {

@@ -6,6 +6,7 @@ import order from "./sub_routes/order";
 import paper from "./sub_routes/paper";
 import print from "./sub_routes/print";
 import binding from "./sub_routes/binding";
+import designer from "./sub_routes/designer";
 import account from "./sub_routes/account";
 import account_category from "./sub_routes/account_category";
 import account_bank from "./sub_routes/account_bank";
@@ -25,6 +26,7 @@ export default {
         paper,
         print,
         binding,
+        designer,
         account,
         account_category,
         account_bank,

@@ -10,22 +10,24 @@
                 <span data-i18n="Apps &amp; Pages">managements</span>
             </li>
 
-            <left-nav-list-group :role_permissions="['production']" :icon="`fa fa-list`" :text="`Inventory`" :alert_count="0">
+            <left-nav-list-group :role_permissions="['production']" :icon="`fa fa-shop`" :text="`Inventory`" :alert_count="0">
                 <left-nav-list-item :to="'AllProductionProduct'" :text="'All Products'" />
-                <left-nav-list-item :to="'AllProductionProductCategory'" :text="'Product Category'" />
-                <left-nav-list-item :to="'CreateProductionProduct'" :text="'Create Product'" />
+                <!-- <left-nav-list-item :to="'AllProductionProductCategory'" :text="'Product Category'" /> -->
+                <!-- <left-nav-list-item :to="'CreateProductionProduct'" :text="'Create Product'" /> -->
             </left-nav-list-group>
 
-            <left-nav-list-group :role_permissions="['production']" :icon="`fa fa-list`" :text="`Production`" :alert_count="0">
+            <left-nav-list-group :role_permissions="['production']" :icon="`fa fa-home`" :text="`Production`" :alert_count="0">
                 <left-nav-list-item :to="'AllProductionOrder'" :text="'All Orders'" />
+                <left-nav-list-item :to="'AllProductions'" :text="'All Productions'" />
                 <left-nav-list-item :to="'ProductionProductionOrder'" :text="'Start Production'" />
                 <left-nav-list-item :to="'ProductionProductionPricing'" :text="'Pricing'" />
             </left-nav-list-group>
 
-            <left-nav-list-group :role_permissions="['production']" :icon="`fa fa-list`" :text="`Suppliers`" :alert_count="0">
+            <left-nav-list-group :role_permissions="['production']" :icon="`fa fa-users`" :text="`Suppliers`" :alert_count="0">
                 <left-nav-list-item :to="'AllProductionPaper'" :text="'Paper'" />
                 <left-nav-list-item :to="'AllProductionPrinting'" :text="'Print'" />
                 <left-nav-list-item :to="'AllProductionBinding'" :text="'Binding'" />
+                <left-nav-list-item :to="'AllProductionDesigner'" :text="'Designer'" />
             </left-nav-list-group>
 
             <li class="nav-item">

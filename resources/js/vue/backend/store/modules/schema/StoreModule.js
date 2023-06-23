@@ -103,7 +103,7 @@ class StoreModule {
 
             /* trigger showing data modal */
             [`${store_prefix}_show_management_modal`]: false,
-            [`${store_prefix}_show_management_modal_qty`]: 20,
+            [`${store_prefix}_modal_selected_qty`]: 20, // how much will checked from management modal
 
             /* trigger showing data form canvas */
             [`${store_prefix}_show_create_canvas`]: false,
@@ -149,10 +149,10 @@ class StoreModule {
             [`get_${store_prefix}_show_active_data`]: (state) => state[`${store_prefix}_show_active_data`],
             [`get_${store_prefix}_selected`]: (state) => state[`${store_prefix}_selected`],
             [`get_${store_prefix}_show_selected`]: (state) => state[`${store_prefix}_show_selected`],
+            [`get_${store_prefix}_modal_selected_qty`]: (state) => state[`${store_prefix}_modal_selected_qty`],
             [`get_${store_prefix}_show_create_canvas`]: (state) => state[`${store_prefix}_show_create_canvas`],
             [`get_${store_prefix}_show_edit_canvas`]: (state) => state[`${store_prefix}_show_edit_canvas`],
             [`get_${store_prefix}_show_management_modal`]: (state) => state[`${store_prefix}_show_management_modal`],
-            [`get_${store_prefix}_show_management_modal_qty`]: (state) => state[`${store_prefix}_show_management_modal_qty`],
         };
 
         return getters;
@@ -223,7 +223,8 @@ class StoreModule {
                 let form_data = new FormData(event);
                 await axios.post(`/${api_prefix}/store`, form_data).then((res) => {
                     event.reset();
-                    document.querySelector(".file_preview").innerHTML = "";
+                    let file_preview = document.querySelector(".file_preview")
+                    file_preview && (file_preview.innerHTML = "");
                     window.s_alert("new data been created");
                 });
             },
@@ -488,6 +489,7 @@ class StoreModule {
             * 4. set searh key for data set
             * 5. set show data type active or deactive
             * */
+
             [`set_${store_prefix}_paginate`]: function (state, paginate) {
                 state[`${store_prefix}_paginate`] = paginate;
                 this.dispatch(`fetch_${store_prefix}s`);
@@ -519,6 +521,9 @@ class StoreModule {
             },
 
             /** set selected data array */
+            [`set_${store_prefix}_modal_selected_qty`]: function (state, modal_selected_qty) {
+                state[`${store_prefix}_modal_selected_qty`] = modal_selected_qty;
+            },
             [`set_selected_${store_prefix}s`]: function (state, data) {
                 if(!data){
                     return 0;
@@ -536,7 +541,8 @@ class StoreModule {
                 }
                 state[`${store_prefix}_selected`] = temp_selected;
 
-                if(state[`${store_prefix}_show_management_modal_qty`] == 1 && temp_selected.length){
+                if(state[`${store_prefix}_modal_selected_qty`] == 1 && temp_selected.length){
+                    // remove all take only selected_item
                     state[`${store_prefix}_selected`] = [{...temp_selected[temp_selected.length - 1]}];
                     [...document.querySelectorAll(`input[type="checkbox"]`)].forEach(el=>el.checked=false);
                     event.target.checked = true;
@@ -598,9 +604,6 @@ class StoreModule {
             /** trigger data management modal */
             [`set_${store_prefix}_show_management_modal`]: function (state, trigger = true) {
                 state[`${store_prefix}_show_management_modal`] = trigger; // true or false
-            },
-            [`set_${store_prefix}_show_management_modal_qty`]: function (state, qty) {
-                state[`${store_prefix}_show_management_modal_qty`] = qty; // true or false
             },
 
             /** trigger data create canvas ( sidebar) */

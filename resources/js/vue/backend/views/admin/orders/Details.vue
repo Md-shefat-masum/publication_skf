@@ -213,7 +213,11 @@
                                 <tfoot>
                                     <tr>
                                         <th colspan="4" class="text-end">Total</th>
-                                        <th class="text-end">{{ data.order_payments_sum_amount.toString().enToBn() }}</th>
+                                        <th class="text-end">
+                                            <span v-if="data.order_payments_sum_amount">
+                                                {{ data.order_payments_sum_amount.toString().enToBn() }}
+                                            </span>
+                                        </th>
                                     </tr>
                                 </tfoot>
                             </table>

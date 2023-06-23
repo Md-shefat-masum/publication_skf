@@ -295,6 +295,13 @@ class CategoryController extends Controller
         return response()->json($category_json);
     }
 
+    public function products($id)
+    {
+        $category = Category::where('status',1)->where('id',$id)->select(['id','name','parent_id'])->first();
+        $products = $category->products()->paginate(12);
+        return response()->json($products);
+    }
+
     public function check_exists()
     {
         $check = Category::where('url',request()->url)->first();

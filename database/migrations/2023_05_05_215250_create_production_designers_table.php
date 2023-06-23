@@ -16,6 +16,7 @@ class CreateProductionDesignersTable extends Migration
         Schema::create('production_designers', function (Blueprint $table) {
             $table->id();
             $table->string("name",100)->nullable();
+            $table->text("address")->nullable()->comment("designer address");
             $table->text("description")->nullable()->comment("designer description");
 
             $table->bigInteger('creator')->unsigned()->nullable();

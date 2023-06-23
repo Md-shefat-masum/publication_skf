@@ -15,10 +15,10 @@
         }
     });
 
-    Pace.start();
-    Pace.options = {
-        restartOnRequestAfter: true,
-    };
+    // Pace.start();
+    // Pace.options = {
+    //     restartOnRequestAfter: true,
+    // };
     const Toast = Swal.mixin({
         toast: true,
         position: "top-end",
@@ -36,5 +36,5 @@
             title: message,
         });
     };
-    
+
 })(jQuery);

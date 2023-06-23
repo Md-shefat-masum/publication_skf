@@ -117,6 +117,11 @@ const {route_prefix, store_prefix, pagination_limits} = PageSetup;
 
 export default {
     components: { UserTableTh, CreateUserCanvas },
+    props: {
+        'is_filter_guest_role': Boolean,
+        'is_filter_branch_role': Boolean,
+        'select_qty': Number,
+    },
     data: function(){
         return {
             route_prefix,
@@ -126,7 +131,11 @@ export default {
     },
     created: function(){
         this.set_user_paginate(9);
-        this.fetch_users();
+
+        if(this.select_qty){
+            this[`set_user_modal_selected_qty`](this.select_qty)
+        }
+        // this.fetch_users();
     },
     methods: {
         ...mapActions([`fetch_users`]),
@@ -142,6 +151,7 @@ export default {
             `set_user_show_selected`,
             `set_user_show_create_canvas`,
             `set_user_show_management_modal`,
+            `set_user_modal_selected_qty`,
         ]),
 
         check_if_user_is_selected: function(user){

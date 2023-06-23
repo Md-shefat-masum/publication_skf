@@ -18,9 +18,10 @@ class CreateSupplierPapersTable extends Migration
             $table->string("supplier_name", 45)->nullable();
             $table->string("paper_name", 45)->nullable();
             $table->string("paper_type", 45)->nullable();
-            $table->string("cost_per_paper", 45)->nullable();
-            $table->string("cost_per_ream", 45)->nullable();
-            $table->dateTime("purchase_date")->nullable();
+            $table->float("cost_per_paper")->nullable();
+            $table->float("cost_per_ream")->nullable();
+            $table->float("stock")->default(0);
+            $table->date("purchase_date")->nullable();
             $table->text("description")->nullable();
             // phone number into phone_numbers table
 

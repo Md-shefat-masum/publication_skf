@@ -71,34 +71,32 @@
                         <tr>
                             <th><input @click="call_store(`set_select_all_${store_prefix}s`)" type="checkbox" class="form-check-input check_all"></th>
                             <table-th :sort="true" :tkey="'id'" :title="'ID'" :ariaLable="'id'"/>
-                            <table-th :sort="true" :tkey="'full_name'" :title="'Company'" />
-                            <table-th :sort="true" :tkey="'full_name'" :title="'Each Book Binding Cost'" />
-                            <table-th :sort="true" :tkey="'email'" :title="'Total Book'" />
-                            <table-th :sort="true" :tkey="'subject'" :title="'Total Cost'" />
+                            <table-th :sort="true" :tkey="'company_name'" :title="'Company'" />
+                            <table-th :sort="true" :tkey="'binding_cost'" :title="'Each Book Binding Cost'" />
+                            <table-th :sort="true" :tkey="'total_book'" :title="'Total Book'" />
+                            <table-th :sort="false" :tkey="'subject'" :title="'Total Cost'" />
                             <table-th :sort="true" :tkey="'status'" :title="'Status'" />
                             <th aria-label="actions">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
-                        <!-- <tr v-for="item in this[`get_${store_prefix}s`].data" :key="item.id"> -->
-                        <tr v-for="item in data" :key="item.id">
+                        <tr v-for="item in this[`get_${store_prefix}s`].data" :key="item.id">
                             <td>
                                 <input v-if="check_if_data_is_selected(item)" :data-id="item.id" checked @change="call_store(`set_selected_${store_prefix}s`,item)" type="checkbox" class="form-check-input">
                                 <input v-else @change="call_store(`set_selected_${store_prefix}s`,item)" type="checkbox" class="form-check-input">
                             </td>
-                            <td>{{ parseInt(Math.random()*100) }}</td>
+                            <td>{{ item.id }}</td>
                             <td>
                                 <span class="text-warning cursor_pointer" @click.prevent="call_store(`set_${store_prefix}`,item)">
-                                    {{ item.company }}
+                                    {{ item.company_name }}
                                 </span>
                             </td>
                             <td>
-                                {{ item.printing_cost }}
+                                {{ item.binding_cost }}
                             </td>
                             <td>{{ item.total_book }}</td>
-                            <td>{{ item.total_book * item.printing_cost }}</td>
+                            <td>{{ item.total_book * item.binding_cost }}</td>
                             <td>
-                                <span class="badge bg-label-success me-1">avaiable</span>
                                 <span v-if="item.status == 1" class="badge bg-label-success me-1">active</span>
                                 <span v-if="item.status == 0" class="badge bg-label-success me-1">deactive</span>
                             </td>

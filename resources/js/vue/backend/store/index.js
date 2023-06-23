@@ -15,9 +15,16 @@ import admin_product_modules from './modules/admin/admin_product_modules';
 import admin_writer_modules from './modules/admin/admin_writer_modules';
 import admin_translator_modules from './modules/admin/admin_translator_modules';
 import admin_order_modules from './modules/admin/admin_order_modules';
+import admin_payment_request_modules from './modules/admin/admin_payment_request_modules';
+import admin_setting_modules from './modules/admin/admin_setting_modules';
 
 import production_product_modules from './modules/production/production_product_modules';
 import production_product_category_modules from './modules/production/production_product_category_modules';
+import production_paper_modules from './modules/production/production_paper_modules';
+import production_print_modules from './modules/production/production_print_modules';
+import production_binding_modules from './modules/production/production_binding_modules';
+import production_designer_modules from './modules/production/production_designer_modules';
+import production_order_modules from './modules/production/production_order_modules';
 
 const store = new Vuex.Store({
     modules: {
@@ -33,9 +40,16 @@ const store = new Vuex.Store({
         admin_translator_modules,
         admin_writer_modules,
         admin_order_modules,
+        admin_payment_request_modules,
+        admin_setting_modules,
 
         production_product_modules,
         production_product_category_modules,
+        production_paper_modules,
+        production_print_modules,
+        production_binding_modules,
+        production_designer_modules,
+        production_order_modules,
     },
     state: {},
     getters: {},
