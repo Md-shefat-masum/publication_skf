@@ -98,6 +98,36 @@ const actions = {
             });
         }, 500);
     },
+
+    /** override store */
+    [`store_discount_${store_prefix}`]: function({state, getters, commit, rootState}){
+
+        const {form_values, form_inputs, form_data} = window.get_form_data('.create_form');
+        let {get_admin_product_selected: product} = getters;
+        product = product[0];
+        form_data.append('product_id',product.id);
+        form_data.append('main_price',product.sales_price);
+
+        axios.post(`/${api_prefix}/store-discount`,form_data)
+            .then(res=>{
+                $('.create_form input').val('');
+
+                rootState.admin_writer_modules.admin_writer_selected = [];
+                rootState.admin_translator_modules.admin_translator_selected = [];
+                rootState.production_product_category_modules.category_selected = [];
+
+                if(res.data.status == 'success'){
+                    window.s_alert('new product has been created');
+                }else{
+                    window.s_alert(res.data.message, 'error');
+                    console.log(res.data.error);
+                }
+                management_router.push({name:`Edit${route_prefix}`,params:{id:res.data.product.id}})
+            })
+            .catch(error=>{
+
+            })
+    },
 }
 
 // mutators

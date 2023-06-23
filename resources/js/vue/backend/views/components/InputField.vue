@@ -16,7 +16,9 @@
                 :checked="checked"
                 @change="input_change_handler"
                 @keyup="keyup_handler"
+                :readonly="readonly"
                 ref="input_el"
+                :style="styles"
             />
             <span v-if="input_not_text" class="ps-1">
                 {{ label }}
@@ -83,6 +85,10 @@ export default {
             type: Boolean,
             default: true,
         },
+        readonly: {
+            type: Boolean,
+            default: false,
+        },
         multiple: {
             type: Boolean,
             default: false,
@@ -94,6 +100,10 @@ export default {
         data_attr: {
             type: Array,
             default: null,
+        },
+        styles: {
+            type: String,
+            default: '',
         }
     },
     data: function () {

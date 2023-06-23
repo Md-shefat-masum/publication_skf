@@ -61,6 +61,10 @@
 .m-0{
     margin: 0px
 }
+.mx-auto{
+    margin-left: auto;
+    margin-right: auto
+}
 .my-5{
     margin-top: 1.25rem;
     margin-bottom: 1.25rem
@@ -73,16 +77,45 @@
     margin-top: 1rem;
     margin-bottom: 1rem
 }
-.mx-auto{
-    margin-left: auto;
-    margin-right: auto
-}
 .my-3{
     margin-top: 0.75rem;
     margin-bottom: 0.75rem
 }
 .mt-4{
     margin-top: 1rem
+}
+.mb-20{
+    margin-bottom: 5rem
+}
+.mt-80{
+    margin-top: 20rem
+}
+.mt-60{
+    margin-top: 15rem
+}
+.ml-1{
+    margin-left: 0.25rem
+}
+.mt-2{
+    margin-top: 0.5rem
+}
+.mr-2{
+    margin-right: 0.5rem
+}
+.ml-2{
+    margin-left: 0.5rem
+}
+.ml-4{
+    margin-left: 1rem
+}
+.mt-8{
+    margin-top: 2rem
+}
+.ml-12{
+    margin-left: 3rem
+}
+.-mt-px{
+    margin-top: -1px
 }
 .mb-0{
     margin-bottom: 0px
@@ -98,9 +131,6 @@
 }
 .mt-5{
     margin-top: 1.25rem
-}
-.mb-20{
-    margin-bottom: 5rem
 }
 .ml-5{
     margin-left: 1.25rem
@@ -120,41 +150,11 @@
 .ml-auto{
     margin-left: auto
 }
-.mt-80{
-    margin-top: 20rem
-}
-.mt-60{
-    margin-top: 15rem
-}
-.mt-2{
-    margin-top: 0.5rem
-}
 .mb-2{
     margin-bottom: 0.5rem
 }
 .mt-1{
     margin-top: 0.25rem
-}
-.ml-1{
-    margin-left: 0.25rem
-}
-.mr-2{
-    margin-right: 0.5rem
-}
-.ml-2{
-    margin-left: 0.5rem
-}
-.ml-4{
-    margin-left: 1rem
-}
-.mt-8{
-    margin-top: 2rem
-}
-.ml-12{
-    margin-left: 3rem
-}
-.-mt-px{
-    margin-top: -1px
 }
 .block{
     display: block
@@ -258,6 +258,9 @@
 .overflow-hidden{
     overflow: hidden
 }
+.rounded-lg{
+    border-radius: 0.5rem
+}
 .rounded{
     border-radius: 0.25rem
 }
@@ -266,9 +269,6 @@
 }
 .rounded-none{
     border-radius: 0px
-}
-.rounded-lg{
-    border-radius: 0.5rem
 }
 .border-0{
     border-width: 0px
@@ -298,14 +298,17 @@
     --tw-bg-opacity: 1;
     background-color: rgb(243 244 246 / var(--tw-bg-opacity))
 }
+.p-0{
+    padding: 0px
+}
+.p-6{
+    padding: 1.5rem
+}
 .p-2{
     padding: 0.5rem
 }
 .p-1{
     padding: 0.25rem
-}
-.p-0{
-    padding: 0px
 }
 .p-3{
     padding: 0.75rem
@@ -316,8 +319,17 @@
 .p-5{
     padding: 1.25rem
 }
-.p-6{
-    padding: 1.5rem
+.py-4{
+    padding-top: 1rem;
+    padding-bottom: 1rem
+}
+.px-4{
+    padding-left: 1rem;
+    padding-right: 1rem
+}
+.px-6{
+    padding-left: 1.5rem;
+    padding-right: 1.5rem
 }
 .py-3{
     padding-top: 0.75rem;
@@ -327,10 +339,6 @@
     padding-left: 0.25rem;
     padding-right: 0.25rem
 }
-.py-4{
-    padding-top: 1rem;
-    padding-bottom: 1rem
-}
 .py-1{
     padding-top: 0.25rem;
     padding-bottom: 0.25rem
@@ -339,13 +347,8 @@
     padding-left: 0px;
     padding-right: 0px
 }
-.px-4{
-    padding-left: 1rem;
-    padding-right: 1rem
-}
-.px-6{
-    padding-left: 1.5rem;
-    padding-right: 1.5rem
+.pt-8{
+    padding-top: 2rem
 }
 .pl-4{
     padding-left: 1rem
@@ -359,14 +362,11 @@
 .pb-0{
     padding-bottom: 0px
 }
-.pb-4{
-    padding-bottom: 1rem
-}
 .pt-4{
     padding-top: 1rem
 }
-.pt-8{
-    padding-top: 2rem
+.pb-4{
+    padding-bottom: 1rem
 }
 .text-left{
     text-align: left
@@ -415,18 +415,6 @@
 .tracking-wider{
     letter-spacing: 0.05em
 }
-.text-white{
-    --tw-text-opacity: 1;
-    color: rgb(255 255 255 / var(--tw-text-opacity))
-}
-.text-gray-600{
-    --tw-text-opacity: 1;
-    color: rgb(75 85 99 / var(--tw-text-opacity))
-}
-.text-black{
-    --tw-text-opacity: 1;
-    color: rgb(0 0 0 / var(--tw-text-opacity))
-}
 .text-gray-200{
     --tw-text-opacity: 1;
     color: rgb(229 231 235 / var(--tw-text-opacity))
@@ -443,6 +431,10 @@
     --tw-text-opacity: 1;
     color: rgb(107 114 128 / var(--tw-text-opacity))
 }
+.text-gray-600{
+    --tw-text-opacity: 1;
+    color: rgb(75 85 99 / var(--tw-text-opacity))
+}
 .text-gray-700{
     --tw-text-opacity: 1;
     color: rgb(55 65 81 / var(--tw-text-opacity))
@@ -450,6 +442,14 @@
 .text-gray-900{
     --tw-text-opacity: 1;
     color: rgb(17 24 39 / var(--tw-text-opacity))
+}
+.text-white{
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255 / var(--tw-text-opacity))
+}
+.text-black{
+    --tw-text-opacity: 1;
+    color: rgb(0 0 0 / var(--tw-text-opacity))
 }
 .underline{
     text-decoration-line: underline

@@ -4,6 +4,7 @@ import Create from "../../../views/admin/products/Create";
 import Edit from "../../../views/admin/products/Edit";
 import Details from "../../../views/admin/products/Details";
 import Import from "../../../views/admin/products/Import";
+import SetDiscount from "../../../views/admin/products/SetDiscount";
 
 let prefix = `AdminProduct`;
 export default {
@@ -38,6 +39,11 @@ export default {
             path: `details/:id`,
             name: `Details${prefix}`,
             component: Details,
+        },
+        {
+            path: `set-discount`,
+            name: `SetDiscount${prefix}`,
+            component: SetDiscount,
         },
     ],
 };
