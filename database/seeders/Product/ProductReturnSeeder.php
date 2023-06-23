@@ -65,7 +65,7 @@ class ProductReturnSeeder extends Seeder
             $product_return = ProductReturn::create($review);
 
             ProductStockLog::create([
-                "product_id" => $product->id,
+                "product_id" => $product->product_id,
                 "qty" => 1,
                 "type" => "return",
                 "product_return_id" => $product_return->id,

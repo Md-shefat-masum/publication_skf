@@ -181,8 +181,8 @@ class ProductController extends Controller
         // $image->save($path);
         // $this->image_save_to_db($path);
 
-        $width = 192 + 200;
-        $height = 254 + 200;
+        $width = 192 + 400;
+        $height = 254 + 400;
         $canvas = interImage::canvas($width, $height);
         $image->fit($width, $height, function ($constraint) {
             $constraint->aspectRatio();
@@ -471,7 +471,7 @@ class ProductController extends Controller
             'main_price' => $product->sales_price,
             'parcent_discount' => request()->percent_discount > 0 ?  request()->percent_discount : null,
             'flat_discount' => request()->flat_discount > 0 ?  request()->flat_discount : null,
-            'expire_date' => $product->expire_date,
+            'expire_date' => Carbon::parse($product->expire_date)->toDateTimeString(),
         ]);
 
         return response()->json(request()->all(), 200);

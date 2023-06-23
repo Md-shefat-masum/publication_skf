@@ -71,7 +71,7 @@ class OrderSeeder extends Seeder
                 }
 
                 ProductStockLog::create([
-                    "product_id" => $order_details->id,
+                    "product_id" => $order_details->product_id,
                     "qty" => $order_details->qty,
                     "type" => "sales",
                     "order_id" => $order_details->order_id,

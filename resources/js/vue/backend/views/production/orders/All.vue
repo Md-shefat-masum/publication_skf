@@ -79,19 +79,19 @@
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
-                        <!-- <tr v-for="item in this[`get_${store_prefix}s`].data" :key="item.id"> -->
-                        <tr v-for="item in data" :key="item.id">
+                        <tr v-for="item in this[`get_${store_prefix}s`].data" :key="item.id">
+                        <!-- <tr v-for="item in data" :key="item.id"> -->
                             <td>
                                 <input v-if="check_if_data_is_selected(item)" :data-id="item.id" checked @change="call_store(`set_selected_${store_prefix}s`,item)" type="checkbox" class="form-check-input">
                                 <input v-else @change="call_store(`set_selected_${store_prefix}s`,item)" type="checkbox" class="form-check-input">
                             </td>
-                            <td>{{ parseInt(Math.random()*100) }}</td>
+                            <td>{{ item.id }}</td>
                             <td>
                                 <img style="height: 60px;" :src="item.image" alt="">
                             </td>
                             <td>
                                 <span class="text-warning cursor_pointer" @click.prevent="call_store(`set_${store_prefix}`,item)">
-                                    {{ item.title }}
+                                    {{ item.product_name }}
                                 </span>
                             </td>
                             <td>{{ item.qty }}</td>
@@ -257,6 +257,7 @@ export default {
         }
     },
     created: function(){
+        console.log(this.$store);
         this[`fetch_${store_prefix}s`]();
     },
     methods: {

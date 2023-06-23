@@ -17,7 +17,7 @@
             </left-nav-list-group>
 
             <left-nav-list-group :role_permissions="['production']" :icon="`fa fa-home`" :text="`Production`" :alert_count="0">
-                <left-nav-list-item :to="'AllProductionOrder'" :text="'All Orders'" />
+                <!-- <left-nav-list-item :to="'AllProductionOrder'" :text="'All Orders'" /> -->
                 <left-nav-list-item :to="'AllProductions'" :text="'All Productions'" />
                 <left-nav-list-item :to="'ProductionProductionOrder'" :text="'Start Production'" />
                 <left-nav-list-item :to="'ProductionProductionPricing'" :text="'Pricing'" />

@@ -10,7 +10,7 @@
                     </router-link>
                 </div>
             </div>
-            <form @submit.prevent="store_production_cost($event.target)" autocomplete="false">
+            <form @submit.prevent="store_production_cost($event.target)" class="create_form" autocomplete="false">
                 <div class="card-body">
                     <div class="row justify-content-center">
                         <div class="col-lg-10">

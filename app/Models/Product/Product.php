@@ -74,6 +74,7 @@ class Product extends Model
         $discount_amount = 0;
         $discount_percent = 0;
         $discount_price = 0;
+        $expire_date = 0;
         $discount = ProductDiscount::select([
             "id",
             "product_id",
@@ -83,7 +84,7 @@ class Product extends Model
             "expire_date",
         ])
             ->where('product_id', $this->id)
-            ->whereDate('expire_date', '>', Carbon::today()->toDateString())
+            ->where('expire_date', '>', Carbon::today()->toDateString())
             ->orderBy('id', "DESC")
             ->first();
         if ($discount) {
@@ -91,12 +92,14 @@ class Product extends Model
                 $discount_amount = $discount->flat_discount;
                 $discount_percent = round(100 * $discount->flat_discount / $discount->main_price);
                 $discount_price =  $discount->main_price - $discount->flat_discount;
+                $expire_date = Carbon::parse($discount->expire_date)->format('Y-m-d H:i');
             }
-            if ($discount->parcent_discount) {
+            else if ($discount->parcent_discount) {
                 $discount_amount = round($discount->main_price * $discount->parcent_discount / 100);
                 $discount_amount = $discount_amount;
                 $discount_percent  = $discount->parcent_discount;
                 $discount_price =  $discount->main_price - $discount_amount;
+                $expire_date = Carbon::parse($discount->expire_date)->format('Y-m-d H:i');
             }
         }
 
@@ -104,6 +107,7 @@ class Product extends Model
             "discount_amount" => $discount_amount,
             "discount_percent" => $discount_percent,
             "discount_price" => $discount_price,
+            "expire_date" => $expire_date,
         ];
     }
 

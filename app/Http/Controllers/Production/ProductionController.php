@@ -128,8 +128,10 @@ class ProductionController extends Controller
         $product->save();
 
         $discount = ProductDiscount::where('product_id',$product->id)->latest()->first();
-        $discount->main_price = $data->sales_price;
-        $discount->save();
+        if($discount ){
+            $discount->main_price = $data->sales_price;
+            $discount->save();
+        }
 
         return response()->json($data, 200);
     }

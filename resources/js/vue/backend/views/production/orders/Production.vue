@@ -10,7 +10,7 @@
                     </router-link>
                 </div>
             </div>
-            <form @submit.prevent="call_store(`store_production_${store_prefix}`,$event.target)" autocomplete="false">
+            <form @submit.prevent="call_store(`store_production_production_order`,$event.target)" autocomplete="false">
                 <div class="card-body">
                     <div class="row justify-content-center">
                         <div class="col-lg-10">
@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 import InputField from '../../components/InputField.vue'
 import ProductModal from "../products/components/ManagementModal.vue"
 import designerModal from "../designer/components/ManagementModal.vue"
@@ -95,9 +95,20 @@ export default {
             route_prefix
         }
     },
-    created: function () {},
+    created: function () {
+        this[`set_clear_selected_production_products`](false);
+        this[`set_clear_selected_production_designers`](false);
+        this[`set_clear_selected_production_prints`](false);
+        this[`set_clear_selected_production_bindings`](false);
+    },
     methods: {
-        ...mapActions([`store_production_${store_prefix}`]),
+        ...mapActions([`store_production_production_order`]),
+        ...mapMutations([
+            `set_clear_selected_production_products`,
+            `set_clear_selected_production_designers`,
+            `set_clear_selected_production_prints`,
+            `set_clear_selected_production_bindings`,
+        ]),
         call_store: function(name, params=null){
             this[name](params)
         },

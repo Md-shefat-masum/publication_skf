@@ -55,6 +55,7 @@
                                         :label="`Height`"
                                         :name="`height`"
                                         :type="`number`"
+                                        :value="0"
                                     />
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
@@ -62,6 +63,7 @@
                                         :label="`Width`"
                                         :name="`width`"
                                         :type="`number`"
+                                        :value="0"
                                     />
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
@@ -69,6 +71,7 @@
                                         :label="`Weight`"
                                         :name="`weight`"
                                         :type="`number`"
+                                        :value="0"
                                     />
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
@@ -76,6 +79,7 @@
                                         :label="`Depth`"
                                         :name="`depth`"
                                         :type="`number`"
+                                        :value="0"
                                     />
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >

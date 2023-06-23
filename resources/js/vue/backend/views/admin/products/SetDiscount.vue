@@ -51,35 +51,38 @@
                                         </table>
                                     </div>
                                 </div>
-                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                <div v-if="Object.keys(selected).length" class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Percent Discount`"
                                         :name="`percent_discount`"
                                         :mutator="discount_change"
+                                        :value="selected.discount_info.discount_percent"
                                     />
                                 </div>
-                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                <div v-if="Object.keys(selected).length" class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Flat Discount`"
                                         :name="`flat_discount`"
                                         :mutator="flat_discount_change"
+                                        :value="selected.discount_info.discount_amount"
                                     />
                                 </div>
-                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                <div v-if="Object.keys(selected).length" class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Expire Date`"
                                         :name="`expire_date`"
                                         :type="'datetime-local'"
+                                        :value="selected.discount_info.expire_date"
                                     />
                                 </div>
-                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                <div v-if="Object.keys(selected).length" class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Discount Amount`"
                                         :name="`discount_amount`"
                                         :type="'text'"
                                         :readonly="true"
                                         :styles="'cursor:not-allowed;'"
-                                        :value="discount_amount"
+                                        :value="discount_amount || selected.discount_info.discount_price"
                                     />
                                 </div>
                             </div>
@@ -117,8 +120,8 @@ export default {
         }
     },
     created: function () {
-        this.$watch("selected_items",function(){
-            this.selected = this.selected_items[0];
+        this.$watch(`selected_items`,function(){
+            this.selected = this.selected_items[0] || {};
         })
     },
     methods: {
@@ -127,6 +130,9 @@ export default {
             this[name](params)
         },
         discount_change: function({value, name, event}){
+            if(!value){
+                value = 0;
+            }
             if(value < 0 ){
                 event.target.value = 0;
             }
@@ -134,29 +140,37 @@ export default {
                 event.target.value = 100;
             }
             document.querySelector('input[name="flat_discount"]').value = 0;
+
             this.calc_discount_price(+value, "percent");
             console.log(value);
 
         },
         flat_discount_change: function({value, name, event}){
+            if(!value){
+                value = 0;
+            }
             if(value < 0 ){
                 event.target.value = 0;
             }
             if(value > this.selected.sales_price ){
                 event.target.value = this.selected.sales_price;
             }
+            value = +value;
             document.querySelector('input[name="percent_discount"]').value = 0;
-            this.calc_discount_price(+value, "flat");
+            this.calc_discount_price(value, "flat");
             console.log(value);
         },
         calc_discount_price: function(value=0, type="flat"){
             if(type=='percent'){
-                this.discount_amount = this.selected.sales_price - ( this.selected.sales_price*value/100 )
+                let discount_price = this.selected.sales_price*value/100;
+                this.discount_amount = this.selected.sales_price - discount_price;
+                document.querySelector('input[name="flat_discount"]').value = Math.round(discount_price);
             }
             if(type=='flat'){
                 this.discount_amount = this.selected.sales_price - value;
+                document.querySelector('input[name="percent_discount"]').value = Math.round(100*value/this.selected.sales_price);
             }
-            this.discount_amount = Math.ceil(this.discount_amount);
+            this.discount_amount = Math.round(this.discount_amount);
         }
     },
     computed: {

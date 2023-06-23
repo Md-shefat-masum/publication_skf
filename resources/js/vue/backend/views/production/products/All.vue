@@ -21,13 +21,13 @@
                     </form>
                 </div>
                 <div class="btns d-flex gap-2 align-items-center">
-                    <permission-button
+                    <!-- <permission-button
                         :permission="'can_create'"
                         :to="{name: `Create${route_prefix}`}"
                         :classList="'btn rounded-pill btn-outline-info'">
                         <i class="fa fa-pencil me-5px"></i>
                         Create
-                    </permission-button>
+                    </permission-button> -->
                     <div class="table_actions">
                         <a href="#" @click.prevent="()=>''" class="btn px-1 btn-outline-secondary">
                             <i class="fa fa-list"></i>
@@ -144,7 +144,7 @@
                                                 Details
                                             </permission-button>
                                         </li>
-                                        <li>
+                                        <!-- <li>
                                             <permission-button
                                                 :permission="'can_edit'"
                                                 :to="{name:`Edit${route_prefix}`,params:{id: item.id}}"
@@ -152,8 +152,8 @@
                                                 <i class="fa text-warning fa-pencil"></i>
                                                 Edit
                                             </permission-button>
-                                        </li>
-                                        <li v-if="item.status == 1">
+                                        </li> -->
+                                        <!-- <li v-if="item.status == 1">
                                             <permission-button
                                                 :permission="'can_delete'"
                                                 :to="{}"
@@ -174,7 +174,7 @@
                                                 <i class="fa text-danger fa-recycle"></i>
                                                 Activate
                                             </permission-button>
-                                        </li>
+                                        </li> -->
                                     </ul>
                                 </div>
                             </td>

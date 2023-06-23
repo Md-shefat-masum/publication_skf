@@ -66,7 +66,7 @@ class AdminOrderManagementController extends Controller
         $data->payment_accounts = AppSettingTitle::select('id', 'title')
             ->whereIn('title', [
                 'bkash', 'nagad',
-                'rocket', 'bank'
+                'rocket', 'bank_account'
             ])->where('status', 1)->with([
                 'values' => function ($q) {
                     return $q->select(['id', 'setting_id', 'title', 'setting_value']);
