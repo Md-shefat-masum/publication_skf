@@ -16,6 +16,7 @@ const state = {
 const getters = {
     ...test_module.getters(),
     get_settings_values: (state)=>state.settings_values,
+    get_settings_keys: (state)=>state.settings_keys,
 };
 
 // actions
@@ -26,7 +27,20 @@ const actions = {
         let data = res.data;
         state.settings_values = data;
         // console.log(data);
-    }
+    },
+    set_settings: async function({state}, {id, value, index}){
+        let form_data = new FormData();
+        form_data.append('value',value);
+        let res = await axios.post('/admin/settings/set/'+id,form_data);
+        let data = res.data;
+        window.s_alert(`setting updated`);
+        state.settings_values[index]?.forEach(i => {
+            if(i.id == data.id){
+                i.setting_value = data.setting_value;
+            }
+        });
+        // console.log(data);
+    },
 }
 
 // mutators

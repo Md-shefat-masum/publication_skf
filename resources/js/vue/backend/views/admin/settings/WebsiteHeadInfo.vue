@@ -5,26 +5,21 @@
                 <h4> Website Head Info </h4>
             </div>
             <div class="card-body px-4 pt-4 form_area custom_scroll">
-                <div class="form-group setting_form">
-                    <label for="header_title">header title</label>
-                    <input type="text" id="header_title" name="header_title" class="form-control">
-                </div>
-                <div class="form-group setting_form">
-                    <label for="copy_right">copy right</label>
-                    <input type="text" id="copy_right" name="copy_right" class="form-control">
-                </div>
+                <setting-input v-for="key in get_settings_keys" :key="key" :label="key"></setting-input>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from 'vuex'
+import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
 import PageSetup from './PageSetup';
+import SettingInput from './components/SettingInput.vue';
+import SettingFile from './components/SettingFile.vue';
 const { route_prefix, store_prefix } = PageSetup;
 
 export default {
-    components: {},
+    components: { SettingInput, SettingFile },
     data: function () {
         return {
             /** store prefix for JSX */
@@ -32,27 +27,25 @@ export default {
             route_prefix,
         }
     },
-    created: function () {
-
+    created: async function () {
+        this.set_settings_keys([
+            "header_title",
+            "copy_right",
+        ]);
+        await this.get_settings();
     },
     methods: {
         ...mapActions([
-
+            'get_settings',
         ]),
         ...mapMutations([
-
+            'set_settings_keys',
         ]),
-
-        call_store: function (name, params = null) {
-            this[name](params)
-        },
     },
     computed: {
         ...mapGetters([
-
-        ]),
+            'get_settings_keys'
+        ])
     }
 }
 </script>
-
-<style></style>

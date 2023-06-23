@@ -5,34 +5,21 @@
                 <h4> Payment Numbers  </h4>
             </div>
             <div class="card-body px-4 pt-4 form_area custom_scroll">
-                <div class="form-group setting_form">
-                    <label for="bkash">bkash</label>
-                    <input type="text" id="bkash" name="bkash" class="form-control">
-                </div>
-                <div class="form-group setting_form">
-                    <label for="nagad">nagad</label>
-                    <input type="text" id="nagad" name="nagad" class="form-control">
-                </div>
-                <div class="form-group setting_form">
-                    <label for="rocket">rocket</label>
-                    <input type="text" id="rocket" name="rocket" class="form-control">
-                </div>
-                <div class="form-group setting_form">
-                    <label for="bank_account">bank account</label>
-                    <input type="text" id="bank_account" name="bank_account" class="form-control">
-                </div>
+                <setting-input v-for="key in get_settings_keys" :key="key" :label="key"></setting-input>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from 'vuex'
+import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
 import PageSetup from './PageSetup';
+import SettingInput from './components/SettingInput.vue';
+import SettingFile from './components/SettingFile.vue';
 const { route_prefix, store_prefix } = PageSetup;
 
 export default {
-    components: {},
+    components: {SettingInput, SettingFile},
     data: function () {
         return {
             /** store prefix for JSX */
@@ -40,27 +27,27 @@ export default {
             route_prefix,
         }
     },
-    created: function () {
-
+    created: async function () {
+        this.set_settings_keys([
+            "bkash",
+            "nagad",
+            "rocket",
+            "bank_account",
+        ]);
+        await this.get_settings();
     },
     methods: {
         ...mapActions([
-
+            'get_settings',
         ]),
         ...mapMutations([
-
+            'set_settings_keys',
         ]),
-
-        call_store: function (name, params = null) {
-            this[name](params)
-        },
     },
     computed: {
         ...mapGetters([
-
-        ]),
+            'get_settings_keys'
+        ])
     }
 }
 </script>
-
-<style></style>

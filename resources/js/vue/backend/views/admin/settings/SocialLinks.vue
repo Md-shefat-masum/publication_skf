@@ -2,41 +2,24 @@
     <div class="conatiner-fulid">
         <div class="card rounded-none ">
             <div class="card-header">
-                <h4>Social Links</h4>
+                <h4> Social Links </h4>
             </div>
             <div class="card-body px-4 pt-4 form_area custom_scroll">
-                <div class="form-group setting_form">
-                    <label for="social_facebook">facebook</label>
-                    <input type="text" id="social_facebook" name="social_facebook" class="form-control">
-                </div>
-                <div class="form-group setting_form">
-                    <label for="social_twitter">Twitter</label>
-                    <input type="text" id="social_twitter" name="social_twitter" class="form-control">
-                </div>
-                <div class="form-group setting_form">
-                    <label for="social_instagram">instagram</label>
-                    <input type="text" id="social_instagram" name="social_instagram" class="form-control">
-                </div>
-                <div class="form-group setting_form">
-                    <label for="social_linkedin">linkedin</label>
-                    <input type="text" id="social_linkedin" name="social_linkedin" class="form-control">
-                </div>
-                <div class="form-group setting_form">
-                    <label for="social_youtube">youtube</label>
-                    <input type="text" id="social_youtube" name="social_youtube" class="form-control">
-                </div>
+                <setting-input v-for="key in get_settings_keys" :key="key" :label="key"></setting-input>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from 'vuex'
+import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
 import PageSetup from './PageSetup';
+import SettingInput from './components/SettingInput.vue';
+import SettingFile from './components/SettingFile.vue';
 const { route_prefix, store_prefix } = PageSetup;
 
 export default {
-    components: {},
+    components: { SettingInput, SettingFile },
     data: function () {
         return {
             /** store prefix for JSX */
@@ -44,27 +27,28 @@ export default {
             route_prefix,
         }
     },
-    created: function () {
-
+    created: async function () {
+        this.set_settings_keys([
+            "social_facebook",
+            "social_twitter",
+            "social_instagram",
+            "social_linkedin",
+            "social_youtube",
+        ]);
+        await this.get_settings();
     },
     methods: {
         ...mapActions([
-
+            'get_settings',
         ]),
         ...mapMutations([
-
+            'set_settings_keys',
         ]),
-
-        call_store: function (name, params = null) {
-            this[name](params)
-        },
     },
     computed: {
         ...mapGetters([
-
-        ]),
+            'get_settings_keys'
+        ])
     }
 }
 </script>
-
-<style></style>

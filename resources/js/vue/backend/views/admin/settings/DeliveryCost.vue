@@ -2,29 +2,24 @@
     <div class="conatiner-fulid">
         <div class="card rounded-none ">
             <div class="card-header">
-                <h4> Delivery Cost </h4>
+                <h4> Delivery Cost  </h4>
             </div>
             <div class="card-body px-4 pt-4 form_area custom_scroll">
-                <div class="form-group setting_form">
-                    <label for="home_delivery_cost">home delivery cost</label>
-                    <input type="text" id="home_delivery_cost" name="home_delivery_cost" class="form-control">
-                </div>
-                <div class="form-group setting_form">
-                    <label for="out_dhaka_home_delivery_cost">out dhaka home delivery cost</label>
-                    <input type="text" id="out_dhaka_home_delivery_cost" name="out_dhaka_home_delivery_cost" class="form-control">
-                </div>
+                <setting-input v-for="key in get_settings_keys" :key="key" :label="key"></setting-input>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from 'vuex'
+import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
 import PageSetup from './PageSetup';
+import SettingInput from './components/SettingInput.vue';
+import SettingFile from './components/SettingFile.vue';
 const { route_prefix, store_prefix } = PageSetup;
 
 export default {
-    components: {},
+    components: {SettingInput, SettingFile},
     data: function () {
         return {
             /** store prefix for JSX */
@@ -32,27 +27,25 @@ export default {
             route_prefix,
         }
     },
-    created: function () {
-
+    created: async function () {
+        this.set_settings_keys([
+            "home_delivery_cost",
+            "out_dhaka_home_delivery_cost",
+        ]);
+        await this.get_settings();
     },
     methods: {
         ...mapActions([
-
+            'get_settings',
         ]),
         ...mapMutations([
-
+            'set_settings_keys',
         ]),
-
-        call_store: function (name, params = null) {
-            this[name](params)
-        },
     },
     computed: {
         ...mapGetters([
-
-        ]),
+            'get_settings_keys'
+        ])
     }
 }
 </script>
-
-<style></style>

@@ -2,37 +2,24 @@
     <div class="conatiner-fulid">
         <div class="card rounded-none ">
             <div class="card-header">
-                <h4>Invoice Infos</h4>
+                <h4> Invoice Informations </h4>
             </div>
             <div class="card-body px-4 pt-4 form_area custom_scroll">
-                <div class="form-group setting_form">
-                    <label for="invoice_prefix">invoice prefix</label>
-                    <input type="text" id="invoice_prefix" name="invoice_prefix" class="form-control">
-                </div>
-                <div class="form-group setting_form">
-                    <label for="invoice_company_name">invoice company name</label>
-                    <input type="text" id="invoice_company_name" name="invoice_company_name" class="form-control">
-                </div>
-                <div class="form-group setting_form">
-                    <label for="invoice_address_line_1">invoice address line 1</label>
-                    <input type="text" id="invoice_address_line_1" name="invoice_address_line_1" class="form-control">
-                </div>
-                <div class="form-group setting_form">
-                    <label for="invoice_address_line_2">invoice address line 2</label>
-                    <input type="text" id="invoice_address_line_2" name="invoice_address_line_2" class="form-control">
-                </div>
+                <setting-input v-for="key in get_settings_keys" :key="key" :label="key"></setting-input>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from 'vuex'
+import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
 import PageSetup from './PageSetup';
+import SettingInput from './components/SettingInput.vue';
+import SettingFile from './components/SettingFile.vue';
 const { route_prefix, store_prefix } = PageSetup;
 
 export default {
-    components: {},
+    components: { SettingInput, SettingFile },
     data: function () {
         return {
             /** store prefix for JSX */
@@ -40,27 +27,27 @@ export default {
             route_prefix,
         }
     },
-    created: function () {
-
+    created: async function () {
+        this.set_settings_keys([
+            "invoice_prefix",
+            "invoice_company_name",
+            "invoice_address_line_1",
+            "invoice_address_line_2",
+        ]);
+        await this.get_settings();
     },
     methods: {
         ...mapActions([
-
+            'get_settings',
         ]),
         ...mapMutations([
-
+            'set_settings_keys',
         ]),
-
-        call_store: function (name, params = null) {
-            this[name](params)
-        },
     },
     computed: {
         ...mapGetters([
-
-        ]),
+            'get_settings_keys'
+        ])
     }
 }
 </script>
-
-<style></style>

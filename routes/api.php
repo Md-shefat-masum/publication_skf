@@ -266,7 +266,7 @@ Route::group(
                 });
 
                 Route::group(['prefix' => 'settings'], function () {
-                    Route::get('/set/{key}', 'Admin\SettingController@set');
+                    Route::post('/set/{id}', 'Admin\SettingController@set');
                     Route::get('/get/{key}', 'Admin\SettingController@get');
                     Route::post('/get-by-keys', 'Admin\SettingController@get_by_keys');
                 });

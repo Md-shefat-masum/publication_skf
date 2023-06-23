@@ -1256,6 +1256,7 @@ html.nav-hide-hover .header-navbar.floating-nav {
   width: 180px;
   font-weight: 700;
   padding-right: 40px;
+  text-transform: capitalize;
 }
 .setting_pages_body .setting_form > div {
   -webkit-box-flex: 1;
@@ -1271,7 +1272,7 @@ html.nav-hide-hover .header-navbar.floating-nav {
   gap: 10px;
 }
 .setting_pages_body .setting_form > div > .images img {
-  height: 30px;
+  height: 60px;
 }
 
 /*# sourceMappingURL=backend.css.map*/
