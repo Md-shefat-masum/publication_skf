@@ -1,5 +1,5 @@
 <div>
-    <div class="breadcrumbs-area mb-70">
+	<div class="breadcrumbs-area mb-70">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
@@ -44,23 +44,24 @@
 								</thead>
 								<tbody>
 								</tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th colspan="4" class="text-end">
-                                            Subtotal
-                                        </th>
-                                        <th>
-                                            ৳ <b class="cart_page_subtotal solaiman">0</b>
-                                        </th>
-                                    </tr>
-                                </tfoot>
+								<tfoot>
+									<tr>
+										<th colspan="4" class="text-end">
+											Subtotal
+										</th>
+										<th>
+											৳ <b class="cart_page_subtotal solaiman">0</b>
+										</th>
+									</tr>
+								</tfoot>
 							</table>
 						</div>
 					</form>
 				</div>
 			</div>
 			<div class="row">
-				{{-- <div class="col-lg-8 col-md-6 col-12">
+				{{--
+				<div class="col-lg-8 col-md-6 col-12">
 					<div class="buttons-cart mb-30">
 						<ul>
 							<li><a href="#">Update Cart</a></li>
@@ -75,7 +76,8 @@
 							<a href="#">Apply Coupon</a>
 						</form>
 					</div>
-				</div> --}}
+				</div>
+				--}}
 				<div class="col-12 text-end">
 					<div class="cart_totals">
 						{{-- <h2>Cart Totals</h2> --}}
@@ -122,9 +124,9 @@
 					</div>
 				</div>
 			</div>
-            <script>
-                cart.render_cart_page_list();
-            </script>
+			<script>
+				cart.render_cart_page_list();
+			</script>
 		</div>
 	</div>
 </div>
