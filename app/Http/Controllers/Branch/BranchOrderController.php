@@ -550,14 +550,16 @@ class BranchOrderController extends Controller
             ], 422);
         }
         if($payment){
-            $amount = $payment->amount;
+            $payment->delete();
+
             $order = Order::find($payment->order_id);
-            $order->total_paid -= $amount;
-            if($order->total_paid > $order->total_paid){
+            $order->total_paid = $order->order_payments()->sum('amount');
+            if ($order->total_paid == $order->total_price) {
+                $order->payment_status = 'paid';
+            } else if ($order->total_paid > $order->total_price) {
                 $order->payment_status = 'partially paid';
             }
             $order->save();
-            $payment->delete();
         }
 
         return response()->json('success');
