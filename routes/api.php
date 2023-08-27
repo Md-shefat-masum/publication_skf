@@ -60,12 +60,6 @@ Route::group(
                 Route::post('/bulk-import', 'Auth\UserController@bulk_import');
             });
 
-            Route::group(['prefix' => 'app'], function () {
-                Route::get('/top-categories', 'AppApi\CommonController@top_categories');
-                Route::get('/banners', 'AppApi\CommonController@banners');
-                Route::get('/products', 'AppApi\CommonController@products');
-            });
-
             Route::group(['prefix' => 'user-role'], function () {
                 Route::get('/all', 'Auth\UserRoleController@all');
                 Route::get('/{id}', 'Auth\UserRoleController@show');
@@ -77,6 +71,12 @@ Route::group(
                 Route::post('/destroy', 'Auth\UserRoleController@destroy');
                 Route::post('/restore', 'Auth\UserRoleController@restore');
                 Route::post('/bulk-import', 'Auth\UserRoleController@bulk_import');
+            });
+
+            Route::group(['prefix' => 'app'], function () {
+                Route::get('/top-categories', 'AppApi\CommonController@top_categories');
+                Route::get('/banners', 'AppApi\CommonController@banners');
+                Route::get('/products', 'AppApi\CommonController@products');
             });
 
             Route::group(['prefix' => 'contact-message'], function () {
@@ -328,5 +328,36 @@ Route::group(
                 });
             });
         });
+
+
+        Route::group(['prefix' => 'user'], function () {
+            Route::post('/update-profile', 'Auth\ProfileController@update_profile');
+
+            Route::get('/all', 'Auth\UserController@all');
+            Route::get('/{id}', 'Auth\UserController@show');
+            Route::post('/store', 'Auth\UserController@store');
+            Route::post('/canvas-store', 'Auth\UserController@canvas_store');
+            Route::post('/update', 'Auth\UserController@update');
+            Route::post('/canvas-update', 'Auth\UserController@canvas_update');
+            Route::post('/soft-delete', 'Auth\UserController@soft_delete');
+            Route::post('/restore', 'Auth\UserController@restore');
+            Route::post('/destroy', 'Auth\UserController@destroy');
+            Route::post('/bulk-import', 'Auth\UserController@bulk_import');
+        });
+
+        Route::group(['prefix' => 'user-role'], function () {
+            Route::get('/all', 'Auth\UserRoleController@all');
+            Route::get('/{id}', 'Auth\UserRoleController@show');
+            Route::post('/store', 'Auth\UserRoleController@store');
+            Route::post('/canvas-store', 'Auth\UserRoleController@canvas_store');
+            Route::post('/update', 'Auth\UserRoleController@update');
+            Route::post('/canvas-update', 'Auth\UserRoleController@canvas_update');
+            Route::post('/soft-delete', 'Auth\UserRoleController@soft_delete');
+            Route::post('/destroy', 'Auth\UserRoleController@destroy');
+            Route::post('/restore', 'Auth\UserRoleController@restore');
+            Route::post('/bulk-import', 'Auth\UserRoleController@bulk_import');
+        });
     }
 );
+
+
