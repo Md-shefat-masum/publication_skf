@@ -35,9 +35,12 @@
                                             </span>
                                         </div>
                                         <div class="mt-1">
-                                            <span v-if="product.discount_info">
+                                            <span v-if="product.discount_info && product.discount_info.discount_price">
                                                 <b>৳ {{ product.discount_info.discount_price.toString().enToBn() }}</b>
                                                 <del>৳ {{ product.sales_price.toString().enToBn() }}</del>
+                                            </span>
+                                            <span v-else>
+                                                <b>৳ {{ product.sales_price.toString().enToBn() }}</b>
                                             </span>
                                         </div>
                                         <h6 style="flex:1" class="mt-2 mb-0">{{ product.product_name }}</h6>
@@ -82,9 +85,9 @@
                                         </tr>
                                     </tfoot>
                                 </table>
-                                <form action="#" class="mt-3">
+                                <form action="#" class="mt-3" v-if="order_carts.length">
                                     <div class="d-flex gap-1 flex-wrap">
-                                        <button type="button" @click.prevent="store_order"  class="btn btn-outline-info" >
+                                        <button type="button" @click.prevent="store_order" class="btn btn-outline-info" >
                                             <i class="fa fa-paper-plane"></i>
                                             Create Order
                                         </button>
