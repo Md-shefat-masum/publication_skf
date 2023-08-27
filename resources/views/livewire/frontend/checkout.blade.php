@@ -31,7 +31,7 @@
             <div class="container">
                 <form class="checkout-content" id="checkout-form" onsubmit="checkout_submit(event)" method="post">
                     <div class="row">
-                        <div class="col-md-4 col-sm-12">
+                        <div class="col-md-4 col-sm-12 mb-3">
                             <div class="card checkout-section checkout-box h-100">
                                 <div class="section-head">
                                     <h2><span>1</span>Customer Information</h2>
@@ -87,7 +87,7 @@
                         <div class="col-md-8 col-sm-12">
                             <div class="row row-payment-delivery-order">
                                 <div class="col-md-12 col-lg-6 col-sm-12 payment-methods">
-                                    <div class="card checkout-section checkout-box h-100">
+                                    <div class="card checkout-section checkout-box">
                                         <div class="section-head">
                                             <h2><span>2</span>Payment Method</h2>
                                         </div>
@@ -118,35 +118,55 @@
                                                     একাউন্টে টাকা পাঠানোর নিয়মঃ
                                                 </p>
                                                 <ul class="mb-3">
-                                                    <li class="d-flex gap-2"><span>১।</span> <span>*247# ডায়াল করে
-                                                            বিকাশ মোবাইল মেন্যুতে যান</span></li>
-                                                    <li class="d-flex gap-2"><span>২।</span> <span>"Payment" অপশন
-                                                            সিলেক্ট করুন।</span></li>
-                                                    <li class="d-flex gap-2"><span>৩।</span> <span>Enter Merchant
-                                                            Bkash account এ : +8801315-373025 নাম্বারটি লিখুন</span>
+                                                    <li class="d-flex gap-2">
+                                                        <span>১।</span>
+                                                        <span>*247# ডায়াল করে বিকাশ মোবাইল মেন্যুতে যান</span>
                                                     </li>
-                                                    <li class="d-flex gap-2"><span>৪।</span> <span> Amount এ আপনার
-                                                            বিল এমাউন্টটি লিখুন।</span></li>
-                                                    <li class="d-flex gap-2"><span>৫।</span> <span>Enter Reference এ
-                                                            আপনার নামের প্রথম শব্দ লিখুন।</span></li>
-                                                    <li class="d-flex gap-2"><span>৬।</span> <span>Enter counter
-                                                            number এ 1 লিখুন।</span></li>
-                                                    <li class="d-flex gap-2"><span>৭।</span> <span>আপনার বিকাশ
-                                                            মোবাইল মেন্যু পিনটি দিয়ে লেনদেনটি সম্পন্ন করুন।</span>
+                                                    <li class="d-flex gap-2">
+                                                        <span>২।</span>
+                                                        <span>"Payment" অপশন সিলেক্ট করুন।</span>
                                                     </li>
-                                                    <li class="d-flex gap-2"><b>bKash Agent No : </b>
-                                                        <b>+8801315373025</b></li>
+                                                    <li class="d-flex gap-2">
+                                                        <span>৩।</span>
+                                                        <span>
+                                                            Enter Merchant Bkash account এ : +8801315-373025 নাম্বারটি লিখুন
+                                                        </span>
+                                                    </li>
+                                                    <li class="d-flex gap-2">
+                                                        <span>৪।</span>
+                                                        <span>
+                                                            Amount এ আপনার বিল এমাউন্টটি লিখুন।
+                                                        </span>
+                                                    </li>
+                                                    <li class="d-flex gap-2">
+                                                        <span>৫।</span>
+                                                        <span>Enter Reference এ আপনার নামের প্রথম শব্দ লিখুন।</span>
+                                                    </li>
+                                                    <li class="d-flex gap-2">
+                                                        <span>৬।</span>
+                                                        <span>Enter counter number এ 1 লিখুন।</span>
+                                                    </li>
+                                                    <li class="d-flex gap-2">
+                                                        <span> ৭।</span>
+                                                        <span>
+                                                            আপনার বিকাশ মোবাইল মেন্যু পিনটি দিয়ে লেনদেনটি সম্পন্ন করুন।
+                                                        </span>
+                                                    </li>
+                                                    <li class="d-flex gap-2">
+                                                        <b>bKash Agent No : </b>
+                                                        <b>+8801315373025</b>
+                                                    </li>
                                                     <div class="form-group">
-                                                        <label class="control-label" for="input-firstname"><b>BKash
-                                                                Number: </b></label>
-                                                        <input class="form-control" name="bkash_number" type="text"
-                                                            id="bkash_number" placeholder="013******" />
+                                                        <label class="control-label" for="input-firstname">
+                                                            <b>BKash Number: </b>
+                                                        </label>
+                                                        <input class="form-control" name="bkash_number" type="text" id="bkash_number" placeholder="013******" />
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="control-label" for="input-firstname"><b>BKash
-                                                                transaction ID: </b></label>
-                                                        <input class="form-control" name="bkash_trx_id" type="text"
-                                                            id="bkash_trx" placeholder="TRX-4548" />
+                                                        <label class="control-label" for="input-firstname">
+                                                            <b>BKash transaction ID: </b>
+                                                        </label>
+                                                        <input class="form-control" name="bkash_trx_id" type="text" id="bkash_trx" placeholder="TRX-4548" />
                                                     </div>
                                                 </ul>
                                             </div>
@@ -158,28 +178,46 @@
                                                     portal, and follow the guideline:
                                                 </p>
                                                 <ul class="mb-3">
-                                                    <li class="d-flex gap-2"><span>1।</span> <span>specify that you
+                                                    <li class="d-flex gap-2">
+                                                        <span>1।</span>
+                                                        <span>
+                                                            specify that you
                                                             would like to send your funds to another bank account,
                                                             and provides the bank account details obtained when they
-                                                            submitted the order.</span></li>
-                                                    <li class="d-flex gap-2"><span>2।</span> <span>Send the funds
-                                                            and the bank transfer has been initiated.</span></li>
-                                                    <li class="d-flex gap-2"><span>3।</span> <span>The payment is
+                                                            submitted the order.
+                                                        </span>
+                                                    </li>
+                                                    <li class="d-flex gap-2">
+                                                        <span>2।</span>
+                                                        <span>
+                                                            Send the funds
+                                                            and the bank transfer has been initiated.
+                                                        </span>
+                                                    </li>
+                                                    <li class="d-flex gap-2">
+                                                        <span>3।</span>
+                                                        <span>
+                                                            The payment is
                                                             complete when we payment reaches the receiving
-                                                            account.</span></li>
-                                                    <li class="d-flex gap-2"><span>4।</span> <span>Provide us the
-                                                            transaction ID</span></li>
+                                                            account.
+                                                        </span>
+                                                    </li>
+                                                    <li class="d-flex gap-2">
+                                                        <span>4।</span>
+                                                        <span>
+                                                            Provide us the
+                                                            transaction ID
+                                                        </span>
+                                                    </li>
                                                     <div class="form-group">
-                                                        <label class="control-label" for="input-firstname"><b>Bank
-                                                                account no: </b></label>
-                                                        <input class="form-control" name="bank_account_no"
-                                                            type="text" id="bank_ac_no" placeholder="013******" />
+                                                        <label class="control-label" for="input-firstname">
+                                                            <b>Bank account no: </b>
+                                                        </label>
+                                                        <input class="form-control" name="bank_account_no" type="text" id="bank_ac_no" placeholder="013******" />
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="control-label"
-                                                            for="input-firstname"><b>Transaction ID: </b></label>
-                                                        <input class="form-control" name="bank_transaction_id"
-                                                            type="text" id="bank_trx_no" placeholder="TRX-4548" />
+                                                        <label class="control-label" for="input-firstname"><b>Transaction ID: </b></label>
+                                                        <input class="form-control" name="bank_transaction_id" type="text" id="bank_trx_no" placeholder="TRX-4548" />
                                                     </div>
                                                 </ul>
                                             </div>
@@ -210,11 +248,10 @@
                                             </label>
                                             <br />
                                         </div>
-
                                     </div>
                                 </div>
                                 <div class="col-md-12 col-sm-12">
-                                    <div class="checkout-section card checkout-box voucher-coupon mt-3 p-1">
+                                    <div class="checkout-section card checkout-box voucher-coupon p-1">
                                         <div class="card-body">
                                             <div class="row">
                                                 {{-- <div class="col-md-6 col-sm-12" id="gift-voucher">
@@ -242,7 +279,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12 col-sm-12 details-section-wrap mt-5">
+                                <div class="col-md-12 col-sm-12 details-section-wrap">
                                     <div class="card checkout-section checkout-box">
                                         <div class="section-head">
                                             <h2><span>4</span>Order Overview</h2>
