@@ -10,7 +10,7 @@
                     </router-link>
                 </div>
             </div>
-            <form @submit.prevent="store_production_cost($event.target)" class="create_form" autocomplete="false">
+            <form @submit.prevent="admin_store_production_cost($event.target)" class="create_form" autocomplete="false">
                 <div class="card-body">
                     <div class="row justify-content-center">
                         <div class="col-lg-10">
@@ -123,7 +123,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions([`store_production_cost`]),
+        ...mapActions([`admin_store_production_cost`]),
         call_store: function(name, params=null){
             this[name](params)
         },
