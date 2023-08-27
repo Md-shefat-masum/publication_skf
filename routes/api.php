@@ -104,7 +104,6 @@ Route::group(
                     Route::post('/store-cost', 'Production\ProductionController@store_cost');
                     Route::post('/canvas-store', 'Production\ProductionController@canvas_store');
                     Route::post('/update', 'Production\ProductionController@update');
-                    Route::post('/add-to-top-product', 'Production\ProductionController@add_to_top_product');
                     Route::post('/delete-related-image', 'Production\ProductionController@delete_related_image');
                     Route::post('/canvas-update', 'Production\ProductionController@canvas_update');
                     Route::post('/soft-delete', 'Production\ProductionController@soft_delete');
@@ -119,7 +118,6 @@ Route::group(
                     Route::post('/store', 'Production\Supplier\PaperController@store');
                     Route::post('/canvas-store', 'Production\Supplier\PaperController@canvas_store');
                     Route::post('/update', 'Production\Supplier\PaperController@update');
-                    Route::post('/add-to-top-product', 'Production\Supplier\PaperController@add_to_top_product');
                     Route::post('/delete-related-image', 'Production\Supplier\PaperController@delete_related_image');
                     Route::post('/canvas-update', 'Production\Supplier\PaperController@canvas_update');
                     Route::post('/soft-delete', 'Production\Supplier\PaperController@soft_delete');
@@ -134,7 +132,6 @@ Route::group(
                     Route::post('/store', 'Production\Supplier\PrintController@store');
                     Route::post('/canvas-store', 'Production\Supplier\PrintController@canvas_store');
                     Route::post('/update', 'Production\Supplier\PrintController@update');
-                    Route::post('/add-to-top-product', 'Production\Supplier\PrintController@add_to_top_product');
                     Route::post('/delete-related-image', 'Production\Supplier\PrintController@delete_related_image');
                     Route::post('/canvas-update', 'Production\Supplier\PrintController@canvas_update');
                     Route::post('/soft-delete', 'Production\Supplier\PrintController@soft_delete');
@@ -149,7 +146,6 @@ Route::group(
                     Route::post('/store', 'Production\Supplier\BindingController@store');
                     Route::post('/canvas-store', 'Production\Supplier\BindingController@canvas_store');
                     Route::post('/update', 'Production\Supplier\BindingController@update');
-                    Route::post('/add-to-top-product', 'Production\Supplier\BindingController@add_to_top_product');
                     Route::post('/delete-related-image', 'Production\Supplier\BindingController@delete_related_image');
                     Route::post('/canvas-update', 'Production\Supplier\BindingController@canvas_update');
                     Route::post('/soft-delete', 'Production\Supplier\BindingController@soft_delete');
@@ -164,7 +160,6 @@ Route::group(
                     Route::post('/store', 'Production\Supplier\DesignerController@store');
                     Route::post('/canvas-store', 'Production\Supplier\DesignerController@canvas_store');
                     Route::post('/update', 'Production\Supplier\DesignerController@update');
-                    Route::post('/add-to-top-product', 'Production\Supplier\DesignerController@add_to_top_product');
                     Route::post('/delete-related-image', 'Production\Supplier\DesignerController@delete_related_image');
                     Route::post('/canvas-update', 'Production\Supplier\DesignerController@canvas_update');
                     Route::post('/soft-delete', 'Production\Supplier\DesignerController@soft_delete');
@@ -186,7 +181,6 @@ Route::group(
                     Route::post('/store', 'Admin\Product\WriterController@store');
                     Route::post('/canvas-store', 'Admin\Product\WriterController@canvas_store');
                     Route::post('/update', 'Admin\Product\WriterController@update');
-                    Route::post('/add-to-top-product', 'Admin\Product\WriterController@add_to_top_product');
                     Route::post('/delete-related-image', 'Admin\Product\WriterController@delete_related_image');
                     Route::post('/canvas-update', 'Admin\Product\WriterController@canvas_update');
                     Route::post('/soft-delete', 'Admin\Product\WriterController@soft_delete');
@@ -201,7 +195,6 @@ Route::group(
                     Route::post('/store', 'Admin\Product\TranslatorController@store');
                     Route::post('/canvas-store', 'Admin\Product\TranslatorController@canvas_store');
                     Route::post('/update', 'Admin\Product\TranslatorController@update');
-                    Route::post('/add-to-top-product', 'Admin\Product\TranslatorController@add_to_top_product');
                     Route::post('/delete-related-image', 'Admin\Product\TranslatorController@delete_related_image');
                     Route::post('/canvas-update', 'Admin\Product\TranslatorController@canvas_update');
                     Route::post('/soft-delete', 'Admin\Product\TranslatorController@soft_delete');
@@ -214,6 +207,7 @@ Route::group(
                 Route::group(['prefix' => 'product'], function () {
                     Route::get('/all', 'Admin\Product\ProductController@all');
                     Route::post('/store', 'Admin\Product\ProductController@store');
+                    Route::post('/store-cost', 'Production\ProductionController@store_cost');
                     Route::post('/store-discount', 'Admin\Product\ProductController@store_discount');
                     Route::post('/canvas-store', 'Admin\Product\ProductController@canvas_store');
                     Route::post('/update', 'Admin\Product\ProductController@update');
@@ -233,6 +227,7 @@ Route::group(
                     Route::post('/update-order-status', 'Admin\Order\AdminOrderController@update_order_status');
                     Route::post('/receive-due', 'Admin\Order\AdminOrderController@receive_due');
                     Route::post('/delete-payment', 'Admin\Order\AdminOrderController@delete_payment');
+                    Route::post('/approve-payment', 'Admin\Order\AdminOrderController@approve_payment');
 
                     Route::get('/all', 'Admin\Order\AdminOrderManagementController@all');
                     Route::post('/store', 'Admin\Order\AdminOrderManagementController@store');
@@ -256,7 +251,6 @@ Route::group(
                     Route::post('/store', 'Admin\Order\PaymentRequestController@store');
                     Route::post('/canvas-store', 'Admin\Order\PaymentRequestController@canvas_store');
                     Route::post('/update', 'Admin\Order\PaymentRequestController@update');
-                    Route::post('/add-to-top-product', 'Admin\Order\PaymentRequestController@add_to_top_product');
                     Route::post('/delete-related-image', 'Admin\Order\PaymentRequestController@delete_related_image');
                     Route::post('/canvas-update', 'Admin\Order\PaymentRequestController@canvas_update');
                     Route::post('/soft-delete', 'Admin\Order\PaymentRequestController@soft_delete');
