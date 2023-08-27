@@ -21,13 +21,13 @@
                     </form>
                 </div>
                 <div class="btns d-flex gap-2 align-items-center">
-                    <permission-button
+                    <!-- <permission-button
                         :permission="'can_create'"
                         :to="{name: `Create${route_prefix}`}"
                         :classList="'btn rounded-pill btn-outline-info'">
                         <i class="fa fa-pencil me-5px"></i>
                         Create
-                    </permission-button>
+                    </permission-button> -->
                     <div class="table_actions">
                         <a href="#" @click.prevent="()=>''" class="btn px-1 btn-outline-secondary">
                             <i class="fa fa-list"></i>
@@ -43,22 +43,6 @@
                                 <a href="" @click.prevent="call_store(`export_selected_${store_prefix}_csv`)">
                                     <i class="fa-regular fa-hand-point-right"></i>
                                     Export Selected
-                                </a>
-                            </li>
-                            <li>
-                                <router-link :to="{name:`Import${route_prefix}`}">
-                                    <i class="fa-regular fa-hand-point-right"></i>
-                                    Import
-                                </router-link>
-                            </li>
-                            <li>
-                                <a href="#" v-if="this[`get_${store_prefix}_show_active_data`]" title="display data that has been deactivated" @click.prevent="call_store(`set_${store_prefix}_show_active_data`,0)" class="d-flex">
-                                    <i class="fa-regular fa-hand-point-right"></i>
-                                    Deactivated data
-                                </a>
-                                <a href="#" v-else title="display data that are active" @click.prevent="call_store(`set_${store_prefix}_show_active_data`,1)" class="d-flex">
-                                    <i class="fa-regular fa-hand-point-right"></i>
-                                    Active data
                                 </a>
                             </li>
                         </ul>
@@ -117,17 +101,18 @@
                                     + {{ item.delivery_charge}}
                                 </strong>
                             </td>
-                            <!-- <td>
-                                <strong class="text-info">
-                                    {{ item.coupon_discount}}
-                                </strong>
-                            </td> -->
+                            <!--
+                                <td>
+                                    <strong class="text-info">
+                                        {{ item.coupon_discount}}
+                                    </strong>
+                                </td>
+                            -->
                             <td>
                                 <strong class="text-info">
                                     - {{ item.discount}}
                                 </strong>
                             </td>
-
                             <td>
                                 <strong class="text-info">
                                     {{ item.total_price}}
