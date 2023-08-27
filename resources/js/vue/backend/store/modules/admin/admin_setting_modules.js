@@ -28,6 +28,7 @@ const actions = {
         state.settings_values = data;
         // console.log(data);
     },
+    
     set_settings: async function({state}, {id, value, index}){
         let form_data = new FormData();
         form_data.append('value',value);
