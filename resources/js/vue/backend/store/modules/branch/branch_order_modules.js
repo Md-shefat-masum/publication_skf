@@ -113,7 +113,7 @@ const actions = {
     },
 
     [`delete_branch_payment`]: async function({state, dispatch},{payment}){
-        console.log(payment);
+        // console.log(payment);
         if(!payment.approved){
             let cconfirm = await window.s_confirm("delete payment");
             if(cconfirm){
