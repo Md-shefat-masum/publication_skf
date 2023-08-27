@@ -127,16 +127,32 @@ const actions = {
         }
     },
 
-    [`delete_admin_payment`]: async function({state, dispatch},{payment}){
+    [`admin_delete_branch_payment`]: async function({state, dispatch},{payment}){
+        console.log(payment);
+
+        let cconfirm = await window.s_confirm("delete payment");
+        if(cconfirm){
+            axios.post('/admin/order/delete-payment',{payment_id: payment.id})
+                .then(res=>{
+                    console.log(res.data);
+                    // state.admin_oder_cart  = [];
+                    window.s_alert(`payement deleted successfully.`);
+                    dispatch("fetch_admin_order",{id: state.admin_order.id, });
+                })
+        }
+
+    },
+
+    [`admin_approve_branch_payment`]: async function({state, dispatch},{payment}){
         console.log(payment);
         if(!payment.approved){
-            let cconfirm = await window.s_confirm("delete payment");
+            let cconfirm = await window.s_confirm("apporve payment");
             if(cconfirm){
-                axios.post('/admin/delete-payment',{payment_id: payment.id})
+                axios.post('/admin/order/approve-payment',{payment_id: payment.id})
                     .then(res=>{
                         console.log(res.data);
-                        // state.admin_oder_cart  = [];
-                        window.s_alert(`payement deleted successfully.`);
+                        // state.branch_oder_cart  = [];
+                        window.s_alert(`payement approved successfully.`);
                         dispatch("fetch_admin_order",{id: state.admin_order.id, });
                     })
             }
