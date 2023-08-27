@@ -193,18 +193,24 @@ class CheckoutController extends Controller
             "user_id" => $auth_user ? $auth_user->id : null,
             "customer_id" => null,
             "payment_method" => $request->payment_method,
+            "amount" => 0,
             // "bkash_number" => $request->bkash_number,
             // "trx_id" => $request->bkash_trx_id,
             // "amount" => rand($order->total_price - round($order->total_price / 2), $order->total_price),
+            // "amount" => $order->total,
         ]);
+
         if ($request->payment_method == 'bkash') {
             $payment->number = $request->bkash_number;
-            $payment->trx_id = $request->trx_id;
+            $payment->trx_id = $request->bkash_trx_id;
+            $payment->amount = $order->total_price;
             $payment->save();
         }
+
         if ($request->payment_method == 'bank') {
             $payment->account_no = $request->bank_account_no;
             $payment->trx_id = $request->bank_transaction_id;
+            $payment->amount = $order->total_price;
             $payment->save();
         }
     }
