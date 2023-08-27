@@ -86,7 +86,7 @@ const actions = {
         let data = res.data;
 
         this.commit(`set_${store_prefix}`, data);
-        
+
         window.set_form_data(".admin_form", data);
 
         rootState.admin_writer_modules.admin_writer_selected = data.writers;
@@ -126,6 +126,39 @@ const actions = {
                 })
         }
     },
+
+    [`admin_store_production_cost`]: function (
+        { commit, dispatch, getters, rootGetters, rootState, state },
+        target
+    ) {
+        let { get_admin_product_selected: products } = getters;
+        let formData = new FormData(target);
+        formData.append("product_id", products[0]?.id);
+
+        console.log(products);
+        axios.post(`/${api_prefix}/store-cost`,formData)
+            .then(res=>{
+                $('.create_form input').val('');
+                rootState.production_product_modules.production_product_selected = [];
+                window.s_alert('new data has been created');
+                // management_router.push({name:`All${route_prefix}`})
+            })
+            .catch(error=>{
+
+            })
+    },
+
+    [`admin_add_to_top_product`]: function ({ commit, dispatch, getters, rootGetters, rootState, state }, {id, value}) {
+
+        axios.post(`/${api_prefix}/add-to-top-product`,{id, value})
+            .then(res=>{
+                window.s_alert('product has been updated');
+            })
+            .catch(error=>{
+
+            })
+    },
+
 }
 
 // mutators
