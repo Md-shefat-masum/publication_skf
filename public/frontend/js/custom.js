@@ -74,8 +74,7 @@ let top_products = {
                 return data.json();
             })
             .then((post) => {
-                let product_section =
-                    document.querySelector("#product_section");
+                let product_section = document.querySelector("#product_section");
                 post.data.forEach((element) => {
                     let html = `
                     <div class="product__item">
@@ -221,9 +220,7 @@ let cart = {
     render_cart_list: function () {
         let html = this.carts
             .map((i) => {
-                let price = i.discount_amount
-                    ? i.discount_price
-                    : i.sales_price;
+                let price = i.discount_info.discount_amount ? i.discount_info.discount_price : i.sales_price;
                 return `
                 <div class="single-cart">
                     <div class="cart-img">
@@ -236,17 +233,11 @@ let cart = {
                             i.product_name
                         }</a></h5>
                         <p class="solaiman">
-                            ${i.qty
-                                ?.toString()
-                                .getDigitBanglaFromEnglish()} x  ${price
-                    ?.toString()
-                    .getDigitBanglaFromEnglish()}
+                            ${i.qty?.toString().getDigitBanglaFromEnglish()} x ${price?.toString().getDigitBanglaFromEnglish()}
                         </p>
                     </div>
                     <div class="cart-icon">
-                        <a href="#" onclick=" event.preventDefault(); cart.remove_from_cart(${
-                            i.id
-                        }) ">
+                        <a href="#" onclick="event.preventDefault(); cart.remove_from_cart(${ i.id })">
                             <i class="fa fa-remove"></i>
                         </a>
                     </div>
@@ -261,72 +252,57 @@ let cart = {
     render_cart_page_list: function () {
         let html = this.carts
             .map((i) => {
-                let price = i.discount_amount
-                    ? i.discount_price
-                    : i.sales_price;
+                let price = i.discount_info.discount_amount ? i.discount_info.discount_price : i.sales_price;
                 return `
-                <tr>
-                    <td class="product-thumbnail">
-                        <a href="#">
-                            <img src="/${
-                                i.thumb_image
-                            }" style="max-width: unset; height:60px;" alt="${
-                    i.name_english
-                }" />
-                        </a>
-                        <a href="#" class="text-danger" onclick="event.preventDefault();cart.remove_from_cart(${
-                            i.id
-                        })" >
-                            <i class="fa fa-cross"></i>
-                            remove
-                        </a>
-                    </td>
-                    <td class="product-name">
-                        <a href="#" class="hind-siliguri">${i.product_name}</a>
-                    </td>
-                    <td class="product-price">
-                        <span class="amount solaiman">
-                            ৳ ${price?.toString().getDigitBanglaFromEnglish()}
-                        </span>
-                    </td>
-                    <td class="product-quantity"><input type="number" onchange="cart.update_qty(${
-                        i.id
-                    })" value="${i.qty}"></td>
-                    <td class="product-subtotal solaiman">৳ ${(i.qty * price)
-                        .toString()
-                        .getDigitBanglaFromEnglish()}</td>
-                </tr>
-            `;
+                    <tr>
+                        <td class="product-thumbnail">
+                            <a href="#">
+                                <img src="/${ i.thumb_image }" style="max-width: unset; height:60px;" alt="${ i.name_english }" />
+                            </a>
+                            <a href="#" class="text-danger" onclick="event.preventDefault();cart.remove_from_cart(${ i.id })" >
+                                <i class="fa fa-cross"></i>
+                                remove
+                            </a>
+                        </td>
+                        <td class="product-name">
+                            <a href="#" class="hind-siliguri">${i.product_name}</a>
+                        </td>
+                        <td class="product-price">
+                            <span class="amount solaiman">
+                                ৳ ${price?.toString().getDigitBanglaFromEnglish()}
+                            </span>
+                        </td>
+                        <td class="product-quantity"><input type="number" onchange="cart.update_qty(${ i.id })" value="${i.qty}"></td>
+                        <td class="product-subtotal solaiman">৳ ${(i.qty * price).toString().getDigitBanglaFromEnglish()}</td>
+                    </tr>
+                `;
             })
             .join("");
         document.querySelector(".cart_contents tbody").innerHTML = html;
-        document.querySelector(".cart_page_subtotal").innerHTML =
-            this.calc_cart_total().toString().getDigitBanglaFromEnglish();
+        document.querySelector(".cart_page_subtotal").innerHTML = this.calc_cart_total().toString().getDigitBanglaFromEnglish();
     },
     render_check_out_cart_list: function () {
         let html = this.carts
             .map((i) => {
-                let price = i.discount_amount
-                    ? i.discount_price
-                    : i.sales_price;
+                let price = i.discount_info.discount_amount ? i.discount_info.discount_price : i.sales_price;
                 return `
-                <tr>
-                    <td class="name">
-                        <a href="javascript:void(0)" class="hind-siliguri">${
-                            i.product_name
-                        }</a>
-                        <div class="options"></div>
-                    </td>
-                    <td class="price">
-                        <span class="solaiman">৳ ${price?.toString().getDigitBanglaFromEnglish()}</span>
-                        <span> x </span>
-                        <span class="solaiman">${i.qty.toString().getDigitBanglaFromEnglish()}</span>
-                    </td>
-                    <td class="price text-right solaiman">
-                        ৳ ${(price * i.qty).toString().getDigitBanglaFromEnglish()}
-                    </td>
-                </tr>
-            `;
+                    <tr>
+                        <td class="name">
+                            <a href="javascript:void(0)" class="hind-siliguri">${
+                                i.product_name
+                            }</a>
+                            <div class="options"></div>
+                        </td>
+                        <td class="price">
+                            <span class="solaiman">৳ ${price?.toString().getDigitBanglaFromEnglish()}</span>
+                            <span> x </span>
+                            <span class="solaiman">${i.qty.toString().getDigitBanglaFromEnglish()}</span>
+                        </td>
+                        <td class="price text-right solaiman">
+                            ৳ ${(price * i.qty).toString().getDigitBanglaFromEnglish()}
+                        </td>
+                    </tr>
+                `;
             })
             .join("");
 
@@ -355,7 +331,7 @@ let cart = {
     },
     calc_cart_total: function () {
         return this.carts.reduce((t, i) => {
-            let price = i.discount_amount ? i.discount_price : i.sales_price;
+            let price = i.discount_info.discount_amount ? i.discount_info.discount_price : i.sales_price;
             return (t += price * i.qty);
         }, 0);
     },
