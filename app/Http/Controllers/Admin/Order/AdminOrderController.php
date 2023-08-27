@@ -308,9 +308,9 @@ class AdminOrderController extends Controller
     public function save_delivery_info($order, $request, $shipping_cost, $address)
     {
         $auth_user = auth()->check() ? auth()->user() : null;
-        if(isset($request->customer_id)){
+        if (isset($request->customer_id)) {
             $user_id = $request->customer_id;
-        }else{
+        } else {
             $user_id = $auth_user ? $auth_user->id : null;
         }
         OrderDeliveryInfo::create([
@@ -543,21 +543,56 @@ class AdminOrderController extends Controller
             ], 422);
         }
         $payment = OrderPayment::find(request()->payment_id);
-        if ($payment && $payment->approved) {
+        // if ($payment && $payment->approved) {
+        //     return response()->json([
+        //         'err_message' => 'validation error',
+        //         'data' => ["payment_id" => ["deleting this payment is not permitted."]],
+        //     ], 422);
+        // }
+        if ($payment) {
+            $payment->delete();
+            
+            $order = Order::find($payment->order_id);
+            $order->total_paid = $order->order_payments()->sum('amount');
+            if ($order->total_paid == $order->total_price) {
+                $order->payment_status = 'paid';
+            } else if ($order->total_paid > $order->total_price) {
+                $order->payment_status = 'partially paid';
+            }else{
+                $order->payment_status = 'pending';
+            }
+            $order->save();
+        }
+
+        return response()->json('success');
+    }
+
+    public function approve_payment()
+    {
+        $validator = Validator::make(request()->all(), [
+            "payment_id" => ["required", "exists:order_payments,id"],
+        ]);
+
+        if ($validator->fails()) {
             return response()->json([
                 'err_message' => 'validation error',
-                'data' => ["payment_id" => ["deleting this payment is not permitted."]],
+                'data' => $validator->errors(),
             ], 422);
         }
+        $payment = OrderPayment::find(request()->payment_id);
+
         if ($payment) {
-            $amount = $payment->amount;
+            $payment->approved = 1;
+            $payment->save();
+
             $order = Order::find($payment->order_id);
-            $order->total_paid -= $amount;
-            if ($order->total_paid > $order->total_paid) {
+            $order->total_paid = $order->order_payments()->sum('amount');
+            if ($order->total_paid == $order->total_price) {
+                $order->payment_status = 'paid';
+            } else if ($order->total_paid > $order->total_price) {
                 $order->payment_status = 'partially paid';
             }
             $order->save();
-            $payment->delete();
         }
 
         return response()->json('success');
