@@ -25,6 +25,7 @@
                 <left-nav-list-item :to="'AllAdminWriter'" :text="'Product Writer'" />
                 <left-nav-list-item :to="'AllAdminTranslator'" :text="'Product Translator'" />
                 <left-nav-list-item :to="'SetDiscountAdminProduct'" :text="'Set Discount'" />
+                <left-nav-list-item :to="'PricingAdminProduct'" :text="'Set Price'" />
             </left-nav-list-group>
 
             <left-nav-list-group :role_permissions="['admin']" :icon="`fa fa-shopping-cart`" :text="`Orders`" :alert_count="0">
