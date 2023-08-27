@@ -128,7 +128,6 @@ const actions = {
         target
     ) {
         let { get_production_product_selected: products } = getters;
-
         let formData = new FormData(target);
         formData.append("product_id", products[0]?.id);
 
