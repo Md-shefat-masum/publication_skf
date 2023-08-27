@@ -51,14 +51,14 @@
                                 <div class="add-cart p-absolute transition-3">
                                     <div class="product__price transition-3">
                                         @if ($item->discount_info->discount_price)
-                                            <span class="solaiman false">
+                                            <span class="solaiman">
                                                 ৳ {{ enToBn($item->discount_info->discount_price) }}
                                             </span>
                                             <span class="old-price solaiman">
                                                 ৳ {{ enToBn($item->sales_price) }}
                                             </span>
                                         @else
-                                            <span class="old-price solaiman">
+                                            <span class="solaiman">
                                                 ৳ {{ enToBn($item->sales_price) }}
                                             </span>
                                         @endif
