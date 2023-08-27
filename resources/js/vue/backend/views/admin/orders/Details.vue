@@ -192,7 +192,11 @@
                                         <td>
                                             {{ record.payment_method }}
                                             <br>
-                                            <a href="" @click.prevent="delete_branch_payment({payment:record})" class="text-danger">
+                                            <a href="" @click.prevent="admin_approve_branch_payment({payment:record})" class="text-success">
+                                                approve
+                                            </a>
+                                            &nbsp;
+                                            <a href="" @click.prevent="admin_delete_branch_payment({payment:record})" class="text-danger">
                                                 delete
                                             </a>
                                         </td>
@@ -207,7 +211,11 @@
                                             <span v-else-if="record.approved == 2" class="badge bg-danger">cancled</span>
                                             <span v-else class="badge bg-secondary">no</span>
                                         </td>
-                                        <td class="text-end">{{ record.amount.toString().enToBn() }}</td>
+                                        <td class="text-end text-lg">
+                                            <b>
+                                                {{ record.amount.toString().enToBn() }}
+                                            </b>
+                                        </td>
                                     </tr>
                                 </tbody>
                                 <tfoot>
@@ -265,7 +273,8 @@ export default {
         ...mapActions([
             `fetch_${store_prefix}`,
             'admin_receive_due',
-            'delete_branch_payment',
+            'admin_delete_branch_payment',
+            'admin_approve_branch_payment',
         ]),
         ...mapMutations([
             `set_${store_prefix}`
