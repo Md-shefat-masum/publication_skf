@@ -3,6 +3,7 @@ import All from "../../../views/admin/products/All";
 import Create from "../../../views/admin/products/Create";
 import Edit from "../../../views/admin/products/Edit";
 import Details from "../../../views/admin/products/Details";
+import Pricing from "../../../views/admin/products/Pricing.vue";
 import Import from "../../../views/admin/products/Import";
 import SetDiscount from "../../../views/admin/products/SetDiscount";
 
@@ -39,6 +40,11 @@ export default {
             path: `details/:id`,
             name: `Details${prefix}`,
             component: Details,
+        },
+        {
+            path: `pricing`,
+            name: `Pricing${prefix}`,
+            component: Pricing,
         },
         {
             path: `set-discount`,
