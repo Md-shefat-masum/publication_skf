@@ -58,7 +58,8 @@ class AppSettingTitle extends Model
                 ->with(["values" => function ($q) {
                     return $q->select(["id", "setting_id", "setting_value"]);
                 }])
-                ->first()->values;
+                ->first()
+                ->values;
         }
     }
 }
