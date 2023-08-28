@@ -59,11 +59,11 @@ class PaperController extends Controller
     {
         $validator = Validator::make(request()->all(), [
             'supplier_name' => ['required'],
-            'paper_name' => ['required'],
-            'paper_type' => ['required'],
-            'cost_per_paper' => ['required'],
-            'cost_per_ream' => ['required'],
-            'purchase_date' => ['required'],
+            // 'paper_name' => ['required'],
+            // 'paper_type' => ['required'],
+            // 'cost_per_paper' => ['required'],
+            // 'cost_per_ream' => ['required'],
+            // 'purchase_date' => ['required'],
         ]);
 
         if ($validator->fails()) {
@@ -75,11 +75,11 @@ class PaperController extends Controller
 
         $data = new SupplierPaper();
         $data->supplier_name = $request->supplier_name;
-        $data->paper_name = $request->paper_name;
-        $data->paper_type = $request->paper_type;
-        $data->cost_per_paper = $request->cost_per_paper;
-        $data->cost_per_ream = $request->cost_per_ream;
-        $data->purchase_date = $request->purchase_date;
+        // $data->paper_name = $request->paper_name;
+        // $data->paper_type = $request->paper_type;
+        // $data->cost_per_paper = $request->cost_per_paper;
+        // $data->cost_per_ream = $request->cost_per_ream;
+        // $data->purchase_date = $request->purchase_date;
         $data->description = $request->description;
         $data->creator = Auth::user()->id;
         $data->save();
@@ -112,8 +112,6 @@ class PaperController extends Controller
 
         $data = new SupplierPaper();
         $data->supplier_name = $request->supplier_name;
-        $data->designation = $request->designation;
-        $data->address = $request->address;
         $data->description = $request->description;
         $data->creator = Auth::user()->id;
         $data->save();
@@ -148,10 +146,6 @@ class PaperController extends Controller
         }
 
         $data->supplier_name = request()->supplier_name;
-        $data->paper_name = request()->paper_name;
-        $data->paper_type = request()->paper_type;
-        $data->cost_per_paper = request()->cost_per_paper;
-        $data->cost_per_ream = request()->cost_per_ream;
         $data->purchase_date = request()->purchase_date;
         $data->description = request()->description;
         $data->save();
