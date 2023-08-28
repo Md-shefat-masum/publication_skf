@@ -9,7 +9,9 @@ use App\Models\Production\Production;
 use App\Models\Production\ProductionCost;
 use App\Models\Production\ProductionDesigner;
 use App\Models\Production\ProductionStatus;
+use App\Models\Production\ProductionUsedPaper;
 use App\Models\Production\SupplierBinding;
+use App\Models\Production\SupplierPaper;
 use App\Models\Production\SupplierPrint;
 use App\Models\User\PhoneNumber;
 use Carbon\Carbon;
@@ -54,6 +56,19 @@ class ProductionController extends Controller
         $data->binding = SupplierBinding::find($data->supplier_bindings_id);
         $data->print = SupplierPrint::find($data->supplier_prints_id);
         $data->design = ProductionDesigner::find($data->book_cover_designer);
+        $data->paper_suppliers = $data->suppliers()
+            ->select([
+                'production_used_papers.id',
+                'production_used_papers.production_id',
+                'production_used_papers.supplier_paper_id',
+                'production_used_papers.amount',
+
+                'supplier_papers.id as supplier_papers_id',
+                'supplier_papers.supplier_name',
+                'supplier_papers.stock',
+            ])
+            ->join('supplier_papers', 'supplier_papers.id', '=', 'production_used_papers.supplier_paper_id')
+            ->get();
 
         if (!$data) {
             return response()->json([
@@ -68,7 +83,7 @@ class ProductionController extends Controller
     {
         $validator = Validator::make(request()->all(), [
             'product_id' => ['required'],
-            'paper_amount' => ['required'],
+            // 'paper_amount' => ['required'],
             'print_qty' => ['required'],
             'book_cover_designer' => ['required'],
             'supplier_prints_id' => ['required'],
@@ -84,7 +99,7 @@ class ProductionController extends Controller
             ], 422);
         }
 
-        $data = Production::create(request()->except(['status', 'description']));
+        $data = Production::create(request()->except(['status', 'description', 'paper_supplier']));
         $data->creator = Auth::user()->id;
         $data->save();
 
@@ -93,6 +108,21 @@ class ProductionController extends Controller
             "status" => request()->status,
             "description" => request()->description,
         ]);
+
+        $total_paper_amount = 0;
+        foreach (request()->paper_supplier as $item) {
+            $item['production_id'] = $data->id;
+            ProductionUsedPaper::create($item);
+            $total_paper_amount += $item['amount'];
+
+            $supplier_paper = SupplierPaper::find($item['supplier_paper_id']);
+            $supplier_paper_stock = $supplier_paper->SupplierPaperStock()->sum('stock') - $supplier_paper->SupplierPaperUsed()->sum('amount');
+            $supplier_paper->stock = $supplier_paper_stock;
+            $supplier_paper->save();
+        }
+
+        $data->paper_amount = $total_paper_amount;
+        $data->save();
 
         $data->status = $production_status->status;
         $data->description = $production_status->description;
@@ -127,8 +157,8 @@ class ProductionController extends Controller
         $product->sales_price = $data->sales_price;
         $product->save();
 
-        $discount = ProductDiscount::where('product_id',$product->id)->latest()->first();
-        if($discount ){
+        $discount = ProductDiscount::where('product_id', $product->id)->latest()->first();
+        if ($discount) {
             $discount->main_price = $data->sales_price;
             $discount->save();
         }
@@ -174,7 +204,7 @@ class ProductionController extends Controller
 
         $validator = Validator::make(request()->all(), [
             'product_id' => ['required'],
-            'paper_amount' => ['required'],
+            // 'paper_amount' => ['required'],
             'print_qty' => ['required'],
             'book_cover_designer' => ['required'],
             'supplier_prints_id' => ['required'],
@@ -190,7 +220,7 @@ class ProductionController extends Controller
             ], 422);
         }
 
-        $data->fill(request()->except(['status', 'description']));
+        $data->fill(request()->except(['status', 'description', 'paper_supplier']));
         $data->save();
 
         $production_status = ProductionStatus::create([
@@ -198,6 +228,36 @@ class ProductionController extends Controller
             "status" => request()->status,
             "description" => request()->description,
         ]);
+
+        $total_paper_amount = 0;
+
+        // delete recod if supplier id not in new selection
+        $supplier_papers_ids = [];
+        foreach (request()->paper_supplier as $item) {
+            $supplier_papers_ids[] = $item["supplier_paper_id"];
+        }
+        ProductionUsedPaper::whereNotIn('supplier_paper_id', $supplier_papers_ids)->delete();
+
+        foreach (request()->paper_supplier as $item) {
+            $supplier_papers_ids[] = $item["supplier_paper_id"];
+            $item['production_id'] = $data->id;
+            ProductionUsedPaper::updateOrCreate(
+                $item,
+                [
+                    "production_id" => $item["production_id"],
+                    "supplier_paper_id" => $item["supplier_paper_id"],
+                ]
+            );
+            $total_paper_amount += $item['amount'];
+
+            $supplier_paper = SupplierPaper::find($item['supplier_paper_id']);
+            $supplier_paper_stock = $supplier_paper->SupplierPaperStock()->sum('stock') - $supplier_paper->SupplierPaperUsed()->sum('amount');
+            $supplier_paper->stock = $supplier_paper_stock;
+            $supplier_paper->save();
+        }
+
+        $data->paper_amount = $total_paper_amount;
+        $data->save();
 
         $data->status = $production_status->status;
         $data->description = $production_status->description;
