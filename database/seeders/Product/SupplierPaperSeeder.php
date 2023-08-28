@@ -30,31 +30,7 @@ class SupplierPaperSeeder extends Seeder
             "Meghna Publications"
         );
 
-        $paper = [
-            "Bond paper",
-            "Coated paper",
-            "Offset paper",
-            "Recycled paper",
-            "Newsprint paper",
-            "Cardstock",
-            "Art paper",
-            "Glossy paper",
-            "Matte paper",
-            "Specialty paper"
-        ];
 
-        $printing_paper_types = array(
-            "Bond",
-            "Coated",
-            "Offset",
-            "Recycled",
-            "Newsprint",
-            "Cardstock",
-            "Art",
-            "Glossy",
-            "Matte",
-            "Specialty"
-        );
 
         // function generateRandomMobileNumber()
         // {
@@ -67,10 +43,6 @@ class SupplierPaperSeeder extends Seeder
         foreach ($data as $key=>$item) {
             $data = SupplierPaper::create([
                 'supplier_name' => $item,
-                "paper_name" => $paper[$key],
-                "paper_type" => $printing_paper_types[$key],
-                'cost_per_paper' => rand(.3, 2),
-                'cost_per_ream' => rand(300, 500),
                 'purchase_date' => '2023'.'-'.rand(1,5).'-'.rand(1,28),
                 "stock" => rand(50,60),
             ]);
