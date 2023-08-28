@@ -82,15 +82,17 @@
                                             <div class="myaccount-content">
                                                 <h5>Orders</h5>
                                                 <div class="myaccount-table table-responsive text-center">
-                                                    <table class="table table-bordered">
+                                                    <table class="table table-bordered text-center" style="white-space: nowrap;">
                                                         <thead class="thead-light">
                                                             <tr>
                                                                 <th>Order</th>
                                                                 <th>Date</th>
-                                                                <th>Status</th>
-                                                                <th>Payment</th>
-                                                                <th>Recive method</th>
+                                                                <th>Order Status</th>
                                                                 <th>Total</th>
+                                                                <th>Payment status</th>
+                                                                <th>Payment method</th>
+                                                                <th>TRX ID</th>
+                                                                <th>Recive method</th>
                                                                 <th>Action</th>
                                                             </tr>
                                                         </thead>
@@ -100,9 +102,22 @@
                                                                     <td>{{ $item->invoice_id }}</td>
                                                                     <td>{{ Carbon\Carbon::parse($item->invoice_date)->format('M d, Y') }}</td>
                                                                     <td>{{ $item->order_status }}</td>
-                                                                    <td>{{ $item->payment_status }}</td>
-                                                                    <td>{{ $item->delivery_method }}</td>
                                                                     <td>{{ number_format($item->total_price) }}</td>
+                                                                    <td>
+                                                                        @if ($item->ecom_order_payment)
+                                                                            {{ $item->payment_status }}
+                                                                        @else
+                                                                            <span class="text-warning badge bg-secondary">not paid</span> <br>
+                                                                            <a href="" data-amount="{{ $item->total_price }}" data-order="{{ $item->invoice_id }}" onclick="event.preventDefault();show_modal();" class="d-inline-block mt-2"> <i class="fa fa-money"></i> Pay Now</a>
+                                                                        @endif
+                                                                    </td>
+                                                                    <td>
+                                                                        @if ($item->ecom_order_payment)
+                                                                            {{ $item->ecom_order_payment->payment_method }}
+                                                                        @endif
+                                                                    </td>
+                                                                    <td>{{ $item->ecom_order_payment->trx_id ?? ''  }}</td>
+                                                                    <td>{{ $item->delivery_method }}</td>
                                                                     <td>
                                                                         <a href="/invoice/{{$item->invoice_id}}" class="btn px-1 btn-sm btn-sqr">View</a>
                                                                     </td>
@@ -305,4 +320,134 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="paymentModal" aria-hidden="true" aria-labelledby="paymentModalLabel" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="paymentModalLabel">Payment</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/checkout/pay-due" onsubmit="pay_due_payment()" method="POST">
+                    @csrf
+                    <input type="hidden" id="invoice_id" name="invoice_id">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <h5>Payment Method</h5> <br>
+                            <label for="bkash" class="me-2">
+                                <input type="radio" checked name="payment_method" onchange="toggle_payment_method()" id="bkash" value="bkash"> বিকাশ <br>
+                            </label>
+                            <label for="nagad" class="me-2">
+                                <input type="radio" name="payment_method" onchange="toggle_payment_method()" id="nagad" value="nagad"> নগদ <br>
+                            </label>
+                            <label for="rocket" class="me-2">
+                                <input type="radio" name="payment_method" onchange="toggle_payment_method()" id="rocket" value="rocket"> রকেট <br>
+                            </label>
+                            <label for="bank_account" class="me-2">
+                                <input type="radio" name="payment_method" onchange="toggle_payment_method()" id="bank_account" value="bank_account"> ব্যাংক একাউন্ট <br>
+                            </label>
+                        </div>
+                        <div class="mt-3">
+                            <div id="vbkash" class="d-block">
+                                @foreach (\App\Models\Settings\AppSettingTitle::getValue('bkash','values') as $item)
+                                    <label for="{{$item->setting_value}}" class="me-2">
+                                        <input type="radio" name="number" id="{{$item->setting_value}}" value="{{$item->setting_value}}"> {{$item->setting_value}}<br>
+                                    </label>
+                                @endforeach
+                            </div>
+                            <div id="vnagad" class="d-none">
+                                @foreach (\App\Models\Settings\AppSettingTitle::getValue('nagad','values') as $item)
+                                    <label for="{{$item->setting_value}}" class="me-2">
+                                        <input type="radio" name="number" id="{{$item->setting_value}}" value="{{$item->setting_value}}"> {{$item->setting_value}}<br>
+                                    </label>
+                                @endforeach
+                            </div>
+                            <div id="vrocket" class="d-none">
+                                @foreach (\App\Models\Settings\AppSettingTitle::getValue('rocket','values') as $item)
+                                    <label for="{{$item->setting_value}}" class="me-2">
+                                        <input type="radio" name="number" id="{{$item->setting_value}}" value="{{$item->setting_value}}"> {{$item->setting_value}}<br>
+                                    </label>
+                                @endforeach
+                            </div>
+                            <div id="vbank_account" class="d-none">
+                                @foreach (\App\Models\Settings\AppSettingTitle::getValue('bank_account','values') as $item)
+                                    <label for="{{$item->setting_value}}" class="me-2">
+                                        <input type="radio" name="number" id="{{$item->setting_value}}" value="{{$item->setting_value}}"> {{$item->setting_value}}<br>
+                                    </label>
+                                @endforeach
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <h5>Transaction ID</h5>
+                            <input type="text" class="form-control" value="" id="trx_id" name="trx_id">
+                        </div>
+                        <div class="mt-3">
+                            <h5>Amount</h5>
+                            <input type="text" class="form-control" style="cursor:not-allowed;" readonly value="" id="payment_amount" name="amount">
+                        </div>
+                        <div class="error_log mt-3"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary px-4 rounded rounded-pill">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        var mypayment_modal = new bootstrap.Modal('#paymentModal', {});
+        var show_modal = () => {
+            document.querySelector('#invoice_id').value = event.target.dataset.order;
+            document.querySelector('#payment_amount').value = event.target.dataset.amount;
+            mypayment_modal.show();
+        };
+        var toggle_payment_method = () => {
+            [...document.querySelectorAll('input[name="payment_method"]')].forEach(el=>{
+                document.querySelector(`div[id="v${el.id}"]`).classList.remove('d-block');
+                document.querySelector(`div[id="v${el.id}"]`).classList.add('d-none');
+            })
+            document.querySelector(`div[id="v${event.target.id}"]`).classList.remove('d-none');
+            document.querySelector(`div[id="v${event.target.id}"]`).classList.add('d-block');
+        }
+        var pay_due_payment = () =>{
+            event.preventDefault();
+            let target = event.target;
+            loader.show();
+            fetch(target.action, {
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+                },
+                body: new FormData(target),
+            })
+                .then(async (res) => {
+                    let response = {};
+                    response.status = res.status;
+                    response.data = await res.json();
+                    return response;
+                })
+                .then((res) => {
+                    loader.hide();
+                    let error_log = document.querySelector('.error_log');
+                    error_log.innerHTML = '';
+                    if (res.status === 422) {
+                        for (const key in res.data.data) {
+                            if (Object.hasOwnProperty.call(res.data.data, key)) {
+                                const element = res.data.data[key];
+                                console.log(element);
+                                error_log.innerHTML += `<div class="text-danger">${element[0]}</div>`
+                            }
+                        }
+                        // error_response(res.data);
+                    }
+                    if (res.status === 200) {
+                        window.toaster("success", "payment submitted successfully!");
+                        target.reset();
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 300);
+                        console.log(res);
+                    }
+                })
+        }
+    </script>
 </section>
