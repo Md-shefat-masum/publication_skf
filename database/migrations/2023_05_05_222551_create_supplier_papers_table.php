@@ -16,12 +16,8 @@ class CreateSupplierPapersTable extends Migration
         Schema::create('supplier_papers', function (Blueprint $table) {
             $table->id();
             $table->string("supplier_name", 45)->nullable();
-            $table->string("paper_name", 45)->nullable();
-            $table->string("paper_type", 45)->nullable();
-            $table->float("cost_per_paper")->nullable();
-            $table->float("cost_per_ream")->nullable();
-            $table->float("stock")->default(0);
-            $table->date("purchase_date")->nullable();
+            $table->float("stock")->default(0); // total stock sum
+            $table->date("purchase_date")->nullable(); // latest purchase date
             $table->text("description")->nullable();
             // phone number into phone_numbers table
 
