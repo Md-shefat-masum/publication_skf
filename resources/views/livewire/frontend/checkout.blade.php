@@ -129,7 +129,7 @@
                                                     <li class="d-flex gap-2">
                                                         <span>৩।</span>
                                                         <span>
-                                                            Enter Merchant Bkash account এ : +8801315-373025 নাম্বারটি লিখুন
+                                                            Enter Merchant Bkash account এ : বিকাশ নাম্বারটি লিখুন
                                                         </span>
                                                     </li>
                                                     <li class="d-flex gap-2">
@@ -154,7 +154,13 @@
                                                     </li>
                                                     <li class="d-flex gap-2">
                                                         <b>bKash Agent No : </b>
-                                                        <b>+8801315373025</b>
+                                                        <ul>
+                                                            @foreach (\App\Models\Settings\AppSettingTitle::getValue('bkash','values') as $item)
+                                                                <li>
+                                                                    <b onclick="bkash_number.value=`{{$item->setting_value}}`">{{$item->setting_value}}</b>
+                                                                </li>
+                                                            @endforeach
+                                                        </ul>
                                                     </li>
                                                     <div class="form-group">
                                                         <label class="control-label" for="input-firstname">
@@ -233,8 +239,15 @@
                                         <div class="">
                                             <p>Select a delivery method</p>
                                             <label class="radio-inline">
-                                                <input type="radio" onchange="delivery_method.set(`home_delivery`)" data-charge="60" name="shipping_method" value="home_delivery" />
-                                                Home Delivery - 60৳
+                                                @php
+                                                    $setting = \App\Models\Settings\AppSettingTitle::class;
+                                                    $home_delivery = $setting::getValue('home_delivery_cost');
+                                                    $out_dhaka_home_delivery_cost = $setting::getValue('out_dhaka_home_delivery_cost');
+                                                @endphp
+                                                <input type="radio" onchange="delivery_method.set(`home_delivery`)"
+                                                    data-charge="{{$home_delivery}}"
+                                                    name="shipping_method" value="home_delivery" />
+                                                Home Delivery - {{$home_delivery}}৳
                                             </label>
                                             <br />
                                             <label class="radio-inline">
@@ -243,8 +256,8 @@
                                             </label>
                                             <br />
                                             <label class="radio-inline">
-                                                <input type="radio" onchange="delivery_method.set(`outside_dhaka`)" data-charge="120" name="shipping_method" value="outside_dhaka" />
-                                                Home Delivery outside Dhaka - 120৳
+                                                <input type="radio" onchange="delivery_method.set(`outside_dhaka`)" data-charge="{{$out_dhaka_home_delivery_cost}}" name="shipping_method" value="outside_dhaka" />
+                                                Home Delivery outside Dhaka - {{$out_dhaka_home_delivery_cost}}৳
                                             </label>
                                             <br />
                                         </div>
