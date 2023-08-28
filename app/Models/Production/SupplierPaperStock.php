@@ -27,4 +27,9 @@ class SupplierPaperStock extends Model
             }
         });
     }
+
+    public function supplier()
+    {
+        return $this->belongsTo(SupplierPaper::class,'supplier_paper_id');
+    }
 }
