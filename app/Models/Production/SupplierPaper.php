@@ -41,4 +41,9 @@ class SupplierPaper extends Model
     {
         return $this->hasMany(SupplierPaperStock::class,'supplier_paper_id');
     }
+
+    public function SupplierPaperUsed()
+    {
+        return $this->hasMany(ProductionUsedPaper::class,'supplier_paper_id');
+    }
 }
