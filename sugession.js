@@ -32,6 +32,11 @@
 
     1. admin pricing management
     2. add to top product
-    3.
-
+    3. custom add payment
+    4. branch order payment
+    5. ecommerce order payment
+    6. order status message
+    7. checkout blade bkash numbers solve
+    8. checkout delivery cost update
+    9. paper supplier and paper stock edit
  */
