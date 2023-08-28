@@ -39,7 +39,7 @@ class CheckoutController extends Controller
             'bank_transaction_id' => ['required_if:payment_method,==,bank'],
             'shipping_method' => ['required'],
             "carts" => ["required", "array", "min:1"],
-        ],[
+        ], [
             "carts.required" => ["there is no product into cart list."]
         ]);
 
@@ -89,7 +89,7 @@ class CheckoutController extends Controller
 
         $total_cost = $sub_total_cost + $shipping_cost;
 
-        if(request()->coupon){
+        if (request()->coupon) {
             $coupon_info = $this->validate_coupon(request()->coupon, $total_cost);
         }
 
@@ -104,7 +104,7 @@ class CheckoutController extends Controller
             "shipping_cost" => $shipping_cost,
             "coupon_info" => $coupon_info,
         ]);
-        $this->make_message($message_products, $sub_total_cost, $shipping_cost, $coupon_info["coupon_discount"], $total_cost, $name, $mobile_number, $address,$order->invoice_id);
+        $this->make_message($message_products, $sub_total_cost, $shipping_cost, $coupon_info["coupon_discount"], $total_cost, $name, $mobile_number, $address, $order->invoice_id);
 
         return response()->json([
             "message" => "Order Completed Successfully",
@@ -112,7 +112,7 @@ class CheckoutController extends Controller
         ], 200);
     }
 
-    public function save_order($data=[])
+    public function save_order($data = [])
     {
         $products = $data["products"];
         $request = $data["request"];
@@ -131,7 +131,7 @@ class CheckoutController extends Controller
             'user_id' => $auth_user ? $auth_user->id : null, // user id
             "customer_id" => null, //customer id
             "address_id" => $address->id, // user address id, customer
-            "invoice_id" => $invoice_prefix."-" . Carbon::now()->format("Ymd"),
+            "invoice_id" => $invoice_prefix . "-" . Carbon::now()->format("Ymd"),
             "invoice_date" => Carbon::now()->toDateTimeString(),
             "order_type" => "ecommerce", // Quotation, Pos order, Ecomerce order
             "order_status" => "pending",
@@ -221,8 +221,8 @@ class CheckoutController extends Controller
         $address = null;
         $request = (object) $request;
         if ($auth_user) {
-            $address = Address::where('table_name', 'users')->where('table_id', $auth_user->id)->orderBy('id','DESC')->first();
-            if(!$address){
+            $address = Address::where('table_name', 'users')->where('table_id', $auth_user->id)->orderBy('id', 'DESC')->first();
+            if (!$address) {
                 $address = new Address();
             }
         }
@@ -247,10 +247,10 @@ class CheckoutController extends Controller
         return $address;
     }
 
-    public function make_message($message_products, $sub_total_cost, $shipping_cost, $coupon_discount, $total_cost, $name, $mobile_number, $address,$invoice_id)
+    public function make_message($message_products, $sub_total_cost, $shipping_cost, $coupon_discount, $total_cost, $name, $mobile_number, $address, $invoice_id)
     {
         $now = Carbon::now()->format("d M, Y h:i a");
-        $invoice_url = url('/invoice')."/".$invoice_id;
+        $invoice_url = url('/invoice') . "/" . $invoice_id;
         $this->message .= "আসসালামু আলাইকুম ওয়ারহমাতুল্লাহ। \n";
         $this->message .= "নতুন অর্ডার এসেছে \n";
         $this->message .= "অর্ডার এর সময়:  $now \n";
@@ -262,7 +262,7 @@ class CheckoutController extends Controller
         $this->message .= "------------------- \n";
         $this->message .= enToBn("সাবটোটাল - ৳ $sub_total_cost \n");
         $this->message .= enToBn("ডেলিভারি চার্জ - ৳ $shipping_cost \n");
-        if($coupon_discount){
+        if ($coupon_discount) {
             $this->message .= enToBn("কুপন ছাড় - ৳ -$coupon_discount \n");
         }
         $this->message .= enToBn("সর্বমোট মূল্য - ৳ $total_cost \n");
@@ -282,12 +282,12 @@ class CheckoutController extends Controller
         $order_coupon_id = 0;
         $coupon_discount = 0;
         $coupon = OrderCoupon::where('coupon_code', $coupon_code)->whereDate('expire_date', '>', Carbon::now()->toDateTimeString())->first();
-        if($coupon){
+        if ($coupon) {
             $order_coupon_id = $coupon->id;
-            if($coupon->flat_amount){
+            if ($coupon->flat_amount) {
                 $coupon_discount = $coupon->flat_amount;
             }
-            if($coupon->discount_amount){
+            if ($coupon->discount_amount) {
                 $coupon_discount = round($total_cost * $coupon->discount_amount / 100);
             }
         }
@@ -340,5 +340,45 @@ class CheckoutController extends Controller
 
         $response = Http::get($url . '?chat_id=' . $parameters['chat_id'] . '&text=' . $parameters['text']);
         return $response->json();
+    }
+
+    public function pay_due()
+    {
+        $validator = Validator::make(request()->all(), [
+            "payment_method" => ["required", 'exists:app_setting_values,title'],
+            "number" => ["required", 'exists:app_setting_values,setting_value'],
+            "invoice_id" => ["required", 'exists:orders,invoice_id'],
+            "trx_id" => ["required"],
+            "amount" => ["required"],
+        ], [
+            "number.required" => ["No payment number is selected."],
+            "trx_id.required" => ["No transaction ID is given."],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'err_message' => 'validation error',
+                'data' => $validator->errors(),
+            ], 422);
+        }
+
+        $order = Order::where('invoice_id', request()->invoice_id)->first();
+        $order_payment = OrderPayment::create([
+            'order_id' => $order->id,
+            'user_id' => auth()->user()->id,
+            'payment_method' => request()->payment_method,
+            'number' => request()->number,
+            // 'account_no' => request()->account_no,
+            'trx_id' => request()->trx_id,
+            'amount' => request()->amount,
+            'date' => Carbon::now()->toDateString(),
+        ]);
+        if (request()->payment_method == 'bank_account') {
+            $order_payment->account_no = request()->number;
+            $order_payment->save();
+        }
+        $order->total_paid = $order->order_payments()->sum('amount');
+        $order->save();
+        return $order->total_paid;
     }
 }
