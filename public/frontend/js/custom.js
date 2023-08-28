@@ -621,6 +621,7 @@ window.remove_alerts = () =>
 window.render_error = (object, target='') => {
     // console.log(data);
     $("form button").prop("disabled", false);
+    [...document.querySelectorAll('.input_alert')].forEach(e=>e.remove());
 
     for (const key in object) {
         if (Object.hasOwnProperty.call(object, key)) {
