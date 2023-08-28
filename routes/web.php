@@ -1,9 +1,5 @@
 <?php
 
-use App\Http\Controllers\Auth\ApiLoginController;
-use App\Http\Livewire\Login;
-use App\Http\Livewire\Register;
-use App\Http\Livewire\ShowPosts;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
@@ -47,6 +43,7 @@ Route::group(['prefix' => '', 'namespace' => "Livewire"], function () {
 
 Route::group( ['prefix'=>'','namespace' => "Controllers" ],function(){
     Route::post('/checkout','CheckoutController@checkout');
+    Route::post('/checkout/pay-due','CheckoutController@pay_due');
     Route::post('/apply-coupon','CheckoutController@apply_coupon');
     Route::get('/pos','WebsiteController@pos');
 
