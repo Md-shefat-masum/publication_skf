@@ -43,4 +43,9 @@ class Production extends Model
         });
     }
 
+    public function suppliers()
+    {
+        return $this->hasMany(ProductionUsedPaper::class,'production_id');
+    }
+
 }
