@@ -25,6 +25,7 @@ use Database\Seeders\Product\ProductReturnSeeder;
 use Database\Seeders\Product\ProductReviewSeeder;
 use Database\Seeders\Product\SupplierBindingSeeder;
 use Database\Seeders\Product\SupplierPaperSeeder;
+use Database\Seeders\Product\SupplierPaperStockSeeder;
 use Database\Seeders\Product\SupplierPrintSeeder;
 use Database\Seeders\Settings\SettingTitleSeeder;
 use Database\Seeders\Settings\SettingValueSeeder;
@@ -67,6 +68,7 @@ class DatabaseSeeder extends Seeder
 
             SupplierBindingSeeder::class,
             SupplierPaperSeeder::class,
+            SupplierPaperStockSeeder::class,
             SupplierPrintSeeder::class,
 
             ProductionDesignerSeeder::class,
