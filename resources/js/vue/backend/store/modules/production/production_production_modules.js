@@ -12,6 +12,7 @@ const { store_prefix, api_prefix, route_prefix } = test_module;
 // state list
 const state = {
     ...test_module.states(),
+    orderByAsc: false,
 };
 
 // get state
@@ -84,7 +85,7 @@ const actions = {
                 rootState.production_print_modules.production_print_selected = [];
                 rootState.production_binding_modules.production_binding_selected = [];
                 window.s_alert('new data has been created');
-                // management_router.push({name:`All${route_prefix}`})
+                management_router.push({name:`AllProductions`})
             })
             .catch(error=>{
 
