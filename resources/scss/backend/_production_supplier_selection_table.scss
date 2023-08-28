@@ -1,0 +1,36 @@
+.production_supplier_selection_table_body {
+    padding: 10px 5px;
+    .production_supplier_selection_table {
+        display: inline-flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        border-color: rgb(110 110 110 / 34%);
+        border-style: solid;
+        border-width: 1px;
+        padding: 10px;
+        border-bottom-width: 0;
+
+        &:nth-child(n + 2) {
+            border-top-width: 0;
+        }
+
+        &:last-child {
+            border-bottom-width: 1px !important;
+        }
+
+        .supplier {
+            min-width: 400px;
+        }
+
+        .stock {
+            width: 140px;
+            padding-left: 20px;
+        }
+
+        .action {
+            width: 150px;
+            padding-top: 3px;
+            text-align: right;
+        }
+    }
+}
