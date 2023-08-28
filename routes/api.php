@@ -127,6 +127,21 @@ Route::group(
                     Route::get('/{id}', 'Production\Supplier\PaperController@show');
                 });
 
+
+                Route::group(['prefix' => 'paper-stock'], function () {
+                    Route::get('/all', 'Production\Supplier\PaperStockController@all');
+                    Route::post('/store', 'Production\Supplier\PaperStockController@store');
+                    Route::post('/canvas-store', 'Production\Supplier\PaperStockController@canvas_store');
+                    Route::post('/update', 'Production\Supplier\PaperStockController@update');
+                    Route::post('/delete-related-image', 'Production\Supplier\PaperStockController@delete_related_image');
+                    Route::post('/canvas-update', 'Production\Supplier\PaperStockController@canvas_update');
+                    Route::post('/soft-delete', 'Production\Supplier\PaperStockController@soft_delete');
+                    Route::post('/destroy', 'Production\Supplier\PaperStockController@destroy');
+                    Route::post('/restore', 'Production\Supplier\PaperStockController@restore');
+                    Route::post('/bulk-import', 'Production\Supplier\PaperStockController@bulk_import');
+                    Route::get('/{id}', 'Production\Supplier\PaperStockController@show');
+                });
+
                 Route::group(['prefix' => 'print'], function () {
                     Route::get('/all', 'Production\Supplier\PrintController@all');
                     Route::post('/store', 'Production\Supplier\PrintController@store');
