@@ -551,7 +551,7 @@ class AdminOrderController extends Controller
         // }
         if ($payment) {
             $payment->delete();
-            
+
             $order = Order::find($payment->order_id);
             $order->total_paid = $order->order_payments()->sum('amount');
             if ($order->total_paid == $order->total_price) {
