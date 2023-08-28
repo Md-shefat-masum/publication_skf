@@ -60,7 +60,7 @@ class SupplierPaperStockSeeder extends Seeder
                 ]);
             }
 
-            $supplier_paper->stock = $supplier_paper->SupplierPaperStock()->sum('stock');
+            $supplier_paper->stock = $supplier_paper->SupplierPaperStock()->sum('stock') - $supplier_paper->SupplierPaperUsed()->sum('amount');
             $supplier_paper->purchase_date = $supplier_paper_stock->purchase_date;
             $supplier_paper->save();
         }
