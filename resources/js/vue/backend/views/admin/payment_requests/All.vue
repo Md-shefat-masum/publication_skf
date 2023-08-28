@@ -45,13 +45,13 @@
                                     Export Selected
                                 </a>
                             </li>
-                            <li>
+                            <!-- <li>
                                 <router-link :to="{name:`Import${route_prefix}`}">
                                     <i class="fa-regular fa-hand-point-right"></i>
                                     Import
                                 </router-link>
-                            </li>
-                            <li>
+                            </li> -->
+                            <!-- <li>
                                 <a href="#" v-if="this[`get_${store_prefix}_show_active_data`]" title="display data that has been deactivated" @click.prevent="call_store(`set_${store_prefix}_show_active_data`,0)" class="d-flex">
                                     <i class="fa-regular fa-hand-point-right"></i>
                                     Deactivated data
@@ -60,7 +60,7 @@
                                     <i class="fa-regular fa-hand-point-right"></i>
                                     Active data
                                 </a>
-                            </li>
+                            </li> -->
                         </ul>
                     </div>
                 </div>
@@ -127,12 +127,12 @@
                                         <i class="fa fa-gears"></i>
                                     </a>
                                     <ul>
-                                        <li>
+                                        <!-- <li>
                                             <a href="" @click.prevent="call_store(`set_${store_prefix}`,item)">
                                                 <i class="fa text-info fa-eye"></i>
                                                 Quick View
                                             </a>
-                                        </li>
+                                        </li> -->
                                         <!-- <li>
                                             <permission-button
                                                 :permission="'can_edit'"

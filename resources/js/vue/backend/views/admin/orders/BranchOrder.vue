@@ -103,7 +103,7 @@
                                 </span>
                             </td>
                             <td>
-                                {{ item.order_status }}
+                                <order-status-message :status="item.order_status"></order-status-message>
                             </td>
                             <td>
                                 <span v-if="item.user">
@@ -251,10 +251,11 @@ import SelectedCanvas from './SelectedCanvas.vue';
 
 /** store and route prefix for export object use */
 import PageSetup from './PageSetup';
+import OrderStatusMessage from './components/OrderStatusMessage.vue';
 const {route_prefix, store_prefix} = PageSetup;
 
 export default {
-    components: { PermissionButton, TableTh, DetailsCanvas, SelectedCanvas },
+    components: { PermissionButton, TableTh, DetailsCanvas, SelectedCanvas, OrderStatusMessage },
     data: function(){
         return {
             store_prefix,
