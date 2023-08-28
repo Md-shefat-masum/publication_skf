@@ -1275,4 +1275,39 @@ html.nav-hide-hover .header-navbar.floating-nav {
   height: 60px;
 }
 
+.production_supplier_selection_table_body {
+  padding: 10px 5px;
+}
+.production_supplier_selection_table_body .production_supplier_selection_table {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  gap: 10px;
+  border-color: rgba(110, 110, 110, 0.34);
+  border-style: solid;
+  border-width: 1px;
+  padding: 10px;
+  border-bottom-width: 0;
+}
+.production_supplier_selection_table_body .production_supplier_selection_table:nth-child(n+2) {
+  border-top-width: 0;
+}
+.production_supplier_selection_table_body .production_supplier_selection_table:last-child {
+  border-bottom-width: 1px !important;
+}
+.production_supplier_selection_table_body .production_supplier_selection_table .supplier {
+  min-width: 400px;
+}
+.production_supplier_selection_table_body .production_supplier_selection_table .stock {
+  width: 140px;
+  padding-left: 20px;
+}
+.production_supplier_selection_table_body .production_supplier_selection_table .action {
+  width: 150px;
+  padding-top: 3px;
+  text-align: right;
+}
+
 /*# sourceMappingURL=backend.css.map*/
