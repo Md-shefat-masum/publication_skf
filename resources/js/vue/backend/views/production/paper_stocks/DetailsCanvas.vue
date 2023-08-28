@@ -16,7 +16,48 @@
                         <tr>
                             <td>Supplier Name</td>
                             <td>:</td>
-                            <td>{{ this[`get_${store_prefix}`].supplier_name }}</td>
+                            <td>{{ this[`get_${store_prefix}`].supplier.supplier_name }}</td>
+                        </tr>
+                        <tr>
+                            <td>Contact Numbers</td>
+                            <td>:</td>
+                            <td>
+                                <ul v-if="this[`get_${store_prefix}`].supplier && this[`get_${store_prefix}`].supplier.mobile_numbers">
+                                    <li v-for="i in this[`get_${store_prefix}`].supplier.mobile_numbers" :key="i.id">
+                                        {{ i.mobile_number }}
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Paper Name</td>
+                            <td>:</td>
+                            <td>{{ this[`get_${store_prefix}`].paper_name }}</td>
+                        </tr>
+                        <tr>
+                            <td>Paper Type</td>
+                            <td>:</td>
+                            <td>{{ this[`get_${store_prefix}`].paper_type }}</td>
+                        </tr>
+                        <tr>
+                            <td>Cost Per Paper</td>
+                            <td>:</td>
+                            <td>{{ this[`get_${store_prefix}`].cost_per_paper }}</td>
+                        </tr>
+                        <tr>
+                            <td>Cost Per Ream</td>
+                            <td>:</td>
+                            <td>{{ this[`get_${store_prefix}`].cost_per_ream }}</td>
+                        </tr>
+                        <tr>
+                            <td>Stock amount</td>
+                            <td>:</td>
+                            <td>{{ this[`get_${store_prefix}`].stock }}</td>
+                        </tr>
+                        <tr>
+                            <td>Purchase Date</td>
+                            <td>:</td>
+                            <td>{{ this[`get_${store_prefix}`].purchase_date }}</td>
                         </tr>
 
                         <tr>
