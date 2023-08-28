@@ -72,7 +72,12 @@
                             <th><input @click="call_store(`set_select_all_${store_prefix}s`)" type="checkbox" class="form-check-input check_all"></th>
                             <table-th :sort="true" :tkey="'id'" :title="'ID'" :ariaLable="'id'"/>
                             <table-th :sort="true" :tkey="'full_name'" :title="'Supplier'" />
-                            <table-th :sort="true" :tkey="'message'" :title="'Stock'" />
+                            <table-th :sort="true" :tkey="'paper_name'" :title="'Paper Name'" />
+                            <table-th :sort="true" :tkey="'stock'" :title="'Stock Amount'" />
+                            <table-th :sort="true" :tkey="'purchase_date'" :title="'Date'" />
+                            <table-th :sort="true" :tkey="'paper_type'" :title="'Paper Type'" />
+                            <table-th :sort="true" :tkey="'cost_per_paper'" :title="'Cost Per Paper'" />
+                            <table-th :sort="true" :tkey="'cost_per_ream'" :title="'Cost Per Ream'" />
                             <table-th :sort="true" :tkey="'status'" :title="'Status'" />
                             <th aria-label="actions">Actions</th>
                         </tr>
@@ -86,10 +91,19 @@
                             <td>{{ item.id }}</td>
                             <td>
                                 <span class="text-warning cursor_pointer" @click.prevent="call_store(`set_${store_prefix}`,item)">
-                                    {{ item.supplier_name }}
+                                    {{ item.supplier.supplier_name }}
                                 </span>
                             </td>
-                            <td>{{ item.stock }} Ream</td>
+                            <td>{{ item.paper_name }}</td>
+                            <td>
+                                <div class="badge bg-primary">
+                                    {{ item.stock }} Ream
+                                </div>
+                            </td>
+                            <td>{{ format_date(item.purchase_date) }}</td>
+                            <td>{{ item.paper_type }}</td>
+                            <td>{{ item.cost_per_paper }} TK</td>
+                            <td>{{ item.cost_per_ream }} TK</td>
                             <td>
                                 <span v-if="item.status == 1" class="badge bg-label-success me-1">active</span>
                                 <span v-if="item.status == 0" class="badge bg-label-success me-1">deactive</span>
@@ -190,6 +204,7 @@ import SelectedCanvas from './SelectedCanvas.vue';
 
 /** store and route prefix for export object use */
 import PageSetup from './PageSetup';
+import moment from 'moment';
 const {route_prefix, store_prefix} = PageSetup;
 
 export default {
@@ -228,6 +243,7 @@ export default {
         call_store: function(name, params=null){
             this[name](params)
         },
+
         handle_pagination: function(page=1){
             return this[`set_${store_prefix}_page`](page);
         },
@@ -240,6 +256,10 @@ export default {
                 return false;
             }
         },
+
+        format_date: function(date, format='DD MMM, YYYY ddd'){
+            return moment(date).format(format);
+        }
     },
     computed: {
         ...mapGetters([
