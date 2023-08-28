@@ -36,4 +36,9 @@ class SupplierPaper extends Model
     {
         return PhoneNumber::select(['id','table_id','table_name','mobile_number'])->where('table_id',$this->id)->where('table_name','supplier_papers')->get();
     }
+
+    public function SupplierPaperStock()
+    {
+        return $this->hasMany(SupplierPaperStock::class,'supplier_paper_id');
+    }
 }
