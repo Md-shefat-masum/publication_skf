@@ -140,8 +140,8 @@ const actions = {
             .then(res=>{
                 $('.create_form input').val('');
                 rootState.production_product_modules.production_product_selected = [];
-                window.s_alert('new data has been created');
-                // management_router.push({name:`All${route_prefix}`})
+                window.s_alert('product price updated.');
+                management_router.push({name:`All${route_prefix}`})
             })
             .catch(error=>{
 
