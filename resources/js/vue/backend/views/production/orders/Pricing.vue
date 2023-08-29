@@ -4,7 +4,7 @@
             <div class="card-header">
                 <h4>Create</h4>
                 <div class="btns">
-                    <router-link :to="{ name: `All${route_prefix}` }" class="btn rounded-pill btn-outline-warning" >
+                    <router-link :to="{ name: `AllProductions` }" class="btn rounded-pill btn-outline-warning" >
                         <i class="fa fa-arrow-left me-5px"></i>
                         Back
                     </router-link>
