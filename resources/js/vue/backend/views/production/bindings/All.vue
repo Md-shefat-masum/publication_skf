@@ -74,7 +74,7 @@
                             <table-th :sort="true" :tkey="'company_name'" :title="'Company'" />
                             <table-th :sort="true" :tkey="'binding_cost'" :title="'Each Book Binding Cost'" />
                             <table-th :sort="true" :tkey="'total_book'" :title="'Total Book'" />
-                            <table-th :sort="false" :tkey="'subject'" :title="'Total Cost'" />
+                            <!-- <table-th :sort="false" :tkey="'subject'" :title="'Total Cost'" /> -->
                             <table-th :sort="true" :tkey="'status'" :title="'Status'" />
                             <th aria-label="actions">Actions</th>
                         </tr>
@@ -95,7 +95,7 @@
                                 {{ item.binding_cost }}
                             </td>
                             <td>{{ item.total_book }}</td>
-                            <td>{{ item.total_book * item.binding_cost }}</td>
+                            <!-- <td>{{ item.total_book * item.binding_cost }}</td> -->
                             <td>
                                 <span v-if="item.status == 1" class="badge bg-label-success me-1">active</span>
                                 <span v-if="item.status == 0" class="badge bg-label-success me-1">deactive</span>
