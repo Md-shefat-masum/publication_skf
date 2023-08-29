@@ -22,13 +22,14 @@ const getters = {
 // actions
 const actions = {
     ...test_module.actions(),
+
     get_settings: async function({state}){
         let res = await axios.post('/admin/settings/get-by-keys',{keys: state.settings_keys});
         let data = res.data;
         state.settings_values = data;
         // console.log(data);
     },
-    
+
     set_settings: async function({state}, {id, value, index}){
         let form_data = new FormData();
         form_data.append('value',value);
