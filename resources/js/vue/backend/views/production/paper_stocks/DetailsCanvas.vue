@@ -16,9 +16,9 @@
                         <tr>
                             <td>Supplier Name</td>
                             <td>:</td>
-                            <td>{{ this[`get_${store_prefix}`].supplier.supplier_name }}</td>
+                            <td>{{ this[`get_${store_prefix}`].supplier_name }}</td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <td>Contact Numbers</td>
                             <td>:</td>
                             <td>
@@ -28,7 +28,7 @@
                                     </li>
                                 </ul>
                             </td>
-                        </tr>
+                        </tr> -->
                         <tr>
                             <td>Paper Name</td>
                             <td>:</td>
