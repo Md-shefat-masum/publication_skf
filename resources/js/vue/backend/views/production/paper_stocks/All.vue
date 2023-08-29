@@ -71,7 +71,7 @@
                         <tr>
                             <th><input @click="call_store(`set_select_all_${store_prefix}s`)" type="checkbox" class="form-check-input check_all"></th>
                             <table-th :sort="true" :tkey="'id'" :title="'ID'" :ariaLable="'id'"/>
-                            <table-th :sort="true" :tkey="'full_name'" :title="'Supplier'" />
+                            <table-th :sort="true" :tkey="'supplier_id'" :title="'Supplier'" />
                             <table-th :sort="true" :tkey="'paper_name'" :title="'Paper Name'" />
                             <table-th :sort="true" :tkey="'stock'" :title="'Stock Amount'" />
                             <table-th :sort="true" :tkey="'purchase_date'" :title="'Date'" />
@@ -91,7 +91,7 @@
                             <td>{{ item.id }}</td>
                             <td>
                                 <span class="text-warning cursor_pointer" @click.prevent="call_store(`set_${store_prefix}`,item)">
-                                    {{ item.supplier.supplier_name }}
+                                    {{ item.supplier_name }}
                                 </span>
                             </td>
                             <td>{{ item.paper_name }}</td>
