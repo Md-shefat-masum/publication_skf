@@ -25,34 +25,42 @@ class PaperStockController extends Controller
             $status = request()->status;
         }
 
-        $query = SupplierPaperStock::where('status', $status)->orderBy($orderBy, $orderByType);
+        $query = SupplierPaperStock::where('supplier_paper_stocks.status', $status)
+            ->orderBy('supplier_paper_stocks.' . $orderBy, $orderByType);
+
+        $query->join('supplier_papers', 'supplier_papers.id', '=', 'supplier_paper_stocks.supplier_paper_id');
+        $query->select([
+            'supplier_paper_stocks.*',
+            'supplier_papers.id as supplier_papers_id',
+            'supplier_papers.supplier_name',
+            'supplier_papers.purchase_date',
+        ]);
 
         if (request()->has('search_key')) {
             $key = request()->search_key;
             $query->where(function ($q) use ($key) {
-                return $q->where('id', $key)
-                    ->orWhere('supplier_name', $key)
-                    ->orWhere('supplier_name', 'LIKE', '%' . $key . '%');
+                return $q->where('supplier_papers.supplier_name', $key)
+                    ->orWhere('supplier_papers.supplier_name', 'LIKE', '%' . $key . '%');
             });
         }
 
-        $query->with(['supplier'=>function($q){
-            return $q->select(['id','supplier_name']);
-        }]);
+        // $query->with(['supplier'=>function($q){
+        //     return $q->select(['id','supplier_name']);
+        // }]);
         $users = $query->paginate($paginate);
         return response()->json($users);
     }
 
     public function show($id)
     {
-        $data = SupplierPaperStock::where('id',$id)->with('supplier')->first();
-        if(!$data){
+        $data = SupplierPaperStock::where('id', $id)->with('supplier')->first();
+        if (!$data) {
             return response()->json([
                 'err_message' => 'not found',
-                'errors' => ['supplier_name'=>['data not found']],
+                'errors' => ['supplier_name' => ['data not found']],
             ], 422);
         }
-        return response()->json($data,200);
+        return response()->json($data, 200);
     }
 
     public function store(Request $request)
@@ -112,8 +120,8 @@ class PaperStockController extends Controller
         $data->creator = Auth::user()->id;
         $data->save();
 
-        if(request()->has('image')){
-            $data->image = Storage::put('uploads/writers',request()->file('image'));
+        if (request()->has('image')) {
+            $data->image = Storage::put('uploads/writers', request()->file('image'));
         }
         $data->save();
 
@@ -123,10 +131,10 @@ class PaperStockController extends Controller
     public function update()
     {
         $data = SupplierPaperStock::find(request()->id);
-        if(!$data){
+        if (!$data) {
             return response()->json([
                 'err_message' => 'validation error',
-                'errors' => ['supplier_name'=>['data not found by given id '.(request()->id?request()->id:'null')]],
+                'errors' => ['supplier_name' => ['data not found by given id ' . (request()->id ? request()->id : 'null')]],
             ], 422);
         }
 
@@ -134,9 +142,9 @@ class PaperStockController extends Controller
             'supplier_paper_id' => ['required'],
             'paper_name' => ['required'],
             'paper_type' => ['required'],
-            'cost_per_paper' => ['required','numeric'],
-            'cost_per_ream' => ['required','numeric'],
-            'stock' => ['required','numeric'],
+            'cost_per_paper' => ['required', 'numeric'],
+            'cost_per_ream' => ['required', 'numeric'],
+            'stock' => ['required', 'numeric'],
             'purchase_date' => ['required'],
         ]);
 
@@ -169,10 +177,10 @@ class PaperStockController extends Controller
     public function canvas_update()
     {
         $data = SupplierPaperStock::find(request()->id);
-        if(!$data){
+        if (!$data) {
             return response()->json([
                 'err_message' => 'validation error',
-                'errors' => ['supplier_name'=>['data not found by given id '.(request()->id?request()->id:'null')]],
+                'errors' => ['supplier_name' => ['data not found by given id ' . (request()->id ? request()->id : 'null')]],
             ], 422);
         }
 
@@ -194,8 +202,8 @@ class PaperStockController extends Controller
         $data->creator = Auth::user()->id;
         $data->save();
 
-        if(request()->has('image')){
-            $data->image = Storage::put('uploads/writers',request()->file('image'));
+        if (request()->has('image')) {
+            $data->image = Storage::put('uploads/writers', request()->file('image'));
         }
         $data->save();
         $data->update();
@@ -206,7 +214,7 @@ class PaperStockController extends Controller
     public function soft_delete()
     {
         $validator = Validator::make(request()->all(), [
-            'id' => ['required','exists:product_writers,id'],
+            'id' => ['required', 'exists:product_writers,id'],
         ]);
 
         if ($validator->fails()) {
@@ -221,7 +229,7 @@ class PaperStockController extends Controller
         $data->save();
 
         return response()->json([
-                'result' => 'deactivated',
+            'result' => 'deactivated',
         ], 200);
     }
 
@@ -232,7 +240,7 @@ class PaperStockController extends Controller
     public function restore()
     {
         $validator = Validator::make(request()->all(), [
-            'id' => ['required','exists:product_writers,id'],
+            'id' => ['required', 'exists:product_writers,id'],
         ]);
 
         if ($validator->fails()) {
@@ -247,14 +255,14 @@ class PaperStockController extends Controller
         $data->save();
 
         return response()->json([
-                'result' => 'activated',
+            'result' => 'activated',
         ], 200);
     }
 
     public function bulk_import()
     {
         $validator = Validator::make(request()->all(), [
-            'data' => ['required','array'],
+            'data' => ['required', 'array'],
         ]);
 
         if ($validator->fails()) {
@@ -265,11 +273,11 @@ class PaperStockController extends Controller
         }
 
         foreach (request()->data as $item) {
-            $item['created_at'] = $item['created_at'] ? Carbon::parse($item['created_at']): Carbon::now()->toDateTimeString();
-            $item['updated_at'] = $item['updated_at'] ? Carbon::parse($item['updated_at']): Carbon::now()->toDateTimeString();
+            $item['created_at'] = $item['created_at'] ? Carbon::parse($item['created_at']) : Carbon::now()->toDateTimeString();
+            $item['updated_at'] = $item['updated_at'] ? Carbon::parse($item['updated_at']) : Carbon::now()->toDateTimeString();
             $item = (object) $item;
-            $check = SupplierPaperStock::where('id',$item->id)->first();
-            if(!$check){
+            $check = SupplierPaperStock::where('id', $item->id)->first();
+            if (!$check) {
                 try {
                     SupplierPaperStock::create((array) $item);
                 } catch (\Throwable $th) {
