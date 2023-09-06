@@ -18,6 +18,7 @@ class CreateAccountLogsTable extends Migration
 
             $table->timestamp('date')->nullable();
             $table->bigInteger('category_id')->nullable();
+            $table->bigInteger('account_id')->default(1);
             $table->tinyInteger('is_expense')->default(0);
             $table->tinyInteger('is_income')->default(0);
             $table->float('amount')->nullable();

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Order;
 
 use App\Http\Controllers\Controller;
+use App\Models\Account\AccountLog;
 use App\Models\Order\Order;
 use App\Models\Order\OrderPayment;
 use App\Models\Product\Brand;
@@ -63,6 +64,7 @@ class PaymentRequestController extends Controller
             ], 422);
         }
 
+        $account_log = AccountLog::class;
         $order_payment = OrderPayment::find(request()->payment_id);
         if ($order_payment->approved == 1) {
             $order_payment->approved = 0;
@@ -71,6 +73,11 @@ class PaymentRequestController extends Controller
         } else {
             $order_payment->approved = 1;
             $order_payment->save();
+            $account_log::create([
+                'date' => Carbon::now()->toDateTimeString(),
+                'category_id' => 30,
+                'account_id' => 
+            ]);
             return response()->json("approved");
         }
     }
@@ -234,7 +241,7 @@ class PaymentRequestController extends Controller
 
     public function restore()
     {
-        
+
         $validator = Validator::make(request()->all(), [
             'id' => ['required', 'exists:categories,id'],
         ]);

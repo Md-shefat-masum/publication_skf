@@ -108,10 +108,10 @@ let top_products = {
                                 <div class="add-cart p-absolute transition-3">
                                     <div class="product__price transition-3">
                                         <span class="solaiman ${!element.discount_info.discount_percent && "d-none" }">
-                                            ${element.discount_info.discount_price?.toString().getDigitBanglaFromEnglish()} ৳
+                                            ৳ ${element.discount_info.discount_price?.toString().getDigitBanglaFromEnglish()}
                                         </span>
                                         <span class="${element.discount_info.discount_percent && "old-price" } solaiman">
-                                            ${element.sales_price?.toString().getDigitBanglaFromEnglish()} ৳
+                                            ৳ ${element.sales_price?.toString().getDigitBanglaFromEnglish()}
                                         </span>
                                     </div>
                                     <a href="#"

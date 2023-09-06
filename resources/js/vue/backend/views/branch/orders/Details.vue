@@ -14,7 +14,7 @@
             </div>
             <div class="card-body pb-5 ">
                 <div class="row justify-content-center">
-                    <div class="col-lg-12 " v-if="data && data.order_details.length">
+                    <div class="col-lg-12 " v-if="data && data.order_details && data.order_details.length">
                         <table class="table w-100">
                             <thead>
                                 <tr>
@@ -133,7 +133,6 @@
                                 </tr>
                             </tbody>
                         </table>
-
                     </div>
                     <div class="col-lg-1"></div>
                     <div class="col-lg-5 py-4">
@@ -172,8 +171,7 @@
                     </div>
 
                     <div v-if="data" class="col-12">
-
-                        <div v-if="data.payment_records.length">
+                        <div v-if="data?.payment_records.length">
                             <div>
                                 <h4 id="payment_id" class="mt-4">Payment Information</h4>
                             </div>

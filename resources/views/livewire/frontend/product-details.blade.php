@@ -131,15 +131,16 @@
                                             </div> --}}
                                             @php
                                             $cart_params = [
-                                            "id" => $product->id,
-                                            "product_id" => $product->product_id,
-                                            "discount_amount" => $product->discount_amount,
-                                            "discount_percent" => $product->discount_percent,
-                                            "discount_price" => $product->discount_price,
-                                            "sales_price" => $product->sales_price,
-                                            "product_name" => $product->product_name,
-                                            "product_name" => $product->product_name,
-                                            "thumb_image" => $product->thumb_image,
+                                                "id" => $product->id,
+                                                "discount_info" => $product->discount_info,
+                                                "product_id" => $product->product_id,
+                                                "discount_amount" => $product->discount_amount,
+                                                "discount_percent" => $product->discount_percent,
+                                                "discount_price" => $product->discount_price,
+                                                "sales_price" => $product->sales_price,
+                                                "product_name" => $product->product_name,
+                                                "product_name" => $product->product_name,
+                                                "thumb_image" => $product->thumb_image,
                                             ];
                                             @endphp
                                             <a href="javascript:void(0)"
@@ -309,7 +310,7 @@
                                                             ৳ {{ enToBn($item->sales_price) }}
                                                         </span>
                                                     @else
-                                                        <span class="old-price solaiman">
+                                                        <span class="solaiman">
                                                             ৳ {{ enToBn($item->sales_price) }}
                                                         </span>
                                                     @endif

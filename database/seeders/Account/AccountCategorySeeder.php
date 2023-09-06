@@ -58,6 +58,9 @@ class AccountCategorySeeder extends Seeder
             "Rent" => 4,
             "Insurance" => 4,
             "Taxes" => 4,
+
+            // cash
+            "order payments" => 13,
         ];
 
         foreach ($data as $title => $type_id) {

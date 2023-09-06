@@ -93,7 +93,7 @@
 
                     <div class="col-lg-5 py-4" v-if="data">
                         <h4>Order Details</h4>
-                        <table class="table" >
+                        <table class="table">
                             <tbody>
                                 <tr>
                                     <td>Invoice ID</td>
@@ -133,8 +133,6 @@
                                 </tr>
                             </tbody>
                         </table>
-
-
                     </div>
                     <div class="col-lg-1"></div>
                     <div class="col-lg-5 py-4">
@@ -192,7 +190,7 @@
                                         <td>
                                             {{ record.payment_method }}
                                             <br>
-                                            <a href="" @click.prevent="admin_approve_branch_payment({payment:record})" class="text-success">
+                                            <a href="" v-if="![1,2].includes(record.approved)" @click.prevent="admin_approve_branch_payment({payment:record})" class="text-success">
                                                 approve
                                             </a>
                                             &nbsp;
