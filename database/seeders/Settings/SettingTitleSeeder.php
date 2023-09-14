@@ -29,10 +29,10 @@ class SettingTitleSeeder extends Seeder
             "email",
             "map",
 
-            "bkash",
-            "nagad",
-            "rocket",
-            "bank_account",
+            // "bkash",
+            // "nagad",
+            // "rocket",
+            // "bank_account",
 
             "home_delivery_cost",
             "out_dhaka_home_delivery_cost",
