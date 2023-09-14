@@ -26,5 +26,11 @@ class Account extends Model
                 $data->creator = auth()->user()->id;
             }
         });
+
+    }
+
+    public function numbers()
+    {
+        return $this->hasMany(AccountNumber::class,'account_id');
     }
 }
