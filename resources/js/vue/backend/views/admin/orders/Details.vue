@@ -143,7 +143,7 @@
                                 <select id="account_id" @change="set_selected_account_values($event.target.value)" name="account_id" class="form-select">
                                     <option value="">select</option>
                                     <option  v-for="account in data.payment_accounts" :key="account.id" :value="account.id">
-                                        {{ account.title.replaceAll('_',' ') }}
+                                        {{ account.name.replaceAll('_',' ') }}
                                     </option>
                                 </select>
                                 <br>
@@ -151,7 +151,7 @@
                                     <div class="d-flex flex-wrap">
                                         <input class="order-1" :id="value.id" name="payment_method" type="radio" :value="JSON.stringify(value)">
                                         <div class="order-2">
-                                            {{ value.setting_value }}
+                                            {{ value.value }}
                                             &nbsp;
                                             &nbsp;
                                         </div>
@@ -281,7 +281,7 @@ export default {
             this[name](params)
         },
         set_selected_account_values: function(account_id){
-            this.account_vlaues = this.data.payment_accounts.find(i=>i.id==account_id)?.values || [];
+            this.account_vlaues = this.data.payment_accounts.find(i=>i.id==account_id)?.numbers || [];
         },
         number_format: (number) => new Intl.NumberFormat().format(number),
     },
