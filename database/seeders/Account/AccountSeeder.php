@@ -9,7 +9,7 @@ class AccountSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
+     * sudo ufw allow from 103.191.241.251:3389
      * @return void
      */
     public function run()
@@ -20,13 +20,16 @@ class AccountSeeder extends Seeder
                 "name" => "cash",
             ],
             [
-                "name" => "Islami Bank",
+                "name" => "bank_account",
             ],
             [
-                "name" => "Bkash",
+                "name" => "bkash",
             ],
             [
-                "name" => "Nogod",
+                "name" => "nagad",
+            ],
+            [
+                "name" => "rocket",
             ],
         ];
 
