@@ -352,18 +352,18 @@ let checkout = {
     set_payment_method: function (type) {
         switch (type) {
             case "bkash":
-                document.querySelector("#bank_section").classList.add("d-none");
+                // document.querySelector("#bank_section").classList.add("d-none");
                 document.querySelector("#bkash_section").classList.remove("d-none");
                 break;
 
             case "bank":
                 document.querySelector("#bkash_section").classList.add("d-none");
-                document.querySelector("#bank_section").classList.remove("d-none");
+                // document.querySelector("#bank_section").classList.remove("d-none");
                 break;
 
             default:
                 document.querySelector("#bkash_section").classList.add("d-none");
-                document.querySelector("#bank_section").classList.add("d-none");
+                // document.querySelector("#bank_section").classList.add("d-none");
                 break;
         }
     },
