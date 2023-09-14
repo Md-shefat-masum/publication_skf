@@ -20,7 +20,7 @@
                 <!-- <left-nav-list-item :to="'AllProductionOrder'" :text="'All Orders'" /> -->
                 <left-nav-list-item :to="'AllProductions'" :text="'All Productions'" />
                 <left-nav-list-item :to="'ProductionProductionOrder'" :text="'Start Production'" />
-                <left-nav-list-item :to="'ProductionProductionPricing'" :text="'Pricing'" />
+                <!-- <left-nav-list-item :to="'ProductionProductionPricing'" :text="'Pricing'" /> -->
             </left-nav-list-group>
 
             <left-nav-list-group :role_permissions="['production']" :icon="`fa fa-users`" :text="`Suppliers`" :alert_count="0">
