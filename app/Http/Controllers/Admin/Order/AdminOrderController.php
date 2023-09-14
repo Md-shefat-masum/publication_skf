@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin\Order;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\HelperController;
+use App\Models\Account\Account;
+use App\Models\Account\AccountLog;
 use App\Models\Order\Order;
 use App\Models\Order\OrderDeliveryInfo;
 use App\Models\Order\OrderDetails;
@@ -455,11 +457,12 @@ class AdminOrderController extends Controller
         }
 
         $payment_method_info = json_decode(request()->payment_method);
+        $payment_account = Account::find($payment_method_info->account_id);
         $order_payment = OrderPayment::create([
             "order_id" => request()->order_id,
             "user_id" => auth()->user()->id,
-            "payment_method" => $payment_method_info->title,
-            "number" => $payment_method_info->setting_value,
+            "payment_method" => $payment_account->name,
+            "number" => $payment_method_info->value,
             "trx_id" => request()->trx_id,
             "amount" => request()->amount,
             "approved" => 1,
@@ -478,6 +481,19 @@ class AdminOrderController extends Controller
             $order->payment_status =  'paid';
         }
         $order->save();
+
+        $account_log = AccountLog::class;
+        $log = $account_log::create([
+            'date' => Carbon::now()->toDateTimeString(),
+            'category_id' => 30,
+            'account_id' => $payment_account->id,
+            'is_income' => 1,
+            'amount' => $order_payment->amount,
+            'description' => "branch payment received and inserted by admin",
+        ]);
+
+        $order_payment->account_logs_id = $log->id;
+        $order_payment->save();
 
         // $this->make_due_pay_message([
         //     "transaction_media" => $payment_method_info->title,
@@ -558,7 +574,7 @@ class AdminOrderController extends Controller
                 $order->payment_status = 'paid';
             } else if ($order->total_paid > $order->total_price) {
                 $order->payment_status = 'partially paid';
-            }else{
+            } else {
                 $order->payment_status = 'pending';
             }
             $order->save();
@@ -593,6 +609,7 @@ class AdminOrderController extends Controller
                 $order->payment_status = 'partially paid';
             }
             $order->save();
+
         }
 
         return response()->json('success');
