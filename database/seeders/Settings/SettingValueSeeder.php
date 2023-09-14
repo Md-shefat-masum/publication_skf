@@ -37,27 +37,6 @@ class SettingValueSeeder extends Seeder
             "email" => "support@pub.com",
             "map" => '<iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d5237.592579713879!2d90.41791440863823!3d23.802949706508837!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1spaltan!5e0!3m2!1sen!2sbd!4v1684041615790!5m2!1sen!2sbd" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
 
-            "bkash" => [
-                '+880 169874523',
-                '+880 169874524',
-                '+880 169874525',
-            ],
-            "nagad" => [
-                '+880 169874526',
-                '+880 169874527',
-                '+880 169874528',
-            ],
-            "rocket" => [
-                '+880 169874529',
-                '+880 169874530',
-                '+880 169874531',
-            ],
-            "bank_account" => [
-                'Islami bank 874523',
-                'Agrani bank 874524',
-                'City bank 874525',
-            ],
-
             "home_delivery_cost" => 60,
             "out_dhaka_home_delivery_cost" => 120,
 
