@@ -40,7 +40,7 @@ class DatabaseSeeder extends Seeder
      * Seed the application's database.
      *
      * @return void
-     * php artisan db:seed --class="Database\Seeders\Account\AccountCategoryTypeSeeder"
+     * php artisan db:seed --class="Database\Seeders\Product\SupplierPaperStockSeeder"
      */
     public function run()
     {
