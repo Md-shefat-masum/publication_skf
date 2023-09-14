@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Order;
 
 use App\Http\Controllers\Controller;
+use App\Models\Account\Account;
 use App\Models\Account\AccountLog;
 use App\Models\Order\Order;
 use App\Models\Order\OrderPayment;
@@ -68,16 +69,26 @@ class PaymentRequestController extends Controller
         $order_payment = OrderPayment::find(request()->payment_id);
         if ($order_payment->approved == 1) {
             $order_payment->approved = 0;
+            $order_payment->account_logs_id = null;
             $order_payment->save();
+            AccountLog::where('id',$order_payment->account_logs_id)->delete();
             return response()->json("rejected");
         } else {
-            $order_payment->approved = 1;
-            $order_payment->save();
-            $account_log::create([
+
+            $cash_acount = Account::where('name','cash')->first();
+            $log = $account_log::create([
                 'date' => Carbon::now()->toDateTimeString(),
                 'category_id' => 30,
-                'account_id' => 
+                'account_id' => $cash_acount->id,
+                'is_income' => 1,
+                'amount' => $order_payment->amount,
+                'description' => 'branch payment accepted',
             ]);
+
+            $order_payment->approved = 1;
+            $order_payment->account_logs_id = $log->id;
+            $order_payment->save();
+
             return response()->json("approved");
         }
     }
