@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Order;
 
 use App\Http\Controllers\Controller;
+use App\Models\Account\Account;
 use App\Models\Order\Order;
 use App\Models\Product\Brand;
 use App\Models\Settings\AppSettingTitle;
@@ -24,7 +25,6 @@ class AdminOrderManagementController extends Controller
         if (request()->has('status')) {
             $status = request()->status;
         }
-
 
         if (request()->has('order_type')) {
             $order_type = request()->order_type;
@@ -52,7 +52,6 @@ class AdminOrderManagementController extends Controller
         return response()->json($users);
     }
 
-
     public function show($id)
     {
         $data = Order::where('id', $id)
@@ -63,13 +62,16 @@ class AdminOrderManagementController extends Controller
         $data->payment_records = $data->order_payments()
             ->select(['id', 'order_id', 'number', 'payment_method', 'trx_id', 'amount', 'approved'])
             ->get();
-        $data->payment_accounts = AppSettingTitle::select('id', 'title')
-            ->whereIn('title', [
+
+        $data->payment_accounts = Account::select('id', 'name')
+            ->whereIn('name', [
                 'bkash', 'nagad',
                 'rocket', 'bank_account'
-            ])->where('status', 1)->with([
-                'values' => function ($q) {
-                    return $q->select(['id', 'setting_id', 'title', 'setting_value']);
+            ])
+            ->where('status', 1)
+            ->with([
+                'numbers' => function ($q) {
+                    return $q->select(['id', 'account_id', 'value']);
                 }
             ])->get();
 
