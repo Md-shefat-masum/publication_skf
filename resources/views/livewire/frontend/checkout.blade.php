@@ -103,12 +103,12 @@
                                                     value="bkash" />
                                                 Bkash
                                             </label>
-                                            <br />
+                                            {{-- <br />
                                             <label class="radio-inline">
                                                 <input type="radio" onchange="checkout.set_payment_method('bank')" id="bank_transfer_btn" name="payment_method"
                                                     value="bank" />
                                                 Bank Transfer
-                                            </label>
+                                            </label> --}}
                                             <br />
                                             <div id="bkash_section"
                                                 class="border border-1 rounded-1 my-2 p-2 d-none">
@@ -155,9 +155,12 @@
                                                     <li class="d-flex gap-2">
                                                         <b>bKash Agent No : </b>
                                                         <ul>
-                                                            @foreach (\App\Models\Settings\AppSettingTitle::getValue('bkash','values') as $item)
-                                                                <li>
-                                                                    <b onclick="bkash_number.value=`{{$item->setting_value}}`">{{$item->setting_value}}</b>
+                                                            @php
+                                                                $bkash_numbers = \App\Models\Account\Account::where('name','bkash')->first()->numbers()->get();
+                                                            @endphp
+                                                            @foreach ($bkash_numbers as $item)
+                                                                <li style="cursor: pointer;">
+                                                                    <b onclick="bkash_number.value=`{{$item->value}}`">{{$item->value}}</b>
                                                                 </li>
                                                             @endforeach
                                                         </ul>
@@ -177,7 +180,7 @@
                                                 </ul>
                                             </div>
 
-                                            <div id="bank_section"
+                                            {{-- <div id="bank_section"
                                                 class="border border-1 rounded-1 my-2 p-2 d-none">
                                                 <p class="mb-3">
                                                     Please go to your personal bank or log into your online banking
@@ -226,7 +229,7 @@
                                                         <input class="form-control" name="bank_transaction_id" type="text" id="bank_trx_no" placeholder="TRX-4548" />
                                                     </div>
                                                 </ul>
-                                            </div>
+                                            </div> --}}
 
                                         </div>
                                     </div>
