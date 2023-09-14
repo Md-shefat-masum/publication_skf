@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Branch;
 
 use App\Http\Controllers\Controller;
+use App\Models\Account\Account;
 use App\Models\Order\Order;
 use App\Models\Product\Brand;
 use App\Models\Settings\AppSettingTitle;
@@ -25,7 +26,7 @@ class BranchOrderManagementController extends Controller
         }
 
         $query = Order::where('status', $status)
-            ->where('user_id',auth()->user()->id)
+            ->where('user_id', auth()->user()->id)
             ->with(["user", "order_details"])
             ->withSum('order_payments', 'amount')
             ->orderBy($orderBy, $orderByType);
@@ -56,13 +57,16 @@ class BranchOrderManagementController extends Controller
         $data->payment_records = $data->order_payments()
             ->select(['id', 'order_id', 'number', 'payment_method', 'trx_id', 'amount', 'approved'])
             ->get();
-        $data->payment_accounts = AppSettingTitle::select('id', 'title')
-            ->whereIn('title', [
+
+        $data->payment_accounts = Account::select('id', 'name')
+            ->whereIn('name', [
                 'bkash', 'nagad',
                 'rocket', 'bank_account'
-            ])->where('status', 1)->with([
-                'values' => function ($q) {
-                    return $q->select(['id', 'setting_id', 'title', 'setting_value']);
+            ])
+            ->where('status', 1)
+            ->with([
+                'numbers' => function ($q) {
+                    return $q->select(['id', 'account_id', 'value']);
                 }
             ])->get();
 
