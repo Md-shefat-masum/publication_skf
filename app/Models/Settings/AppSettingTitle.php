@@ -40,8 +40,8 @@ class AppSettingTitle extends Model
     /**
      *
      ```php
-        AppSettingValue::getValue("address","value"):returns single value;
-        AppSettingValue::getValue("address","values"):returns array;
+            AppSettingValue::getValue("address","value"):returns single value;
+            AppSettingValue::getValue("address","values"):returns array;
      ```
      */
     public static function getValue($title, $with = "value")
