@@ -43,7 +43,7 @@ class SupplierPaperStockSeeder extends Seeder
             "Specialty"
         );
 
-        for ($i = 1; $i <= 12; $i++) {
+        for ($i = 1; $i <= 10; $i++) {
             $supplier_paper = SupplierPaper::find($i);
             $supplier_paper_stock = null;
 
