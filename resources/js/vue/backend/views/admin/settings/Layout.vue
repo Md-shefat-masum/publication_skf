@@ -47,6 +47,9 @@ export default {
     created: function(){
         document.querySelector('html').classList.add('nav-hide');
     },
+    beforeDestroy: function(){
+        document.querySelector('html').classList.remove('nav-hide');
+    },
     computed: {
         ...mapGetters(['get_auth_roles']),
         is_role_permitted: function(){
