@@ -5,7 +5,7 @@
                 <h4> Payment Numbers  </h4>
             </div>
             <div class="card-body px-4 pt-4 form_area custom_scroll">
-                <setting-input v-for="key in get_settings_keys" :key="key" :label="key"></setting-input>
+                <setting-payment-input v-for="(account, index) in get_payment_accounts" :key="account.id" :index="index" :label="account.name"></setting-payment-input>
             </div>
         </div>
     </div>
@@ -14,12 +14,12 @@
 <script>
 import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
 import PageSetup from './PageSetup';
-import SettingInput from './components/SettingInput.vue';
 import SettingFile from './components/SettingFile.vue';
+import SettingPaymentInput from './components/SettingPaymentInput.vue';
 const { route_prefix, store_prefix } = PageSetup;
 
 export default {
-    components: {SettingInput, SettingFile},
+    components: { SettingFile, SettingPaymentInput},
     data: function () {
         return {
             /** store prefix for JSX */
@@ -28,25 +28,16 @@ export default {
         }
     },
     created: async function () {
-        this.set_settings_keys([
-            "bkash",
-            "nagad",
-            "rocket",
-            "bank_account",
-        ]);
-        await this.get_settings();
+        await this.fetch_payment_accounts();
     },
     methods: {
         ...mapActions([
-            'get_settings',
-        ]),
-        ...mapMutations([
-            'set_settings_keys',
+            'fetch_payment_accounts',
         ]),
     },
     computed: {
         ...mapGetters([
-            'get_settings_keys'
+            'get_payment_accounts'
         ])
     }
 }
