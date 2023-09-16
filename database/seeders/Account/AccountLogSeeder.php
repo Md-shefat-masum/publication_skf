@@ -4,6 +4,8 @@ namespace Database\Seeders\Account;
 
 use App\Models\Account\Account;
 use App\Models\Account\AccountLog;
+use App\Models\Order\Order;
+use App\Models\Order\OrderPayment;
 use Illuminate\Database\Seeder;
 
 class AccountLogSeeder extends Seeder
@@ -224,17 +226,30 @@ class AccountLogSeeder extends Seeder
             ],
         ];
 
-        $i = 1;
-        foreach ($data as $item) {
-            AccountLog::create([
-                "date" => '2023' . '-' . rand(1, 5) . '-' . rand(1, 28),
-                "category_id" => rand(1, 29),
-                "is_expense" => $i % 2 == 0 ? 1 : 0,
-                "is_income" => $i % 2 != 0 ? 1 : 0,
-                "amount" => rand(500, 5000),
-                "description" => $item["title"],
+        // $i = 1;
+        // foreach ($data as $item) {
+        //     AccountLog::create([
+        //         "date" => '2023' . '-' . rand(1, 5) . '-' . rand(1, 28),
+        //         "category_id" => rand(1, 29),
+        //         "is_expense" => $i % 2 == 0 ? 1 : 0,
+        //         "is_income" => $i % 2 != 0 ? 1 : 0,
+        //         "amount" => rand(500, 5000),
+        //         "description" => $item["title"],
+        //     ]);
+        //     $i++;
+        // }
+
+        $order_payments = OrderPayment::where('approved', 1)->get();
+        foreach ($order_payments as $item) {
+            $ac_log = AccountLog::create([
+                "date" => $item->date,
+                "category_id" => 30,
+                "is_expense" => 0,
+                "is_income" => 1,
+                "amount" => $item->amount,
+                "description" => "order payment received by admin",
+                "account_id" => rand(2, 5),
             ]);
-            $i++;
         }
     }
 }
