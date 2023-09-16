@@ -77,7 +77,7 @@
                             <table-th :sort="false" :tkey="''" :title="'TRX ID'" />
                             <table-th :sort="true" :tkey="'payment_method'" :title="'Payment Method'" />
                             <table-th :sort="false" :tkey="''" :title="'Number'" />
-                            <table-th :sort="false" :tkey="''" :title="'Account no'" />
+                            <!-- <table-th :sort="false" :tkey="''" :title="'Account no'" /> -->
                             <table-th :sort="true" :tkey="'approved'" :title="'Approved'" />
                             <table-th :sort="true" :tkey="'created_at'" :title="'Date'" />
                             <th aria-label="actions">Actions</th>
@@ -109,7 +109,8 @@
                             <td>
                                 {{ item.number }}
                             </td>
-                            <td>{{ item.account_no }}</td>
+
+                            <!-- <td>{{ item.account_no }}</td> -->
 
                             <td>
                                 <div class="form-check form-switch">
