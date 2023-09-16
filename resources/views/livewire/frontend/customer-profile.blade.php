@@ -320,7 +320,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="paymentModal" aria-hidden="true" aria-labelledby="paymentModalLabel" tabindex="-1">
+    {{-- <div class="modal fade" id="paymentModal" aria-hidden="true" aria-labelledby="paymentModalLabel" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -392,7 +392,7 @@
                 </form>
             </div>
         </div>
-    </div>
+    </div> --}}
     <script>
         var mypayment_modal = new bootstrap.Modal('#paymentModal', {});
         var show_modal = () => {
