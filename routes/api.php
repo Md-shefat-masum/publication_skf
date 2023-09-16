@@ -277,8 +277,10 @@ Route::group(
 
                 Route::group(['prefix' => 'settings'], function () {
                     Route::post('/set/{id}', 'Admin\SettingController@set');
+                    Route::post('/payment-account-set', 'Admin\SettingController@payment_account_set');
                     Route::get('/get/{key}', 'Admin\SettingController@get');
                     Route::post('/get-by-keys', 'Admin\SettingController@get_by_keys');
+                    Route::get('/get-payment-accounts', 'Admin\SettingController@get_payment_accounts');
                 });
             });
 
