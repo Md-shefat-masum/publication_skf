@@ -191,6 +191,7 @@ class OrderSeeder extends Seeder
                     "customer_id" => null,
                     "payment_method" => "bkash",
                     "number" => "+880 14523698",
+                    "date" => $order->updated_at->format('y-m-d'),
                     "trx_id" => uniqid(),
                     "amount" => rand($order->total_price - round($order->total_price / 2), $order->total_price),
                     "approved" => rand(0,1),
