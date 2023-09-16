@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Account\Account;
+use App\Models\Account\AccountNumber;
 use App\Models\Settings\AppSettingTitle;
 use App\Models\Settings\AppSettingValue;
 use Illuminate\Http\Request;
@@ -31,6 +33,14 @@ class SettingController extends Controller
         return $setting_value;
     }
 
+    public function payment_account_set()
+    {
+        $account_number = AccountNumber::find(request()->id);
+        $account_number->value = request()->value;
+        $account_number->save();
+        return $account_number;
+    }
+
     public function get($key)
     {
         dd(request()->all());
@@ -44,5 +54,11 @@ class SettingController extends Controller
             $app_settigns[$value->title] = $value->values;
         }
         return $app_settigns;
+    }
+
+    public function get_payment_accounts()
+    {
+        $payment_acocunts = Account::whereNotIn('name',['cash'])->with('numbers')->get();
+        return $payment_acocunts;
     }
 }
