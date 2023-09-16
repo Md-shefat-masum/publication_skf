@@ -52,11 +52,6 @@ class DatabaseSeeder extends Seeder
             ContactMessageSeeder::class,
             MobileNumberSeeder::class,
 
-            AccountSeeder::class,
-            AccountCategoryTypeSeeder::class,
-            AccountCategorySeeder::class,
-            AccountLogSeeder::class,
-
             BrandSeeder::class,
             ProductCategorySeeder::class,
             ProductTranslatorSeeder::class,
@@ -85,6 +80,11 @@ class DatabaseSeeder extends Seeder
             BannerSeeder::class,
             AboutSeeder::class,
             AddressSeeder::class,
+
+            AccountSeeder::class,
+            AccountCategoryTypeSeeder::class,
+            AccountCategorySeeder::class,
+            AccountLogSeeder::class,
         ]);
     }
 }
