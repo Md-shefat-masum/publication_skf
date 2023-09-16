@@ -10,6 +10,7 @@ const state = {
     ...test_module.states(),
     settings_keys: [],
     settings_values: {},
+    payment_accounts: [],
 };
 
 // get state
@@ -17,6 +18,7 @@ const getters = {
     ...test_module.getters(),
     get_settings_values: (state)=>state.settings_values,
     get_settings_keys: (state)=>state.settings_keys,
+    get_payment_accounts: (state)=>state.payment_accounts,
 };
 
 // actions
@@ -27,6 +29,13 @@ const actions = {
         let res = await axios.post('/admin/settings/get-by-keys',{keys: state.settings_keys});
         let data = res.data;
         state.settings_values = data;
+        // console.log(data);
+    },
+
+    fetch_payment_accounts: async function({state}){
+        let res = await axios.get('/admin/settings/get-payment-accounts');
+        let data = res.data;
+        state.payment_accounts = data;
         // console.log(data);
     },
 
@@ -41,6 +50,21 @@ const actions = {
                 i.setting_value = data.setting_value;
             }
         });
+        // console.log(data);
+    },
+    set_payment_settings: async function({state}, {id, value, index}){
+        let form_data = new FormData();
+        form_data.append('value',value);
+        form_data.append('id',id);
+        let res = await axios.post('/admin/settings/payment-account-set',form_data);
+        let data = res.data;
+        window.s_alert(`setting updated`);
+        state.payment_accounts.find(i=>i.id==data.account_id).numbers.find(i=>i.id==data.id).value = data.value;
+        // state.settings_values[index]?.forEach(i => {
+        //     if(i.id == data.id){
+        //         i.setting_value = data.setting_value;
+        //     }
+        // });
         // console.log(data);
     },
 }
