@@ -52,6 +52,12 @@ class UserSeeder extends Seeder
         $user_role->role_serial = 5;
         $user_role->save();
 
+        $user_role = new UserRole();
+        $user_role->id = 51;
+        $user_role->name = 'accountant';
+        $user_role->role_serial = 6;
+        $user_role->save();
+
         UserPermission::truncate();
 
         $permission = new UserPermission();
@@ -111,6 +117,19 @@ class UserSeeder extends Seeder
         $user->password = Hash::make('12345678');
         $user->save();
         $user->roles()->attach([3]);
+        $user->permissions()->attach([1,2,3]);
+
+        $user = new User();
+        $user->first_name = 'mr';
+        $user->last_name = 'accountant';
+        $user->user_name = 'accountant';
+        $user->telegram_id = '812239513';
+        // $user->role_id = 3;
+        $user->mobile_number = '0161256789';
+        $user->email = 'accountant@gmail.com';
+        $user->password = Hash::make('12345678');
+        $user->save();
+        $user->roles()->attach([6]);
         $user->permissions()->attach([1,2,3]);
 
         $user = new User();
