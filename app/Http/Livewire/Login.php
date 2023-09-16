@@ -43,7 +43,7 @@ class Login extends Component
                 ->orWhere('mobile_number', $email);
         })->first();
         if ($user && Hash::check($password, $user->password)) {
-            if ($user->roles()->where('role_serial', '<', 5)->first()) {
+            if ($user->roles()->whereIn('role_serial', [1,2,3,4,6])->first()) {
                 $this->access_token = $user->createToken('accessToken')->accessToken;
                 return;
             } else {
