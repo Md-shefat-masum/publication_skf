@@ -243,7 +243,7 @@ class AccountLogSeeder extends Seeder
         foreach ($order_payments as $item) {
             $ac_log = AccountLog::create([
                 "date" => $item->date,
-                "category_id" => 30,
+                'category_id' => 1,
                 "is_expense" => 0,
                 "is_income" => 1,
                 "amount" => $item->amount,
