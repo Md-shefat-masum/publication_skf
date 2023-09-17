@@ -3,9 +3,11 @@
 namespace Database\Seeders\Account;
 
 use App\Models\Account\Account;
+use App\Models\Account\AccountCategory;
 use App\Models\Account\AccountLog;
 use App\Models\Order\Order;
 use App\Models\Order\OrderPayment;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 class AccountLogSeeder extends Seeder
@@ -250,6 +252,34 @@ class AccountLogSeeder extends Seeder
                 "description" => "order payment received by admin",
                 "account_id" => rand(2, 5),
             ]);
+            $item->account_logs_id = $ac_log->id;
+            $item->save();
+        }
+
+        $order_categories = AccountCategory::where('id','>',1)->get();
+        foreach ($order_categories as $category) {
+            for ($i=0; $i < 5; $i++) {
+                $ac_log = AccountLog::create([
+                    "date" => Carbon::parse('2023-'.rand(1,12).'-'.rand(1,25)),
+                    'category_id' => $category->id,
+                    "is_expense" => 0,
+                    "is_income" => 1,
+                    "amount" => rand(100,1000),
+                    "description" => "accountant entry",
+                    "account_id" => rand(2, 5),
+                ]);
+            }
+            for ($i=0; $i < 5; $i++) {
+                $ac_log = AccountLog::create([
+                    "date" => Carbon::parse('2023-'.rand(1,12).'-'.rand(1,25)),
+                    'category_id' => $category->id,
+                    "is_expense" => 1,
+                    "is_income" => 0,
+                    "amount" => rand(100,1000),
+                    "description" => "accountant entry",
+                    "account_id" => rand(2, 5),
+                ]);
+            }
         }
     }
 }
