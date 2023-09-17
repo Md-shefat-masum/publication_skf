@@ -17,7 +17,7 @@
                             <div class="admin_form form_1">
                                 <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
                                     <label >Select Product</label>
-                                    <management-modal  :id="'product_id'" :select_qty="1"></management-modal>
+                                    <management-modal :id="'product_id'" :select_qty="1"></management-modal>
                                 </div>
                                 <div v-if="Object.keys(selected).length" class="form-group full_width d-grid align-content-start gap-1 mb-2 " >
                                     <div>
