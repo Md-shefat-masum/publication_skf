@@ -2,6 +2,7 @@
 
 namespace Database\Seeders\Account;
 
+use App\Models\Account\AccountCategory;
 use App\Models\Account\AccountCategoryType;
 use Illuminate\Database\Seeder;
 
@@ -15,29 +16,125 @@ class AccountCategoryTypeSeeder extends Seeder
     public function run()
     {
         AccountCategoryType::truncate();
+        AccountCategory::truncate();
 
         $data = [
-            "Asset" => '',
-            "Accounts payable" => '',
-            "Accounts receivable" => '',
-            "Expense" => '',
-            "Liability" => '',
-            "Equity" => '',
-            "Revenue" => '',
-            "Bank account" => '',
-            "Fixed asset" => '',
-            "Personal account" => '',
-            "Income statement" => '',
-            "Cheque" => '',
-            "Cash account" => '',
-            "Financial asset" => ''
+            // "Asset" => '',
+            // "Accounts payable" => '',
+            // "Accounts receivable" => '',
+            // "Expense" => '',
+            // "Liability" => '',
+            // "Equity" => '',
+            // "Revenue" => '',
+            // "Bank account" => '',
+            // "Fixed asset" => '',
+            // "Personal account" => '',
+            // "Income statement" => '',
+            // "Cheque" => '',
+            // "Cash account" => '',
+            // "Financial asset" => ''
+
+            "আয়" => [
+                "পণ্য বিক্রি আয়",
+                "সাধারণ প্রকাশনার বই বিক্রি",
+                "বকেয়া আদায়",
+                "বুকসেট",
+                "স্কুল সেটের বই বিক্রি",
+                "সাইন্স সিরিজ",
+                "সৈজন্য",
+                "বিএম থেকে আয়",
+                "নববর্ষ বাবদ",
+                "ফ্লাট আয়",
+                "মওকুফ",
+                "বিশেষ আয়",
+                "বমজান ক্যালেন্ডার",
+                "ঘাটতি",
+                "ভুর্তুকি",
+                "ঈদ কার্ড",
+                "ব্যাঙ্ক জমার মাধ্যমে আয়",
+                "অগ্রিম আয়",
+                "এককালীন",
+                "টি-শার্ট",
+                "কুরআন",
+                "ওপেন-বুক",
+
+            ],
+            "ব্যয়" => [
+                "কাগজ ক্রয়",
+                "বাইন্ডিং",
+                "প্রিন্টিং ও ছাপা বিল",
+                "উৎপাদন ব্যয়",
+                "বুকসেট ক্রয়",
+                "সিলেবাসের বই ক্রয় বাবদ",
+                "স্কুল সেট বাবদ",
+                "সাইন্স সিরিজ / কুরআন বিতরণ",
+                "যাতায়াত",
+                "আপ্যায়ন",
+                "মোবাইল রিচার্জ",
+                "পরিবহন খরচ",
+                "অফিস স্টেশনারী",
+                "মাসিক বেতন",
+                "সৈজন্য প্রদান",
+                "অফিস ভাড়া",
+                "গোডাউন ভাড়া",
+                "ইন্টারনেট বিল (সংযোগসহ)",
+                "অফিস/গোডাউন জামানত বাবদ",
+                "ট্রেড লাইসেন্স",
+                "সৈজন্য",
+                "মওকুফ",
+                "বস্তা ক্রয় / কাটুন বিল",
+                "পত্রিকা বিল",
+                "সম্পদ ক্রয়",
+                "মোবাইল ক্রয়",
+                "পানি বিল",
+                "বিবিদ",
+                "এককালিন",
+                "ঈদ সামগ্রি",
+                "মাল ফেরত",
+                "ব্যাংক কর্তন",
+                "বিএমকে বিভিন্ন সময় প্রদান",
+                "বিএমকে মুনাফা প্রদান",
+                "বিশেষ ব্যয়",
+                "চিকিৎসা বাবদ",
+                "ফ্ল্যাট বাবদ খরচ",
+                "রমজান ক্যালেন্ডার",
+                "রমজান প্যাকেজ",
+                "নসিহত",
+                "আহবান",
+                "নববর্ষ উদ্ভোদন",
+                "নববর্ষ অনুষ্ঠান",
+                "৩ পাতা ক্যালেন্ডার",
+                "১ পাতা বড় ক্যালেন্ডার",
+                "১ পাতা ছোট ক্যালেন্ডার",
+                "মাঝারী ডায়েরী",
+                "ইংরেজী ডায়েরী",
+                "বাংলা ডায়েরী",
+                "পকেট ডায়েরী",
+                "ডেক্স ক্যালেন্ডার",
+                "ছোট ডায়েরী (পকেট)",
+                "ব্যংক নগদ জমার মাধ্যমে",
+                "ভি আই পি ডায়েরী",
+                "ঘাটতি",
+                "মেরামত",
+                "নববর্ষ",
+                "সম্পদ ক্রয়",
+                "ডেকরেশন",
+                "ঋণ পরিশোধ",
+                "ভি আই পি ব্যাগ",
+            ]
         ];
 
-        foreach ($data as $name => $type) {
-            AccountCategoryType::create([
-                'name' => $name,
-                // 'type' => $type,
+        foreach ($data as $category_type => $catgegories) {
+            $type = AccountCategoryType::create([
+                'name' => $category_type,
             ]);
+
+            foreach ($catgegories as $category) {
+                AccountCategory::create([
+                    "title" => $category,
+                    "type_id" => $type->id,
+                ]);
+            }
         }
     }
 }
