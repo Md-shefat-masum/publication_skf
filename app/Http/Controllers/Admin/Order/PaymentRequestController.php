@@ -78,7 +78,7 @@ class PaymentRequestController extends Controller
             $cash_acount = Account::where('name','cash')->first();
             $log = $account_log::create([
                 'date' => Carbon::now()->toDateTimeString(),
-                'category_id' => 30,
+                'category_id' => 1,
                 'account_id' => $cash_acount->id,
                 'is_income' => 1,
                 'amount' => $order_payment->amount,
