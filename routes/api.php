@@ -338,6 +338,43 @@ Route::group(
                     Route::get('/{id}', 'Branch\BranchOrderManagementController@show');
                 });
             });
+
+            Route::group(['prefix' => 'accountant'], function () {
+                Route::group(['prefix' => 'account-category'], function () {
+                    Route::get('/income-expese', 'Accountant\AccountCategoryController@income_and_expense');
+
+                    Route::get('/all', 'Accountant\AccountCategoryController@all');
+                    Route::post('/store', 'Accountant\AccountCategoryController@store');
+                    Route::post('/canvas-store', 'Accountant\AccountCategoryController@canvas_store');
+                    Route::post('/update', 'Accountant\AccountCategoryController@update');
+                    Route::post('/canvas-update', 'Accountant\AccountCategoryController@canvas_update');
+                    Route::post('/soft-delete', 'Accountant\AccountCategoryController@soft_delete');
+                    Route::post('/destroy', 'Accountant\AccountCategoryController@destroy');
+                    Route::post('/restore', 'Accountant\AccountCategoryController@restore');
+                    Route::post('/bulk-import', 'Accountant\AccountCategoryController@bulk_import');
+                    Route::get('/all-json', 'Accountant\AccountCategoryController@all_json');
+                    Route::post('/check-exists', 'Accountant\AccountCategoryController@check_exists');
+                    Route::post('/add-to-top-cat', 'Accountant\AccountCategoryController@add_to_top_cat');
+                    Route::get('/{id}', 'Accountant\AccountCategoryController@show');
+                });
+
+                Route::group(['prefix' => 'account-category-type'], function () {
+                    Route::get('/all', 'Accountant\AccountCategoryTypeController@all');
+                    Route::post('/store', 'Accountant\AccountCategoryTypeController@store');
+                    Route::post('/canvas-store', 'Accountant\AccountCategoryTypeController@canvas_store');
+                    Route::post('/update', 'Accountant\AccountCategoryTypeController@update');
+                    Route::post('/canvas-update', 'Accountant\AccountCategoryTypeController@canvas_update');
+                    Route::post('/soft-delete', 'Accountant\AccountCategoryTypeController@soft_delete');
+                    Route::post('/destroy', 'Accountant\AccountCategoryTypeController@destroy');
+                    Route::post('/restore', 'Accountant\AccountCategoryTypeController@restore');
+                    Route::post('/bulk-import', 'Accountant\AccountCategoryTypeController@bulk_import');
+                    Route::get('/all-json', 'Accountant\AccountCategoryTypeController@all_json');
+                    Route::post('/check-exists', 'Accountant\AccountCategoryTypeController@check_exists');
+                    Route::post('/add-to-top-cat', 'Accountant\AccountCategoryTypeController@add_to_top_cat');
+                    Route::get('/{id}', 'Accountant\AccountCategoryTypeController@show');
+                });
+
+            });
         });
 
 
