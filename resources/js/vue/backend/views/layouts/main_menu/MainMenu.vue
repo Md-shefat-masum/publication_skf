@@ -8,6 +8,7 @@
             <admin-nav-list v-if="role_names.includes('admin')"></admin-nav-list>
             <branch-nav-list v-if="role_names.includes('branch')"></branch-nav-list>
             <production-nav-list v-if="role_names.includes('production')"></production-nav-list>
+            <accountant-nav-list v-if="role_names.includes('accountant')"></accountant-nav-list>
         </div>
     </div>
 
@@ -21,8 +22,9 @@ import MainMenuNavbarTop from './MainMenuNavbarTop.vue'
 import { mapGetters } from 'vuex'
 import ProductionNavList from './nav_lists/ProductionNavList.vue'
 import BranchNavList from './nav_lists/branchNavList.vue'
+import AccountantNavList from './nav_lists/AccountantNavList.vue'
 export default {
-    components: { MainMenuNavbarTop, SuperAdminNavList, AdminNavList, BranchNavList,ProductionNavList },
+    components: { MainMenuNavbarTop, SuperAdminNavList, AdminNavList, BranchNavList,ProductionNavList, AccountantNavList },
     created: function(){
 
     },

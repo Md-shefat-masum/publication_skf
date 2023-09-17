@@ -56,6 +56,9 @@ export default {
                 if(this.role_names.includes('production') && this.$route.name === "Dashboard"){
                     this.$router.replace('/production')
                 }
+                if(this.role_names.includes('accountant') && this.$route.name === "Dashboard"){
+                    this.$router.replace('/accountant')
+                }
             },
             deep: true,
         },
