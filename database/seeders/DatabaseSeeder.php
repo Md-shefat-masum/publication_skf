@@ -83,7 +83,7 @@ class DatabaseSeeder extends Seeder
 
             AccountSeeder::class,
             AccountCategoryTypeSeeder::class,
-            AccountCategorySeeder::class,
+            // AccountCategorySeeder::class,
             AccountLogSeeder::class,
         ]);
     }
