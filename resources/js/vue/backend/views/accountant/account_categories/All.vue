@@ -21,13 +21,13 @@
                     </form>
                 </div>
                 <div class="btns d-flex gap-2 align-items-center">
-                    <router-link
+                    <permission-button
                         :permission="'can_create'"
                         :to="{name: `Create${route_prefix}`}"
-                        :class="'btn rounded-pill btn-outline-info'">
+                        :classList="'btn rounded-pill btn-outline-info'">
                         <i class="fa fa-pencil me-5px"></i>
                         Create
-                    </router-link>
+                    </permission-button>
                     <div class="table_actions">
                         <a href="#" @click.prevent="()=>''" class="btn px-1 btn-outline-secondary">
                             <i class="fa fa-list"></i>
@@ -71,40 +71,41 @@
                         <tr>
                             <th><input @click="call_store(`set_select_all_${store_prefix}s`)" type="checkbox" class="form-check-input check_all"></th>
                             <table-th :sort="true" :tkey="'id'" :title="'ID'" :ariaLable="'id'"/>
-                            <table-th :sort="true" :tkey="'full_name'" :title="'Title'" />
-                            <table-th :sort="true" :tkey="'full_name'" :title="'Income'" />
-                            <table-th :sort="true" :tkey="'email'" :title="'Expense'" />
+                            <table-th :sort="true" :tkey="'title'" :title="'Category'" />
+                            <table-th :sort="false" :tkey="'total income'" :title="'Total Income'" />
+                            <table-th :sort="false" :tkey="'total expense'" :title="'Total Expense'" />
                             <th aria-label="actions">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
-                        <!-- <tr v-for="item in this[`get_${store_prefix}s`].data" :key="item.id"> -->
-                        <tr v-for="item in data" :key="item.id">
+                        <tr v-for="item in this[`get_${store_prefix}s`].data" :key="item.id">
                             <td>
                                 <input v-if="check_if_data_is_selected(item)" :data-id="item.id" checked @change="call_store(`set_selected_${store_prefix}s`,item)" type="checkbox" class="form-check-input">
                                 <input v-else @change="call_store(`set_selected_${store_prefix}s`,item)" type="checkbox" class="form-check-input">
                             </td>
-                            <td>{{ parseInt(Math.random()*100) }}</td>
+                            <td>{{ item.id }}</td>
                             <td>
                                 <span class="text-warning cursor_pointer" @click.prevent="call_store(`set_${store_prefix}`,item)">
                                     {{ item.title }}
                                 </span>
                             </td>
-                            <td><b>{{ item.income }}</b> tk</td>
-                            <td><b>{{ item.expense  }}</b> tk</td>
+                            <td>{{ item.logs_sum_total_income }}</td>
+                            <td>{{ item.logs_sum_total_expense }}</td>
                             <td>
                                 <div class="table_actions">
                                     <a href="#" @click.prevent="()=>''" class="btn btn-sm btn-outline-secondary">
                                         <i class="fa fa-gears"></i>
                                     </a>
                                     <ul>
-                                        <li>
-                                            <a href="" @click.prevent="call_store(`set_${store_prefix}`,item)">
-                                                <i class="fa text-info fa-eye"></i>
-                                                Quick View
-                                            </a>
-                                        </li>
-                                        <li>
+                                        <!--
+                                            <li>
+                                                <a href="" @click.prevent="call_store(`set_${store_prefix}`,item)">
+                                                    <i class="fa text-info fa-eye"></i>
+                                                    Quick View
+                                                </a>
+                                            </li>
+                                        -->
+                                        <!-- <li>
                                             <permission-button
                                                 :permission="'can_edit'"
                                                 :to="{name:`Details${route_prefix}`,params:{id:item.id}}"
@@ -112,7 +113,7 @@
                                                 <i class="fa text-secondary fa-eye"></i>
                                                 Details
                                             </permission-button>
-                                        </li>
+                                        </li> -->
                                         <li>
                                             <permission-button
                                                 :permission="'can_edit'"
@@ -122,7 +123,7 @@
                                                 Edit
                                             </permission-button>
                                         </li>
-                                        <li v-if="item.status == 1">
+                                        <!-- <li v-if="item.status == 1">
                                             <permission-button
                                                 :permission="'can_delete'"
                                                 :to="{}"
@@ -132,8 +133,8 @@
                                                 <i class="fa text-danger fa-trash"></i>
                                                 Deactive
                                             </permission-button>
-                                        </li>
-                                        <li v-else>
+                                        </li> -->
+                                        <!-- <li v-else>
                                             <permission-button
                                                 :permission="'can_delete'"
                                                 :to="{}"
@@ -143,7 +144,7 @@
                                                 <i class="fa text-danger fa-recycle"></i>
                                                 Activate
                                             </permission-button>
-                                        </li>
+                                        </li> -->
                                     </ul>
                                 </div>
                             </td>
@@ -196,29 +197,6 @@ export default {
         return {
             store_prefix,
             route_prefix,
-            data: [
-                {
-                    title: 'Rent/Mortgage',
-                    income: 300,
-                    expense: 12000,
-                },
-                {
-                    title: 'Gifts/Donations',
-                    income: 3000,
-                    expense: 8000,
-                },
-                {
-                    title: 'Furniture/Appliances',
-                    income: 0,
-                    expense: 98000,
-                },
-                {
-                    title: 'Pet Expenses',
-                    income: 0,
-                    expense: 7000,
-                },
-
-            ]
         }
     },
     created: function(){
@@ -274,5 +252,3 @@ export default {
 <style>
 
 </style>
-
-PermissionButton

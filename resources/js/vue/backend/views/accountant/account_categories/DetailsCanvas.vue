@@ -16,36 +16,9 @@
                         <tr>
                             <td>Name</td>
                             <td>:</td>
-                            <td>{{ this[`get_${store_prefix}`].full_name }}</td>
+                            <td>{{ this[`get_${store_prefix}`].title }}</td>
                         </tr>
-                        <tr>
-                            <td>Subject</td>
-                            <td>:</td>
-                            <td>{{ this[`get_${store_prefix}`].subject }}</td>
-                        </tr>
-                        <tr>
-                            <td>Message</td>
-                            <td>:</td>
-                            <td>{{ this[`get_${store_prefix}`].message }}</td>
-                        </tr>
-                        <tr>
-                            <td>Status</td>
-                            <td>:</td>
-                            <td>
-                                <span v-if="this[`get_${store_prefix}`].status == 1" class="badge bg-label-success me-1">active</span>
-                                <span v-if="this[`get_${store_prefix}`].status == 0" class="badge bg-label-success me-1">deactive</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>created at</td>
-                            <td>:</td>
-                            <td>{{ new Date(this[`get_${store_prefix}`].created_at).toLocaleString() }}</td>
-                        </tr>
-                        <tr>
-                            <td>udpated at</td>
-                            <td>:</td>
-                            <td>{{ new Date(this[`get_${store_prefix}`].updated_at).toLocaleString() }}</td>
-                        </tr>
+
                     </tbody>
                 </table>
             </div>

@@ -10,15 +10,19 @@
                     </router-link>
                 </div>
             </div>
-            <form @submit.prevent="call_store(`store_${store_prefix}`,$event.target)" autocomplete="false">
+            <form @submit.prevent="call_store(`store_${store_prefix}`,$event.target)" class="create_form" autocomplete="false">
                 <div class="card-body">
                     <div class="row justify-content-center">
                         <div class="col-lg-10">
                             <div class="admin_form form_1">
                                 <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
+                                    <label>Select Type</label>
+                                    <CateogryTypesModal :id="'type_id'" :select_qty="1"></CateogryTypesModal>
+                                </div>
+                                <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
-                                        :label="`title`"
-                                        :name="`full_name`"
+                                        :label="`Category title`"
+                                        :name="`title`"
                                     />
                                 </div>
                                 <div class=" form-group d-grid full_width align-content-start gap-1 mb-2 " >
@@ -43,12 +47,13 @@
 <script>
 import { mapActions } from 'vuex'
 import InputField from '../../components/InputField.vue'
+import CateogryTypesModal from "../account_types/components/ManagementModal.vue"
 /** store and route prefix for export object use */
 import PageSetup from './PageSetup';
 const {route_prefix, store_prefix} = PageSetup;
 
 export default {
-    components: { InputField },
+    components: { InputField, CateogryTypesModal },
     data: function(){
         return {
             /** store prefix for JSX */
