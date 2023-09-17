@@ -1310,4 +1310,138 @@ html.nav-hide-hover .header-navbar.floating-nav {
   text-align: right;
 }
 
+.accounts_at_a_glance {
+  width: 630px;
+  margin: auto;
+  height: calc(100vh - 200px);
+  overflow: auto;
+}
+.accounts_at_a_glance table tfoot tr td:nth-child(1), .accounts_at_a_glance table tfoot tr td:nth-child(3),
+.accounts_at_a_glance table tbody tr td:nth-child(1),
+.accounts_at_a_glance table tbody tr td:nth-child(3) {
+  text-align: left;
+}
+.accounts_at_a_glance table tfoot tr td:nth-child(2), .accounts_at_a_glance table tfoot tr td:nth-child(4),
+.accounts_at_a_glance table tbody tr td:nth-child(2),
+.accounts_at_a_glance table tbody tr td:nth-child(4) {
+  width: 100px;
+  text-align: right;
+}
+
+.list_card .accounts_at_a_glance .table > :not(caption) > * > * {
+  padding: 9px 5px;
+}
+
+.row_sticky {
+  position: sticky;
+  left: 0;
+  top: -2px;
+  -webkit-box-shadow: 0px 4px 5px -3px rgba(0, 0, 0, 0.5411764706);
+          box-shadow: 0px 4px 5px -3px rgba(0, 0, 0, 0.5411764706);
+}
+@media print {
+  .row_sticky {
+    -webkit-box-shadow: unset;
+            box-shadow: unset;
+  }
+}
+.row_sticky td {
+  background: #283046;
+}
+@media print {
+  .row_sticky td {
+    background: unset;
+  }
+}
+
+.footer_fixed {
+  position: sticky;
+  bottom: -2px;
+  left: 0;
+  -webkit-box-shadow: 0px -2px 15px -4px rgba(0, 0, 0, 0.5411764706);
+          box-shadow: 0px -2px 15px -4px rgba(0, 0, 0, 0.5411764706);
+}
+@media print {
+  .footer_fixed {
+    -webkit-box-shadow: unset;
+            box-shadow: unset;
+  }
+}
+.footer_fixed td {
+  background: #283046;
+}
+@media print {
+  .footer_fixed td {
+    background: unset;
+  }
+}
+
+@media print {
+  body,
+  html {
+    height: unset !important;
+  }
+  .upload_demo_form,
+  .dark-layout .header-navbar,
+  .page_title,
+  .vertical-layout.vertical-menu-modern .main-menu {
+    display: none !important;
+  }
+  .dark-layout .card {
+    background-color: white;
+    padding: 0 !important;
+  }
+  .vertical-layout.vertical-menu-modern .app-content {
+    margin: 0;
+    padding: 0;
+    overflow: unset;
+    position: unset;
+    padding: 30px !important;
+  }
+  .content-body {
+    min-height: unset;
+    max-height: unset;
+    overflow-y: unset;
+  }
+  .accounts_at_a_glance {
+    height: unset !important;
+    overflow: unset !important;
+  }
+  .dark-layout body,
+  body.dark-layout {
+    color: black;
+    background-color: unset;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  a,
+  button,
+  .dark-layout h1,
+  .dark-layout h2,
+  .dark-layout h3,
+  .dark-layout h4,
+  .dark-layout h5,
+  .dark-layout h6,
+  .dark-layout .table .thead tr:not([class*=table-]) td,
+  .dark-layout .table .thead tr:not([class*=table-]) th,
+  .dark-layout .table tbody tr:not([class*=table-]) td,
+  .footer_fixed,
+  .row_sticky,
+  .footer_fixed td,
+  .card,
+  .dark-layout .table tbody tr:not([class*=table-]) th {
+    color: black !important;
+    text-shadow: unset !important;
+    -webkit-box-shadow: unset !important;
+            box-shadow: unset !important;
+    background-color: unset !important;
+    position: unset;
+  }
+}
+
 /*# sourceMappingURL=backend.css.map*/
