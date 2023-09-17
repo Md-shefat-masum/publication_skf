@@ -27,6 +27,9 @@ import production_binding_modules from './modules/production/production_binding_
 import production_designer_modules from './modules/production/production_designer_modules';
 import production_production_modules from './modules/production/production_production_modules';
 
+import accountant_category_modules from './modules/accountant/accountant_category_modules';
+import accountant_category_type_modules from './modules/accountant/accountant_category_type_modules';
+
 const store = new Vuex.Store({
     modules: {
         auth_modules,
@@ -52,6 +55,9 @@ const store = new Vuex.Store({
         production_binding_modules,
         production_designer_modules,
         production_production_modules,
+
+        accountant_category_modules,
+        accountant_category_type_modules,
     },
     state: {},
     getters: {},
