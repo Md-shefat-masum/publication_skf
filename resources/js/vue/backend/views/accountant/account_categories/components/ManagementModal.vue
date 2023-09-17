@@ -57,7 +57,6 @@
                                         {{ item.name }}
                                     </span>
                                 </td>
-                                <td>{{ item.role_serial }}</td>
                                 <td>
                                     <span v-if="item.status == 1" class="badge bg-label-success me-1">active</span>
                                     <span v-if="item.status == 0" class="badge bg-label-success me-1">deactive</span>
