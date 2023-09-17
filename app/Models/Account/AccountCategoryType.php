@@ -28,4 +28,9 @@ class AccountCategoryType extends Model
             }
         });
     }
+
+    public function categories()
+    {
+        return $this->hasMany(AccountCategory::class,'type_id');
+    }
 }
