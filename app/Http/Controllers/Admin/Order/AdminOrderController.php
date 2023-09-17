@@ -485,7 +485,7 @@ class AdminOrderController extends Controller
         $account_log = AccountLog::class;
         $log = $account_log::create([
             'date' => Carbon::now()->toDateTimeString(),
-            'category_id' => 30,
+            'category_id' => 1,
             'account_id' => $payment_account->id,
             'is_income' => 1,
             'amount' => $order_payment->amount,
