@@ -13,6 +13,7 @@ import contact_meesage_route from './dashboard_routes/contact_meesage_route'
 import admin_main_routes from './admin_routes/admin_main_routes'
 import branch_main_routes from './branch_routes/branch_main_routes'
 import production_main_routes from './production_routes/production_main_routes'
+import accountant_main_routes from './accountant_routes/accountant_main_routes'
 
 Vue.use(VueRouter);
 window.Fire = new Vue();
@@ -39,6 +40,9 @@ const routes = [{
     },
     {
         ...production_main_routes,
+    },
+    {
+        ...accountant_main_routes,
     },
     {
         path: '/login',
