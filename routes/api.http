@@ -30,3 +30,27 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpI
 ###
 
 POST http://127.0.0.1:8006/api/v1/user/get-token?id=3 HTTP/1.1
+
+###
+
+POST https://epayeer.co/api/check/purchase HTTP/1.1
+content-type: application/json
+
+{
+    "merchantId": "EMP58646814512",
+    "number": "4242424242424242",
+    "mode": "test",
+    "expirationMonth": "08",
+    "expirationYear": "2025",
+    "securityCode": "039",
+    "totalAmount": "88",
+    "currency": "USD",
+    "firstName": "Rasel",
+    "lastName": "Hossain",
+    "address1": "1 Market St",
+    "locality": "dhaka",
+    "postalCode": "94105",
+    "country": "US",
+    "email": "dylytu@mailinator.com",
+    "merchantPassword": "$2y$10$KIrggRQoJMgrnarmRigR2.twAF16IS57Kr/HjeZhuDhxNjlH4/WKm"
+}

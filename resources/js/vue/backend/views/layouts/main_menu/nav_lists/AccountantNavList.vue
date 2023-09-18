@@ -16,6 +16,8 @@
             </li>
 
             <left-nav-list-group :role_permissions="['accountant']" :icon="`fa fa-list`" :text="`Account`" :alert_count="0">
+                <left-nav-list-item :to="'IncomeAcountantEntries'" :text="'Income Entry'" />
+                <left-nav-list-item :to="'ExpenseAcountantEntries'" :text="'Expense Entry'" />
                 <left-nav-list-item :to="'AccountantAllincomeExpense'" :text="'Income & Expenses'" />
                 <left-nav-list-item :to="'AllAcountantAccountCategories'" :text="'All Categories'" />
                 <left-nav-list-item :to="'CreateAcountantAccountCategories'" :text="'Create Category'" />
