@@ -68,6 +68,18 @@ class AccountCategoryController extends Controller
         return response()->json($users);
     }
 
+    public function all_income_categories()
+    {
+        $categories = AccountCategory::where('status',1)->where('type_id',1)->orderBy('title','ASC')->get();
+        return response()->json($categories);
+    }
+
+    public function all_expense_categories()
+    {
+        $categories = AccountCategory::where('status',1)->where('type_id',2)->orderBy('title','ASC')->get();
+        return response()->json($categories);
+    }
+
     public function income_and_expense()
     {
         $paginate = (int) request()->paginate;
