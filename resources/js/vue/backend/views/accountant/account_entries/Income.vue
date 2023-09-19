@@ -2,7 +2,7 @@
     <div class="container">
         <div class="card list_card">
             <div class="card-header">
-                <h4>Create</h4>
+                <h4>Income Entry</h4>
                 <div class="btns">
                     <router-link :to="{ name: `All${route_prefix}` }" class="btn rounded-pill btn-outline-warning" >
                         <i class="fa fa-arrow-left me-5px"></i>
@@ -17,7 +17,13 @@
                             <div class="admin_form form_1">
                                 <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
                                     <label>Select Type</label>
-                                    <CateogryTypesModal :id="'type_id'" :select_qty="1"></CateogryTypesModal>
+                                    <!-- <CateogryTypesModal :id="'type_id'" :select_qty="1"></CateogryTypesModal> -->
+                                    <select name="" class="form-select" id="">
+                                        <option value="">select</option>
+                                        <option v-for="cat in categories" :key="cat.id" :value="cat.id">
+                                            {{ cat.title }}
+                                        </option>
+                                    </select>
                                 </div>
                                 <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
@@ -45,7 +51,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import InputField from '../../components/InputField.vue'
 import CateogryTypesModal from "../account_types/components/ManagementModal.vue"
 /** store and route prefix for export object use */
@@ -61,13 +67,23 @@ export default {
             route_prefix
         }
     },
-    created: function () {},
+    created: function () {
+        this[`fetch_accountant_category_income_categories`]();
+    },
     methods: {
-        ...mapActions([`store_${store_prefix}`]),
+        ...mapActions([
+            `store_${store_prefix}`,
+            `fetch_accountant_category_income_categories`,
+        ]),
         call_store: function(name, params=null){
             this[name](params)
         },
     },
+    computed: {
+        ...mapGetters({
+            categories: `get_income_categories`
+        }),
+    }
 };
 </script>
 

@@ -2,7 +2,7 @@
     <div class="container">
         <div class="card list_card">
             <div class="card-header">
-                <h4>Expense</h4>
+                <h4>Expense Entry</h4>
                 <div class="btns">
                     <router-link :to="{ name: `All${route_prefix}` }" class="btn rounded-pill btn-outline-warning" >
                         <i class="fa fa-arrow-left me-5px"></i>

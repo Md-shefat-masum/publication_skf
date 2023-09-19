@@ -31,17 +31,17 @@
                         </tr>
                         <template v-if="data.length">
                             <tr v-for="i in data[1].categories.length" :key="i">
-                                <template v-if="data[0].categories[i] ">
-                                    <td>{{ data[0].categories[i].title }}</td>
-                                    <td>{{ data[0].categories[i].logs_sum_total.toString().enToBn() }}</td>
+                                <template v-if="data[0].categories[i-1]">
+                                    <td>{{ data[0].categories[i-1].title }}</td>
+                                    <td>{{ data[0].categories[i-1].logs_sum_total.toString().enToBn() }}</td>
                                 </template>
                                 <template v-else>
                                     <td></td>
                                     <td></td>
                                 </template>
-                                <template v-if="data[1].categories[i] ">
-                                    <td>{{ data[1].categories[i].title }}</td>
-                                    <td>{{ data[1].categories[i].logs_sum_total.toString().enToBn() }}</td>
+                                <template v-if="data[1].categories[i-1] ">
+                                    <td>{{ data[1].categories[i-1].title }}</td>
+                                    <td>{{ data[1].categories[i-1].logs_sum_total.toString().enToBn() }}</td>
                                 </template>
                                 <template v-else>
                                     <td></td>
