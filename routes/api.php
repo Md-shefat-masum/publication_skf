@@ -343,6 +343,9 @@ Route::group(
                 Route::group(['prefix' => 'account-category'], function () {
                     Route::get('/income-expese', 'Accountant\AccountCategoryController@income_and_expense');
 
+                    Route::get('/all-income-categories', 'Accountant\AccountCategoryController@all_income_categories');
+                    Route::get('/all-expense-categories', 'Accountant\AccountCategoryController@all_expense_categories');
+
                     Route::get('/all', 'Accountant\AccountCategoryController@all');
                     Route::post('/store', 'Accountant\AccountCategoryController@store');
                     Route::post('/canvas-store', 'Accountant\AccountCategoryController@canvas_store');
