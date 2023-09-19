@@ -11,12 +11,16 @@ const state = {
     orderByAsc: false,
 
     accountant_all_income_expense: [],
+    income_categories: [],
+    expense_categories: [],
 };
 
 // get state
 const getters = {
     ...test_module.getters(),
     get_accountant_all_income_expense: (state) => state.accountant_all_income_expense,
+    get_income_categories: (state) => state.income_categories,
+    get_expense_categories: (state) => state.expense_categories,
 };
 
 // actions
@@ -35,6 +39,22 @@ const actions = {
         await axios.get(url).then((res) => {
             // this.commit(`set_${store_prefix}s`, res.data);
             state.accountant_all_income_expense = res.data;
+        });
+    },
+
+    [`fetch_${store_prefix}_income_categories`]: async function ({ commit, dispatch, getters, rootGetters, rootState, state }) {
+        let url = `/${api_prefix}/all-income-categories`;
+        await axios.get(url).then((res) => {
+            // this.commit(`set_${store_prefix}s`, res.data);
+            state.income_categories = res.data;
+        });
+    },
+
+    [`fetch_${store_prefix}_expense_categories`]: async function ({ commit, dispatch, getters, rootGetters, rootState, state }) {
+        let url = `/${api_prefix}/all-expense-categories`;
+        await axios.get(url).then((res) => {
+            // this.commit(`set_${store_prefix}s`, res.data);
+            state.expense_categories = res.data;
         });
     },
 

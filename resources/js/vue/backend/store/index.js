@@ -29,6 +29,7 @@ import production_production_modules from './modules/production/production_produ
 
 import accountant_category_modules from './modules/accountant/accountant_category_modules';
 import accountant_category_type_modules from './modules/accountant/accountant_category_type_modules';
+import accountant_entry_modules from './modules/accountant/accountant_entry_modules';
 
 const store = new Vuex.Store({
     modules: {
@@ -58,6 +59,7 @@ const store = new Vuex.Store({
 
         accountant_category_modules,
         accountant_category_type_modules,
+        accountant_entry_modules,
     },
     state: {},
     getters: {},
