@@ -15,10 +15,17 @@ class CreateAccountEntriesTable extends Migration
     {
         Schema::create('account_entries', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('log_id')->unsigned()->nullable();
             $table->bigInteger('category')->unsigned()->nullable();
             $table->string('category_name',150)->nullable();
             $table->double('amount')->default(0);
             $table->text('description')->nullable();
+
+
+            $table->bigInteger('creator')->unsigned()->nullable();
+            $table->string('slug',50)->nullable();
+            $table->tinyInteger('status')->unsigned()->default(1);
+
             $table->timestamps();
         });
     }

@@ -16,9 +16,9 @@
                         <div class="col-lg-10">
                             <div class="admin_form form_1">
                                 <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
-                                    <label>Select Type</label>
+                                    <label>Select Income Category</label>
                                     <!-- <CateogryTypesModal :id="'type_id'" :select_qty="1"></CateogryTypesModal> -->
-                                    <select name="" class="form-select" id="">
+                                    <select name="category" class="form-select" id="category">
                                         <option value="">select</option>
                                         <option v-for="cat in categories" :key="cat.id" :value="cat.id">
                                             {{ cat.title }}
@@ -27,13 +27,21 @@
                                 </div>
                                 <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
-                                        :label="`Category title`"
-                                        :name="`title`"
+                                        :label="`Entry Amount`"
+                                        :name="`amount`"
                                     />
                                 </div>
                                 <div class=" form-group d-grid full_width align-content-start gap-1 mb-2 " >
-                                    <label for="message">Description</label>
-                                    <textarea class="form-control" id="message" name="message"></textarea>
+                                    <label for="description">Entry Description</label>
+                                    <textarea class="form-control" id="description" name="description"></textarea>
+                                </div>
+                                <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
+                                    <input-field
+                                        :label="`Attachment`"
+                                        :name="`amount`"
+                                        :type="`file`"
+                                        :multiple="true"
+                                    />
                                 </div>
                             </div>
                         </div>

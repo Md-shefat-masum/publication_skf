@@ -9,18 +9,11 @@ const { store_prefix, api_prefix, route_prefix } = test_module;
 const state = {
     ...test_module.states(),
     orderByAsc: false,
-
-    accountant_all_income_expense: [],
-    income_categories: [],
-    expense_categories: [],
 };
 
 // get state
 const getters = {
     ...test_module.getters(),
-    get_accountant_all_income_expense: (state) => state.accountant_all_income_expense,
-    get_income_categories: (state) => state.income_categories,
-    get_expense_categories: (state) => state.expense_categories,
 };
 
 // actions
@@ -75,22 +68,17 @@ const actions = {
     [`store_${store_prefix}`]: function ({ state, getters, commit, rootState }) {
 
         const { form_values, form_inputs, form_data } = window.get_form_data('.create_form');
-        const { get_accountant_category_type_selected: types } = getters;
-
-        types.forEach(i => form_data.append('type_id', i.id));
+        // const { get_accountant_category_type_selected: types } = getters;
+        // types.forEach(i => form_data.append('type_id', i.id));
 
         axios.post(`/${api_prefix}/store`, form_data)
             .then(res => {
-                $('.create_form input').val('');
+                $('.create_form').trigger('reset');
 
-                rootState.accountant_category_type_modules.accountant_category_type_selected = [];
+                // rootState.accountant_category_type_modules.accountant_category_type_selected = [];
 
-                if (res.data.status == 'success') {
-                    window.s_alert('new category has been created');
-                } else {
-                    window.s_alert(res.data.message, 'error');
-                    console.log(res.data.error);
-                }
+                window.s_alert('new data has been created');
+
                 // management_router.push({ name: `Edit${route_prefix}`, params: { id: res.data.product.id } })
             })
             .catch(error => {

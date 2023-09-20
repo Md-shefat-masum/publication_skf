@@ -377,6 +377,22 @@ Route::group(
                     Route::get('/{id}', 'Accountant\AccountCategoryTypeController@show');
                 });
 
+                Route::group(['prefix' => 'account-entry'], function () {
+                    Route::get('/all', 'Accountant\AccountEntryController@all');
+                    Route::post('/store', 'Accountant\AccountEntryController@store');
+                    Route::post('/canvas-store', 'Accountant\AccountEntryController@canvas_store');
+                    Route::post('/update', 'Accountant\AccountEntryController@update');
+                    Route::post('/canvas-update', 'Accountant\AccountEntryController@canvas_update');
+                    Route::post('/soft-delete', 'Accountant\AccountEntryController@soft_delete');
+                    Route::post('/destroy', 'Accountant\AccountEntryController@destroy');
+                    Route::post('/restore', 'Accountant\AccountEntryController@restore');
+                    Route::post('/bulk-import', 'Accountant\AccountEntryController@bulk_import');
+                    Route::get('/all-json', 'Accountant\AccountEntryController@all_json');
+                    Route::post('/check-exists', 'Accountant\AccountEntryController@check_exists');
+                    Route::post('/add-to-top-cat', 'Accountant\AccountEntryController@add_to_top_cat');
+                    Route::get('/{id}', 'Accountant\AccountEntryController@show');
+                });
+
             });
         });
 
