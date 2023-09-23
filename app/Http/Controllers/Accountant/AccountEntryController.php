@@ -99,23 +99,26 @@ class AccountEntryController extends Controller
 
         $data = new AccountEntry();
         $category = AccountCategory::find($request->category);
-        $data->category = $category->id;
-        $data->category_name = $category->title;
-        $data->amount = $request->amount;
-        $data->description = $request->description;
-        $data->creator = Auth::user()->id;
-        $data->save();
 
         $account_log = new AccountLog();
         $account_log->date = Carbon::now()->toDateString();
         $account_log->category_id = $category->id;
-        $account_log->account_id = $category->id;
-        $account_log->is_expense = $category->id;
-        $account_log->is_income = $category->id;
-        $account_log->amount = $category->id;
-        $account_log->description = $category->id;
+        $account_log->account_id = $request->account_id;
+        $account_log->account_id = 1;
+        $account_log->is_expense = 0;
+        $account_log->is_income = 1;
+        $account_log->amount = $request->amount;
+        $account_log->description = "accountant entry";
         $account_log->creator = Auth::user()->id;
         $account_log->save();
+
+        $data->category = $category->id;
+        $data->category_name = $category->title;
+        $data->log_id = $account_log->id;
+        $data->amount = $request->amount;
+        $data->description = $request->description;
+        $data->creator = Auth::user()->id;
+        $data->save();
 
         return response()->json($data, 200);
     }
