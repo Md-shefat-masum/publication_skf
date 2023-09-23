@@ -25,6 +25,12 @@
                 <span data-i18n="Apps &amp; Pages">managements</span>
             </li>
 
+            <left-nav-list-group :role_permissions="['super_admin']" :icon="`fa fa-list`" :text="`Reports`" :alert_count="0">
+                <left-nav-list-item :to="'AllSuperAdminReport'" :text="'All'" />
+                <left-nav-list-item :to="'AllSuperAdminReport'" :text="'All'" />
+                <left-nav-list-item :to="'AllSuperAdminReport'" :text="'All'" />
+            </left-nav-list-group>
+
             <left-nav-list-single :role_permissions="['super_admin','admin']" :icon="'fa fa-envelope'" :text="'Email'" :alert_count="15" />
 
             <left-nav-list-group :role_permissions="['super_admin','admin','user']" :icon="`fa fa-gears`" :text="`Settings`" :alert_count="0">

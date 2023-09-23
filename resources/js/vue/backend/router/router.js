@@ -14,6 +14,7 @@ import admin_main_routes from './admin_routes/admin_main_routes'
 import branch_main_routes from './branch_routes/branch_main_routes'
 import production_main_routes from './production_routes/production_main_routes'
 import accountant_main_routes from './accountant_routes/accountant_main_routes'
+import super_admin_main_routes from './super_admin_routes/super_admin_main_routes'
 
 Vue.use(VueRouter);
 window.Fire = new Vue();
@@ -31,6 +32,9 @@ const routes = [{
             user_role_route,
             contact_meesage_route,
         ]
+    },
+    {
+        ...super_admin_main_routes,
     },
     {
         ...admin_main_routes,
