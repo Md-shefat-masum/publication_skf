@@ -189,6 +189,12 @@ Route::group(
                 Route::get('/all', 'Admin\TransactionAccountController@accounts');
             });
 
+            Route::group(['prefix' => 'super-admin'], function () {
+                Route::group(['prefix' => 'dashboard'], function () {
+                    Route::get('/infos', 'SuperAdmin\DashboardController@info');
+                });
+            });
+
             Route::group(['prefix' => 'admin'], function () {
 
                 Route::group(['prefix' => 'writer'], function () {

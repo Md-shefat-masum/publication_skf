@@ -4,9 +4,20 @@
             <div class="col-xl-12 mb-4 col-lg-12 col-12">
                 <div class="card ">
                     <div class="card-header">
-                        <div class="d-flex justify-content-between mb-3">
-                            <h5 class="card-title mb-0">super Statistics</h5>
-                            <!-- <small class="text-muted">Updated 1 month ago</small> -->
+                        <div class="d-flex mb-3 w-100 gap-5">
+                            
+                            <h5 class="card-title mb-0 flex-grow-1">Statistics</h5>
+
+                            <div class="d-inline">
+                                <label for="from_date">From Date</label>
+                                <input @change="handleFilter()" v-model="from_date" class="form-control" type="date" name="date" id="from_date">
+                            </div>
+
+                            <div class="d-inline">
+                                <label for="to_date">To Date</label>
+                                <input @change="handleFilter()" v-model="to_date" class="form-control" type="date" name="date" id="to_date">
+                            </div>
+                            
                         </div>
                     </div>
                     <div class="card-body">
@@ -16,8 +27,8 @@
                                 <div class="d-flex align-items-center">
                                     <div class="badge rounded-pill bg-label-primary me-3 p-2"><i class="fa-solid fa-chart-pie"></i></div>
                                     <div class="card-info">
-                                        <h5 class="mb-0">230k</h5>
-                                        <small>Sales</small>
+                                        <h5 class="mb-0">৳ {{ get_dashboard_stats.income_expense_data.total_ecommerce_order }}</h5>
+                                        <small>Total Ecommerce Order</small>
                                     </div>
                                 </div>
                             </div>
@@ -25,8 +36,8 @@
                                 <div class="d-flex align-items-center">
                                     <div class="badge rounded-pill bg-label-info me-3 p-2"><i class="fa-solid fa-user-group"></i></div>
                                     <div class="card-info">
-                                        <h5 class="mb-0">8.549k</h5>
-                                        <small>Customers</small>
+                                        <h5 class="mb-0">{{ get_dashboard_stats.income_expense_data.total_customer }}</h5>
+                                        <small>Total Customers</small>
                                     </div>
                                 </div>
                             </div>
@@ -34,8 +45,8 @@
                                 <div class="d-flex align-items-center">
                                     <div class="badge rounded-pill bg-label-danger me-3 p-2"><i class="fa-solid fa-cart-shopping"></i></div>
                                     <div class="card-info">
-                                        <h5 class="mb-0">1.423k</h5>
-                                        <small>Products</small>
+                                        <h5 class="mb-0">{{ get_dashboard_stats.income_expense_data.total_products }}</h5>
+                                        <small>Total Products</small>
                                     </div>
                                 </div>
                             </div>
@@ -43,8 +54,8 @@
                                 <div class="d-flex align-items-center">
                                     <div class="badge rounded-pill bg-label-success me-3 p-2"><i class="fa-solid fa-money-bills"></i></div>
                                     <div class="card-info">
-                                        <h5 class="mb-0">$9745</h5>
-                                        <small>Revenue</small>
+                                        <h5 class="mb-0">৳ {{ get_dashboard_stats.income_expense_data.total_expense }}</h5>
+                                        <small>Total expense</small>
                                     </div>
                                 </div>
                             </div>
@@ -55,7 +66,7 @@
                                     <div class="badge rounded-pill bg-label-primary me-3 p-2"><i class="fa-solid fa-shop-lock"></i></div>
                                     <div class="card-info">
                                         <h5 class="mb-0">230k</h5>
-                                        <small>Pending Orders</small>
+                                        <small>Total Branch</small>
                                     </div>
                                 </div>
                             </div>
@@ -112,98 +123,37 @@
                     </div>
                 </div>
             </div>
-
-            <div class="col-xl-6 mb-4 col-lg-6 col-6 col-md-6">
-                <div class="card h-100">
-                    <div class="card-header">
-                        <div class="d-flex justify-content-between mb-3">
-                            <h5 class="card-title mb-0">Total monthly sales</h5>
-                            <!-- <small class="text-muted">Updated 1 month ago</small> -->
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="row gy-3">
-                            <Bar
-                                id="my-chart-id"
-                                :options="chartOptions"
-                                :data="chartData"
-                            />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-6 mb-4 col-lg-6 col-6 col-md-6">
-                <div class="card h-100">
-                    <div class="card-header">
-                        <div class="d-flex justify-content-between mb-3">
-                            <h5 class="card-title mb-0">Total monthly revenue</h5>
-                            <!-- <small class="text-muted">Updated 1 month ago</small> -->
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="row gy-3">
-                            <LineChart
-                                id="line-chart"
-                                :options="LinechartOptions"
-                                :data="LinechartData"
-                            />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </section>
 </template>
 
 <script>
-import { Bar, Line as LineChart } from 'vue-chartjs'
-import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale,LineElement, LinearScale, PointElement } from 'chart.js'
-
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LineElement, LinearScale, PointElement)
-
+import { mapActions, mapGetters } from "vuex";
 export default {
-  components: { Bar, LineChart },
+  components: {  },
   data() {
     return {
-      chartData: {
-        labels: [ 'January', 'February', 'March' ],
-        datasets: [ {
-                data: [40, 20, 12],
-                backgroundColor: '#695fd7',
-                label: 'Monthly sales',
-            } ]
-      },
-
-      LinechartData: {
-        labels: [
-          'January',
-          'February',
-          'March',
-          'April',
-          'May',
-          'June',
-          'July'
-        ],
-        datasets: [
-          {
-            label: 'Monthly revenue',
-            backgroundColor: '#07b8d0',
-            borderColor: "#07b8d0",
-            data: [40, 39, 10, 40, 39, 80, 40]
-          }
-        ]
-      },
-      LinechartOptions: {
-        responsive: true,
-        maintainAspectRatio: false
-      },
-      chartOptions: {
-        responsive: true
-      },
+      from_date: null,
+      to_date: null
     }
-  }
+  },
+  created: function() {
+    this.fetch_dashboard_stats();
+  },
+  methods: {
+    ...mapActions([
+        `fetch_dashboard_stats`,
+        `fetch_dashboard_stats_by_date`
+    ]),
+    handleFilter: function(event) {
+        if(this.from_date !== null && this.to_date !== null) {
+            this.fetch_dashboard_stats_by_date(event);
+        }
+    }
+  },
+  computed: {
+    ...mapGetters([`get_dashboard_stats`])
+  },
 }
 </script>
 

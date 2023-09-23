@@ -20,10 +20,16 @@
             </span>
         </a>
         <div :class="{show:show_menu}" class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-user">
-            <a class="dropdown-item" href="#">
+            <!-- <router-link to="settingProfile" class="d-flex align-items-center nav_link_item">
+                <a class="dropdown-item" href="#">
+                    <i class="me-50" data-feather="user"> </i>
+                    Profile
+                </a>
+            </router-link> -->
+            <router-link class="dropdown-item" :to="{ name: 'settingProfile' }" href="#">
                 <i class="me-50" data-feather="user"> </i>
-                Profile
-            </a>
+                    Profile
+            </router-link>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#"><i class="me-50" data-feather="settings"></i> Settings</a>
             <a class="dropdown-item" href="#"><i class="me-50" data-feather="power"></i> Logout</a>
