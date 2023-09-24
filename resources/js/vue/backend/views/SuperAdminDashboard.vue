@@ -2,7 +2,7 @@
     <section class="p-5 custom_scroll" style="height: calc(100vh - 90px); overflow: auto;">
         <div class="row">
             <div class="col-xl-12 mb-4 col-lg-12 col-12">
-                <div class="card ">
+                <div class="card">
                     <div class="card-header">
                         <div class="d-flex mb-3 w-100 gap-5">
                             
@@ -10,14 +10,18 @@
 
                             <div class="d-inline">
                                 <label for="from_date">From Date</label>
-                                <input @change="handleFilter()" v-model="from_date" class="form-control" type="date" name="date" id="from_date">
+                                <input v-model="from_date" class="form-control" type="date" name="date" id="from_date">
                             </div>
 
                             <div class="d-inline">
                                 <label for="to_date">To Date</label>
-                                <input @change="handleFilter()" v-model="to_date" class="form-control" type="date" name="date" id="to_date">
+                                <input v-model="to_date" class="form-control" type="date" name="date" id="to_date">
+                                
                             </div>
-                            
+
+                            <div class="d-inline">
+                                <button @click="handleFilter()" class="btn btn-primary mt-2">Filter</button>
+                            </div>
                         </div>
                     </div>
                     <div class="card-body">
@@ -27,7 +31,7 @@
                                 <div class="d-flex align-items-center">
                                     <div class="badge rounded-pill bg-label-primary me-3 p-2"><i class="fa-solid fa-chart-pie"></i></div>
                                     <div class="card-info">
-                                        <h5 class="mb-0">৳ {{ get_dashboard_stats.income_expense_data.total_ecommerce_order }}</h5>
+                                        <h5 class="mb-0">৳ {{ stats.income_expense_data.total_ecommerce_order }}</h5>
                                         <small>Total Ecommerce Order</small>
                                     </div>
                                 </div>
@@ -36,7 +40,7 @@
                                 <div class="d-flex align-items-center">
                                     <div class="badge rounded-pill bg-label-info me-3 p-2"><i class="fa-solid fa-user-group"></i></div>
                                     <div class="card-info">
-                                        <h5 class="mb-0">{{ get_dashboard_stats.income_expense_data.total_customer }}</h5>
+                                        <h5 class="mb-0">{{ stats.income_expense_data.total_customer }}</h5>
                                         <small>Total Customers</small>
                                     </div>
                                 </div>
@@ -45,7 +49,7 @@
                                 <div class="d-flex align-items-center">
                                     <div class="badge rounded-pill bg-label-danger me-3 p-2"><i class="fa-solid fa-cart-shopping"></i></div>
                                     <div class="card-info">
-                                        <h5 class="mb-0">{{ get_dashboard_stats.income_expense_data.total_products }}</h5>
+                                        <h5 class="mb-0">{{ stats.income_expense_data.total_products }}</h5>
                                         <small>Total Products</small>
                                     </div>
                                 </div>
@@ -54,19 +58,29 @@
                                 <div class="d-flex align-items-center">
                                     <div class="badge rounded-pill bg-label-success me-3 p-2"><i class="fa-solid fa-money-bills"></i></div>
                                     <div class="card-info">
-                                        <h5 class="mb-0">৳ {{ get_dashboard_stats.income_expense_data.total_expense }}</h5>
+                                        <h5 class="mb-0">৳ {{ stats.income_expense_data.total_expense }}</h5>
                                         <small>Total expense</small>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
 
-
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex mb-3 w-100 gap-5">
+                            <h5 class="card-title mb-0 flex-grow-1">Ecommerce Statistics</h5>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row gy-3">
                             <div class="col-md-3 col-6">
                                 <div class="d-flex align-items-center">
                                     <div class="badge rounded-pill bg-label-primary me-3 p-2"><i class="fa-solid fa-shop-lock"></i></div>
                                     <div class="card-info">
-                                        <h5 class="mb-0">230k</h5>
-                                        <small>Total Branch</small>
+                                        <h5 class="mb-0">{{ stats.ecommerce_data.total_order }}</h5>
+                                        <small>Total Order</small>
                                     </div>
                                 </div>
                             </div>
@@ -74,7 +88,7 @@
                                 <div class="d-flex align-items-center">
                                     <div class="badge rounded-pill bg-label-info me-3 p-2"><i class="fa-solid fa-list"></i></div>
                                     <div class="card-info">
-                                        <h5 class="mb-0">8.549k</h5>
+                                        <h5 class="mb-0">{{ stats.ecommerce_data.total_categories }}</h5>
                                         <small>Total Categories</small>
                                     </div>
                                 </div>
@@ -83,8 +97,8 @@
                                 <div class="d-flex align-items-center">
                                     <div class="badge rounded-pill bg-label-danger me-3 p-2"><i class="fa-solid fa-shop"></i></div>
                                     <div class="card-info">
-                                        <h5 class="mb-0">1.423k</h5>
-                                        <small>Total sales for this month</small>
+                                        <h5 class="mb-0">{{ stats.ecommerce_data.pending_order }}</h5>
+                                        <small>Pending Order</small>
                                     </div>
                                 </div>
                             </div>
@@ -92,32 +106,113 @@
                                 <div class="d-flex align-items-center">
                                     <div class="badge rounded-pill bg-label-success me-3 p-2"><i class="fa-solid fa-money-bills"></i></div>
                                     <div class="card-info">
-                                        <h5 class="mb-0">$9745</h5>
-                                        <small>Total sales for today</small>
+                                        <h5 class="mb-0">{{ stats.ecommerce_data.canceled_order }}</h5>
+                                        <small>Canceled Order</small>
                                     </div>
                                 </div>
                             </div>
-
 
                             <div class="col-md-3 col-6">
                                 <div class="d-flex align-items-center">
-                                    <div class="badge rounded-pill bg-label-primary me-3 p-2"><i class="fa-solid fa-boxes-packing"></i></div>
+                                    <div class="badge rounded-pill bg-label-success me-3 p-2"><i class="fa-solid fa-money-bills"></i></div>
                                     <div class="card-info">
-                                        <h5 class="mb-0">230k</h5>
-                                        <small>Top Selling Products</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-6">
-                                <div class="d-flex align-items-center">
-                                    <div class="badge rounded-pill bg-label-info me-3 p-2"><i class="fa-solid fa-box-archive"></i></div>
-                                    <div class="card-info">
-                                        <h5 class="mb-0">8.549k</h5>
-                                        <small>Less selling products</small>
+                                        <h5 class="mb-0">{{ stats.ecommerce_data.accepted_order }}</h5>
+                                        <small>Accepted Order</small>
                                     </div>
                                 </div>
                             </div>
 
+                            <div class="col-md-3 col-6">
+                                <div class="d-flex align-items-center">
+                                    <div class="badge rounded-pill bg-label-info me-3 p-2"><i class="fa-solid fa-list"></i></div>
+                                    <div class="card-info">
+                                        <h5 class="mb-0">{{ stats.ecommerce_data.total_brands }}</h5>
+                                        <small>Total Brands</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card" style="height: 800px; overflow: hidden;">
+                    <div class="card-header">
+                        <div class="d-flex mb-3 w-100 gap-5">
+                            <h5 class="card-title mb-0 flex-grow-1">Category wise income expense</h5>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="accounts_at_a_glance custom_scroll" style="width: 630px;margin: auto;height: 671px;overflow: auto;">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td colspan="4">
+                                            <h4 class="text-center">আয় ব্যয় হিসাব</h4>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">মাসের নাম</td>
+                                        <td class="text-center" v-if="stats.month_names">
+                                            <span v-for="(month, index) in stats.month_names" :key="index">
+                                                {{ month.toString().enToBn() }} <b v-if="index < stats.month_names.length - 1">,</b>
+                                            </span>
+                                        </td>
+                                        <td class="text-center" v-else>
+                                            আগষ্ট
+                                        </td>
+
+                                        <td class="text-center">সাল</td>
+                                        <!-- <td>তারিখ</td>
+                                        <td class="text-center">২৪/০৮/২০২৩</td> -->
+                                        <td class="text-center" v-if="stats.years">
+                                            <span v-for="(year, index) in stats.years" :key="index">
+                                                {{ year.toString().enToBn() }} <b v-if="index < stats.years.length - 1">,</b>
+                                            </span>
+                                        </td>
+                                        <td class="text-center" v-else>
+                                            ২০২৩
+                                        </td>
+                                        
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="text-center">আয়</td>
+                                        <td colspan="2" class="text-center">ব্যয়</td>
+                                    </tr>
+                                    <tr class="row_sticky">
+                                        <td>বিবরণ</td>
+                                        <td>পরিমান</td>
+                                        <td>বিবরণ</td>
+                                        <td>পরিমান</td>
+                                    </tr>
+                                    <template v-if="data.length">
+                                        <tr v-for="i in data[1].categories.length" :key="i">
+                                            <template v-if="data[0].categories[i-1]">
+                                                <td>{{ data[0].categories[i-1].title }}</td>
+                                                <td>{{ data[0].categories[i-1].logs_sum_total.toString().enToBn() }}</td>
+                                            </template>
+                                            <template v-else>
+                                                <td></td>
+                                                <td></td>
+                                            </template>
+                                            <template v-if="data[1].categories[i-1] ">
+                                                <td>{{ data[1].categories[i-1].title }}</td>
+                                                <td>{{ data[1].categories[i-1].logs_sum_total.toString().enToBn() }}</td>
+                                            </template>
+                                            <template v-else>
+                                                <td></td>
+                                                <td></td>
+                                            </template>
+                                        </tr>
+                                    </template>
+                                    <tr class="footer_fixed" v-if="data.length">
+                                        <td>মোট আয়</td>
+                                        <td>{{ get_sum(data[0]) }}</td>
+                                        <td>মোট ব্যয়</td>
+                                        <td>{{ get_sum(data[1]) }} </td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
                         </div>
                     </div>
@@ -133,21 +228,46 @@ export default {
   components: {  },
   data() {
     return {
-      from_date: null,
-      to_date: null
+        from_date: null,
+        to_date: null,
+        data: [],
+        stats: null
     }
   },
   created: function() {
     this.fetch_dashboard_stats();
   },
+  watch : {
+        get_dashboard_stats: function(val) {
+            // console.log(val.data);
+            if(val.income_expense_list.length > 0) {
+                this.data = val;
+                this.stats = val
+            }
+        }, 
+    },
   methods: {
     ...mapActions([
         `fetch_dashboard_stats`,
-        `fetch_dashboard_stats_by_date`
+        `fetch_dashboard_monthly_stats`,
+        
     ]),
+    get_sum: function(array){
+        let sum = array.categories.reduce((t,i)=> t+=(+i.logs_sum_total), 0);
+        return sum.toString().enToBn();
+    },
     handleFilter: function(event) {
+        
         if(this.from_date !== null && this.to_date !== null) {
-            this.fetch_dashboard_stats_by_date(event);
+            if(this.from_date > this.to_date) {
+                window.s_alert('from date cannot be older then to date', 'warning');
+            }else {
+                let data = {
+                    from_date: this.from_date,
+                    to_date: this.to_date
+                }
+                this.fetch_dashboard_monthly_stats(data);
+            }
         }
     }
   },

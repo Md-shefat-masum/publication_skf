@@ -35,6 +35,8 @@ Route::group(
         });
 
         Route::group(['middleware' => ['auth:api']], function () {
+
+            
             Route::group(['prefix' => 'user'], function () {
                 Route::get('/auth-check', 'Auth\ApiLoginController@auth_check');
                 Route::post('/check-code', 'Auth\ApiLoginController@check_code');
@@ -192,6 +194,7 @@ Route::group(
             Route::group(['prefix' => 'super-admin'], function () {
                 Route::group(['prefix' => 'dashboard'], function () {
                     Route::get('/infos', 'SuperAdmin\DashboardController@info');
+                    Route::post('/monthly-infos', 'SuperAdmin\DashboardController@monthly_infos');
                 });
             });
 
@@ -401,6 +404,16 @@ Route::group(
 
             });
         });
+
+        // Route::group(['middleware' => ['auth:api']], function() {
+        //     Route::group(['prefix'=>'test'], function(){
+        //         Route::get('all', 'API\Management\TestController@all');
+        //         Route::post('store', 'API\Management\TestController@store');
+        //         Route::post('update', 'API\Management\TestController@update');
+        //         Route::post('delete', 'API\Management\TestController@delete');
+        //         Route::get('{id}', 'API\Management\TestController@show');
+        //     });
+        // });
 
 
         Route::group(['prefix' => 'user'], function () {

@@ -23,14 +23,15 @@ const actions = {
 
     fetch_dashboard_stats: async function(state, data) {
         let url = `/${api_prefix}/infos`;
-        await axios.get(url, data).then((res) => {
+        await axios.get(url).then((res) => {
             this.commit(`set_dashboard_stats`, res.data);
         });
     },
 
-    fetch_dashboard_stats: async function(state, data) {
-        let url = `/${api_prefix}/infos`;
-        await axios.get(url, data).then((res) => {
+    fetch_dashboard_monthly_stats: async function(state, data) {
+        console.log(data);
+        let url = `/${api_prefix}/monthly-infos`;
+        await axios.post(url, data).then((res) => {
             this.commit(`set_dashboard_stats`, res.data);
         });
     },
