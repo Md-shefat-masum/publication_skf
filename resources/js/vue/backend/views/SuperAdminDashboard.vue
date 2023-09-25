@@ -25,7 +25,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="row gy-3">
+                        <div class="row gy-3" v-if="stats">
 
                             <div class="col-md-3 col-6">
                                 <div class="d-flex align-items-center">
@@ -67,7 +67,7 @@
                     </div>
                 </div>
 
-                <div class="card">
+                <div class="card" v-if="stats">
                     <div class="card-header">
                         <div class="d-flex mb-3 w-100 gap-5">
                             <h5 class="card-title mb-0 flex-grow-1">Ecommerce Statistics</h5>
@@ -136,7 +136,7 @@
                 </div>
 
 
-                <div class="card" style="height: 800px; overflow: hidden;">
+                <div class="card" style="height: 800px; overflow: hidden;" v-if="stats && data">
                     <div class="card-header">
                         <div class="d-flex mb-3 w-100 gap-5">
                             <h5 class="card-title mb-0 flex-grow-1">Category wise income expense</h5>
@@ -155,7 +155,7 @@
                                         <td class="text-center">মাসের নাম</td>
                                         <td class="text-center" v-if="stats.month_names">
                                             <span v-for="(month, index) in stats.month_names" :key="index">
-                                                {{ month.toString().enToBn() }} <b v-if="index < stats.month_names.length - 1">,</b>
+                                                {{ month }} <b v-if="index < stats.month_names.length - 1">,</b>
                                             </span>
                                         </td>
                                         <td class="text-center" v-else>
@@ -167,7 +167,7 @@
                                         <td class="text-center">২৪/০৮/২০২৩</td> -->
                                         <td class="text-center" v-if="stats.years">
                                             <span v-for="(year, index) in stats.years" :key="index">
-                                                {{ year.toString().enToBn() }} <b v-if="index < stats.years.length - 1">,</b>
+                                                {{ year }} <b v-if="index < stats.years.length - 1">,</b>
                                             </span>
                                         </td>
                                         <td class="text-center" v-else>
@@ -189,7 +189,7 @@
                                         <tr v-for="i in data[1].categories.length" :key="i">
                                             <template v-if="data[0].categories[i-1]">
                                                 <td>{{ data[0].categories[i-1].title }}</td>
-                                                <td>{{ data[0].categories[i-1].logs_sum_total.toString().enToBn() }}</td>
+                                                <td>{{ data[0].categories[i-1].logs_sum_total }}</td>
                                             </template>
                                             <template v-else>
                                                 <td></td>
@@ -197,7 +197,7 @@
                                             </template>
                                             <template v-if="data[1].categories[i-1] ">
                                                 <td>{{ data[1].categories[i-1].title }}</td>
-                                                <td>{{ data[1].categories[i-1].logs_sum_total.toString().enToBn() }}</td>
+                                                <td>{{ data[1].categories[i-1].logs_sum_total }}</td>
                                             </template>
                                             <template v-else>
                                                 <td></td>
@@ -241,7 +241,7 @@ export default {
         get_dashboard_stats: function(val) {
             // console.log(val.data);
             if(val.income_expense_list.length > 0) {
-                this.data = val;
+                this.data = val.income_expense_list;
                 this.stats = val
             }
         }, 
@@ -254,7 +254,7 @@ export default {
     ]),
     get_sum: function(array){
         let sum = array.categories.reduce((t,i)=> t+=(+i.logs_sum_total), 0);
-        return sum.toString().enToBn();
+        return sum;
     },
     handleFilter: function(event) {
         
