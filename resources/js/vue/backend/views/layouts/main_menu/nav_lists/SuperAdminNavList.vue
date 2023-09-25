@@ -3,7 +3,7 @@
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
 
             <left-nav-list-group :role_permissions="['super_admin','admin']" :icon="`fa fa-home`" :text="`Dashboard`" :alert_count="2">
-                <left-nav-list-item :to="'Dashboard'" :text="'Analytics'" />
+                <left-nav-list-item :to="'SuperAdminDashboard'" :text="'Analytics'" />
             </left-nav-list-group>
 
             <left-nav-list-group :role_permissions="['super_admin']" :icon="`fa fa-users`" :text="`Users`" :alert_count="0">
@@ -24,6 +24,12 @@
             <li class="navigation-header">
                 <span data-i18n="Apps &amp; Pages">managements</span>
             </li>
+
+            <left-nav-list-group :role_permissions="['super_admin']" :icon="`fa fa-list`" :text="`Reports`" :alert_count="0">
+                <left-nav-list-item :to="'AllSuperAdminReport'" :text="'All'" />
+                <left-nav-list-item :to="'AllSuperAdminReport'" :text="'All'" />
+                <left-nav-list-item :to="'AllSuperAdminReport'" :text="'All'" />
+            </left-nav-list-group>
 
             <left-nav-list-single :role_permissions="['super_admin','admin']" :icon="'fa fa-envelope'" :text="'Email'" :alert_count="15" />
 

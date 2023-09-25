@@ -61,31 +61,28 @@
 .m-0{
     margin: 0px
 }
-.mx-auto{
-    margin-left: auto;
-    margin-right: auto
-}
-.my-2{
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem
-}
 .my-5{
     margin-top: 1.25rem;
     margin-bottom: 1.25rem
+}
+.mx-auto{
+    margin-left: auto;
+    margin-right: auto
 }
 .my-4{
     margin-top: 1rem;
     margin-bottom: 1rem
 }
+.my-2{
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem
+}
 .my-3{
     margin-top: 0.75rem;
     margin-bottom: 0.75rem
 }
-.mt-4{
-    margin-top: 1rem
-}
-.mb-0{
-    margin-bottom: 0px
+.mb-40{
+    margin-bottom: 10rem
 }
 .mt-5{
     margin-top: 1.25rem
@@ -96,23 +93,8 @@
 .mb-20{
     margin-bottom: 5rem
 }
-.mb-4{
-    margin-bottom: 1rem
-}
-.mb-3{
-    margin-bottom: 0.75rem
-}
-.mb-1{
-    margin-bottom: 0.25rem
-}
-.ml-auto{
-    margin-left: auto
-}
-.mt-80{
-    margin-top: 20rem
-}
-.mt-60{
-    margin-top: 15rem
+.mt-4{
+    margin-top: 1rem
 }
 .ml-1{
     margin-left: 0.25rem
@@ -138,8 +120,8 @@
 .-mt-px{
     margin-top: -1px
 }
-.mb-40{
-    margin-bottom: 10rem
+.mb-0{
+    margin-bottom: 0px
 }
 .ml-5{
     margin-left: 1.25rem
@@ -149,6 +131,24 @@
 }
 .mt-10{
     margin-top: 2.5rem
+}
+.mb-3{
+    margin-bottom: 0.75rem
+}
+.mb-4{
+    margin-bottom: 1rem
+}
+.mb-1{
+    margin-bottom: 0.25rem
+}
+.ml-auto{
+    margin-left: auto
+}
+.mt-80{
+    margin-top: 20rem
+}
+.mt-60{
+    margin-top: 15rem
 }
 .mb-2{
     margin-bottom: 0.5rem
@@ -252,17 +252,20 @@
 .gap-2{
     gap: 0.5rem
 }
+.gap-5{
+    gap: 1.25rem
+}
 .gap-1{
     gap: 0.25rem
 }
 .overflow-hidden{
     overflow: hidden
 }
-.rounded{
-    border-radius: 0.25rem
-}
 .rounded-lg{
     border-radius: 0.5rem
+}
+.rounded{
+    border-radius: 0.25rem
 }
 .rounded-sm{
     border-radius: 0.125rem
@@ -298,8 +301,14 @@
     --tw-bg-opacity: 1;
     background-color: rgb(243 244 246 / var(--tw-bg-opacity))
 }
-.p-4{
-    padding: 1rem
+.p-6{
+    padding: 1.5rem
+}
+.p-0{
+    padding: 0px
+}
+.p-3{
+    padding: 0.75rem
 }
 .p-2{
     padding: 0.5rem
@@ -307,14 +316,8 @@
 .p-1{
     padding: 0.25rem
 }
-.p-0{
-    padding: 0px
-}
-.p-6{
-    padding: 1.5rem
-}
-.p-3{
-    padding: 0.75rem
+.p-4{
+    padding: 1rem
 }
 .p-5{
     padding: 1.25rem
@@ -322,10 +325,6 @@
 .py-3{
     padding-top: 0.75rem;
     padding-bottom: 0.75rem
-}
-.px-1{
-    padding-left: 0.25rem;
-    padding-right: 0.25rem
 }
 .py-4{
     padding-top: 1rem;
@@ -338,6 +337,10 @@
 .px-6{
     padding-left: 1.5rem;
     padding-right: 1.5rem
+}
+.px-1{
+    padding-left: 0.25rem;
+    padding-right: 0.25rem
 }
 .py-1{
     padding-top: 0.25rem;
@@ -354,11 +357,11 @@
 .pl-4{
     padding-left: 1rem
 }
-.pt-2{
-    padding-top: 0.5rem
-}
 .pt-8{
     padding-top: 2rem
+}
+.pt-2{
+    padding-top: 0.5rem
 }
 .pb-5{
     padding-bottom: 1.25rem
@@ -398,11 +401,11 @@
     font-size: 1.125rem;
     line-height: 1.75rem
 }
-.font-bold{
-    font-weight: 700
-}
 .font-semibold{
     font-weight: 600
+}
+.font-bold{
+    font-weight: 700
 }
 .uppercase{
     text-transform: uppercase
