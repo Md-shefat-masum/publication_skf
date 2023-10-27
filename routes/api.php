@@ -227,6 +227,7 @@ Route::group(
                     Route::post('/canvas-store', 'Admin\Product\ProductController@canvas_store');
                     Route::post('/update', 'Admin\Product\ProductController@update');
                     Route::post('/add-to-top-product', 'Admin\Product\ProductController@add_to_top_product');
+                    Route::post('/add-to-public', 'Admin\Product\ProductController@add_to_public');
                     Route::post('/delete-related-image', 'Admin\Product\ProductController@delete_related_image');
                     Route::post('/canvas-update', 'Admin\Product\ProductController@canvas_update');
                     Route::post('/soft-delete', 'Admin\Product\ProductController@soft_delete');
