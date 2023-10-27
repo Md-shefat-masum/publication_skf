@@ -71,7 +71,7 @@
                         <tr>
                             <th><input @click="call_store(`set_select_all_${store_prefix}s`)" type="checkbox" class="form-check-input check_all"></th>
                             <table-th :sort="true" :tkey="'id'" :title="'ID'" :ariaLable="'id'"/>
-                            <table-th :sort="true" :tkey="'full_name'" :title="'Supplier'" />
+                            <table-th :sort="true" :tkey="'supplier_name'" :title="'Supplier'" />
                             <table-th :sort="true" :tkey="'message'" :title="'Stock'" />
                             <table-th :sort="true" :tkey="'status'" :title="'Status'" />
                             <th aria-label="actions">Actions</th>
