@@ -254,6 +254,8 @@ class AccountLogSeeder extends Seeder
             ]);
             $item->account_logs_id = $ac_log->id;
             $item->save();
+
+            
         }
 
         $order_categories = AccountCategory::where('id','>',1)->get();
