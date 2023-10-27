@@ -181,14 +181,18 @@ class ProductController extends Controller
         // $image->save($path);
         // $this->image_save_to_db($path);
 
-        $width = 192 + 400;
-        $height = 254 + 400;
+        $width = 500;
+        $height = 680;
         $canvas = interImage::canvas($width, $height);
         $image->fit($width, $height, function ($constraint) {
             $constraint->aspectRatio();
         });
         $canvas->insert($image);
         // $canvas->insert(interImage::make(public_path('ilogo.png')), 'bottom-right');
+
+        if (!file_exists(public_path('uploads/products'))) {
+            mkdir(public_path('uploads/products'), 0777, true);
+        }
 
         $path = 'uploads/products/product_' . $temp_name . '.' . $extension;
         $canvas->save($path);
@@ -274,7 +278,7 @@ class ProductController extends Controller
 
         if (request()->hasFile('thumb_image')) {
             try {
-                if(file_exists(public_path($product->thumb_image))){
+                if($product->thumb_image && file_exists(public_path($product->thumb_image))){
                     unlink(public_path($product->thumb_image));
                 }
                 $product->thumb_image = $this->store_product_file(request()->file('thumb_image'));
@@ -305,6 +309,22 @@ class ProductController extends Controller
         $data->save();
 
         return response()->json($data->is_top_product);
+    }
+
+    public function add_to_public()
+    {
+        $data = Product::find(request()->id);
+        if (!$data) {
+            return response()->json([
+                'err_message' => 'validation error',
+                'errors' => ['name' => ['data not found by given id ' . (request()->id ? request()->id : 'null')]],
+            ], 422);
+        }
+
+        $data->is_public = $data->is_public ? 0 : 1;
+        $data->save();
+
+        return response()->json($data->is_public);
     }
 
     public function delete_related_image()
