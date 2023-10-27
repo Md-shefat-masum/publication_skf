@@ -5,7 +5,7 @@ import Edit from "../../../views/accountant/papers/Edit";
 import Details from "../../../views/accountant/papers/Details";
 import Import from "../../../views/accountant/papers/Import";
 
-let prefix = "Paper"
+let prefix = "AccountantPaper"
 export default {
     path: "paper",
     component: Layout,
@@ -16,27 +16,27 @@ export default {
     children: [
         {
             path: ``,
-            name: `AllAcountant${prefix}`,
+            name: `All${prefix}`,
             component: All,
         },
         {
             path: `import`,
-            name: `ImportAcountant${prefix}`,
+            name: `Import${prefix}`,
             component: Import,
         },
         {
             path: `create`,
-            name: `CreateAcountant${prefix}`,
+            name: `Create${prefix}`,
             component: Create,
         },
         {
             path: `edit/:id`,
-            name: `EditAcountant${prefix}`,
+            name: `Edit${prefix}`,
             component: Edit,
         },
         {
             path: `details/:id`,
-            name: `DetailsAcountant${prefix}`,
+            name: `Details${prefix}`,
             component: Details,
         },
     ],
