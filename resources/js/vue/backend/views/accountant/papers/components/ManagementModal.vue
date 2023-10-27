@@ -3,7 +3,7 @@
         <div class="multiple_select_data"
             @click="call_store(`set_${store_prefix}_show_management_modal`,true)">
             <div v-for="item in selected" :key="item.id" class="item">
-                {{ item.name }}
+                {{ item.supplier_name }}
             </div>
             <div class="btn btn-sm btn-outline-danger" v-if="!this[`get_${store_prefix}_selected`].length">
                 no data selected
@@ -26,7 +26,7 @@
                     <div class="item" v-for="item in this[`get_${store_prefix}_selected`]" :key="item.id">
                         <button @click.prevent="call_store(`set_selected_${store_prefix}s`,item)" class="btn rounded-pill btn-outline-secondary" type="button">
                             <span>
-                                {{ item.name }}
+                                {{ item.supplier_name }}
                             </span>
                             <span>|</span>
                             <i class="fa fa-times"></i>
@@ -39,8 +39,8 @@
                             <tr>
                                 <th><input @click="call_store(`set_selected_all_${store_prefix}s`)" type="checkbox" class="form-check-input"></th>
                                 <table-th :sort="true" :ariaLable="'id'" :tkey="'id'" :title="'ID'" />
-                                <table-th :sort="false" :tkey="'name'" :title="'Name'" />
-                                <table-th :sort="true" :tkey="'description'" :title="'Description'" />
+                                <table-th :sort="true" :tkey="'supplier_name'" :title="'Supplier Name'" />
+                                <table-th :sort="true" :tkey="'stock'" :title="'Stock'" />
                                 <!-- <th aria-label="actions">Actions</th> -->
                             </tr>
                         </thead>
@@ -53,10 +53,12 @@
                                 <td>{{ item.id }}</td>
                                 <td>
                                     <span class="text-warning cursor_pointer" @click.prevent="call_store(`set_${store_prefix}`,item)">
-                                        {{ item.name }}
+                                        {{ item.supplier_name }}
                                     </span>
                                 </td>
-                                <td>{{ item.description }}</td>
+                                <td>
+                                    {{ item.stock }}
+                                </td>
                                 <!-- <td>
                                     <div class="table_actions">
                                         <a href="#" @click.prevent="()=>''" class="btn btn-sm btn-outline-secondary">

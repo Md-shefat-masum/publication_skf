@@ -23,7 +23,7 @@
                                     <input-field
                                         :label="`Design cost`"
                                         :name="`design_cost`"
-                                        :type="`number`"
+                                        :type="`text`"
                                         :mutator="changed_price"
                                     />
                                 </div>
@@ -31,7 +31,7 @@
                                     <input-field
                                         :label="`Printing cost`"
                                         :name="`printing_cost`"
-                                        :type="`number`"
+                                        :type="`text`"
                                         :mutator="changed_price"
                                     />
                                 </div>
@@ -39,7 +39,7 @@
                                     <input-field
                                         :label="`Binding Cost`"
                                         :name="`binding_cost`"
-                                        :type="`number`"
+                                        :type="`text`"
                                         :mutator="changed_price"
                                     />
                                 </div>
@@ -47,7 +47,7 @@
                                     <input-field
                                         :label="`Other Cost`"
                                         :name="`other_cost`"
-                                        :type="`number`"
+                                        :type="`text`"
                                         :mutator="changed_price"
                                     />
                                 </div>
@@ -55,7 +55,7 @@
                                     <div class="field_wrapper">
                                         <label for="final_cost" class="text-capitalize d-block">
                                             <span class="mb-2 d-block">Final Cost</span>
-                                            <input :value="cost.final_cost" readonly type="number" id="final_cost" name="final_cost" class="form-control" />
+                                            <input :value="cost.final_cost" readonly type="text" id="final_cost" name="final_cost" class="form-control" />
                                         </label>
                                     </div>
                                 </div>
@@ -63,7 +63,7 @@
                                     <input-field
                                         :label="`Sales price`"
                                         :name="`sales_price`"
-                                        :type="`number`"
+                                        :type="`text`"
                                     />
                                 </div>
 

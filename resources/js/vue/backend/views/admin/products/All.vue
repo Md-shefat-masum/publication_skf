@@ -72,6 +72,7 @@
                             <th><input @click="call_store(`set_select_all_${store_prefix}s`)" type="checkbox" class="form-check-input check_all"></th>
                             <table-th :sort="true" :tkey="'id'" :title="'ID'" :ariaLable="'id'"/>
                             <table-th :sort="true" :tkey="'is_top_product'" :title="'Top Pro'" :ariaLable="'id'"/>
+                            <table-th :sort="true" :tkey="'is_public'" :title="'Pub Pro'" :ariaLable="'id'"/>
                             <table-th :sort="false" :tkey="'thumb_image'" :title="'Image'" />
                             <table-th :sort="false" :tkey="'product_name'" :title="'Title'" />
 
@@ -101,6 +102,10 @@
                             <td>
                                 <input v-if="item.is_top_product" @change="admin_add_to_top_product({id:item.id, value: $event.target.checked})" checked class="form-check-input" type="checkbox">
                                 <input v-else @change="admin_add_to_top_product({id:item.id, value: $event.target.checked})" class="form-check-input" type="checkbox">
+                            </td>
+                            <td>
+                                <input v-if="item.is_public" @change="admin_add_to_public({id:item.id, value: $event.target.checked})" checked class="form-check-input" type="checkbox">
+                                <input v-else @change="admin_add_to_public({id:item.id, value: $event.target.checked})" class="form-check-input" type="checkbox">
                             </td>
                             <td>
                                 <img style="height: 60px;" :src="`/${item.thumb_image}`" alt="">
@@ -273,6 +278,7 @@ export default {
             `export_${store_prefix}_all`,
             `export_selected_${store_prefix}_csv`,
             `admin_add_to_top_product`,
+            `admin_add_to_public`,
         ]),
         ...mapMutations([
             `set_${store_prefix}_paginate`,

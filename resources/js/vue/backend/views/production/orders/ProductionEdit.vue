@@ -77,7 +77,9 @@
                                                 <select :name="`paper_supplier[${index}][supplier_paper_id]`" id="" class="form-select">
 
                                                     <template v-for="j in get_production_papers.data">
-                                                        <option v-if="data['paper_suppliers'][index] && data['paper_suppliers'][index].supplier_paper_id == j.id" selected :key="j.id" :value="j.id">
+                                                        <option v-if="data['paper_suppliers'][index] && data['paper_suppliers'][index].supplier_paper_id == j.id"
+                                                            selected
+                                                            :key="j.id" :value="j.id">
                                                             {{ j.supplier_name }} - {{ j.stock }} rm
                                                         </option>
                                                         <option v-else :key="j.id" :value="j.id">

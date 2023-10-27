@@ -21,13 +21,13 @@
                     </form>
                 </div>
                 <div class="btns d-flex gap-2 align-items-center">
-                    <permission-button
+                    <router-link
                         :permission="'can_create'"
                         :to="{name: `Create${route_prefix}`}"
-                        :classList="'btn rounded-pill btn-outline-info'">
+                        :class="'btn rounded-pill btn-outline-info'">
                         <i class="fa fa-pencil me-5px"></i>
                         Create
-                    </permission-button>
+                    </router-link>
                     <div class="table_actions">
                         <a href="#" @click.prevent="()=>''" class="btn px-1 btn-outline-secondary">
                             <i class="fa fa-list"></i>
@@ -71,27 +71,14 @@
                         <tr>
                             <th><input @click="call_store(`set_select_all_${store_prefix}s`)" type="checkbox" class="form-check-input check_all"></th>
                             <table-th :sort="true" :tkey="'id'" :title="'ID'" :ariaLable="'id'"/>
-                            <table-th :sort="true" :tkey="'invoice_id'" :title="'Order ID'" />
-                            <table-th :sort="true" :tkey="'order_status'" :title="'Order Status'" />
-                            <!-- <table-th :sort="false" :tkey="''" :title="'Branch'" /> -->
-                            <!-- <table-th :sort="false" :tkey="''" :title="'Contact'" /> -->
-                            <table-th :sort="true" :tkey="'sub_total'" :title="'Sub Total'" />
-                            <table-th :sort="true" :tkey="'delivery_charge'" :title="'Shipping'" />
-                            <!-- <table-th :sort="true" :tkey="'coupon_discount'" :title="'Coupon Discount'" /> -->
-                            <table-th :sort="true" :tkey="'discount'" :title="'Discount'" />
-                            <table-th :sort="true" :tkey="'total_price'" :title="'Total'" />
-                            <table-th :sort="false" :tkey="''" :title="'Paid'" />
-                            <table-th :sort="false" :tkey="''" :title="'Due'" />
-                            <table-th :sort="true" :tkey="'payment_status'" :title="'payment Status'" />
-                            <!-- <table-th :sort="true" :tkey="'delivery_method'" :title="'Delivery Method'" /> -->
-                            <table-th :sort="true" :tkey="'created_at'" :title="'Date'" />
+                            <table-th :sort="true" :tkey="'name'" :title="'Name'" />
+                            <table-th :sort="true" :tkey="'description'" :title="'Descriptin'" />
                             <table-th :sort="true" :tkey="'status'" :title="'Status'" />
                             <th aria-label="actions">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
                         <tr v-for="item in this[`get_${store_prefix}s`].data" :key="item.id">
-                        <!-- <tr v-for="item in data" :key="item.id"> -->
                             <td>
                                 <input v-if="check_if_data_is_selected(item)" :data-id="item.id" checked @change="call_store(`set_selected_${store_prefix}s`,item)" type="checkbox" class="form-check-input">
                                 <input v-else @change="call_store(`set_selected_${store_prefix}s`,item)" type="checkbox" class="form-check-input">
@@ -99,63 +86,16 @@
                             <td>{{ item.id }}</td>
                             <td>
                                 <span class="text-warning cursor_pointer" @click.prevent="call_store(`set_${store_prefix}`,item)">
-                                    {{ item.invoice_id }}
+                                    {{ item.name }}
                                 </span>
                             </td>
                             <td>
-                                {{ item.order_status }}
-                            </td>
-                            <!-- <td>{{ item.user.first_name +" "+ item.user.last_name }}</td> -->
-                            <!-- <td>{{ item.user.mobile_number }}</td> -->
-                            <td>
-                                <strong class="text-info">
-                                    {{ item.sub_total}}
-                                </strong>
+                                {{ item.description }}
                             </td>
                             <td>
-                                <strong class="text-info">
-                                    + {{ item.delivery_charge}}
-                                </strong>
-                            </td>
-                            <!-- <td>
-                                <strong class="text-info">
-                                    {{ item.coupon_discount}}
-                                </strong>
-                            </td> -->
-                            <td>
-                                <strong class="text-info">
-                                    - {{ item.discount}}
-                                </strong>
-                            </td>
-
-                            <td>
-                                <strong class="text-info">
-                                    {{ item.total_price}}
-                                </strong>
-                            </td>
-                            <td>
-                                <strong class="text-warning">
-                                   - {{ item.order_payments_sum_amount }}
-                                </strong>
-                            </td>
-                            <td>
-                                <strong class="text-warning">
-                                   {{ item.total_price - item.order_payments_sum_amount }}
-                                </strong>
-                            </td>
-                            <td>
-                                <span :class="`badge ${item.payment_status == 'paid'? `bg-secondary`: 'bg-danger'} me-1`">{{ item.payment_status }}</span>
-                            </td>
-                            <!-- <td>
-                                {{ item.delivery_method }}
-                            </td> -->
-                            <td>{{ new Date(item.invoice_date).toDateString() }} {{ new Date(item.invoice_date).toLocaleTimeString() }}</td>
-                            <td>
-                                <!-- <span :class="`badge ${order_status(item.status)} me-1`">{{ item.status }}</span> -->
                                 <span v-if="item.status == 1" class="badge bg-label-success me-1">active</span>
                                 <span v-if="item.status == 0" class="badge bg-label-success me-1">deactive</span>
                             </td>
-
                             <td>
                                 <div class="table_actions">
                                     <a href="#" @click.prevent="()=>''" class="btn btn-sm btn-outline-secondary">
@@ -169,13 +109,22 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <router-link
+                                            <permission-button
                                                 :permission="'can_edit'"
                                                 :to="{name:`Details${route_prefix}`,params:{id:item.id}}"
                                                 :classList="''">
                                                 <i class="fa text-secondary fa-eye"></i>
                                                 Details
-                                            </router-link>
+                                            </permission-button>
+                                        </li>
+                                        <li>
+                                            <permission-button
+                                                :permission="'can_edit'"
+                                                :to="{name:`Edit${route_prefix}`,params:{id: item.id}}"
+                                                :classList="''">
+                                                <i class="fa text-warning fa-pencil"></i>
+                                                Edit
+                                            </permission-button>
                                         </li>
                                         <li v-if="item.status == 1">
                                             <permission-button
@@ -251,7 +200,28 @@ export default {
         return {
             store_prefix,
             route_prefix,
-            data: []
+            data: [
+                {
+                    company: 'E boi ghor',
+                    printing_cost: 100,
+                    total_book: 3500,
+                },
+                {
+                    company: 'B.K. Printers',
+                    printing_cost: 80,
+                    total_book: 500,
+                },
+                {
+                    company: 'Dhaka Printing and Packaging',
+                    printing_cost: 45,
+                    total_book: 300,
+                },
+                {
+                    company: 'Canvas- Design & Printing Press',
+                    printing_cost: 55,
+                    total_book: 5000,
+                },
+            ]
         }
     },
     created: function(){
@@ -293,30 +263,6 @@ export default {
                 return false;
             }
         },
-        order_status: function(status){
-            let class_name = '';
-            switch (status) {
-                case 'pending':
-                    class_name =  'bg-info text-black'
-                    break;
-                case 'accepted':
-                    class_name =  'bg-primary'
-                    break;
-                case 'processing':
-                    class_name =  'bg-warning text-black'
-                    break;
-                case 'delivered':
-                    class_name =  'bg-success text-black'
-                    break;
-                case 'canceled':
-                    class_name =  'bg-danger text-black'
-                    break;
-
-                default:
-                    break;
-            }
-            return class_name;
-        }
     },
     computed: {
         ...mapGetters([
@@ -332,3 +278,4 @@ export default {
 
 </style>
 
+PermissionButton
