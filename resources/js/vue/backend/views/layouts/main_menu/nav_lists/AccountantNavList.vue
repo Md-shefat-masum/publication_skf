@@ -3,7 +3,7 @@
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
 
             <left-nav-list-group :role_permissions="['accountant']" :icon="`fa fa-home`" :text="`Dashboard`" :alert_count="0">
-                <left-nav-list-item :to="'BranchDashboard'" :text="'Analytics'" />
+                <left-nav-list-item :to="'AccountantDashboard'" :text="'Analytics'" />
             </left-nav-list-group>
 
             <!-- <left-nav-list-group :role_permissions="['branch']" :icon="`fa fa-list`" :text="`Test`" :alert_count="0">
@@ -20,7 +20,7 @@
                 <left-nav-list-item :to="'ExpenseAcountantEntries'" :text="'Expense Entry'" />
                 <left-nav-list-item :to="'AccountantAllincomeExpense'" :text="'Income & Expenses'" />
                 <left-nav-list-item :to="'AllAcountantAccountCategories'" :text="'All Categories'" />
-                <left-nav-list-item :to="'AllAcountantPaper'" :text="'Paper Suppliers'" />
+                <left-nav-list-item :to="'AllAccountantPaper'" :text="'Paper Suppliers'" />
                 <!-- <left-nav-list-item :to="'AllAcountantAccountCustomer'" :text="'All Customer'" /> -->
                 <!-- <left-nav-list-item :to="'CreateAcountantAccountCategories'" :text="'Create Category'" /> -->
             </left-nav-list-group>
