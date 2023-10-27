@@ -13,7 +13,7 @@ class ProductSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
+     * Database\Seeders\Product\ProductSeeder
      * @return void
      */
     public function run()
