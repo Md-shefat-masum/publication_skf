@@ -71,9 +71,12 @@
                         <tr>
                             <th><input @click="call_store(`set_select_all_${store_prefix}s`)" type="checkbox" class="form-check-input check_all"></th>
                             <table-th :sort="true" :tkey="'id'" :title="'ID'" :ariaLable="'id'"/>
-                            <table-th :sort="true" :tkey="'full_name'" :title="'Supplier'" />
-                            <table-th :sort="true" :tkey="'message'" :title="'Stock'" />
-                            <table-th :sort="true" :tkey="'status'" :title="'Status'" />
+                            <table-th :sort="true" :tkey="'supplier_name'" :title="'Supplier'" />
+                            <table-th :sort="false" :tkey="'opening'" :title="'Opening'" />
+                            <table-th :sort="false" :tkey="'bill'" :title="'Bill'" />
+                            <table-th :sort="false" :tkey="'payment'" :title="'Payment'" />
+                            <table-th :sort="false" :tkey="'balance'" :title="'balance'" />
+                            <!-- <table-th :sort="true" :tkey="'status'" :title="'Status'" /> -->
                             <th aria-label="actions">Actions</th>
                         </tr>
                     </thead>
@@ -89,11 +92,14 @@
                                     {{ item.supplier_name }}
                                 </span>
                             </td>
-                            <td>{{ item.stock }} Ream</td>
-                            <td>
+                            <td>{{ item.opening }} </td>
+                            <td>{{ item.bill }} </td>
+                            <td>{{ item.payment }} </td>
+                            <td>{{ item.balance }} </td>
+                            <!-- <td>
                                 <span v-if="item.status == 1" class="badge bg-label-success me-1">active</span>
                                 <span v-if="item.status == 0" class="badge bg-label-success me-1">deactive</span>
-                            </td>
+                            </td> -->
                             <td>
                                 <div class="table_actions">
                                     <a href="#" @click.prevent="()=>''" class="btn btn-sm btn-outline-secondary">
