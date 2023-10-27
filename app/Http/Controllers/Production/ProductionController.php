@@ -79,6 +79,15 @@ class ProductionController extends Controller
         return response()->json($data, 200);
     }
 
+    public function update_supplier_present_stock($supplier_id)
+    {
+        $supplier_paper = SupplierPaper::find($supplier_id);
+        $total_stock = $supplier_paper->SupplierPaperStock()->sum('stock');
+        $user_paper = $supplier_paper->SupplierPaperUsed()->sum('amount');
+        $supplier_paper_stock = $total_stock - $user_paper;
+        $supplier_paper->stock = $supplier_paper_stock;
+        $supplier_paper->save();
+    }
     public function store(Request $request)
     {
         $validator = Validator::make(request()->all(), [
@@ -115,18 +124,11 @@ class ProductionController extends Controller
             ProductionUsedPaper::create($item);
             $total_paper_amount += $item['amount'];
 
-            $supplier_paper = SupplierPaper::find($item['supplier_paper_id']);
-            $supplier_paper_stock = $supplier_paper->SupplierPaperStock()->sum('stock') - $supplier_paper->SupplierPaperUsed()->sum('amount');
-            $supplier_paper->stock = $supplier_paper_stock;
-            $supplier_paper->save();
+            $this->update_supplier_present_stock($item['supplier_paper_id']);
         }
 
         $data->paper_amount = $total_paper_amount;
         $data->save();
-
-        $data->status = $production_status->status;
-        $data->description = $production_status->description;
-        $data->status_id = $production_status->id;
 
         return response()->json($data, 200);
     }
@@ -157,7 +159,11 @@ class ProductionController extends Controller
         $product->sales_price = $data->sales_price;
         $product->save();
 
-        $discount = ProductDiscount::where('product_id', $product->id)->latest()->first();
+        $discount = ProductDiscount::where('product_id', $product->id)
+            ->whereDate('expire_date', '>=', Carbon::now()->toDateString())
+            ->orderBy('id', 'desc')
+            ->first();
+
         if ($discount) {
             $discount->main_price = $data->sales_price;
             $discount->save();
@@ -236,10 +242,21 @@ class ProductionController extends Controller
         foreach (request()->paper_supplier as $item) {
             $supplier_papers_ids[] = $item["supplier_paper_id"];
         }
-        ProductionUsedPaper::whereNotIn('supplier_paper_id', $supplier_papers_ids)->delete();
+
+        // update previous used amount to 0 then update from request amount
+        $production_suppliers = $data->suppliers()->get();
+        foreach ($production_suppliers as $item) {
+            $item->amount = 0;
+            $item->save();
+            $this->update_supplier_present_stock($item->supplier_paper_id);
+        }
+
+        ProductionUsedPaper::where('production_id', $data->id)
+            ->whereNotIn('supplier_paper_id', $supplier_papers_ids)
+            ->delete();
 
         foreach (request()->paper_supplier as $item) {
-            $supplier_papers_ids[] = $item["supplier_paper_id"];
+            // $supplier_papers_ids[] = $item["supplier_paper_id"];
             $item['production_id'] = $data->id;
             ProductionUsedPaper::updateOrCreate(
                 $item,
@@ -249,19 +266,11 @@ class ProductionController extends Controller
                 ]
             );
             $total_paper_amount += $item['amount'];
-
-            $supplier_paper = SupplierPaper::find($item['supplier_paper_id']);
-            $supplier_paper_stock = $supplier_paper->SupplierPaperStock()->sum('stock') - $supplier_paper->SupplierPaperUsed()->sum('amount');
-            $supplier_paper->stock = $supplier_paper_stock;
-            $supplier_paper->save();
+            $this->update_supplier_present_stock($item['supplier_paper_id']);
         }
 
         $data->paper_amount = $total_paper_amount;
         $data->save();
-
-        $data->status = $production_status->status;
-        $data->description = $production_status->description;
-        $data->status_id = $production_status->id;
 
         return response()->json($data, 200);
     }
