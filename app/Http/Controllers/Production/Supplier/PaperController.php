@@ -24,7 +24,8 @@ class PaperController extends Controller
             $status = request()->status;
         }
 
-        $query = SupplierPaper::where('status', $status)->orderBy($orderBy, $orderByType);
+        $query = SupplierPaper::where('status', $status)
+            ->orderBy($orderBy, $orderByType);
 
         if (request()->has('search_key')) {
             $key = request()->search_key;
@@ -35,24 +36,30 @@ class PaperController extends Controller
             });
         }
 
-        $users = $query->paginate($paginate);
-        return response()->json($users);
+        $data = $query->paginate($paginate);
+        foreach ($data->items() as $item) {
+            $item->opening = $item->logs()->where('payment_type', 'opening')->sum('amount');
+            $item->bill = $item->logs()->where('payment_type', 'bill')->sum('amount');
+            $item->payment = $item->logs()->where('payment_type', 'payment')->sum('amount');
+            $item->balance = $item->opening + $item->bill + $item->payment;
+        }
+        return response()->json($data);
     }
 
     public function show($id)
     {
-        $data = SupplierPaper::where('id',$id)->first();
-        if(!$data){
+        $data = SupplierPaper::where('id', $id)->first();
+        if (!$data) {
             return response()->json([
                 'err_message' => 'not found',
-                'errors' => ['supplier_name'=>['data not found']],
+                'errors' => ['supplier_name' => ['data not found']],
             ], 422);
         }
-        $mobile_number = PhoneNumber::where('table_id',$data->id)->where('table_name','supplier_papers')->get();
-        foreach ($mobile_number as $key=>$number) {
-            $data->{"mobile_number_".($key+1)} = $number->mobile_number;
+        $mobile_number = PhoneNumber::where('table_id', $data->id)->where('table_name', 'supplier_papers')->get();
+        foreach ($mobile_number as $key => $number) {
+            $data->{"mobile_number_" . ($key + 1)} = $number->mobile_number;
         }
-        return response()->json($data,200);
+        return response()->json($data, 200);
     }
 
     public function store(Request $request)
@@ -84,7 +91,7 @@ class PaperController extends Controller
         $data->creator = Auth::user()->id;
         $data->save();
 
-        if(request()->has('mobile_number') && count(request()->mobile_number)){
+        if (request()->has('mobile_number') && count(request()->mobile_number)) {
             foreach (request()->mobile_number as $mobile_number) {
                 PhoneNumber::create([
                     'table_id' => $data->id,
@@ -116,8 +123,8 @@ class PaperController extends Controller
         $data->creator = Auth::user()->id;
         $data->save();
 
-        if(request()->has('image')){
-            $data->image = Storage::put('uploads/writers',request()->file('image'));
+        if (request()->has('image')) {
+            $data->image = Storage::put('uploads/writers', request()->file('image'));
         }
         $data->save();
 
@@ -127,10 +134,10 @@ class PaperController extends Controller
     public function update()
     {
         $data = SupplierPaper::find(request()->id);
-        if(!$data){
+        if (!$data) {
             return response()->json([
                 'err_message' => 'validation error',
-                'errors' => ['supplier_name'=>['data not found by given id '.(request()->id?request()->id:'null')]],
+                'errors' => ['supplier_name' => ['data not found by given id ' . (request()->id ? request()->id : 'null')]],
             ], 422);
         }
 
@@ -150,15 +157,15 @@ class PaperController extends Controller
         $data->description = request()->description;
         $data->save();
 
-        if(request()->has('mobile_number') && count(request()->mobile_number)){
-            PhoneNumber::where('table_id',$data->id)->where('table_name','supplier_papers')->delete();
+        if (request()->has('mobile_number') && count(request()->mobile_number)) {
+            PhoneNumber::where('table_id', $data->id)->where('table_name', 'supplier_papers')->delete();
             foreach (request()->mobile_number as $mobile_number) {
-                if($mobile_number)
-                PhoneNumber::create([
-                    'table_id' => $data->id,
-                    'table_name' => 'supplier_papers',
-                    'mobile_number' => $mobile_number,
-                ]);
+                if ($mobile_number)
+                    PhoneNumber::create([
+                        'table_id' => $data->id,
+                        'table_name' => 'supplier_papers',
+                        'mobile_number' => $mobile_number,
+                    ]);
             }
         }
 
@@ -168,10 +175,10 @@ class PaperController extends Controller
     public function canvas_update()
     {
         $data = SupplierPaper::find(request()->id);
-        if(!$data){
+        if (!$data) {
             return response()->json([
                 'err_message' => 'validation error',
-                'errors' => ['supplier_name'=>['data not found by given id '.(request()->id?request()->id:'null')]],
+                'errors' => ['supplier_name' => ['data not found by given id ' . (request()->id ? request()->id : 'null')]],
             ], 422);
         }
 
@@ -193,8 +200,8 @@ class PaperController extends Controller
         $data->creator = Auth::user()->id;
         $data->save();
 
-        if(request()->has('image')){
-            $data->image = Storage::put('uploads/writers',request()->file('image'));
+        if (request()->has('image')) {
+            $data->image = Storage::put('uploads/writers', request()->file('image'));
         }
         $data->save();
         $data->update();
@@ -205,7 +212,7 @@ class PaperController extends Controller
     public function soft_delete()
     {
         $validator = Validator::make(request()->all(), [
-            'id' => ['required','exists:product_writers,id'],
+            'id' => ['required', 'exists:product_writers,id'],
         ]);
 
         if ($validator->fails()) {
@@ -220,7 +227,7 @@ class PaperController extends Controller
         $data->save();
 
         return response()->json([
-                'result' => 'deactivated',
+            'result' => 'deactivated',
         ], 200);
     }
 
@@ -231,7 +238,7 @@ class PaperController extends Controller
     public function restore()
     {
         $validator = Validator::make(request()->all(), [
-            'id' => ['required','exists:product_writers,id'],
+            'id' => ['required', 'exists:product_writers,id'],
         ]);
 
         if ($validator->fails()) {
@@ -246,14 +253,14 @@ class PaperController extends Controller
         $data->save();
 
         return response()->json([
-                'result' => 'activated',
+            'result' => 'activated',
         ], 200);
     }
 
     public function bulk_import()
     {
         $validator = Validator::make(request()->all(), [
-            'data' => ['required','array'],
+            'data' => ['required', 'array'],
         ]);
 
         if ($validator->fails()) {
@@ -264,11 +271,11 @@ class PaperController extends Controller
         }
 
         foreach (request()->data as $item) {
-            $item['created_at'] = $item['created_at'] ? Carbon::parse($item['created_at']): Carbon::now()->toDateTimeString();
-            $item['updated_at'] = $item['updated_at'] ? Carbon::parse($item['updated_at']): Carbon::now()->toDateTimeString();
+            $item['created_at'] = $item['created_at'] ? Carbon::parse($item['created_at']) : Carbon::now()->toDateTimeString();
+            $item['updated_at'] = $item['updated_at'] ? Carbon::parse($item['updated_at']) : Carbon::now()->toDateTimeString();
             $item = (object) $item;
-            $check = SupplierPaper::where('id',$item->id)->first();
-            if(!$check){
+            $check = SupplierPaper::where('id', $item->id)->first();
+            if (!$check) {
                 try {
                     SupplierPaper::create((array) $item);
                 } catch (\Throwable $th) {
