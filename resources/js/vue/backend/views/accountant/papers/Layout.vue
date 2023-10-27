@@ -4,7 +4,7 @@
         <router-view v-if="is_role_permitted"></router-view>
         <div v-else class="text-center">
             <h4 class="text-warning">sorry you have no permission</h4>
-            <router-link class="btn btn-outline-warning mt-3" :to="{name:'BranchDashboard'}">Go Back</router-link>
+            <router-link class="btn btn-outline-warning mt-3" to="/">Go Back</router-link>
         </div>
     </div>
 </template>
