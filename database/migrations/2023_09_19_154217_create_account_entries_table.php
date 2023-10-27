@@ -21,7 +21,6 @@ class CreateAccountEntriesTable extends Migration
             $table->double('amount')->default(0);
             $table->text('description')->nullable();
 
-
             $table->bigInteger('creator')->unsigned()->nullable();
             $table->string('slug',50)->nullable();
             $table->tinyInteger('status')->unsigned()->default(1);
