@@ -5,7 +5,8 @@ namespace App\Models\Account;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AccountSupplier extends Model
+class AccountSupplierLog extends Model
 {
     use HasFactory;
+    protected $guarded = [];
 }
