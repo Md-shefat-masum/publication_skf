@@ -2,6 +2,7 @@
 
 namespace App\Models\Production;
 
+use App\Models\Account\AccountSupplierLog;
 use App\Models\User\PhoneNumber;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -45,5 +46,10 @@ class SupplierPaper extends Model
     public function SupplierPaperUsed()
     {
         return $this->hasMany(ProductionUsedPaper::class,'supplier_paper_id');
+    }
+
+    public function logs()
+    {
+        return $this->hasMany(AccountSupplierLog::class,'supplier_id');
     }
 }
