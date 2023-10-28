@@ -1,42 +1,42 @@
-import Layout from "../../../views/production/designer/Layout";
-import All from "../../../views/production/designer/All";
-import Create from "../../../views/production/designer/Create";
-import Edit from "../../../views/production/designer/Edit";
-import Details from "../../../views/production/designer/Details";
-import Import from "../../../views/production/designer/Import";
+import Layout from "../../../views/accountant/designer/Layout";
+import All from "../../../views/accountant/designer/All";
+import Create from "../../../views/accountant/designer/Create";
+import Edit from "../../../views/accountant/designer/Edit";
+import Details from "../../../views/accountant/designer/Details";
+import Import from "../../../views/accountant/designer/Import";
 
-let prefix = "Designer"
+let prefix = "AccountantDesigner"
 export default {
     path: "designer",
     component: Layout,
     props: {
-        role_permissions: ["production"],
+        role_permissions: ["accountant"],
         layout_title: `${prefix} Management`,
     },
     children: [
         {
             path: ``,
-            name: `AllProduction${prefix}`,
+            name: `All${prefix}`,
             component: All,
         },
         {
             path: `import`,
-            name: `ImportProduction${prefix}`,
+            name: `Import${prefix}`,
             component: Import,
         },
         {
             path: `create`,
-            name: `CreateProduction${prefix}`,
+            name: `Create${prefix}`,
             component: Create,
         },
         {
             path: `edit/:id`,
-            name: `EditProduction${prefix}`,
+            name: `Edit${prefix}`,
             component: Edit,
         },
         {
             path: `details/:id`,
-            name: `DetailsProduction${prefix}`,
+            name: `Details${prefix}`,
             component: Details,
         },
     ],
