@@ -72,10 +72,10 @@
                             <th><input @click="call_store(`set_select_all_${store_prefix}s`)" type="checkbox" class="form-check-input check_all"></th>
                             <table-th :sort="true" :tkey="'id'" :title="'ID'" :ariaLable="'id'"/>
                             <table-th :sort="true" :tkey="'company_name'" :title="'Company'" />
-                            <table-th :sort="true" :tkey="'binding_cost'" :title="'Each Book Binding Cost'" />
-                            <table-th :sort="true" :tkey="'total_book'" :title="'Total Book'" />
-                            <!-- <table-th :sort="false" :tkey="'subject'" :title="'Total Cost'" /> -->
-                            <table-th :sort="true" :tkey="'status'" :title="'Status'" />
+                            <table-th :sort="false" :tkey="'opening'" :title="'Opening'" />
+                            <table-th :sort="false" :tkey="'bill'" :title="'Bill'" />
+                            <table-th :sort="false" :tkey="'payment'" :title="'Payment'" />
+                            <table-th :sort="false" :tkey="'balance'" :title="'balance'" />
                             <th aria-label="actions">Actions</th>
                         </tr>
                     </thead>
@@ -91,15 +91,10 @@
                                     {{ item.company_name }}
                                 </span>
                             </td>
-                            <td>
-                                {{ item.binding_cost }}
-                            </td>
-                            <td>{{ item.total_book }}</td>
-                            <!-- <td>{{ item.total_book * item.binding_cost }}</td> -->
-                            <td>
-                                <span v-if="item.status == 1" class="badge bg-label-success me-1">active</span>
-                                <span v-if="item.status == 0" class="badge bg-label-success me-1">deactive</span>
-                            </td>
+                            <td>{{ item.opening }} </td>
+                            <td>{{ item.bill }} </td>
+                            <td>{{ item.payment }} </td>
+                            <td>{{ item.balance }} </td>
                             <td>
                                 <div class="table_actions">
                                     <a href="#" @click.prevent="()=>''" class="btn btn-sm btn-outline-secondary">
