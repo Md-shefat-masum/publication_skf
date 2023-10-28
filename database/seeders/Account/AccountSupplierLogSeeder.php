@@ -2,6 +2,7 @@
 
 namespace Database\Seeders\Account;
 
+use App\Models\Account\Account;
 use App\Models\Account\AccountCategory;
 use App\Models\Account\AccountLog;
 use App\Models\Account\AccountSupplierLog;
@@ -9,6 +10,7 @@ use App\Models\Production\SupplierBinding;
 use App\Models\Production\SupplierPaper;
 use App\Models\Production\SupplierPrint;
 use Carbon\Carbon;
+use Faker\Factory;
 use Illuminate\Database\Seeder;
 
 class AccountSupplierLogSeeder extends Seeder
@@ -20,17 +22,21 @@ class AccountSupplierLogSeeder extends Seeder
      */
     public function run()
     {
-        $category = AccountCategory::where('title', 'অফিস স্টেশনারী')->first();
         AccountSupplierLog::truncate();
-        AccountLog::where('category_id',$category->id)->delete();
 
         echo "supplier paper log running \n";
+        $category = AccountCategory::where('title', 'কাগজ ক্রয়')->first();
+        AccountLog::where('category_id',$category->id)->delete();
         $this->supplier_entry(SupplierPaper::class, $category);
 
         echo "supplier binding log running \n";
+        $category = AccountCategory::where('title', 'বাইন্ডিং')->first();
+        AccountLog::where('category_id',$category->id)->delete();
         $this->supplier_entry(SupplierBinding::class, $category);
 
         echo "supplier print log running \n";
+        $category = AccountCategory::where('title', 'প্রিন্টিং ও ছাপা বিল')->first();
+        AccountLog::where('category_id',$category->id)->delete();
         $this->supplier_entry(SupplierPrint::class, $category);
     }
 
@@ -63,6 +69,8 @@ class AccountSupplierLogSeeder extends Seeder
 
             for ($i = 0; $i < 5; $i++) {
                 $amount = rand(100, 1000);
+                $account = Account::where('id', rand(2, 5))->first();
+                $account_number = $account->numbers()->get()->random();
                 $ac_log = AccountLog::create([
                     "date" => Carbon::parse('2023-' . rand(1, 12) . '-' . rand(1, 25)),
                     'category_id' => $category->id,
@@ -70,7 +78,9 @@ class AccountSupplierLogSeeder extends Seeder
                     "is_income" => 0,
                     "amount" => $amount,
                     "description" => "accountant supplier entry",
-                    "account_id" => rand(2, 5),
+                    "account_id" => $account->id,
+                    "account_number_id" => $account_number->id,
+                    'trx_id' => uniqid('',true),
                 ]);
 
                 AccountSupplierLog::create([
