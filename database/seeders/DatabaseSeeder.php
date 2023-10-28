@@ -6,6 +6,7 @@ use App\Models\User\Customer;
 use Database\Seeders\Account\AccountCategorySeeder;
 use Database\Seeders\Account\AccountCategoryTypeSeeder;
 use Database\Seeders\Account\AccountLogSeeder;
+use Database\Seeders\Account\AccountNumberSeeder;
 use Database\Seeders\Account\AccountSeeder;
 use Database\Seeders\Common\AddressSeeder;
 use Database\Seeders\Common\BannerSeeder;
@@ -82,6 +83,7 @@ class DatabaseSeeder extends Seeder
             AddressSeeder::class,
 
             AccountSeeder::class,
+            AccountNumberSeeder::class,
             AccountCategoryTypeSeeder::class,
             // AccountCategorySeeder::class,
             AccountLogSeeder::class,
