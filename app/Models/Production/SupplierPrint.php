@@ -2,6 +2,7 @@
 
 namespace App\Models\Production;
 
+use App\Models\Account\AccountSupplierLog;
 use App\Models\User\PhoneNumber;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -36,5 +37,10 @@ class SupplierPrint extends Model
     public function getMobileNumbersAttribute()
     {
         return PhoneNumber::select(['id','table_id','table_name','mobile_number'])->where('table_id',$this->id)->where('table_name','supplier_prints')->get();
+    }
+
+    public function logs()
+    {
+        return $this->hasMany(AccountSupplierLog::class,'supplier_id');
     }
 }
