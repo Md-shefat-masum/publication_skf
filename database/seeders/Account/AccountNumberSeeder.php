@@ -3,7 +3,6 @@
 namespace Database\Seeders\Account;
 
 use App\Models\Account\AccountNumber as AccountAccountNumber;
-use App\Models\AccountNumber;
 use Illuminate\Database\Seeder;
 
 class AccountNumberSeeder extends Seeder
