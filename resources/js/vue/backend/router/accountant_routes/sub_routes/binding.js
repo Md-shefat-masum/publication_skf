@@ -5,7 +5,7 @@ import Edit from "../../../views/accountant/bindings/Edit";
 import Details from "../../../views/accountant/bindings/Details";
 import Import from "../../../views/accountant/bindings/Import";
 
-let prefix = "Accountant Binding"
+let prefix = "AccountantBinding"
 export default {
     path: "binding",
     component: Layout,
