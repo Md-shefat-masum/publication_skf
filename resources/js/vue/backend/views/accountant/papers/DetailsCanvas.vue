@@ -16,12 +16,30 @@
                         class="btn btn-sm rounded-pill btn-outline-info">
                         Openings
                     </router-link>
-                    <a href="#/accountant/paper/create" class="btn rounded-pill btn-outline-info btn-sm">
+                    <router-link :to="{
+                            name:`AllSupplierPayments`,
+                            query:{
+                                supplier_name: this[`get_${store_prefix}`].supplier_name,
+                                payment_type: `bill`,
+                                supplier_id: this[`get_${store_prefix}`].id,
+                                supplier_type: `paper`,
+                            }
+                        }"
+                        class="btn btn-sm rounded-pill btn-outline-info">
                         Bills
-                    </a>
-                    <a href="#/accountant/paper/create" class="btn rounded-pill btn-outline-info btn-sm">
+                    </router-link>
+                    <router-link :to="{
+                            name:`AllSupplierPayments`,
+                            query:{
+                                supplier_name: this[`get_${store_prefix}`].supplier_name,
+                                payment_type: `payment`,
+                                supplier_id: this[`get_${store_prefix}`].id,
+                                supplier_type: `paper`,
+                            }
+                        }"
+                        class="btn btn-sm rounded-pill btn-outline-info">
                         Payments
-                    </a>
+                    </router-link>
                 </div>
                 <i @click="call_store(`set_${store_prefix}`,null)" class="fa fa-times"></i>
             </div>

@@ -23,11 +23,29 @@
                             <td>:</td>
                             <td>{{ this[`get_${store_prefix}`].amount }}</td>
                         </tr>
+
+                        <tr v-if="this[`get_${store_prefix}`].payment_type == 'payment'">
+                            <td>Payment Account</td>
+                            <td>:</td>
+                            <td>{{ this[`get_${store_prefix}`]?.ac_log?.account.name }}</td>
+                        </tr>
+                        <tr v-if="this[`get_${store_prefix}`].payment_type == 'payment'">
+                            <td>Payment Number</td>
+                            <td>:</td>
+                            <td>{{ this[`get_${store_prefix}`]?.ac_log?.account_number.value }}</td>
+                        </tr>
+                        <tr v-if="this[`get_${store_prefix}`].payment_type == 'payment'">
+                            <td>Transaction ID</td>
+                            <td>:</td>
+                            <td>{{ this[`get_${store_prefix}`]?.ac_log.trx_id }}</td>
+                        </tr>
+
                         <tr>
                             <td>Description</td>
                             <td>:</td>
                             <td>{{ this[`get_${store_prefix}`].description }}</td>
                         </tr>
+
                         <tr v-if="this[`get_${store_prefix}`].attachment">
                             <td>Attachment</td>
                             <td>:</td>

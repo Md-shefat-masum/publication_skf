@@ -10,12 +10,14 @@ const state = {
     ...test_module.states(),
     orderByAsc: false,
     supplier_total_amount: 0,
+    accontant_payment_accounts: [],
 };
 
 // get state
 const getters = {
     ...test_module.getters(),
     get_supplier_total_amount: (state) => state.supplier_total_amount,
+    get_accountant_payment_accounts: (state) => state.accontant_payment_accounts,
 };
 
 // actions
@@ -65,6 +67,13 @@ const actions = {
 
             dispatch(`fetch_${store_prefix}s`);
         });
+    },
+
+    [`fetch_accountant_payment_accounts`]: async function({state}){
+        await axios.get('accounts/all')
+            .then(res=>{
+                state.payment_accounts = res.data
+            })
     },
 
 }

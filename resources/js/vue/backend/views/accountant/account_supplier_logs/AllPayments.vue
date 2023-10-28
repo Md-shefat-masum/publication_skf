@@ -68,7 +68,7 @@
             </div>
             <div class="table-responsive card-body text-nowrap">
                 <div class="row">
-                    <div class="col-lg-8">
+                    <div class="col-lg-8 mb-3">
                         <table class="table table-hover table-bordered">
                             <thead class="table-light">
                                 <tr>
@@ -109,11 +109,39 @@
                         </table>
                     </div>
                     <div class="col-lg-4">
-                        <h5>Insert New Openning</h5>
+                        <h5>Insert New {{ $route.query.payment_type }}</h5>
                         <form action="" @submit.prevent="call_store(`store_${store_prefix}`,$event.target)">
                             <div class="form-group mb-2">
                                 <label>Date</label>
                                 <input type="date" class="form-control" @click="$event.target.showPicker();" name="date">
+                            </div>
+                            <div v-if="$route.query.payment_type == `payment`">
+                                <div class="form-group mb-2 mt-2">
+                                    <label for="Account">Account</label>
+                                    <select id="account_id" @change="set_selected_account_values($event.target.value)" name="account_id" class="form-select">
+                                        <option value="">select</option>
+                                        <option  v-for="account in get_payment_accounts" :key="account.id" :value="account.id">
+                                            {{ account.name.replaceAll('_',' ') }}
+                                        </option>
+                                    </select>
+                                    <br>
+                                    <ul>
+                                        <li v-for="value in account_vlaues" :key="value.id">
+                                            <label :for="value.id">
+                                                <div class="d-flex flex-wrap">
+                                                    <input class="order-1" :id="value.id" name="payment_method" type="radio" :value="JSON.stringify(value)">
+                                                    <div class="order-2">
+                                                        {{ value.value }}
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label for="">TRX ID</label>
+                                    <input type="text" id="trx_id" name="trx_id" class="form-control">
+                                </div>
                             </div>
                             <div class="form-group mb-2">
                                 <label>Amount</label>
@@ -181,10 +209,12 @@ export default {
         return {
             store_prefix,
             route_prefix,
+            account_vlaues: [],
         }
     },
-    created: function(){
-        this[`fetch_${store_prefix}s`]();
+    created: async function(){
+        await this[`fetch_${store_prefix}s`]();
+        await this.fetch_payment_accounts();
     },
     methods: {
         ...mapActions([
@@ -194,6 +224,7 @@ export default {
             `restore_${store_prefix}`,
             `export_${store_prefix}_all`,
             `export_selected_${store_prefix}_csv`,
+            `fetch_payment_accounts`,
         ]),
         ...mapMutations([
             `set_${store_prefix}_paginate`,
@@ -207,6 +238,10 @@ export default {
             `set_clear_selected_${store_prefix}s`,
             `set_${store_prefix}_show_selected`,
         ]),
+
+        set_selected_account_values: function(account_id){
+            this.account_vlaues = this.get_payment_accounts.find(i=>i.id==account_id)?.numbers || [];
+        },
 
         call_store: function(name, params=null){
             this[name](params)
@@ -230,6 +265,7 @@ export default {
             `get_${store_prefix}_selected`,
             `get_${store_prefix}_show_active_data`,
             `get_supplier_total_amount`,
+            `get_payment_accounts`,
         ]),
     }
 }

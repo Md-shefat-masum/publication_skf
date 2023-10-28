@@ -186,7 +186,8 @@ Route::group(
             });
 
             Route::group(['prefix' => 'accounts'], function () {
-                Route::get('/all', 'Admin\TransactionAccountController@accounts');
+                Route::get('/all', 'Admin\TransactionAccountController@setting_accounts');
+                Route::get('/main-accounts', 'Admin\TransactionAccountController@accounts');
             });
 
             Route::group(['prefix' => 'admin'], function () {
