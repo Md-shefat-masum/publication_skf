@@ -18,4 +18,10 @@ class AccountSupplierLog extends Model
     {
         return Carbon::parse($this->date)->format('d M, y D');
     }
+
+    public function ac_log()
+    {
+        //function_body
+        return $this->belongsTo(AccountLog::class,'account_log_id');
+    }
 }
