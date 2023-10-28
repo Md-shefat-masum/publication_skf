@@ -107,7 +107,7 @@ class SupplierLogController extends Controller
             if(request()->supplier_type == 'binding'){
                 $category = AccountCategory::where('title', 'বাইন্ডিং')->first();
             }
-            if(request()->supplier_type == 'printing'){
+            if(request()->supplier_type == 'print'){
                 $category = AccountCategory::where('title', 'প্রিন্টিং ও ছাপা বিল')->first();
             }
 
