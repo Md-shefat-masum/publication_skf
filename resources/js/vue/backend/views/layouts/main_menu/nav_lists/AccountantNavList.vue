@@ -21,6 +21,9 @@
                 <left-nav-list-item :to="'AccountantAllincomeExpense'" :text="'Income & Expenses'" />
                 <left-nav-list-item :to="'AllAcountantAccountCategories'" :text="'All Categories'" />
                 <left-nav-list-item :to="'AllAccountantPaper'" :text="'Paper Suppliers'" />
+                <left-nav-list-item :to="'AllAccountantPrinting'" :text="'Printing Suppliers'" />
+                <left-nav-list-item :to="'AllAccountantBinding'" :text="'Binding Suppliers'" />
+                <!-- <left-nav-list-item :to="'AllAccountantDesigner'" :text="'Design Suppliers'" /> -->
                 <!-- <left-nav-list-item :to="'AllAcountantAccountCustomer'" :text="'All Customer'" /> -->
                 <!-- <left-nav-list-item :to="'CreateAcountantAccountCategories'" :text="'Create Category'" /> -->
             </left-nav-list-group>
