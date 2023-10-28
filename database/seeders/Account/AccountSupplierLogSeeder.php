@@ -27,20 +27,20 @@ class AccountSupplierLogSeeder extends Seeder
         echo "supplier paper log running \n";
         $category = AccountCategory::where('title', 'কাগজ ক্রয়')->first();
         AccountLog::where('category_id',$category->id)->delete();
-        $this->supplier_entry(SupplierPaper::class, $category);
+        $this->supplier_entry(SupplierPaper::class, $category, 'paper');
 
         echo "supplier binding log running \n";
         $category = AccountCategory::where('title', 'বাইন্ডিং')->first();
         AccountLog::where('category_id',$category->id)->delete();
-        $this->supplier_entry(SupplierBinding::class, $category);
+        $this->supplier_entry(SupplierBinding::class, $category, 'binding');
 
         echo "supplier print log running \n";
         $category = AccountCategory::where('title', 'প্রিন্টিং ও ছাপা বিল')->first();
         AccountLog::where('category_id',$category->id)->delete();
-        $this->supplier_entry(SupplierPrint::class, $category);
+        $this->supplier_entry(SupplierPrint::class, $category, 'print');
     }
 
-    public function supplier_entry($supplier, $category)
+    public function supplier_entry($supplier, $category, $supplier_type)
     {
         $paper_supplier = $supplier::get();
         foreach ($paper_supplier as $supplier) {
@@ -50,7 +50,7 @@ class AccountSupplierLogSeeder extends Seeder
                 'account_log_id' => null,
                 'supplier_id' => $supplier->id,
                 'name' => $supplier->supplier_name ?? $supplier->company_name,
-                'supplier_type' => 'paper',
+                'supplier_type' => $supplier_type,
                 'payment_type' => 'opening',
                 'amount' => $amount,
             ]);
@@ -61,7 +61,7 @@ class AccountSupplierLogSeeder extends Seeder
                     'account_log_id' => null,
                     'supplier_id' => $supplier->id,
                     'name' => $supplier->supplier_name ?? $supplier->company_name,
-                    'supplier_type' => 'paper',
+                    'supplier_type' => $supplier_type,
                     'payment_type' => 'bill',
                     'amount' => $amount,
                 ]);
@@ -87,7 +87,7 @@ class AccountSupplierLogSeeder extends Seeder
                     'account_log_id' => $ac_log->id,
                     'supplier_id' => $supplier->id,
                     'name' => $supplier->supplier_name ?? $supplier->company_name,
-                    'supplier_type' => 'paper',
+                    'supplier_type' => $supplier_type,
                     'payment_type' => 'payment',
                     'amount' => $amount,
                 ]);
