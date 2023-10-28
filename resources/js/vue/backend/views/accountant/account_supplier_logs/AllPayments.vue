@@ -4,6 +4,7 @@
             <div class="card-header">
                 <h4>
                     {{ $route.query.supplier_name }},
+                    {{ $route.query.supplier_type }}
                     {{ $route.query.payment_type }}
                     Records
                     <small v-if="this[`get_${store_prefix}_selected`].length">
