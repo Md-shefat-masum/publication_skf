@@ -21,6 +21,9 @@ class CreateAccountSupplierLogsTable extends Migration
             $table->enum('payment_type',['opening','bill','payment'])->nullable();
             $table->float('amount')->nullable();
             $table->string('name',200)->nullable();
+            $table->text('description')->nullable();
+            $table->date('date')->nullable();
+            $table->string('attachment',100)->nullable();
             $table->timestamps();
         });
     }
