@@ -40,6 +40,15 @@ class SupplierLogController extends Controller
         $query->where('supplier_id',request()->supplier_id);
         $query->where('supplier_type',request()->supplier_type);
         $query->where('payment_type',request()->payment_type);
+
+        if(request()->payment_type == 'payment'){
+            $query->with([
+                'ac_log' => function($q){
+                    $q->with(['account','account_number']);
+                }
+            ]);
+        }
+
         $data = $query->paginate($paginate);
 
         $query = AccountSupplierLog::where('supplier_id',request()->supplier_id);
@@ -88,6 +97,35 @@ class SupplierLogController extends Controller
         }
 
         $data = new AccountSupplierLog();
+
+        if(request()->payment_type == "payment"){
+            $category = null;
+            $payment_method = json_decode(request()->payment_method);
+            if(request()->supplier_type == 'paper'){
+                $category = AccountCategory::where('title', 'কাগজ ক্রয়')->first();
+            }
+            if(request()->supplier_type == 'binding'){
+                $category = AccountCategory::where('title', 'বাইন্ডিং')->first();
+            }
+            if(request()->supplier_type == 'printing'){
+                $category = AccountCategory::where('title', 'প্রিন্টিং ও ছাপা বিল')->first();
+            }
+
+            $ac_log = AccountLog::create([
+               'date' => request()->date,
+               'category_id' => $category->id,
+               'account_id' => request()->account_id,
+               'account_number_id' => $payment_method->id,
+               'trx_id' => request()->trx_id,
+               'is_expense' => 1,
+               'is_income' => 0,
+               'amount' => request()->amount,
+               'description' => request()->description,
+            ]);
+
+            $data->account_log_id = $ac_log->id;
+        }
+
         $data->date = request()->date;
         $data->name = request()->name;
         $data->amount = request()->amount;
