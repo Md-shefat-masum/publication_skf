@@ -394,6 +394,22 @@ Route::group(
                     Route::get('/{id}', 'Accountant\AccountEntryController@show');
                 });
 
+                Route::group(['prefix' => 'supplier-log'], function () {
+                    Route::get('/all', 'Accountant\SupplierLogController@all');
+                    Route::post('/store', 'Accountant\SupplierLogController@store');
+                    Route::post('/canvas-store', 'Accountant\SupplierLogController@canvas_store');
+                    Route::post('/update', 'Accountant\SupplierLogController@update');
+                    Route::post('/canvas-update', 'Accountant\SupplierLogController@canvas_update');
+                    Route::post('/soft-delete', 'Accountant\SupplierLogController@soft_delete');
+                    Route::post('/destroy', 'Accountant\SupplierLogController@destroy');
+                    Route::post('/restore', 'Accountant\SupplierLogController@restore');
+                    Route::post('/bulk-import', 'Accountant\SupplierLogController@bulk_import');
+                    Route::get('/all-json', 'Accountant\SupplierLogController@all_json');
+                    Route::post('/check-exists', 'Accountant\SupplierLogController@check_exists');
+                    Route::post('/add-to-top-cat', 'Accountant\SupplierLogController@add_to_top_cat');
+                    Route::get('/{id}', 'Accountant\SupplierLogController@show');
+                });
+
             });
         });
 
