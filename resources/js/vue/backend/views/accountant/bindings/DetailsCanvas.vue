@@ -2,7 +2,45 @@
     <div class="canvas_backdrop" :class="{active:this[`get_${store_prefix}`]}" @click="$event.target.classList.contains('canvas_backdrop') && call_store(`set_${store_prefix}`,null)">
         <div class="content right" v-if="this[`get_${store_prefix}`]">
             <div class="content_header">
-                <h3 class="offcanvas-title">Details</h3>
+                <div class="d-flex gap-1 flex-wrap align-content-center">
+                    <h3 class="offcanvas-title">Details</h3>
+                    <router-link :to="{
+                            name:`AllSupplierPayments`,
+                            query:{
+                                supplier_name: this[`get_${store_prefix}`].company_name,
+                                payment_type: `opening`,
+                                supplier_id: this[`get_${store_prefix}`].id,
+                                supplier_type: `binding`,
+                            }
+                        }"
+                        class="btn btn-sm rounded-pill btn-outline-info">
+                        Openings
+                    </router-link>
+                    <router-link :to="{
+                            name:`AllSupplierPayments`,
+                            query:{
+                                supplier_name: this[`get_${store_prefix}`].company_name,
+                                payment_type: `bill`,
+                                supplier_id: this[`get_${store_prefix}`].id,
+                                supplier_type: `binding`,
+                            }
+                        }"
+                        class="btn btn-sm rounded-pill btn-outline-info">
+                        Bills
+                    </router-link>
+                    <router-link :to="{
+                            name:`AllSupplierPayments`,
+                            query:{
+                                supplier_name: this[`get_${store_prefix}`].company_name,
+                                payment_type: `payment`,
+                                supplier_id: this[`get_${store_prefix}`].id,
+                                supplier_type: `binding`,
+                            }
+                        }"
+                        class="btn btn-sm rounded-pill btn-outline-info">
+                        Payments
+                    </router-link>
+                </div>
                 <i @click="call_store(`set_${store_prefix}`,null)" class="fa fa-times"></i>
             </div>
             <div class="cotent_body">
@@ -14,20 +52,42 @@
                             <td>{{ this[`get_${store_prefix}`].id }}</td>
                         </tr>
                         <tr>
-                            <td>Company Name</td>
+                            <td>Supplier Name</td>
                             <td>:</td>
-                            <td>{{ this[`get_${store_prefix}`].company_name }}</td>
+                            <td>{{ this[`get_${store_prefix}`].supplier_name }}</td>
                         </tr>
                         <tr>
-                            <td>Binding Cost</td>
+                            <td>Opening</td>
                             <td>:</td>
-                            <td>{{ this[`get_${store_prefix}`].binding_cost }}</td>
+                            <td>{{ this[`get_${store_prefix}`].opening }}</td>
                         </tr>
                         <tr>
-                            <td>Total Book</td>
+                            <td>Bill</td>
                             <td>:</td>
-                            <td>{{ this[`get_${store_prefix}`].total_book }}</td>
+                            <td>{{ this[`get_${store_prefix}`].bill }}</td>
                         </tr>
+                        <tr>
+                            <td>Payment</td>
+                            <td>:</td>
+                            <td>{{ this[`get_${store_prefix}`].payment }}</td>
+                        </tr>
+                        <tr>
+                            <td>Balance</td>
+                            <td>:</td>
+                            <td>{{ this[`get_${store_prefix}`].balance }}</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 190px;">Contact Numbers</td>
+                            <td>:</td>
+                            <td>
+                                <ol>
+                                    <li v-for="number in this[`get_${store_prefix}`].mobile_numbers" :key="number.id">
+                                        {{ number.mobile_number }}
+                                    </li>
+                                </ol>
+                            </td>
+                        </tr>
+
                         <tr>
                             <td>Description</td>
                             <td>:</td>
