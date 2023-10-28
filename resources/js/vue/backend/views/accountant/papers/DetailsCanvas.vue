@@ -2,15 +2,24 @@
     <div class="canvas_backdrop" :class="{active:this[`get_${store_prefix}`]}" @click="$event.target.classList.contains('canvas_backdrop') && call_store(`set_${store_prefix}`,null)">
         <div class="content right" v-if="this[`get_${store_prefix}`]">
             <div class="content_header">
-                <div class="d-flex gap-1 flex-wrap">
+                <div class="d-flex gap-1 flex-wrap align-content-center">
                     <h3 class="offcanvas-title">Details</h3>
-                    <a href="#/accountant/paper/create" class="btn rounded-pill btn-outline-info" permission="can_create">
+                    <router-link :to="{
+                            name:`AllSupplierPayments`,
+                            query:{
+                                supplier_name: this[`get_${store_prefix}`].supplier_name,
+                                payment_type: `opening`,
+                                supplier_id: this[`get_${store_prefix}`].id,
+                                supplier_type: `paper`,
+                            }
+                        }"
+                        class="btn btn-sm rounded-pill btn-outline-info">
                         Openings
-                    </a>
-                    <a href="#/accountant/paper/create" class="btn rounded-pill btn-outline-info" permission="can_create">
+                    </router-link>
+                    <a href="#/accountant/paper/create" class="btn rounded-pill btn-outline-info btn-sm">
                         Bills
                     </a>
-                    <a href="#/accountant/paper/create" class="btn rounded-pill btn-outline-info" permission="can_create">
+                    <a href="#/accountant/paper/create" class="btn rounded-pill btn-outline-info btn-sm">
                         Payments
                     </a>
                 </div>
