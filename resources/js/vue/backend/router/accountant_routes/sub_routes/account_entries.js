@@ -8,7 +8,6 @@ import Import from "../../../views/accountant/account_entries/Import";
 import Income from "../../../views/accountant/account_entries/Income";
 import Expense from "../../../views/accountant/account_entries/Expense";
 
-
 let prefix = `AcountantEntries`
 export default {
     path: "account-entries",
