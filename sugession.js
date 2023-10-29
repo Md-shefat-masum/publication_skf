@@ -40,4 +40,19 @@
     8. checkout delivery cost update
     9. paper supplier and paper stock edit
 
+
+
+    Project: publication skf
+    User: MD Shefat Masum
+    Github: https://github.com/Md-shefat-masum
+    Date: 30 October 2023
+    Time: 02:25:46
+    Path: sugession.js
+    Task List: problem need solution
+
+    1. admin jokhon payment approve korbe receipt id kivabe generat hobe.
+    2. 
+
+
+
  */

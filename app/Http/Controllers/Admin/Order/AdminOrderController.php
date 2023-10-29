@@ -466,6 +466,8 @@ class AdminOrderController extends Controller
             "trx_id" => request()->trx_id,
             "amount" => request()->amount,
             "approved" => 1,
+            "account_id" => request()->account_id,
+            "account_number_id" => $payment_method_info->id,
         ]);
 
         $order = Order::find(request()->order_id);
@@ -483,13 +485,17 @@ class AdminOrderController extends Controller
         $order->save();
 
         $account_log = AccountLog::class;
-        $log = $account_log::create([
+        $log = AccountLog::create([
             'date' => Carbon::now()->toDateTimeString(),
-            'category_id' => 1,
-            'account_id' => $payment_account->id,
-            'is_income' => 1,
+            "name" => $order_payment->user->first_name." ".$order_payment->user->last_name,
             'amount' => $order_payment->amount,
-            'description' => "branch payment received and inserted by admin",
+            'category_id' => 1, // ponno theke ay
+            'account_id' => $order_payment->account_id,
+            'account_number_id' => $order_payment->account_number_id,
+            'trx_id' => $order_payment->trx_id,
+            'receipt_no' => request()->receipt_no,
+            'is_income' => 1,
+            'description' => 'admin received and inserted client payment',
         ]);
 
         $order_payment->account_logs_id = $log->id;
@@ -566,7 +572,6 @@ class AdminOrderController extends Controller
         //     ], 422);
         // }
         if ($payment) {
-            $payment->delete();
 
             $order = Order::find($payment->order_id);
             $order->total_paid = $order->order_payments()->sum('amount');
@@ -578,6 +583,23 @@ class AdminOrderController extends Controller
                 $order->payment_status = 'pending';
             }
             $order->save();
+
+            if($payment->account_logs_id){
+                $log = AccountLog::create([
+                    'date' => Carbon::now()->toDateTimeString(),
+                    "name" => $payment->user->first_name." ".$payment->user->last_name,
+                    'amount' => - ($payment->amount),
+                    'category_id' => 1, // ponno theke ay
+                    'account_id' => $payment->account_id,
+                    'account_number_id' => $payment->account_number_id,
+                    'trx_id' => $payment->trx_id,
+                    'receipt_no' => $payment->receipt_no,
+                    'is_income' => 1,
+                    'description' => 'admin rejected client payment',
+                ]);
+            }
+
+            $payment->delete();
         }
 
         return response()->json('success');
@@ -610,6 +632,21 @@ class AdminOrderController extends Controller
             }
             $order->save();
 
+            $log = AccountLog::create([
+                'date' => Carbon::now()->toDateTimeString(),
+                "name" => $payment->user->first_name." ".$payment->user->last_name,
+                'amount' => $payment->amount,
+                'category_id' => 1, // ponno theke ay
+                'account_id' => $payment->account_id,
+                'account_number_id' => $payment->account_number_id,
+                'trx_id' => $payment->trx_id,
+                'receipt_no' => request()->receipt_no,
+                'is_income' => 1,
+                'description' => 'admin accepted payment',
+            ]);
+
+            $payment->account_logs_id = $log->id;
+            $payment->save();
         }
 
         return response()->json('success');

@@ -71,18 +71,34 @@ class PaymentRequestController extends Controller
             $order_payment->approved = 0;
             $order_payment->account_logs_id = null;
             $order_payment->save();
-            AccountLog::where('id',$order_payment->account_logs_id)->delete();
-            return response()->json("rejected");
-        } else {
 
-            $cash_acount = Account::where('name','cash')->first();
             $log = $account_log::create([
                 'date' => Carbon::now()->toDateTimeString(),
-                'category_id' => 1,
-                'account_id' => $cash_acount->id,
+                "name" => $order_payment->user->first_name." ".$order_payment->user->last_name,
+                'amount' => - ($order_payment->amount),
+                'category_id' => 1, // ponno theke ay
+                'account_id' => $order_payment->account_id,
+                'account_number_id' => $order_payment->account_number_id,
+                'trx_id' => $order_payment->trx_id,
+                'receipt_no' => request()->receipt_no,
                 'is_income' => 1,
+                'description' => 'admin rejected client payment',
+            ]);
+
+            return response()->json("rejected");
+        } else {
+            // $cash_acount = Account::where('name','cash')->first();
+            $log = $account_log::create([
+                'date' => Carbon::now()->toDateTimeString(),
+                "name" => $order_payment->user->first_name." ".$order_payment->user->last_name,
                 'amount' => $order_payment->amount,
-                'description' => 'branch payment accepted',
+                'category_id' => 1, // ponno theke ay
+                'account_id' => $order_payment->account_id,
+                'account_number_id' => $order_payment->account_number_id,
+                'trx_id' => $order_payment->trx_id,
+                'receipt_no' => request()->receipt_no,
+                'is_income' => 1,
+                'description' => 'admin accepted payment',
             ]);
 
             $order_payment->approved = 1;

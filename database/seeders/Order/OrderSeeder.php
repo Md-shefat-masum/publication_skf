@@ -2,6 +2,8 @@
 
 namespace Database\Seeders\Order;
 
+use App\Models\Account\Account;
+use App\Models\Account\AccountLog;
 use App\Models\Order\Order;
 use App\Models\Order\OrderDeliveryInfo;
 use App\Models\Order\OrderDetails;
@@ -44,7 +46,7 @@ class OrderSeeder extends Seeder
                 $rest_products = $order_details->qty;
 
                 echo " production_id: " . $production->id;
-                echo " total_qty: " . $production->print_qty ;
+                echo " total_qty: " . $production->print_qty;
                 echo " total_sales: " . $total_sales;
                 echo " rest_production_products: " . $rest_production_products;
                 echo " order_qty: " . $order_details->qty;
@@ -77,8 +79,8 @@ class OrderSeeder extends Seeder
                     "order_id" => $order_details->order_id,
                     "productions_id" => $production->id,
                 ]);
-            }else{
-                echo "there is no product in stock for qty: ".$order_details->qty." product_id: ".$order_details->product_id ."\n";
+            } else {
+                echo "there is no product in stock for qty: " . $order_details->qty . " product_id: " . $order_details->product_id . "\n";
             }
         }
 
@@ -89,7 +91,7 @@ class OrderSeeder extends Seeder
         OrderDeliveryInfo::truncate();
 
         $order_si = 1;
-        for ($user_id=4; $user_id <= 6; $user_id++) {
+        for ($user_id = 4; $user_id <= 6; $user_id++) {
             for ($order_no = 1; $order_no < 12; $order_no++) {
                 $rand_produts = Product::with('discount')->get()->random(4);
                 // $rand_produts = Product::with('discount')->where('id', 1)->get();
@@ -118,7 +120,7 @@ class OrderSeeder extends Seeder
                         "product_price" => $product->sales_price,
                         "discount_price" => $discount_price,
                         "sales_price" => $product->sales_price - $discount_price,
-                        "qty" => rand(10,20),
+                        "qty" => rand(10, 20),
                     ]);
 
                     $variant = OrderVariant::create([
@@ -159,7 +161,7 @@ class OrderSeeder extends Seeder
                     "address_id" => 6, // user address id, customer
                     "invoice_id" => generateInvoiceId() . $order_si,
                     "invoice_date" => Carbon::now()->subDays(rand(1, 5))->toDateTimeString(),
-                    "order_type" => ["quotation", "invoice", "ecommerce"][rand(0,2)], // Quotation, Pos order, Ecomerce order
+                    "order_type" => ["quotation", "invoice", "ecommerce"][rand(0, 2)], // Quotation, Pos order, Ecomerce order
                     "order_status" => ["pending", "accepted", "processing", "delivered", "canceled"][rand(0, 4)],
                     "order_coupon_id" => null,
 
@@ -168,7 +170,7 @@ class OrderSeeder extends Seeder
                     "coupon_discount" => 0,
                     "delivery_charge" => $delivery_method["price"],
                     "variant_price" => $variant_price, // extra charge for product variants
-                    "total_price" => ($subtotal + $delivery_method["price"] + $variant_price ) - $total_discount_price,
+                    "total_price" => ($subtotal + $delivery_method["price"] + $variant_price) - $total_discount_price,
 
                     "payment_status" => explode(',', 'pending, partially paid, paid')[rand(0, 2)], // pending, partially paid, paid
                     "delivery_method" => $delivery_method["type"],
@@ -185,16 +187,21 @@ class OrderSeeder extends Seeder
                     "location_id" => 6, // shipping id
                 ]);
 
+                $account = Account::where('name', 'bkash')->first();
+                $number = $account->numbers()->get()->random();
+                $approve = rand(0, 1);
                 $payment = OrderPayment::create([
                     "order_id" => $order->id,
                     "user_id" => $user_id,
                     "customer_id" => null,
-                    "payment_method" => "bkash",
-                    "number" => "+880 14523698",
+                    "payment_method" => $account->name,
+                    "number" => $number->value,
                     "date" => Carbon::parse($order->invoice_date)->format('y-m-d'),
                     "trx_id" => uniqid(),
                     "amount" => rand($order->total_price - round($order->total_price / 2), $order->total_price),
-                    "approved" => rand(0,1),
+                    "approved" => $approve,
+                    "account_id" => $account->id,
+                    "account_number_id" => $number->id,
                 ]);
 
                 $order->total_paid = $payment->amount;
