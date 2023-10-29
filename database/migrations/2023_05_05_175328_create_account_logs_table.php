@@ -17,6 +17,9 @@ class CreateAccountLogsTable extends Migration
             $table->id();
 
             $table->timestamp('date')->nullable();
+            $table->string('name',200)->nullable();
+            $table->float('amount')->nullable();
+
             $table->bigInteger('category_id')->nullable();
             $table->bigInteger('account_id')->default(1);
             $table->bigInteger('account_number_id')->nullable();
@@ -26,7 +29,6 @@ class CreateAccountLogsTable extends Migration
             $table->tinyInteger('is_expense')->default(0);
             $table->tinyInteger('is_income')->default(0);
 
-            $table->float('amount')->nullable();
             $table->text('description')->nullable();
 
             $table->bigInteger('creator')->unsigned()->nullable();

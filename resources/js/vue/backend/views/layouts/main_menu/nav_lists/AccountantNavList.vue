@@ -28,6 +28,12 @@
                 <!-- <left-nav-list-item :to="'CreateAcountantAccountCategories'" :text="'Create Category'" /> -->
             </left-nav-list-group>
 
+            <left-nav-list-group :role_permissions="['accountant']" :icon="`fa fa-list`" :text="`Reports`" :alert_count="0">
+                <left-nav-list-item :to="'IncomeLedger'" :text="'Income Ledger'" />
+                <left-nav-list-item :to="'ExpenseLedger'" :text="'Expense Ledger'" />
+                <left-nav-list-item :to="'Statements'" :text="'Statements'" />
+            </left-nav-list-group>
+
 
             <li class="nav-item">
                 <a @click.prevent="fetch_logout()" class="d-flex align-items-center" href="#">

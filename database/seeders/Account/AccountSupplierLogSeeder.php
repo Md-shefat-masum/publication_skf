@@ -17,7 +17,8 @@ class AccountSupplierLogSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     * php artisan db:seed --class="Database\Seeders\Account\AccountSupplierLogSeeder"
+        php artisan db:seed --class="Database\Seeders\Account\AccountLogSeeder"
+        php artisan db:seed --class="Database\Seeders\Account\AccountSupplierLogSeeder"
      * @return void
      */
     public function run()
@@ -81,6 +82,8 @@ class AccountSupplierLogSeeder extends Seeder
                     "account_id" => $account->id,
                     "account_number_id" => $account_number->id,
                     'trx_id' => uniqid('',true),
+                    "name" => $supplier->supplier_name ?? $supplier->company_name,
+                    "receipt_no" => rand(1000000,9999999)
                 ]);
 
                 AccountSupplierLog::create([

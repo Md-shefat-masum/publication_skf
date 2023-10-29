@@ -3,6 +3,7 @@
 namespace Database\Seeders\Account;
 
 use App\Models\Account\Account;
+use App\Models\Account\AccountantVendor;
 use App\Models\Account\AccountCategory;
 use App\Models\Account\AccountLog;
 use App\Models\Order\Order;
@@ -14,7 +15,8 @@ class AccountLogSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     * php artisan db:seed --class="Database\Seeders\Account\AccountLogSeeder"
+        php artisan db:seed --class="Database\Seeders\Account\AccountLogSeeder"
+        php artisan db:seed --class="Database\Seeders\Account\AccountSupplierLogSeeder"
      * @return void
      */
     public function run()
@@ -245,15 +247,22 @@ class AccountLogSeeder extends Seeder
         foreach ($order_payments as $item) {
             $account = Account::where('id', rand(2, 5))->first();
             $account_number = $account->numbers()->get()->random();
+            $user_name = "";
+            $user = $item->user()->first();
+            if($user){
+                $user_name = $user->first_name." ".$user->last_name;
+            }
             $ac_log = AccountLog::create([
                 "date" => $item->date,
+                "name" => $user_name,
+                "amount" => $item->amount,
                 'category_id' => 1,
                 "is_expense" => 0,
                 "is_income" => 1,
-                "amount" => $item->amount,
                 "description" => "order payment received by admin",
                 "account_id" => $account->id,
                 "account_number_id" => $account_number->id,
+                "receipt_no" => rand(1000000,9999999)
             ]);
             $item->account_logs_id = $ac_log->id;
             $item->save();
@@ -273,6 +282,8 @@ class AccountLogSeeder extends Seeder
                     "description" => "accountant entry",
                     "account_id" => $account->id,
                     "account_number_id" => $account_number->id,
+                    "name" => AccountantVendor::find($i+1)->name,
+                    "receipt_no" => rand(1000000,9999999)
                 ]);
             }
             for ($i = 0; $i < 5; $i++) {
@@ -286,6 +297,8 @@ class AccountLogSeeder extends Seeder
                     "amount" => rand(100, 1000),
                     "account_id" => $account->id,
                     "account_number_id" => $account_number->id,
+                    "name" => AccountantVendor::find($i+1)->name,
+                    "receipt_no" => rand(1000000,9999999),
                 ]);
             }
         }

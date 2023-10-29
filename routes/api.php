@@ -18,7 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return [$request->user(), auth()->user()];
 });
 
-Route::middleware('cors')->get('/t',function(){
+Route::middleware('cors')->get('/t', function () {
     return ['ok'];
 });
 
@@ -342,6 +342,11 @@ Route::group(
             });
 
             Route::group(['prefix' => 'accountant'], function () {
+
+                Route::group(['prefix' => 'report'], function () {
+                    Route::get('/ledger','Accountant\ReportController@ledger');
+                    Route::get('/income-expense-closing-in-range','Accountant\ReportController@income_expense_closing_in_range');
+                });
                 Route::group(['prefix' => 'account-category'], function () {
                     Route::get('/income-expese', 'Accountant\AccountCategoryController@income_and_expense');
                     Route::get('/previous-extra-money', 'Accountant\AccountCategoryController@previous_extra_money');
@@ -412,7 +417,6 @@ Route::group(
                     Route::post('/add-to-top-cat', 'Accountant\SupplierLogController@add_to_top_cat');
                     Route::get('/{id}', 'Accountant\SupplierLogController@show');
                 });
-
             });
         });
 
@@ -446,5 +450,3 @@ Route::group(
         });
     }
 );
-
-

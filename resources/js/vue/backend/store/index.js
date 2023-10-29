@@ -31,6 +31,7 @@ import accountant_category_modules from './modules/accountant/accountant_categor
 import accountant_category_type_modules from './modules/accountant/accountant_category_type_modules';
 import accountant_entry_modules from './modules/accountant/accountant_entry_modules';
 import accountant_supplier_log_modules from './modules/accountant/accountant_supplier_log_modules';
+import accountant_report_modules from './modules/accountant/accountant_report_modules';
 
 const store = new Vuex.Store({
     modules: {
@@ -62,6 +63,7 @@ const store = new Vuex.Store({
         accountant_category_type_modules,
         accountant_entry_modules,
         accountant_supplier_log_modules,
+        accountant_report_modules,
     },
     state: {},
     getters: {},

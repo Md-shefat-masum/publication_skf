@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Account\AccountantVendor;
 use App\Models\User\Customer;
+use Database\Seeders\Account\AccountantVendorSeeder;
 use Database\Seeders\Account\AccountCategorySeeder;
 use Database\Seeders\Account\AccountCategoryTypeSeeder;
 use Database\Seeders\Account\AccountLogSeeder;
@@ -48,7 +50,7 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
         $this->call([
             UserSeeder::class,
-            CustomerSeeder::class,
+            AccountantVendorSeeder::class,
             // ExtraUserSeeder::class,
             ContactMessageSeeder::class,
             MobileNumberSeeder::class,

@@ -9,6 +9,7 @@ import paper from "./sub_routes/paper";
 import print from "./sub_routes/print";
 import binding from "./sub_routes/binding";
 import designer from "./sub_routes/designer";
+import report from "./sub_routes/report";
 
 export default {
     path: "/accountant",
@@ -28,5 +29,6 @@ export default {
         print,
         binding,
         designer,
+        report,
     ],
 };
