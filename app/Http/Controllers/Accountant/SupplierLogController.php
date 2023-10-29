@@ -37,23 +37,23 @@ class SupplierLogController extends Controller
         //     });
         // }
 
-        $query->where('supplier_id',request()->supplier_id);
-        $query->where('supplier_type',request()->supplier_type);
-        $query->where('payment_type',request()->payment_type);
+        $query->where('supplier_id', request()->supplier_id);
+        $query->where('supplier_type', request()->supplier_type);
+        $query->where('payment_type', request()->payment_type);
 
-        if(request()->payment_type == 'payment'){
+        if (request()->payment_type == 'payment') {
             $query->with([
-                'ac_log' => function($q){
-                    $q->with(['account','account_number']);
+                'ac_log' => function ($q) {
+                    $q->with(['account', 'account_number']);
                 }
             ]);
         }
 
         $data = $query->paginate($paginate);
 
-        $query = AccountSupplierLog::where('supplier_id',request()->supplier_id);
-        $query->where('supplier_type',request()->supplier_type);
-        $query->where('payment_type',request()->payment_type);
+        $query = AccountSupplierLog::where('supplier_id', request()->supplier_id);
+        $query->where('supplier_type', request()->supplier_type);
+        $query->where('payment_type', request()->payment_type);
         $total_amount = $query->sum('amount');
 
         return response()->json([
@@ -83,10 +83,11 @@ class SupplierLogController extends Controller
         $validator = Validator::make(request()->all(), [
             'date' => ['required'],
             'name' => ['required'],
-            'amount' => ['required','numeric'],
+            'amount' => ['required', 'numeric'],
             'payment_type' => ['required'],
             'supplier_type' => ['required'],
             'supplier_id' => ['required'],
+            
         ]);
 
         if ($validator->fails()) {
@@ -98,29 +99,37 @@ class SupplierLogController extends Controller
 
         $data = new AccountSupplierLog();
 
-        if(request()->payment_type == "payment"){
+        if (request()->payment_type == "payment") {
             $category = null;
-            $payment_method = json_decode(request()->payment_method);
-            if(request()->supplier_type == 'paper'){
+            $payment_method = (object) [];
+            try {
+                $payment_method = json_decode(request()->payment_method);
+            } catch (\Throwable $th) {
+
+            }
+
+            if (request()->supplier_type == 'paper') {
                 $category = AccountCategory::where('title', 'কাগজ ক্রয়')->first();
             }
-            if(request()->supplier_type == 'binding'){
+
+            if (request()->supplier_type == 'binding') {
                 $category = AccountCategory::where('title', 'বাইন্ডিং')->first();
             }
-            if(request()->supplier_type == 'print'){
+
+            if (request()->supplier_type == 'print') {
                 $category = AccountCategory::where('title', 'প্রিন্টিং ও ছাপা বিল')->first();
             }
 
             $ac_log = AccountLog::create([
-               'date' => request()->date,
-               'category_id' => $category->id,
-               'account_id' => request()->account_id,
-               'account_number_id' => $payment_method->id,
-               'trx_id' => request()->trx_id,
-               'is_expense' => 1,
-               'is_income' => 0,
-               'amount' => request()->amount,
-               'description' => request()->description,
+                'date' => request()->date,
+                'category_id' => $category->id,
+                'account_id' => request()->account_id,
+                'account_number_id' => $payment_method->id ?? 0,
+                'trx_id' => request()->trx_id,
+                'is_expense' => 1,
+                'is_income' => 0,
+                'amount' => request()->amount,
+                'description' => request()->description,
             ]);
 
             $data->account_log_id = $ac_log->id;
@@ -135,8 +144,8 @@ class SupplierLogController extends Controller
         $data->description = request()->description;
         $data->save();
 
-        if(request()->hasFile('attachment')){
-            $path = Storage::putFile('uploads/supplier_payments',request()->file('attachment'));
+        if (request()->hasFile('attachment')) {
+            $path = Storage::putFile('uploads/supplier_payments', request()->file('attachment'));
             $data->attachment = $path;
         }
 

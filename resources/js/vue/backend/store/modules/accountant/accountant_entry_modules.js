@@ -27,43 +27,6 @@ const actions = {
     //     console.log(res.data);
     // },
 
-    [`fetch_${store_prefix}_income_expense`]: async function ({ commit, dispatch, getters, rootGetters, rootState, state }) {
-        let url = `/${api_prefix}/income-expese`;
-        await axios.get(url).then((res) => {
-            // this.commit(`set_${store_prefix}s`, res.data);
-            state.accountant_all_income_expense = res.data;
-        });
-    },
-
-    [`fetch_${store_prefix}_income_categories`]: async function ({ commit, dispatch, getters, rootGetters, rootState, state }) {
-        let url = `/${api_prefix}/all-income-categories`;
-        await axios.get(url).then((res) => {
-            // this.commit(`set_${store_prefix}s`, res.data);
-            state.income_categories = res.data;
-        });
-    },
-
-    [`fetch_${store_prefix}_expense_categories`]: async function ({ commit, dispatch, getters, rootGetters, rootState, state }) {
-        let url = `/${api_prefix}/all-expense-categories`;
-        await axios.get(url).then((res) => {
-            // this.commit(`set_${store_prefix}s`, res.data);
-            state.expense_categories = res.data;
-        });
-    },
-
-    [`fetch_${store_prefix}`]: async function ({ state, rootState }, { id, render_to_form }) {
-        let url = `/${api_prefix}/${id}`;
-        await axios.get(url).then((res) => {
-            this.commit(`set_${store_prefix}`, res.data);
-            rootState.accountant_category_type_modules.accountant_category_type_selected = [];
-            rootState.accountant_category_type_modules.accountant_category_type_selected.push(res.data.type);
-            if (render_to_form) {
-                window.set_form_data(".admin_form", res.data);
-            }
-        });
-
-    },
-
     /** override store */
     [`store_${store_prefix}`]: function ({ state, getters, commit, rootState }) {
 
@@ -77,7 +40,9 @@ const actions = {
 
                 // rootState.accountant_category_type_modules.accountant_category_type_selected = [];
 
-                window.s_alert('new data has been created');
+                let file_preview = document.querySelector(".file_preview")
+                file_preview && (file_preview.innerHTML = "");
+                window.s_alert('new income has been created');
 
                 // management_router.push({ name: `Edit${route_prefix}`, params: { id: res.data.product.id } })
             })
@@ -86,17 +51,27 @@ const actions = {
             })
     },
 
-    /** override update */
-    [`update_${store_prefix}`]: function({state, getters, commit}){
-        const { form_values, form_inputs, form_data } = window.get_form_data('.create_form');
-        const { get_accountant_category_type_selected: types } = getters;
+    /** override store */
+    [`store_${store_prefix}_expense`]: function ({ state, getters, commit, rootState }) {
 
-        types.forEach(i => form_data.append('type_id', i.id));
-        form_data.append('id',state[store_prefix].id);
-        axios.post(`/${api_prefix}/update`,form_data)
-            .then(({data})=>{
-                this.commit(`set_${store_prefix}`, data);
-                window.s_alert('data has been updated');
+        const { form_values, form_inputs, form_data } = window.get_form_data('.create_form');
+        // const { get_accountant_category_type_selected: types } = getters;
+        // types.forEach(i => form_data.append('type_id', i.id));
+
+        axios.post(`/${api_prefix}/store/expense`, form_data)
+            .then(res => {
+                $('.create_form').trigger('reset');
+
+                // rootState.accountant_category_type_modules.accountant_category_type_selected = [];
+
+                let file_preview = document.querySelector(".file_preview")
+                file_preview && (file_preview.innerHTML = "");
+                window.s_alert('new expense has been created');
+
+                // management_router.push({ name: `Edit${route_prefix}`, params: { id: res.data.product.id } })
+            })
+            .catch(error => {
+
             })
     },
 

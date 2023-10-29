@@ -58,7 +58,18 @@ class SettingController extends Controller
 
     public function get_payment_accounts()
     {
-        $payment_acocunts = Account::whereNotIn('name',['cash'])->with('numbers')->get();
-        return $payment_acocunts;
+        $accounts = Account::select('id', 'name')
+            ->whereIn('name', [
+                'cash',
+                'bkash', 'nagad',
+                'rocket', 'bank_account'
+            ])
+            ->where('status', 1)
+            ->with([
+                'numbers' => function ($q) {
+                    return $q->select(['id', 'account_id', 'value']);
+                }
+            ])->get();
+        return $accounts;
     }
 }

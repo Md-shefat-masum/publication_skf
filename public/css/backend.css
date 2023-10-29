@@ -81,8 +81,8 @@ html.dark-layout .watch.to_nav_watch {
 }
 
 .content-body {
-  min-height: calc(100vh - 90px);
-  max-height: calc(100vh - 90px);
+  min-height: calc(100vh - 103px);
+  max-height: calc(100vh - 103px);
   overflow-y: hidden;
 }
 
@@ -425,6 +425,16 @@ html.nav-hide-hover .header-navbar.floating-nav {
 
 .page-link .sr-only {
   display: none;
+}
+
+.income_expense_date_field {
+  border: 0;
+  -webkit-box-shadow: 0;
+          box-shadow: 0;
+  outline: 0;
+  color: white;
+  width: 108px;
+  background: transparent;
 }
 
 .custom_scroll, .canvas_backdrop .content .cotent_body, .list_card .card-body {
@@ -1365,6 +1375,7 @@ html.nav-hide-hover .header-navbar.floating-nav {
   .footer_fixed {
     -webkit-box-shadow: unset;
             box-shadow: unset;
+    display: none;
   }
 }
 .footer_fixed td {
@@ -1441,6 +1452,9 @@ html.nav-hide-hover .header-navbar.floating-nav {
             box-shadow: unset !important;
     background-color: unset !important;
     position: unset;
+  }
+  .income_expense_date_field {
+    color: black;
   }
 }
 

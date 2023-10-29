@@ -13,6 +13,7 @@ class TransactionAccountController extends Controller
     {
         $accounts = Account::select('id', 'name')
             ->whereIn('name', [
+                'cash',
                 'bkash', 'nagad',
                 'rocket', 'bank_account'
             ])

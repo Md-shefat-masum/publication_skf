@@ -4,10 +4,10 @@
             <div class="card-header">
                 <h4>Income Entry</h4>
                 <div class="btns">
-                    <router-link :to="{ name: `All${route_prefix}` }" class="btn rounded-pill btn-outline-warning" >
+                    <!-- <router-link :to="{ name: `All${route_prefix}` }" class="btn rounded-pill btn-outline-warning" >
                         <i class="fa fa-arrow-left me-5px"></i>
                         Back
-                    </router-link>
+                    </router-link> -->
                 </div>
             </div>
             <form @submit.prevent="call_store(`store_${store_prefix}`,$event.target)" class="create_form" autocomplete="false">
@@ -31,6 +31,40 @@
                                         :name="`amount`"
                                     />
                                 </div>
+
+                                <div class="form-group mb-2">
+                                    <label for="Account">Account</label>
+                                    <select id="account_id" @change="set_selected_account_values($event.target.value)" name="account_id" class="form-select">
+                                        <option value="">select</option>
+                                        <option  v-for="account in accounts" :key="account.id" :value="account.id">
+                                            {{ account.name.replaceAll('_',' ') }}
+                                        </option>
+                                    </select>
+
+                                    <ul>
+                                        <li v-for="value in account_vlaues" :key="value.id">
+                                            <label :for="value.id">
+                                                <div class="d-flex flex-wrap">
+                                                    <input class="order-1" :id="value.id" name="payment_method" type="radio" :value="JSON.stringify(value)">
+                                                    <div class="order-2">
+                                                        {{ value.value }}
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="form-group mb-2">
+                                    <label for="">TRX ID</label>
+                                    <input type="text" id="trx_id" name="trx_id" class="form-control">
+                                </div>
+
+                                <div class="form-group mb-2">
+                                    <label for="">Receipt No</label>
+                                    <input type="text" id="receipt_no" name="receipt_no" class="form-control">
+                                </div>
+
                                 <div class=" form-group d-grid full_width align-content-start gap-1 mb-2 " >
                                     <label for="description">Entry Description</label>
                                     <textarea class="form-control" id="description" name="description"></textarea>
@@ -38,8 +72,9 @@
                                 <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Attachment`"
-                                        :name="`amount`"
+                                        :name="`attachments`"
                                         :type="`file`"
+                                        :id="`attachments`"
                                         :multiple="true"
                                     />
                                 </div>
@@ -72,24 +107,31 @@ export default {
         return {
             /** store prefix for JSX */
             store_prefix,
-            route_prefix
+            route_prefix,
+            account_vlaues: [],
         }
     },
-    created: function () {
-        this[`fetch_accountant_category_income_categories`]();
+    created: async function () {
+        await this[`fetch_accountant_category_income_categories`]();
+        await this.fetch_payment_accounts();
     },
     methods: {
         ...mapActions([
             `store_${store_prefix}`,
             `fetch_accountant_category_income_categories`,
+            `fetch_payment_accounts`,
         ]),
         call_store: function(name, params=null){
             this[name](params)
         },
+        set_selected_account_values: function(account_id){
+            this.account_vlaues = this.accounts.find(i=>i.id==account_id)?.numbers || [];
+        },
     },
     computed: {
         ...mapGetters({
-            categories: `get_income_categories`
+            categories: `get_income_categories`,
+            accounts: `get_payment_accounts`,
         }),
     }
 };
