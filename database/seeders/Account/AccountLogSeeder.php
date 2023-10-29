@@ -249,8 +249,8 @@ class AccountLogSeeder extends Seeder
             $account_number = $account->numbers()->get()->random();
             $user_name = "";
             $user = $item->user()->first();
-            if($user){
-                $user_name = $user->first_name." ".$user->last_name;
+            if ($user) {
+                $user_name = $user->first_name . " " . $user->last_name;
             }
             $ac_log = AccountLog::create([
                 "date" => $item->date,
@@ -262,13 +262,13 @@ class AccountLogSeeder extends Seeder
                 "description" => "order payment received by admin",
                 "account_id" => $account->id,
                 "account_number_id" => $account_number->id,
-                "receipt_no" => rand(1000000,9999999)
+                "receipt_no" => rand(1000000, 9999999)
             ]);
             $item->account_logs_id = $ac_log->id;
             $item->save();
         }
 
-        $account_categories = AccountCategory::where('id', '>', 1)->get();
+        $account_categories = AccountCategory::where('id', '>', 1)->where('type_id', 1)->get();
         foreach ($account_categories as $category) {
             for ($i = 0; $i < 5; $i++) {
                 $account = Account::where('id', rand(2, 5))->first();
@@ -282,10 +282,14 @@ class AccountLogSeeder extends Seeder
                     "description" => "accountant entry",
                     "account_id" => $account->id,
                     "account_number_id" => $account_number->id,
-                    "name" => AccountantVendor::find($i+1)->name,
-                    "receipt_no" => rand(1000000,9999999)
+                    "name" => AccountantVendor::find($i + 1)->name,
+                    "receipt_no" => rand(1000000, 9999999)
                 ]);
             }
+        }
+
+        $account_categories = AccountCategory::where('id', '>', 1)->where('type_id', 2)->get();
+        foreach ($account_categories as $category) {
             for ($i = 0; $i < 5; $i++) {
                 $account = Account::where('id', rand(2, 5))->first();
                 $account_number = $account->numbers()->get()->random();
@@ -297,8 +301,8 @@ class AccountLogSeeder extends Seeder
                     "amount" => rand(100, 1000),
                     "account_id" => $account->id,
                     "account_number_id" => $account_number->id,
-                    "name" => AccountantVendor::find($i+1)->name,
-                    "receipt_no" => rand(1000000,9999999),
+                    "name" => AccountantVendor::find($i + 1)->name,
+                    "receipt_no" => rand(1000000, 9999999),
                 ]);
             }
         }
