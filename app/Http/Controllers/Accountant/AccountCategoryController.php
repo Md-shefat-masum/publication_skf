@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Account\Account;
 use App\Models\Account\AccountCategory;
 use App\Models\Account\AccountCategoryType;
+use App\Models\Account\AccountLog;
 use App\Models\Order\Order;
 use App\Models\Product\Brand;
 use Carbon\Carbon;
@@ -86,6 +87,9 @@ class AccountCategoryController extends Controller
         $orderBy = request()->orderBy;
         $orderByType = request()->orderByType;
 
+        $from = request()->from;
+        $to = request()->to;
+
         $status = 1;
         if (request()->has('status')) {
             $status = request()->status;
@@ -95,12 +99,12 @@ class AccountCategoryController extends Controller
             ->select(['id', 'name'])
             // ->orderBy($orderBy, $orderByType)
             ->with([
-                'categories' => function ($q) {
+                'categories' => function ($q) use($from, $to){
                     return $q->select('id', 'title', 'type_id')
                         ->withSum([
-                            'logs' => function ($q) {
-                                $q->select(DB::raw("SUM(amount) as total"));
-                                // ->whereMonth('date',Carbon::today()->format('m'))
+                            'logs' => function ($q) use($from, $to){
+                                $q->select(DB::raw("SUM(amount) as total"))
+                                ->whereBetween('date',[$from, $to]);
                             }
                         ], 'total');
                 }
@@ -119,6 +123,14 @@ class AccountCategoryController extends Controller
         return response()->json($users);
     }
 
+    public function previous_extra_money()
+    {
+        $from = request()->from;
+        $income = AccountLog::where('date','<',$from)->where('is_income', 1)->sum('amount');
+        $expense = AccountLog::where('date','<',$from)->where('is_expense',1)->sum('amount');
+        $extra_money = $income - $expense;
+        return $extra_money;
+    }
     public function show($id)
     {
         $data = AccountCategory::where('id', $id)
