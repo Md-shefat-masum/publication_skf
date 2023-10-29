@@ -39,7 +39,11 @@
                             <tr v-for="i in data[1].categories.length" :key="i">
                                 <template v-if="data[0].categories[i-1]">
                                     <td>{{ data[0].categories[i-1].title }}</td>
-                                    <td>{{ data[0].categories[i-1].logs_sum_total?.toString().enToBn() }}</td>
+                                    <td>
+                                        <span v-if="data[0].categories[i-1].logs_sum_total">
+                                            {{ data[0].categories[i-1].logs_sum_total?.toString().enToBn() }}
+                                        </span>
+                                    </td>
                                 </template>
                                 <template v-else>
                                     <td></td>
@@ -47,7 +51,11 @@
                                 </template>
                                 <template v-if="data[1].categories[i-1] ">
                                     <td>{{ data[1].categories[i-1].title }}</td>
-                                    <td>{{ data[1].categories[i-1].logs_sum_total?.toString().enToBn() }}</td>
+                                    <td>
+                                        <span v-if="data[1].categories[i-1].logs_sum_total">
+                                            {{ data[1].categories[i-1].logs_sum_total?.toString().enToBn() }}
+                                        </span>
+                                    </td>
                                 </template>
                                 <template v-else>
                                     <td></td>
@@ -210,7 +218,7 @@ export default {
                     en: 0,
                 }
             }
-            let sum = array.categories.reduce((t,i)=> t+=(+i.logs_sum_total), 0);
+            let sum = array.categories.reduce((t , i) => t += (+i.logs_sum_total) , 0);
             return {
                 bn: sum.toString().enToBn(),
                 en: sum,
