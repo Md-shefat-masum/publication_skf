@@ -50,6 +50,53 @@ class ReportController extends Controller
         ]);
     }
 
+    public function statements()
+    {
+        $from = Carbon::parse(request()->from);
+        $to = Carbon::parse(request()->to);
+        $logs = AccountLog::whereBetween('date', [$from, $to])->get();
+
+        $prev_income = AccountLog::where('date', '<', $from)->where('is_income', 1)->sum('amount');
+        $prev_expense = AccountLog::where('date', '<', $from)->where('is_expense', 1)->sum('amount');
+        $prev_balance = $prev_income - $prev_expense;
+
+        $total_income = AccountLog::where('is_income', 1)->where('date', '<', $to)->sum('amount');
+        $total_expense = AccountLog::where('is_expense', 1)->where('date', '<', $to)->sum('amount');
+        $total_balance = $total_income - $total_expense;
+
+        $satements = [];
+        $satements[] = [
+            "date" => $from->subDay(1)->format('d M, y'),
+            "receipt" => "",
+            "description" => "Previous Balance",
+            "income" => $prev_income,
+            "expense" => $prev_expense,
+            "balance" => $prev_balance,
+        ];
+
+        foreach ($logs as $log) {
+            $temp = [
+                "date" => Carbon::parse($log->date)->format('d M, y'),
+                "receipt" => $log->receipt_no,
+                "description" => $log->category()->first()->title ?? '',
+                "income" => $log->is_income == 1 ? $log->amount : '',
+                "expense" => $log->is_expense == 1 ? $log->amount : '',
+                "balance" => $log->is_income == 1 ? $prev_balance += $log->amount : $prev_balance -= $log->amount,
+            ];
+
+            $satements[] = $temp;
+        }
+
+        return response()->json([
+            "statements" => $satements,
+            "statements_total" => [
+                "total_income" => $total_income,
+                "total_expense" => $total_expense,
+                "total_balance" => $total_balance,
+            ],
+        ]);
+    }
+
     public function category_wise_total($from, $to, $type)
     {
         $data = [];
