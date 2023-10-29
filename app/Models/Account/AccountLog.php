@@ -33,8 +33,13 @@ class AccountLog extends Model
     {
         return $this->belongsTo(Account::class,'account_id');
     }
+    public function category()
+    {
+        return $this->belongsTo(AccountCategory::class,'category_id');
+    }
     public function account_number()
     {
         return $this->belongsTo(AccountNumber::class,'account_number_id');
     }
+
 }
