@@ -345,6 +345,7 @@ Route::group(
 
                 Route::group(['prefix' => 'report'], function () {
                     Route::get('/ledger','Accountant\ReportController@ledger');
+                    Route::get('/statements','Accountant\ReportController@statements');
                     Route::get('/income-expense-closing-in-range','Accountant\ReportController@income_expense_closing_in_range');
                 });
                 Route::group(['prefix' => 'account-category'], function () {
