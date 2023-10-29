@@ -1467,6 +1467,15 @@ html.nav-hide-hover .header-navbar.floating-nav {
   width: -webkit-max-content;
   width: -moz-max-content;
   width: max-content;
+  -webkit-transition-duration: 0.3s;
+       -o-transition-duration: 0.3s;
+          transition-duration: 0.3s;
+}
+.ledger_book .ledger_row:hover {
+  background-color: #252c3e;
+}
+.ledger_book .ledger_row:hover .ledger_col {
+  background-color: #252c3e !important;
 }
 .ledger_book .ledger_row .ledger_col {
   width: 215px;
@@ -1490,6 +1499,12 @@ html.nav-hide-hover .header-navbar.floating-nav {
 }
 .ledger_book .ledger_row .ledger_col.name {
   width: 200px;
+  position: sticky;
+  left: -21px;
+  background-color: #283046;
+  -webkit-box-shadow: 1px 0px 0px 0px rgba(255, 255, 255, 0.1411764706);
+          box-shadow: 1px 0px 0px 0px rgba(255, 255, 255, 0.1411764706);
+  z-index: 1;
 }
 .ledger_book .ledger_row:last-child .ledger_book {
   border-bottom-width: 1px;
@@ -1499,19 +1514,25 @@ html.nav-hide-hover .header-navbar.floating-nav {
   left: 0;
   top: 0;
   background-color: #283046;
-  -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4705882353);
-          box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4705882353);
+  -webkit-box-shadow: 0px 5px 10px -7px rgba(0, 0, 0, 0.5490196078);
+          box-shadow: 0px 5px 10px -7px rgba(0, 0, 0, 0.5490196078);
+  z-index: 2;
 }
 .ledger_book .ledger_row.ledger_heading .ledger_col {
   font-weight: 600;
+}
+.ledger_book .ledger_row.ledger_heading .ledger_col.name {
+  -webkit-box-shadow: 1px 0px 0 0 rgba(255, 255, 255, 0.1411764706);
+          box-shadow: 1px 0px 0 0 rgba(255, 255, 255, 0.1411764706);
 }
 .ledger_book .ledger_row.ledger_footer {
   position: sticky;
   left: 0;
   bottom: 0;
   background-color: #283046;
-  -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4705882353);
-          box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4705882353);
+  -webkit-box-shadow: 0px -2px 10px -3px rgba(0, 0, 0, 0.4705882353);
+          box-shadow: 0px -2px 10px -3px rgba(0, 0, 0, 0.4705882353);
+  z-index: 3;
 }
 .ledger_book .ledger_row.ledger_footer .ledger_col {
   font-weight: 600;
