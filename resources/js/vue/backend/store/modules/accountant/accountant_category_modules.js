@@ -42,7 +42,7 @@ const actions = {
         url += `&to=${params.to}`;
         await axios.get(url).then((res) => {
             // this.commit(`set_${store_prefix}s`, res.data);
-            state.accountant_all_income_expense = res.data;
+            state.accountant_all_income_expense = res.data.data;
         });
     },
 
