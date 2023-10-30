@@ -17,7 +17,18 @@ class AddressSeeder extends Seeder
 
         function generateRandomName()
         {
-            $names = ['John', 'Jane', 'Robert', 'Emily', 'Michael', 'Olivia', 'William', 'Sophia', 'David', 'Emma'];
+            $names = [
+                "Al kawser",
+                "Al Nasba",
+                "BM Voucher Jama",
+                "Gardian",
+                "Mustafig treders",
+                "Abdul Jabber",
+                "Universel treders",
+                "Suganda",
+                "Sashas",
+                "Upaher Galary",
+            ];
             return $names[rand(0, count($names) - 1)];
         }
 
@@ -110,7 +121,7 @@ class AddressSeeder extends Seeder
 
         for ($i = 0; $i < 10; $i++) {
             $user = [
-                "table_name" => "customers",
+                "table_name" => "accountant_vendors",
                 "table_id" => $i + 1,
                 "address_type" => ["billing", "shipping"][rand(0, 1)],
                 'first_name' => generateRandomName(),

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Account\Account;
 use App\Models\Account\AccountCategory;
 use App\Models\Account\AccountCategoryType;
+use App\Models\Account\AccountLog;
 use App\Models\Order\Order;
 use App\Models\Product\Brand;
 use Carbon\Carbon;
@@ -32,13 +33,13 @@ class AccountCategoryController extends Controller
             ->orderBy($orderBy, $orderByType)
             ->withSum([
                 'logs' => function ($q) {
-                    $q->where('is_income',1)->select(DB::raw("SUM(amount) as total_income"));
+                    $q->where('is_income', 1)->select(DB::raw("SUM(amount) as total_income"));
                     // ->whereMonth('date',Carbon::today()->format('m'))
                 }
             ], 'total_income')
             ->withSum([
                 'logs' => function ($q) {
-                    $q->where('is_expense',1)->select(DB::raw("SUM(amount) as total_expense"));
+                    $q->where('is_expense', 1)->select(DB::raw("SUM(amount) as total_expense"));
                     // ->whereMonth('date',Carbon::today()->format('m'))
                 }
             ], 'total_expense');
@@ -70,55 +71,55 @@ class AccountCategoryController extends Controller
 
     public function all_income_categories()
     {
-        $categories = AccountCategory::where('status',1)->where('type_id',1)->orderBy('title','ASC')->get();
+        $categories = AccountCategory::where('status', 1)->where('type_id', 1)->orderBy('title', 'ASC')->get();
         return response()->json($categories);
     }
 
     public function all_expense_categories()
     {
-        $categories = AccountCategory::where('status',1)->where('type_id',2)->orderBy('title','ASC')->get();
+        $categories = AccountCategory::where('status', 1)->where('type_id', 2)->orderBy('title', 'ASC')->get();
         return response()->json($categories);
     }
 
     public function income_and_expense()
     {
-        $paginate = (int) request()->paginate;
-        $orderBy = request()->orderBy;
-        $orderByType = request()->orderByType;
+        $from = request()->from;
+        $to = request()->to;
 
-        $status = 1;
-        if (request()->has('status')) {
-            $status = request()->status;
-        }
-
-        $query = AccountCategoryType::where('status', $status)
-            ->select(['id', 'name'])
-            // ->orderBy($orderBy, $orderByType)
+        $data = AccountCategoryType::select(['id', 'name'])
             ->with([
                 'categories' => function ($q) {
-                    return $q->select('id', 'title', 'type_id')
-                        ->withSum([
-                            'logs' => function ($q) {
-                                $q->select(DB::raw("SUM(amount) as total"));
-                                // ->whereMonth('date',Carbon::today()->format('m'))
-                            }
-                        ], 'total');
+                    return $q->select('id', 'title', 'type_id');
                 }
-            ]);
+            ])->get();
 
-        if (request()->has('search_key')) {
-            $key = request()->search_key;
-            $query->where(function ($q) use ($key) {
-                return $q->where('id', $key)
-                    ->orWhere('id', 'LIKE', '%' . $key . '%');
-            });
+        $total_income = 0;
+        $total_expense = 0;
+        foreach ($data as $type) {
+            foreach ($type->categories as $category) {
+                if($type->id == 1){
+                    $total_income += $category->logs_sum_total = AccountLog::whereBetween('date',[$from,$to])->where('category_id',$category->id)->where('is_income',1)->sum('amount');
+                }else{
+                    $total_expense += $category->logs_sum_total = AccountLog::whereBetween('date',[$from,$to])->where('category_id',$category->id)->where('is_expense',1)->sum('amount');
+                }
+            }
         }
 
-        // $users = $query->paginate($paginate);
-        $users = $query->get();
-        return response()->json($users);
+        return response()->json([
+            "data" => $data,
+            "total_income" => $total_income,
+            "total_expense" => $total_expense,
+        ]);
     }
 
+    public function previous_extra_money()
+    {
+        $from = request()->from;
+        $income = AccountLog::where('date', '<', $from)->where('is_income', 1)->sum('amount');
+        $expense = AccountLog::where('date', '<', $from)->where('is_expense', 1)->sum('amount');
+        $extra_money = $income - $expense;
+        return $extra_money;
+    }
     public function show($id)
     {
         $data = AccountCategory::where('id', $id)

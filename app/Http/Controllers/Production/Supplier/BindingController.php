@@ -37,8 +37,15 @@ class BindingController extends Controller
             });
         }
 
-        $users = $query->paginate($paginate);
-        return response()->json($users);
+        $data = $query->paginate($paginate);
+        foreach ($data->items() as $item) {
+            $item->opening = $item->logs()->where('supplier_id',$item->id)->where('supplier_type','binding')->where('payment_type', 'opening')->sum('amount');
+            $item->bill = $item->logs()->where('supplier_id',$item->id)->where('supplier_type','binding')->where('payment_type', 'bill')->sum('amount');
+            $item->payment = $item->logs()->where('supplier_id',$item->id)->where('supplier_type','binding')->where('payment_type', 'payment')->sum('amount');
+            $item->balance = $item->opening + $item->bill - $item->payment;
+        }
+
+        return response()->json($data);
     }
 
     public function show($id)

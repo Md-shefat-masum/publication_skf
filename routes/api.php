@@ -18,7 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return [$request->user(), auth()->user()];
 });
 
-Route::middleware('cors')->get('/t',function(){
+Route::middleware('cors')->get('/t', function () {
     return ['ok'];
 });
 
@@ -186,7 +186,8 @@ Route::group(
             });
 
             Route::group(['prefix' => 'accounts'], function () {
-                Route::get('/all', 'Admin\TransactionAccountController@accounts');
+                Route::get('/all', 'Admin\TransactionAccountController@setting_accounts');
+                Route::get('/main-accounts', 'Admin\TransactionAccountController@accounts');
             });
 
             Route::group(['prefix' => 'admin'], function () {
@@ -227,6 +228,7 @@ Route::group(
                     Route::post('/canvas-store', 'Admin\Product\ProductController@canvas_store');
                     Route::post('/update', 'Admin\Product\ProductController@update');
                     Route::post('/add-to-top-product', 'Admin\Product\ProductController@add_to_top_product');
+                    Route::post('/add-to-public', 'Admin\Product\ProductController@add_to_public');
                     Route::post('/delete-related-image', 'Admin\Product\ProductController@delete_related_image');
                     Route::post('/canvas-update', 'Admin\Product\ProductController@canvas_update');
                     Route::post('/soft-delete', 'Admin\Product\ProductController@soft_delete');
@@ -340,8 +342,15 @@ Route::group(
             });
 
             Route::group(['prefix' => 'accountant'], function () {
+
+                Route::group(['prefix' => 'report'], function () {
+                    Route::get('/ledger','Accountant\ReportController@ledger');
+                    Route::get('/statements','Accountant\ReportController@statements');
+                    Route::get('/income-expense-closing-in-range','Accountant\ReportController@income_expense_closing_in_range');
+                });
                 Route::group(['prefix' => 'account-category'], function () {
                     Route::get('/income-expese', 'Accountant\AccountCategoryController@income_and_expense');
+                    Route::get('/previous-extra-money', 'Accountant\AccountCategoryController@previous_extra_money');
 
                     Route::get('/all-income-categories', 'Accountant\AccountCategoryController@all_income_categories');
                     Route::get('/all-expense-categories', 'Accountant\AccountCategoryController@all_expense_categories');
@@ -380,6 +389,7 @@ Route::group(
                 Route::group(['prefix' => 'account-entry'], function () {
                     Route::get('/all', 'Accountant\AccountEntryController@all');
                     Route::post('/store', 'Accountant\AccountEntryController@store');
+                    Route::post('/store/expense', 'Accountant\AccountEntryController@expense');
                     Route::post('/canvas-store', 'Accountant\AccountEntryController@canvas_store');
                     Route::post('/update', 'Accountant\AccountEntryController@update');
                     Route::post('/canvas-update', 'Accountant\AccountEntryController@canvas_update');
@@ -393,6 +403,21 @@ Route::group(
                     Route::get('/{id}', 'Accountant\AccountEntryController@show');
                 });
 
+                Route::group(['prefix' => 'supplier-log'], function () {
+                    Route::get('/all', 'Accountant\SupplierLogController@all');
+                    Route::post('/store', 'Accountant\SupplierLogController@store');
+                    Route::post('/canvas-store', 'Accountant\SupplierLogController@canvas_store');
+                    Route::post('/update', 'Accountant\SupplierLogController@update');
+                    Route::post('/canvas-update', 'Accountant\SupplierLogController@canvas_update');
+                    Route::post('/soft-delete', 'Accountant\SupplierLogController@soft_delete');
+                    Route::post('/destroy', 'Accountant\SupplierLogController@destroy');
+                    Route::post('/restore', 'Accountant\SupplierLogController@restore');
+                    Route::post('/bulk-import', 'Accountant\SupplierLogController@bulk_import');
+                    Route::get('/all-json', 'Accountant\SupplierLogController@all_json');
+                    Route::post('/check-exists', 'Accountant\SupplierLogController@check_exists');
+                    Route::post('/add-to-top-cat', 'Accountant\SupplierLogController@add_to_top_cat');
+                    Route::get('/{id}', 'Accountant\SupplierLogController@show');
+                });
             });
         });
 
@@ -426,5 +451,3 @@ Route::group(
         });
     }
 );
-
-

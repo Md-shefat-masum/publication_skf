@@ -2,8 +2,8 @@
 
 .content-body {
     // border: 1px solid;
-    min-height: calc(100vh - 90px);
-    max-height: calc(100vh - 90px);
+    min-height: calc(100vh - 103px);
+    max-height: calc(100vh - 103px);
     overflow-y: hidden;
 }
 
@@ -446,6 +446,15 @@
     font-size: 16px;
 }
 
-.page-link .sr-only{
+.page-link .sr-only {
     display: none;
+}
+
+.income_expense_date_field{
+    border: 0;
+    box-shadow: 0;
+    outline: 0;
+    color: white;
+    width: 108px;
+    background: transparent;
 }

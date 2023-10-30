@@ -73,8 +73,8 @@
                             <table-th :sort="true" :tkey="'id'" :title="'ID'" :ariaLable="'id'"/>
                             <table-th :sort="true" :tkey="'invoice_id'" :title="'Order ID'" />
                             <table-th :sort="true" :tkey="'order_status'" :title="'Order Status'" />
-                            <table-th :sort="false" :tkey="''" :title="'Branch'" />
-                            <table-th :sort="false" :tkey="''" :title="'Contact'" />
+                            <!-- <table-th :sort="false" :tkey="''" :title="'Branch'" /> -->
+                            <!-- <table-th :sort="false" :tkey="''" :title="'Contact'" /> -->
                             <table-th :sort="true" :tkey="'sub_total'" :title="'Sub Total'" />
                             <table-th :sort="true" :tkey="'delivery_charge'" :title="'Shipping'" />
                             <!-- <table-th :sort="true" :tkey="'coupon_discount'" :title="'Coupon Discount'" /> -->
@@ -83,7 +83,7 @@
                             <table-th :sort="false" :tkey="''" :title="'Paid'" />
                             <table-th :sort="false" :tkey="''" :title="'Due'" />
                             <table-th :sort="true" :tkey="'payment_status'" :title="'payment Status'" />
-                            <table-th :sort="true" :tkey="'delivery_method'" :title="'Delivery Method'" />
+                            <!-- <table-th :sort="true" :tkey="'delivery_method'" :title="'Delivery Method'" /> -->
                             <table-th :sort="true" :tkey="'created_at'" :title="'Date'" />
                             <table-th :sort="true" :tkey="'status'" :title="'Status'" />
                             <th aria-label="actions">Actions</th>
@@ -105,8 +105,8 @@
                             <td>
                                 {{ item.order_status }}
                             </td>
-                            <td>{{ item.user.first_name +" "+ item.user.last_name }}</td>
-                            <td>{{ item.user.mobile_number }}</td>
+                            <!-- <td>{{ item.user.first_name +" "+ item.user.last_name }}</td> -->
+                            <!-- <td>{{ item.user.mobile_number }}</td> -->
                             <td>
                                 <strong class="text-info">
                                     {{ item.sub_total}}
@@ -146,9 +146,9 @@
                             <td>
                                 <span :class="`badge ${item.payment_status == 'paid'? `bg-secondary`: 'bg-danger'} me-1`">{{ item.payment_status }}</span>
                             </td>
-                            <td>
+                            <!-- <td>
                                 {{ item.delivery_method }}
-                            </td>
+                            </td> -->
                             <td>{{ new Date(item.invoice_date).toDateString() }} {{ new Date(item.invoice_date).toLocaleTimeString() }}</td>
                             <td>
                                 <!-- <span :class="`badge ${order_status(item.status)} me-1`">{{ item.status }}</span> -->

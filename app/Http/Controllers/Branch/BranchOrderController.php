@@ -466,6 +466,8 @@ class BranchOrderController extends Controller
             "trx_id" => request()->trx_id,
             "amount" => request()->amount,
             "date" => Carbon::now()->toDateString(),
+            "account_id" => $payment_method_info->account_id,
+            "account_number_id" => $payment_method_info->id,
         ]);
 
         $order = Order::find(request()->order_id);

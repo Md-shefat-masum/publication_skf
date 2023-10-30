@@ -18,16 +18,22 @@ class SupplierPrintSeeder extends Seeder
         SupplierPrint::truncate();
 
         $data = array(
-            "The University Press Limited",
-            "Safdar Printing Press",
-            "Fifth Avenue Printing Press",
-            "Anannya Printers",
-            "Adhuna Printing & Packaging",
-            "Panjeree Publications Ltd.",
-            "Bangla Academy",
-            "Biddyut Limited",
-            "Bengal Multimedia Limited",
-            "Meghna Publications"
+            "Arshad Production",
+            "Hoque Printers",
+            "Diganta printers",
+            "Professor pablication",
+            "Brahmaputra Printers",
+            "colour criation",
+            "Gardian",
+            "Sijan Printing",
+            "BIIT Pablication",
+            "BIC",
+            "colour criation",
+            "ZR Printers",
+            "The Imprint Press",
+            "Al falah Printing Press",
+            "Rafiq onubad",
+            "Rafiq onubad",
         );
 
         // function generateRandomMobileNumber()

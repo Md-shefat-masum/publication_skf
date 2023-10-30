@@ -50,38 +50,38 @@
                                         :type="`number`"
                                     />
                                 </div>
-                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                <!-- <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Height`"
                                         :name="`height`"
                                         :type="`number`"
                                         :value="0"
                                     />
-                                </div>
-                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                </div> -->
+                                <!-- <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Width`"
                                         :name="`width`"
                                         :type="`number`"
                                         :value="0"
                                     />
-                                </div>
-                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                </div> -->
+                                <!-- <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Weight`"
                                         :name="`weight`"
                                         :type="`number`"
                                         :value="0"
                                     />
-                                </div>
-                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                </div> -->
+                                <!-- <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Depth`"
                                         :name="`depth`"
                                         :type="`number`"
                                         :value="0"
                                     />
-                                </div>
+                                </div> -->
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Product code (SKU)`"
@@ -117,7 +117,7 @@
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
-                                        :label="`Thumb Image ( 592 x 654 px)`"
+                                        :label="`Thumb Image ( 500 x 680 px)`"
                                         :name="`thumb_image`"
                                         :type="`file`"
                                     />

@@ -100,7 +100,7 @@ const actions = {
         }, 500);
     },
 
-    /** override store */
+    /** store discount */
     [`store_discount_${store_prefix}`]: async function ({ state, getters, commit, rootState }) {
 
         const { form_values, form_inputs, form_data } = window.get_form_data('.create_form');
@@ -152,7 +152,18 @@ const actions = {
 
         axios.post(`/${api_prefix}/add-to-top-product`,{id, value})
             .then(res=>{
-                window.s_alert('product has been updated');
+                window.s_alert('product set as top');
+            })
+            .catch(error=>{
+
+            })
+    },
+
+    [`admin_add_to_public`]: function ({ commit, dispatch, getters, rootGetters, rootState, state }, {id, value}) {
+
+        axios.post(`/${api_prefix}/add-to-public`,{id, value})
+            .then(res=>{
+                window.s_alert('product added to public');
             })
             .catch(error=>{
 

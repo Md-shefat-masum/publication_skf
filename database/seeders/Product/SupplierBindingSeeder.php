@@ -17,16 +17,20 @@ class SupplierBindingSeeder extends Seeder
     {
         SupplierBinding::truncate();
         $data = array(
-            "The University Press Limited",
-            "Safdar Printing Press",
-            "Fifth Avenue Printing Press",
-            "Anannya Printers",
-            "Adhuna Printing & Packaging",
-            "Panjeree Publications Ltd.",
-            "Bangla Academy",
-            "Biddyut Limited",
-            "Bengal Multimedia Limited",
-            "Meghna Publications"
+            "Joti Book Bingding",
+            "Al-Hera Binding",
+            "parvej Binding",
+            "Jahidul Calender Binding",
+            "Jahid binding",
+            "Masum binding",
+            "Professor pablication",
+            "Suganda",
+            "Sashas",
+            "colour criation",
+            "Gardian",
+            "Ali Bindings",
+            "Rakib Binding",
+            "Jinnat Calander Binding",
         );
 
         function generateRandomMobileNumber()

@@ -11,12 +11,18 @@
                         </tr>
                         <tr>
                             <td>মাসের নাম</td>
-                            <td colspan="2" class="text-center">আগষ্ট</td>
+                            <td colspan="2" class="text-center">
+                                {{  date_title  }}
+                            </td>
                             <td class="text-end">সাল</td>
                         </tr>
                         <tr>
                             <td>তারিখ</td>
-                            <td colspan="2" class="text-center">২৪/০৮/২০২৩</td>
+                            <td colspan="2" class="text-center">
+                                <input type="date" v-model="from_date" class="income_expense_date_field" @click="$event.target.showPicker();">
+                                To
+                                <input type="date" v-model="to_date" class="income_expense_date_field" @click="$event.target.showPicker();">
+                            </td>
                             <td class="text-end">২০২৩</td>
                         </tr>
                         <tr>
@@ -33,7 +39,11 @@
                             <tr v-for="i in data[1].categories.length" :key="i">
                                 <template v-if="data[0].categories[i-1]">
                                     <td>{{ data[0].categories[i-1].title }}</td>
-                                    <td>{{ data[0].categories[i-1].logs_sum_total.toString().enToBn() }}</td>
+                                    <td>
+                                        <span v-if="data[0].categories[i-1].logs_sum_total">
+                                            {{ data[0].categories[i-1].logs_sum_total?.toString().enToBn() }}
+                                        </span>
+                                    </td>
                                 </template>
                                 <template v-else>
                                     <td></td>
@@ -41,7 +51,11 @@
                                 </template>
                                 <template v-if="data[1].categories[i-1] ">
                                     <td>{{ data[1].categories[i-1].title }}</td>
-                                    <td>{{ data[1].categories[i-1].logs_sum_total.toString().enToBn() }}</td>
+                                    <td>
+                                        <span v-if="data[1].categories[i-1].logs_sum_total">
+                                            {{ data[1].categories[i-1].logs_sum_total?.toString().enToBn() }}
+                                        </span>
+                                    </td>
                                 </template>
                                 <template v-else>
                                     <td></td>
@@ -49,11 +63,38 @@
                                 </template>
                             </tr>
                         </template>
+
+                        <tr>
+                            <td colspan="3" class="text-end">মোট আয়</td>
+                            <td>{{ get_sum(data[0]).bn }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="text-end">মোট ব্যয়</td>
+                            <td>{{ get_sum(data[1]).bn }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="text-end">উদ্ধৃত্ত</td>
+                            <td>
+                                {{ (get_sum(data[0]).en - get_sum(data[1]).en).toString().enToBn() }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="text-end">বিগত উদ্ধৃত্ত</td>
+                            <td>
+                                {{ get_previous_extra_money.toString().enToBn() }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="text-end">বর্তমান উদ্ধৃত্ত</td>
+                            <td>
+                                {{ (get_previous_extra_money + (get_sum(data[0]).en - get_sum(data[1]).en)).toString().enToBn() }}
+                            </td>
+                        </tr>
                         <tr class="footer_fixed" v-if="data.length">
                             <td>মোট আয়</td>
-                            <td>{{ get_sum(data[0]) }}</td>
+                            <td>{{ get_sum(data[0]).bn }}</td>
                             <td>মোট ব্যয়</td>
-                            <td>{{ get_sum(data[1]) }} </td>
+                            <td>{{ get_sum(data[1]).bn }} </td>
                         </tr>
                     </tbody>
                 </table>
@@ -72,6 +113,7 @@ import SelectedCanvas from './SelectedCanvas.vue';
 
 /** store and route prefix for export object use */
 import PageSetup from './PageSetup';
+import moment from 'moment';
 const {route_prefix, store_prefix} = PageSetup;
 
 export default {
@@ -80,14 +122,54 @@ export default {
         return {
             store_prefix,
             route_prefix,
+
+            from_date: '',
+            to_date: '',
+            date_title: '',
+
             data: []
         }
     },
-    created: function(){
-        this[`fetch_${store_prefix}_income_expense`]();
+    created: async function(){
+        this.from_date = moment().subtract(30,'d').format('YYYY-MM-DD');
+        this.to_date = moment().format('YYYY-MM-DD');
+        this.date_title = moment(this.from_date).format('MMM DD - ');
+        this.date_title += moment(this.to_date).format('MMM DD');
+
+        this[`fetch_${store_prefix}_previous_extra_money`]({
+            from: this.from_date,
+            to: this.to_date,
+        });
+        this[`fetch_${store_prefix}_income_expense`]({
+            from: this.from_date,
+            to: this.to_date,
+        });
         this.$watch(`get_accountant_all_income_expense`,function(v){
-            // console.log(v);
             this.data = v;
+        })
+        this.$watch(`from_date`,function(v){
+            this.date_title = moment(this.from_date).format('MMM DD - ');
+            this.date_title += moment(this.to_date).format('MMM DD');
+            this[`fetch_${store_prefix}_previous_extra_money`]({
+                from: this.from_date,
+                to: this.to_date,
+            });
+            this[`fetch_${store_prefix}_income_expense`]({
+                from: this.from_date,
+                to: this.to_date,
+            });
+        })
+        this.$watch(`to_date`,function(v){
+            this.date_title = moment(this.from_date).format('MMM DD - ');
+            this.date_title += moment(this.to_date).format('MMM DD');
+            this[`fetch_${store_prefix}_previous_extra_money`]({
+                from: this.from_date,
+                to: this.to_date,
+            });
+            this[`fetch_${store_prefix}_income_expense`]({
+                from: this.from_date,
+                to: this.to_date,
+            });
         })
     },
     methods: {
@@ -98,6 +180,7 @@ export default {
             `export_${store_prefix}_all`,
             `export_selected_${store_prefix}_csv`,
             `fetch_${store_prefix}_income_expense`,
+            `fetch_${store_prefix}_previous_extra_money`,
         ]),
         ...mapMutations([
             `set_${store_prefix}_paginate`,
@@ -129,8 +212,17 @@ export default {
         },
 
         get_sum: function(array){
-            let sum = array.categories.reduce((t,i)=> t+=(+i.logs_sum_total), 0);
-            return sum.toString().enToBn();
+            if(!array?.categories){
+                return {
+                    bn: 0,
+                    en: 0,
+                }
+            }
+            let sum = array.categories.reduce((t , i) => t += (+i.logs_sum_total) , 0);
+            return {
+                bn: sum.toString().enToBn(),
+                en: sum,
+            };
         }
     },
     computed: {
@@ -138,7 +230,8 @@ export default {
             `get_${store_prefix}s`,
             `get_${store_prefix}_selected`,
             `get_${store_prefix}_show_active_data`,
-            `get_accountant_all_income_expense`
+            `get_accountant_all_income_expense`,
+            `get_previous_extra_money`,
         ]),
     }
 }

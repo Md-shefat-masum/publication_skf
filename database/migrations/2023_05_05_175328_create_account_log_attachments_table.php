@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAccountSuppliersTable extends Migration
+class CreateAccountLogAttachmentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateAccountSuppliersTable extends Migration
      */
     public function up()
     {
-        Schema::create('account_suppliers', function (Blueprint $table) {
+        Schema::create('account_log_attachments', function (Blueprint $table) {
             $table->id();
-            $table->string('name',200)->nullable();
-            $table->string('email',100)->nullable();
-            $table->text('address')->nullable();
-            $table->text('description')->nullable();
+            $table->bigInteger('account_log_id')->unsigned()->nullable();
+            $table->string('attachment',120)->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateAccountSuppliersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('account_suppliers');
+        Schema::dropIfExists('account_log_attachments');
     }
 }

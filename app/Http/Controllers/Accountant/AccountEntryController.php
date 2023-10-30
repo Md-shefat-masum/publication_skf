@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Account\AccountCategory;
 use App\Models\Account\AccountEntry;
 use App\Models\Account\AccountLog;
+use App\Models\Account\AccountLogAttachment;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class AccountEntryController extends Controller
@@ -30,13 +32,13 @@ class AccountEntryController extends Controller
             ->orderBy($orderBy, $orderByType)
             ->withSum([
                 'logs' => function ($q) {
-                    $q->where('is_income',1)->select(DB::raw("SUM(amount) as total_income"));
+                    $q->where('is_income', 1)->select(DB::raw("SUM(amount) as total_income"));
                     // ->whereMonth('date',Carbon::today()->format('m'))
                 }
             ], 'total_income')
             ->withSum([
                 'logs' => function ($q) {
-                    $q->where('is_expense',1)->select(DB::raw("SUM(amount) as total_expense"));
+                    $q->where('is_expense', 1)->select(DB::raw("SUM(amount) as total_expense"));
                     // ->whereMonth('date',Carbon::today()->format('m'))
                 }
             ], 'total_expense');
@@ -87,7 +89,10 @@ class AccountEntryController extends Controller
         $validator = Validator::make(request()->all(), [
             'category' => ['required'],
             'amount' => ['required'],
+            'account_id' => ['required'],
             'description' => ['required'],
+            'trx_id' => ['required'],
+            // 'attachments' => ['required']
         ]);
 
         if ($validator->fails()) {
@@ -97,30 +102,95 @@ class AccountEntryController extends Controller
             ], 422);
         }
 
-        $data = new AccountEntry();
         $category = AccountCategory::find($request->category);
+
+        $payment_method = (object) [];
+        try {
+            $payment_method = json_decode(request()->payment_method);
+        } catch (\Throwable $th) {
+        }
 
         $account_log = new AccountLog();
         $account_log->date = Carbon::now()->toDateString();
         $account_log->category_id = $category->id;
+        $account_log->trx_id = $request->trx_id;
+        $account_log->receipt_no = $request->receipt_no;
         $account_log->account_id = $request->account_id;
-        $account_log->account_id = 1;
+        $account_log->account_number_id = $payment_method->id ?? 0;
         $account_log->is_expense = 0;
         $account_log->is_income = 1;
         $account_log->amount = $request->amount;
-        $account_log->description = "accountant entry";
+        $account_log->description = request()->description;
         $account_log->creator = Auth::user()->id;
         $account_log->save();
 
-        $data->category = $category->id;
-        $data->category_name = $category->title;
-        $data->log_id = $account_log->id;
-        $data->amount = $request->amount;
-        $data->description = $request->description;
-        $data->creator = Auth::user()->id;
-        $data->save();
+        if (request()->hasFile('attachments')) {
+            foreach (request()->file('attachments') as $file) {
+                try {
+                    AccountLogAttachment::create([
+                        'account_log_id' => $account_log->id,
+                        'attachment' => Storage::put('uploads/account_logs', $file),
+                    ]);
+                } catch (\Throwable $th) {
+                }
+            }
+        }
 
-        return response()->json($data, 200);
+        return response()->json($account_log, 200);
+    }
+
+    public function expense(Request $request)
+    {
+        $validator = Validator::make(request()->all(), [
+            'category' => ['required'],
+            'amount' => ['required'],
+            'account_id' => ['required'],
+            'description' => ['required'],
+            'trx_id' => ['required'],
+            // 'attachments' => ['required']
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'err_message' => 'validation error',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        $category = AccountCategory::find($request->category);
+
+        $payment_method = (object) [];
+        try {
+            $payment_method = json_decode(request()->payment_method);
+        } catch (\Throwable $th) {
+        }
+
+        $account_log = new AccountLog();
+        $account_log->date = Carbon::now()->toDateString();
+        $account_log->category_id = $category->id;
+        $account_log->trx_id = $request->trx_id;
+        $account_log->account_id = $request->account_id;
+        $account_log->account_number_id = $payment_method->id ?? 0;
+        $account_log->is_expense = 1;
+        $account_log->is_income = 0;
+        $account_log->amount = $request->amount;
+        $account_log->description = request()->description;
+        $account_log->creator = Auth::user()->id;
+        $account_log->save();
+
+        if (request()->hasFile('attachments')) {
+            foreach (request()->file('attachments') as $file) {
+                try {
+                    AccountLogAttachment::create([
+                        'account_log_id' => $account_log->id,
+                        'attachment' => Storage::put('uploads/account_logs', $file),
+                    ]);
+                } catch (\Throwable $th) {
+                }
+            }
+        }
+
+        return response()->json($account_log, 200);
     }
 
     public function canvas_store(Request $request)
@@ -286,4 +356,3 @@ class AccountEntryController extends Controller
         return response()->json('success', 200);
     }
 }
-

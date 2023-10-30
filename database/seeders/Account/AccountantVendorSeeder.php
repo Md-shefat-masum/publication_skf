@@ -1,11 +1,11 @@
 <?php
 
-namespace Database\Seeders\User;
+namespace Database\Seeders\Account;
 
-use App\Models\User\Customer;
+use App\Models\Account\AccountantVendor;
 use Illuminate\Database\Seeder;
 
-class CustomerSeeder extends Seeder
+class AccountantVendorSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,16 +14,27 @@ class CustomerSeeder extends Seeder
      */
     public function run()
     {
-        function generateRandomName()
+        function generateRandomName($i)
         {
-            $names = ['John', 'Jane', 'Robert', 'Emily', 'Michael', 'Olivia', 'William', 'Sophia', 'David', 'Emma'];
-            return $names[rand(0, count($names) - 1)];
+            $names = [
+                "Al kawser",
+                "Al Nasba",
+                "BM Voucher Jama",
+                "Gardian",
+                "Mustafig treders",
+                "Abdul Jabber",
+                "Universel treders",
+                "Suganda",
+                "Sashas",
+                "Upaher Galary",
+            ];
+            return $names[$i];
         }
 
         function generateRandomEmail()
         {
             $domains = ['gmail.com', 'yahoo.com', 'hotmail.com', 'example.com'];
-            $name = generateRandomName();
+            $name = generateRandomName(rand(0,9));
             $domain = $domains[rand(0, count($domains) - 1)];
             return $name . '@' . $domain;
         }
@@ -83,16 +94,15 @@ class CustomerSeeder extends Seeder
             return $prefix . $number;
         }
 
-        Customer::truncate();
+        AccountantVendor::truncate();
         for ($i = 0; $i < 10; $i++) {
             $user = [
-                'first_name' => generateRandomName(),
-                'last_name' => generateRandomName(),
+                'name' => generateRandomName($i),
                 'email' => generateRandomEmail(),
                 'image' => "avatar.png",
             ];
 
-            Customer::create($user);
+            AccountantVendor::create($user);
         }
     }
 }

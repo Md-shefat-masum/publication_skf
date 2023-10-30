@@ -24,15 +24,16 @@ class ProductJsonController extends Controller
             "status",
             "slug",
         ])
+            ->where('is_public', 1)
             ->where('status', 1);
 
         if ($request->has('category') && (int) $request->category > 0) {
             $category_id = $request->category;
-            $query->whereExists(function (Builder $query) use($category_id){
+            $query->whereExists(function (Builder $query) use ($category_id) {
                 $query->select(DB::raw(1))
                     ->from('category_product')
                     ->whereColumn('category_product.product_id', 'products.id')
-                    ->where('category_product.category_id',$category_id);
+                    ->where('category_product.category_id', $category_id);
             });
         }
 

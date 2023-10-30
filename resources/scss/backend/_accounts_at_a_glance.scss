@@ -58,6 +58,7 @@
 
     @media print {
         box-shadow: unset;
+        display: none;
     }
 
     td {
@@ -151,4 +152,7 @@
         position: unset;
     }
 
+    .income_expense_date_field{
+        color: black;
+    }
 }
