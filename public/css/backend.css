@@ -1453,7 +1453,6 @@ html.nav-hide-hover .header-navbar.floating-nav {
   width: -moz-max-content;
   width: max-content;
   -webkit-transition-duration: 0.3s;
-       -o-transition-duration: 0.3s;
           transition-duration: 0.3s;
 }
 .ledger_book .ledger_row:hover {

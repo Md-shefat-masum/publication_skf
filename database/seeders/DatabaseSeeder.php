@@ -72,6 +72,9 @@ class DatabaseSeeder extends Seeder
             ProductionDesignerSeeder::class,
             ProductionSeeder::class,
 
+            AccountSeeder::class,
+            AccountNumberSeeder::class,
+
             OrderCouponSeeder::class,
             OrderSeeder::class,
             ProductCartSeeder::class,
@@ -84,8 +87,7 @@ class DatabaseSeeder extends Seeder
             AboutSeeder::class,
             AddressSeeder::class,
 
-            AccountSeeder::class,
-            AccountNumberSeeder::class,
+
             AccountCategoryTypeSeeder::class,
             // AccountCategorySeeder::class,
             AccountLogSeeder::class,

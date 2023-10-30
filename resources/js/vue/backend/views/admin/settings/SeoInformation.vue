@@ -1,5 +1,5 @@
 <template>
-    <div class="conatiner-fulid">
+    <div class="container-fulid">
         <div class="card rounded-none ">
             <div class="card-header">
                 <h4> SEO Informations </h4>

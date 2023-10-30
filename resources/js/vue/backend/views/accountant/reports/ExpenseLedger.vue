@@ -1,5 +1,5 @@
 <template>
-    <div class="conatiner">
+    <div class="container-fluid">
         <div class="card list_card">
             <div class="card-header">
                 <h4>

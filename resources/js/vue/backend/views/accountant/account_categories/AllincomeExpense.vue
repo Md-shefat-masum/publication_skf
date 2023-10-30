@@ -1,5 +1,5 @@
 <template>
-    <div class="conatiner">
+    <div class="container">
         <div class="card list_card py-2">
             <div class="accounts_at_a_glance custom_scroll">
                 <table class="table table-bordered">
