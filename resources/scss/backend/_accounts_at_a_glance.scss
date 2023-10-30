@@ -3,6 +3,7 @@
     margin: auto;
     height: calc(100vh - 200px);
     overflow: auto;
+    margin-bottom: 5px;
 
     table {
 
@@ -152,7 +153,7 @@
         position: unset;
     }
 
-    .income_expense_date_field{
+    .income_expense_date_field {
         color: black;
     }
 }

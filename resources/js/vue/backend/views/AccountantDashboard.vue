@@ -1,5 +1,5 @@
 <template>
-    <section class="p-5 custom_scroll" style="height: calc(100vh - 90px); overflow: auto;">
+    <section class="custom_scroll" style="height: calc(100vh - 90px); overflow: auto;">
         <div class="row">
             <div class="col-xl-12 mb-4 col-lg-12 col-12">
                 <div class="card ">

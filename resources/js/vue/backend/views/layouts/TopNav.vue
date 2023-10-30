@@ -1,22 +1,21 @@
 <template>
     <!-- BEGIN: Header-->
-    <nav class="header-navbar navbar navbar-expand-lg align-items-center floating-nav navbar-dark navbar-shadow container-xxl">
-        <div class="navbar-container d-flex content">
+    <div class="top_header">
+        <nav class="header-navbar">
             <div class="bookmark-wrapper d-flex align-items-center">
-                <ul class="nav navbar-nav align-items-center">
+                <ul class="d-flex align-items-center mb-0 pl-2">
                     <nav-sidebar-toggler></nav-sidebar-toggler>
                     <top-nav-watch></top-nav-watch>
                 </ul>
             </div>
-            <ul class="nav navbar-nav align-items-center ms-auto">
+            <ul class="nav navbar-nav align-items-center justify-content-center ms-auto pr-3 mb-0">
                 <!-- <nav-theme-mode></nav-theme-mode> -->
                 <!-- <nav-search></nav-search> -->
                 <!-- <nav-notifications></nav-notifications> -->
                 <nav-right-profile-menu></nav-right-profile-menu>
             </ul>
-        </div>
-    </nav>
-    <!-- END: Header-->
+        </nav>
+    </div>
 </template>
 
 <script>

@@ -1,0 +1,108 @@
+.vertical-layout.vertical-menu-modern .main-menu {
+    position: unset;
+    height: 100vh;
+}
+
+html.nav-hide .vertical-layout.vertical-menu-modern .app-content {
+    position: unset;
+    width: 100%;
+}
+
+.vertical-layout.vertical-menu-modern .app-content {
+    margin: 0;
+    padding-left: 0;
+}
+
+.dark-layout .main-menu-content .navigation-main .nav-item.open>a,
+.main-menu.menu-dark .navigation>li.open:not(.menu-item-closing)>a,
+.main-menu.menu-dark .navigation>li.sidebar-group-active>a,
+.dark-layout .main-menu.menu-dark .navigation>li.open:not(.menu-item-closing)>a,
+.dark-layout .main-menu.menu-dark .navigation>li.sidebar-group-active>a,
+.dark-layout .main-menu:not(.expanded) .navigation .sidebar-group-active>a {
+    background-color: unset;
+    background: unset;
+}
+
+
+.app_frame {
+    display: flex;
+    gap: 30px;
+
+    .left {
+        transition-duration: .3s;
+        width: 260px;
+
+        @media print {
+            width: 0;
+        }
+
+        .nav-hide & {
+            width: 60px;
+            overflow: hidden;
+
+            .main-menu .navbar-header {
+                padding: 5px 15px;
+            }
+
+            .main-menu.menu-dark .navigation>li>a {
+                margin: 0;
+            }
+
+            .watch {
+                display: none;
+            }
+
+            .main-menu .navigation-main>li a i {
+                font-size: 13px;
+                padding-left: 9px;
+                padding-top: 2px;
+                padding-right: 26px;
+                display: inline-block;
+            }
+        }
+
+        #main-menu-navigation {
+
+            >li.open {
+                >a {
+                    background-color: rgba(67, 89, 113, 0.3) !important;
+                }
+
+                >a .active {
+                    background-color: rgba(67, 89, 113, 0.3) !important;
+                }
+            }
+
+            >li:has(.active) {
+                >a {
+                    background-color: #161D31 !important;
+                }
+            }
+        }
+    }
+
+    .right {
+        flex: 1;
+        width: calc(100vw - 290px);
+
+        @media print {
+            width: 100vw;
+        }
+
+        .top_header {
+            padding-right: 30px;
+
+            .header-navbar {
+                border-radius: 3px;
+                display: flex;
+                justify-content: space-between;
+
+                .bookmark-wrapper {
+                    ul {
+                        list-style-type: none;
+                    }
+                }
+            }
+        }
+    }
+}
