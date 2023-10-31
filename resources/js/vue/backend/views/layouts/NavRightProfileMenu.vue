@@ -18,7 +18,7 @@
                 <span class="avatar-status-online"></span>
             </span>
         </a>
-        <div :class="{show:show_menu}" class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-user">
+        <div :class="{show:show_menu}" style="position: absolute; right: 0;" class="dropdown-menu dropdown-menu-end">
             <a class="dropdown-item" href="#">
                 <i class="me-50" data-feather="user"> </i>
                 Profile

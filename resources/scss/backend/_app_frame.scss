@@ -23,6 +23,20 @@ html.nav-hide .vertical-layout.vertical-menu-modern .app-content {
     background: unset;
 }
 
+.main-menu.menu-dark .navigation>li ul .has-sub:not(.open)>ul,
+.main-menu.menu-dark .navigation>li:not(.open)>ul {
+    display: none;
+}
+
+.main-menu.menu-dark .navigation>li ul .has-sub:not(.open)>ul,
+.main-menu.menu-dark .navigation>li:has(.active)>ul {
+    display: block;
+}
+
+.nav-hide .dark-layout .main-menu-content .navigation-main .navigation-header{
+    display: none;
+}
+
 
 .app_frame {
     display: flex;
@@ -59,6 +73,10 @@ html.nav-hide .vertical-layout.vertical-menu-modern .app-content {
                 padding-right: 26px;
                 display: inline-block;
             }
+
+            >li.navigation-header{
+                display: none;
+            }
         }
 
         #main-menu-navigation {
@@ -78,6 +96,8 @@ html.nav-hide .vertical-layout.vertical-menu-modern .app-content {
                     background-color: #161D31 !important;
                 }
             }
+
+           
         }
     }
 

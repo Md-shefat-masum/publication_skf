@@ -149,7 +149,7 @@ html.dark-layout .watch.to_nav_watch {
   content: "\f107";
 }
 
-@media screen and (max-width: 1199.9px) {
+@media screen and (max-width: 992.9px) {
   html.nav-hide .vertical-layout.vertical-menu-modern .main-menu .navbar-header .navbar-brand .brand-text {
     display: block;
   }
@@ -164,27 +164,12 @@ html.dark-layout .watch.to_nav_watch {
     padding-left: 0px;
     padding-top: 0px;
   }
-  html.nav-hide .vertical-layout.vertical-menu-modern .main-menu .navigation-main > li ul {
-    display: none;
-  }
   html.nav-hide .vertical-layout.vertical-menu-modern .main-menu .navigation-main > li ul:has(.active) {
     display: block;
   }
   html.nav-hide .vertical-layout.vertical-menu-modern .main-menu .navigation-main > li ul li {
     -webkit-box-sizing: border-box;
             box-sizing: border-box;
-  }
-  .vertical-layout.vertical-menu-modern .main-menu .navbar-header .navbar-brand .brand-text {
-    display: none;
-  }
-  .vertical-layout.vertical-menu-modern .main-menu .navigation-main > li.navigation-header {
-    display: none;
-  }
-  .vertical-layout.vertical-menu-modern .main-menu .navigation-main > li::after {
-    display: none;
-  }
-  .vertical-layout.vertical-menu-modern .main-menu .navigation-main > li ul {
-    display: none;
   }
   .vertical-layout.vertical-menu-modern .main-menu .navigation-main > li ul li {
     -webkit-box-sizing: border-box;
@@ -207,12 +192,6 @@ html.dark-layout .watch.to_nav_watch {
     padding-left: 0px;
     padding-top: 0px;
   }
-  .vertical-layout.vertical-menu-modern .main-menu:hover .navigation-main > li ul {
-    display: none;
-  }
-  .vertical-layout.vertical-menu-modern .main-menu:hover .navigation-main > li ul:has(.active) {
-    display: block;
-  }
   .vertical-layout.vertical-menu-modern .main-menu:hover .navigation-main > li ul li {
     -webkit-box-sizing: border-box;
             box-sizing: border-box;
@@ -223,24 +202,12 @@ html.dark-layout .watch.to_nav_watch {
     width: 0px;
   }
 }
-@media (min-width: 1199.9px) {
+@media (min-width: 992.9px) {
   .vertical-layout.vertical-menu-modern .main-menu {
     width: 260px;
   }
-  .vertical-layout.vertical-menu-modern .main-menu .navigation > li ul:has(.active) {
-    display: block;
-  }
   html.nav-hide .vertical-layout.vertical-menu-modern .main-menu {
     width: 80px;
-  }
-  html.nav-hide .vertical-layout.vertical-menu-modern .main-menu .navbar-header .navbar-brand .brand-text {
-    display: none;
-  }
-  html.nav-hide .vertical-layout.vertical-menu-modern .main-menu .navigation-main > li.navigation-header {
-    display: none;
-  }
-  html.nav-hide .vertical-layout.vertical-menu-modern .main-menu .navigation-main > li::after {
-    display: none;
   }
   html.nav-hide .vertical-layout.vertical-menu-modern .main-menu .navigation-main > li ul {
     display: none;
@@ -1524,6 +1491,20 @@ html.nav-hide .vertical-layout.vertical-menu-modern .app-content {
   background: unset;
 }
 
+.main-menu.menu-dark .navigation > li ul .has-sub:not(.open) > ul,
+.main-menu.menu-dark .navigation > li:not(.open) > ul {
+  display: none;
+}
+
+.main-menu.menu-dark .navigation > li ul .has-sub:not(.open) > ul,
+.main-menu.menu-dark .navigation > li:has(.active) > ul {
+  display: block;
+}
+
+.nav-hide .dark-layout .main-menu-content .navigation-main .navigation-header {
+  display: none;
+}
+
 .app_frame {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1559,6 +1540,9 @@ html.nav-hide .vertical-layout.vertical-menu-modern .app-content {
   padding-top: 2px;
   padding-right: 26px;
   display: inline-block;
+}
+.nav-hide .app_frame .left > li.navigation-header {
+  display: none;
 }
 .app_frame .left #main-menu-navigation > li.open > a {
   background-color: rgba(67, 89, 113, 0.3) !important;
