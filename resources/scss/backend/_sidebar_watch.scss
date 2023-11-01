@@ -21,6 +21,10 @@
         transform: unset;
         background-color: unset;
 
+        @media (max-width: 400px) {
+            display: none;
+        }
+
         html.dark-layout & {
             color: $white;
         }

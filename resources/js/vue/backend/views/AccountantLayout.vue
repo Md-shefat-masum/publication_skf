@@ -3,6 +3,7 @@
         <div class="app_frame">
             <div class="left" @mouseover="mouseover" @mouseleave="mouseleave">
                 <main-menu></main-menu>
+                <div class="sm_overlay" @click="menu_hide"></div>
             </div>
             <div class="right">
                 <top-nav></top-nav>
@@ -80,6 +81,11 @@ export default {
                 this.html.classList.remove('nav-hide-hover');
             }
         },
+        menu_hide: function(){
+            event.stopPropagation();
+            this.html.classList.remove('nav-hide')
+            this.html.classList.remove('nav-hide-hover')
+        }
     },
     computed: {
         ...mapGetters({

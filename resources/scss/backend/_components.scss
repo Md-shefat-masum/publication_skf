@@ -145,6 +145,10 @@
         padding-bottom: 0;
         @extend .custom_scroll;
 
+        @media (max-width: 767.9px) {
+            max-height: calc(100vh - 390px);
+        }
+
         .table>:not(caption)>*>* {
             padding: 9px 2rem;
         }
