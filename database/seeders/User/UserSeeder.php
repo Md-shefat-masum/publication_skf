@@ -97,7 +97,7 @@ class UserSeeder extends Seeder
         $user->first_name = 'mr';
         $user->last_name = 'admin';
         $user->user_name = 'admin';
-        $user->telegram_id = '812239513';
+        $user->telegram_id = '664398905'; // parvej vai
         // $user->role_id = 2;
         $user->mobile_number = '016124';
         $user->email = 'admin@gmail.com';
@@ -169,6 +169,5 @@ class UserSeeder extends Seeder
         $user->password = Hash::make('12345678');
         $user->save();
         $user->roles()->attach([5]);
-
     }
 }

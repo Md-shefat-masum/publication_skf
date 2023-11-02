@@ -424,7 +424,7 @@ class AdminOrderController extends Controller
 
     public function send_telegram($message)
     {
-        $bot_token = '5599292546:AAFukGO7qtKIVuINcZJo-9XbqtllVxSwgmY';
+        $bot_token = env('BOT_TOKEN');
         $method = "sendMessage";
 
         $parameters = [

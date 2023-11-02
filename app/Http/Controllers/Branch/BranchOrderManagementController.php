@@ -50,9 +50,13 @@ class BranchOrderManagementController extends Controller
     public function show($id)
     {
         $data = Order::where('id', $id)
-            ->with(["user", "order_details"])
+            ->with([
+                "user",
+                "order_details" => function($q){
+                    return $q->with(['product']);
+                }
+            ])
             ->withSum('order_payments', 'amount')
-            ->where('id', $id)
             ->first();
         $data->payment_records = $data->order_payments()
             ->select(['id', 'order_id', 'number', 'payment_method', 'trx_id', 'amount', 'approved'])

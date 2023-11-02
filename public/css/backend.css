@@ -120,6 +120,7 @@ html.dark-layout .watch.to_nav_watch {
   font-size: 24px;
   cursor: pointer;
   -webkit-transition-duration: 0.3s;
+       -o-transition-duration: 0.3s;
           transition-duration: 0.3s;
 }
 .pos_card_image_card:hover span {
@@ -475,6 +476,7 @@ html.nav-hide-hover .header-navbar.floating-nav {
   right: 50%;
   overflow: hidden;
   -webkit-transition-duration: 0.3s;
+       -o-transition-duration: 0.3s;
           transition-duration: 0.3s;
   position: absolute;
   z-index: 99;
@@ -491,42 +493,50 @@ html.nav-hide-hover .header-navbar.floating-nav {
 .table_actions ul li {
   margin: 0px 0px;
   -webkit-transition-duration: 0.2s;
+       -o-transition-duration: 0.2s;
           transition-duration: 0.2s;
   opacity: 0;
 }
 .table_actions ul li:nth-child(1) {
   margin-left: 10px;
   -webkit-transition-delay: 0.15s;
+       -o-transition-delay: 0.15s;
           transition-delay: 0.15s;
 }
 .table_actions ul li:nth-child(2) {
   margin-left: 20px;
   -webkit-transition-delay: 0.3s;
+       -o-transition-delay: 0.3s;
           transition-delay: 0.3s;
 }
 .table_actions ul li:nth-child(3) {
   margin-left: 30px;
   -webkit-transition-delay: 0.45s;
+       -o-transition-delay: 0.45s;
           transition-delay: 0.45s;
 }
 .table_actions ul li:nth-child(4) {
   margin-left: 40px;
   -webkit-transition-delay: 0.6s;
+       -o-transition-delay: 0.6s;
           transition-delay: 0.6s;
 }
 .table_actions ul li:nth-child(5) {
   margin-left: 50px;
   -webkit-transition-delay: 0.75s;
+       -o-transition-delay: 0.75s;
           transition-delay: 0.75s;
 }
 .table_actions ul li:nth-child(6) {
   margin-left: 60px;
   -webkit-transition-delay: 0.9s;
+       -o-transition-delay: 0.9s;
           transition-delay: 0.9s;
 }
 .table_actions ul li a {
   color: #b4b7be;
   -webkit-transition-duration: 0.3s;
+       -o-transition-duration: 0.3s;
           transition-duration: 0.3s;
   text-transform: capitalize;
   display: block;
@@ -763,6 +773,7 @@ html.nav-hide-hover .header-navbar.floating-nav {
   right: -200vh;
   visibility: hidden;
   -webkit-transition-duration: 0.2s;
+       -o-transition-duration: 0.2s;
           transition-duration: 0.2s;
 }
 .canvas_backdrop.active {
@@ -922,6 +933,7 @@ html.nav-hide-hover .header-navbar.floating-nav {
   border-radius: 0.357rem;
   -webkit-transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
   transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+  -o-transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
   display: -webkit-box;
@@ -1406,6 +1418,7 @@ html.nav-hide-hover .header-navbar.floating-nav {
   width: -moz-max-content;
   width: max-content;
   -webkit-transition-duration: 0.3s;
+       -o-transition-duration: 0.3s;
           transition-duration: 0.3s;
 }
 .ledger_book .ledger_row:hover {
@@ -1549,6 +1562,7 @@ html.nav-hide .vertical-layout.vertical-menu-modern .app-content {
 }
 .app_frame .left {
   -webkit-transition-duration: 0.3s;
+       -o-transition-duration: 0.3s;
           transition-duration: 0.3s;
   width: 260px;
 }

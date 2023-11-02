@@ -14,7 +14,7 @@
             <div onsubmit="event.preventDefault()">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-lg-7">
+                        <div class="col-lg-4">
                             <div class="d-flex gap-2">
                                 <input @keyup="set_p_search_key($event.target.value)" type="search" placeholder="search" class="form-control">
                                 <select class="form-select" @change="set_branch_product_category($event.target.value)">
@@ -45,23 +45,25 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-5">
+                        <div class="col-lg-8">
                             <div class="border border-1 position-sticky top-0 borde-info p-1 rounded-sm mb-2">
                                 <table class="table ">
                                     <thead class="position-static">
                                         <tr>
                                             <th>Title</th>
                                             <th style="width: 130px;">Qty</th>
+                                            <th style="width: 130px;">Com %</th>
                                             <th>Amount</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="product in order_carts" :key="product.id" :title="product.product_name">
-                                            <td class="text-start" >
-                                                <img :src="product.thumb_image_url" style="height: 60px;" alt="">
+                                        <tr v-for="product in order_carts" :key="product.id">
+                                            <td class="text-start">
+                                                {{ product.product_name }}
                                                 <br>
+                                                ৳ {{ product.product.sales_price }}
                                                 <br>
-                                                ৳ {{ product.current_price.toString().enToBn() }}
+                                                ৳ {{ product.current_price.toFixed(2).toString().enToBn() }}
                                                 <br>
                                                 <a href="#" @click.prevent="remove_cart({product})" class="text-danger">delete</a>
                                             </td>
@@ -71,14 +73,20 @@
                                                     @keyup="add_to_cart({product,qty: $event.target.value})"
                                                     :value="product.qty" style="width: 70px;" class="form-control">
                                             </td>
+                                            <td class="text-center">
+                                                <input type="number" min="0"
+                                                    @keyup="add_to_cart({product,qty: product.qty,commission: $event.target.value})"
+                                                    :value="product.discount_percent || 0"
+                                                    style="width: 70px;" class="form-control">
+                                            </td>
                                             <td class="text-end">
-                                                ৳ {{ product.total_price.toString().enToBn() }}
+                                                ৳ {{ product.total_price.toFixed(2).toString().enToBn() }}
                                             </td>
                                         </tr>
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <th colspan="2" class="text-end">total</th>
+                                            <th colspan="3" class="text-end">total</th>
                                             <th class="text-end">৳ {{ tota_order_price.toString().enToBn() }}</th>
                                         </tr>
                                     </tfoot>
