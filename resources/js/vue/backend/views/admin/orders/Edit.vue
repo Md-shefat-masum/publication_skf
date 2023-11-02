@@ -48,7 +48,7 @@
                                         <tr>
                                             <th>Title</th>
                                             <th style="width: 130px;">Qty</th>
-                                            <th style="width: 130px;">Com %</th>
+                                            <th style="width: 150px;">Com %</th>
                                             <th>Amount</th>
                                         </tr>
                                     </thead>

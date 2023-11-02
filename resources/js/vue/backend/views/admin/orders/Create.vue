@@ -30,7 +30,7 @@
                                     <div class="card h-100 d-flex flex-column justify-between" >
                                         <div class="pos_card_image_card">
                                             <img :src="product.thumb_image" class="img-fluid" alt=""/>
-                                            <span @click="add_to_cart({product})" class="add_icon">
+                                            <span @click="add_to_cart({product, qty: product.qty?product.qty+1:1})" class="add_icon">
                                                 <i class="fa fa-plus"></i>
                                             </span>
                                         </div>
@@ -52,7 +52,7 @@
                                         <tr>
                                             <th>Title</th>
                                             <th style="width: 130px;">Qty</th>
-                                            <th style="width: 130px;">Com %</th>
+                                            <th style="width: 150px;">Com %</th>
                                             <th>Amount</th>
                                         </tr>
                                     </thead>

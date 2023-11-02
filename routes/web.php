@@ -56,6 +56,8 @@ Route::group( ['prefix'=>'','namespace' => "Controllers" ],function(){
 
     Route::post('/profile/update-profile-pic','Auth\ApiLoginController@update_profile_pic');
     Route::post('/contact-submit','WebsiteController@contact_submit');
+
+    Route::get('/invoice-printout/{order}','Admin\Order\OrderPrintoutController@sales_invoice');
 });
 
 Route::get('/dashboard', function () {

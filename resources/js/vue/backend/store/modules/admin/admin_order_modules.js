@@ -178,11 +178,14 @@ const actions = {
             }
         } else {
             product.qty = 1;
-            if(!product.product){
-                product.product = product;
-            }
-            products.push(product);
+            product.product_id = product.id;
+            product.product = product;
             cart_product = product;
+            products.push(cart_product);
+        }
+
+        if(!commission && product.discount_info?.discount_percent){
+            commission = product.discount_info.discount_percent;
         }
 
         cart_product.discount_percent = commission || 0;
@@ -194,6 +197,8 @@ const actions = {
             cart_product.total_price = cart_product.qty * d_price;
             cart_product.current_price = d_price;
         }
+
+        console.log(products);
 
         state.admin_oder_cart = products;
         commit('set_admin_cart_total')
