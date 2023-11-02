@@ -6,18 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        body{
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            outline: 0;
+            box-sizing: border-box;
+        }
         .sales_amoutn_print_content{
-            height: 9.5in;
-            width: 5.5in;
-            border: 1px solid black;
+            width: 5in;
             text-align: center;
-            padding: 15px;
+            padding: 5px;
             box-sizing: border-box;
         }
         h4{
             font-size: 22px;
-            margin-bottom: 10px;
+            margin: 0px;
+            margin-bottom: 5px;
         }
         h5{
             font-size: 18px;
@@ -26,79 +35,172 @@
         }
         .header_bottom{
             text-align: left;
+            font-size: 14px;
         }
-        .header_bottom h3{
+        h3{
             font-size: 15px;
+            margin: 0;
+        }
+
+        .products{
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .products .list{
+
+        }
+
+        .products table{
+            font-size: 12px;
+        }
+        .products table td,
+        .products table th{
+            padding: 5px;
+            border: 1px solid black;
+        }
+        .products table td:not(:last-child),
+        .products table th:not(:last-child){
+            border-right: 0;
+        }
+        .products table tr:not(:last-child) td,
+        .products table tr th{
+            border-bottom: 0;
+        }
+        .products table td:nth-child(1),
+        .products table th:nth-child(1){
+            text-align: left;
+        }
+        .footer_text{
+            margin: 0;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .wrapper{
+            padding: 4px;
+            box-sizing: border-box;
+        }
+        .products table .header_infos td{
+            border: 0;
+        }
+        .products table tfoot td{
+            border: 0;
+            border-top: 1px solid black;
+        }
+        .text-right{
+            text-align: right;
+        }
+    </style>
+    <style type="text/css" media="print">
+        @page {
+            size: landscape;
+            margin: 0px;
         }
     </style>
 </head>
 
 <body>
-    <div class="sales_amoutn_print_content">
-        <div class="header">
-            <div class="left">
+    <div class="wrapper">
+        <div class="sales_amoutn_print_content">
+            <div class="header">
+                <div class="left">
 
+                </div>
+                <div class="righ">
+                    <h4>I C S Publication</h4>
+                    <h5>48/1A, Purana Paltan, Dhaka. PH-9566440</h5>
+                </div>
             </div>
-            <div class="righ">
-                <h4>I C S Publication</h4>
-                <h5>48/1A, Purana Paltan, Dhaka. PH-9566440</h5>
+            <div class="products">
+                <div class="list">
+                    <table cellspacing="0">
+                        <thead>
+                            <tr class="header_infos">
+                                <td>
+                                    <b> Client Name: </b>
+                                    <span> 1012 </span>
+                                    <br>
+
+                                    <b>Address:</b>
+                                    <span>বগুড়া দক্ষিণ</span>
+                                </td>
+                                <td colspan="3" style="vertical-align: top;">
+                                    <h3>Sales Invoice</h3>
+                                </td>
+                                <td colspan="2" style="text-align: right;">
+                                    <b>Bill Date:</b>
+                                    <span>15-Oct-23</span>
+                                    <br>
+
+                                    <b>Address:</b>
+                                    <span>বগুড়া দক্ষিণ</span>
+                                    <br>
+
+                                    <b>Bill Date:</b>
+                                    <span>15-Oct-23</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Qty</th>
+                                <th>Price</th>
+                                <th>Comm</th>
+                                <th style="width: 53px;">Dis. Price</th>
+                                <th style="width: 70px;">Total Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($order->details as $item)
+                                <tr>
+                                    <td>{{ $item->product_name }}</td>
+                                    <td>{{ $item->qty }}</td>
+                                    <td>{{ $item->product_price }}</td>
+                                    <td>{{ round((100 * $item->discount_price) / $item->product_price)  }} %</td>
+                                    <td>{{ $item->sales_price }}</td>
+                                    <td>{{ $item->qty * $item->sales_price }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="6"></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <div class="text-right">
+                        <b>Grand Total: &nbsp;&nbsp;&nbsp;</b>
+                        <b>TK {{ number_format($order->total_price) }}</b>
+                    </div>
+                    <div style="display: flex; gap: 5px;">
+                        <table  cellspacing="0" width="50%">
+                            <tr>
+                                <td>Deduction</td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td>After Deduction</td>
+                                <td>{{ number_format($order->total_price) }}</td>
+                            </tr>
+                        </table>
+                        <table cellspacing="0" width="50%">
+                            <tr>
+                                <td>Paid Amount</td>
+                                <td>Due Amount</td>
+                            </tr>
+                            <tr>
+                                <td>{{ number_format($order->total_price) }}</td>
+                                <td>0</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="header_bottom">
-            <table>
-                <tbody>
-                    <tr>
-                        <td>
-                            <div>
-                                Client Name:
-                            </div>
-                            <div>
-                                Address:
-                            </div>
-                        </td>
-                        <td>
-                            <h3>Sales Invoice</h3>
-                        </td>
-                        <td>
-                            <div>
-                                Bill Date: 15-Oct-2
-                            </div>
-                            <div>
-                                Sales ID:
-                            </div>
-                            <div>
-                                Sales Date:
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="products">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Product Name</th>
-                        <th>Qty</th>
-                        <th>Price</th>
-                        <th>Comm</th>
-                        <th>Dis. Price</th>
-                        <th>Total Price</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($order->details as $item)
-                    <tr>
-                        <td>{{ $item->product_name }}</td>
-                        <td>{{ $item->qty }}</td>
-                        <td>{{ $item->product_price }}</td>
-                        <td>{{ round((100 * $item->discount_price) / $item->product_price)  }} %</td>
-                        <td>{{ $item->sales_price }}</td>
-                        <td>{{ $item->qty * $item->sales_price }}</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            <footer>
+                <br>
+                <br>
+                <p class="footer_text">বিক্রিত মাল কোন অবস্থাতেই ফেরৎ নেয়া হয়না।</p>
+            </footer>
         </div>
     </div>
 </body>
