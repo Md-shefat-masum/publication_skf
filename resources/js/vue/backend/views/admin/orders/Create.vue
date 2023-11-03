@@ -26,21 +26,23 @@
                                 <button type="button" class="btn btn-outline-adn"><i class="fa fa-search"></i></button>
                             </div>
                             <div class="row py-3" v-if="products.data && products.data.length">
-                                <div class="col-lg-3" v-for="product in products.data" :key="product.id">
-                                    <div class="card h-100 d-flex flex-column justify-between" >
+                                <div class="col-12" v-for="product in products.data" :key="product.id">
+                                    <div class="card d-flex flex-row align-items-center border rounded-sm overflow-hidden" style="gap: 5px;" >
                                         <div class="pos_card_image_card">
-                                            <img :src="product.thumb_image" class="img-fluid" alt=""/>
+                                            <img :src="product.thumb_image" style="width: 50px;" alt=""/>
                                             <span @click="add_to_cart({product, qty: product.qty?product.qty+1:1})" class="add_icon">
                                                 <i class="fa fa-plus"></i>
                                             </span>
                                         </div>
-                                        <div class="mt-1">
-                                            <span v-if="product.discount_info">
-                                                <b>৳ {{ product.discount_info.discount_price.toString().enToBn() }}</b>
-                                                <del>৳ {{ product.sales_price.toString().enToBn() }}</del>
-                                            </span>
+                                        <div style="padding: 5px;">
+                                            <h6 style="flex:1" class="mb-0">{{ product.product_name }}</h6>
+                                            <div class="mt-1">
+                                                <span v-if="product.discount_info">
+                                                    <b>৳ {{ product.discount_info.discount_price.toString().enToBn() }}</b>
+                                                    <del>৳ {{ product.sales_price.toString().enToBn() }}</del>
+                                                </span>
+                                            </div>
                                         </div>
-                                        <h6 style="flex:1" class="mt-2 mb-0">{{ product.product_name }}</h6>
                                     </div>
                                 </div>
                             </div>
@@ -49,11 +51,13 @@
                             <div class="border border-1 position-sticky top-0 borde-info p-1 rounded-sm mb-2">
                                 <table class="table ">
                                     <thead class="position-static">
-                                        <tr>
-                                            <th>Title</th>
-                                            <th style="width: 130px;">Qty</th>
-                                            <th style="width: 150px;">Com %</th>
-                                            <th>Amount</th>
+                                        <tr >
+                                            <th class="text-start">Title</th>
+                                            <th style="width: 125px;">Price</th>
+                                            <th style="width: 125px;">Qty</th>
+                                            <th style="width: 125px;">Com %</th>
+                                            <th style="width: 125px;">D.Price</th>
+                                            <th style="width: 170px;" class="text-end">Amount</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -61,11 +65,10 @@
                                             <td class="text-start">
                                                 {{ product.product_name }}
                                                 <br>
-                                                ৳ {{ product.product.sales_price }}
-                                                <br>
-                                                ৳ {{ product.current_price.toFixed(2).toString().enToBn() }}
-                                                <br>
                                                 <a href="#" @click.prevent="remove_cart({product})" class="text-danger">delete</a>
+                                            </td>
+                                            <td>
+                                                {{ product.product.sales_price.toString().enToBn() }}
                                             </td>
                                             <td class="text-center">
                                                 <input type="number" min="0"
@@ -79,6 +82,9 @@
                                                     :value="product.discount_percent || 0"
                                                     style="width: 70px;" class="form-control">
                                             </td>
+                                            <td>
+                                                {{ product.current_price.toFixed(2).toString().enToBn() }}
+                                            </td>
                                             <td class="text-end">
                                                 ৳ {{ product.total_price.toFixed(2).toString().enToBn() }}
                                             </td>
@@ -86,8 +92,8 @@
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <th colspan="3" class="text-end">total</th>
-                                            <th class="text-end">৳ {{ tota_order_price.toString().enToBn() }}</th>
+                                            <th colspan="5" class="text-end">total</th>
+                                            <th class="text-end">৳ {{ tota_order_price.toFixed(2).toString().enToBn() }}</th>
                                         </tr>
                                     </tfoot>
                                 </table>

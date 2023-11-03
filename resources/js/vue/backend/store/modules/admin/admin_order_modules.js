@@ -88,10 +88,28 @@ const actions = {
     [`store_admin_order`]: async function ({ state, rootGetters }, { type }) {
         let carts = [...state.admin_oder_cart];
         let discount = state.admin_order_discount;
-        let customer_id = rootGetters.get_user_selected[0]?.id
+        let customer_id = rootGetters.get_user_selected[0]?.id;
+        carts = carts.map(i=>{
+            return {
+                id: i.id,
+                product_name: i.product_name,
+                qty: i.qty,
+                current_price: i.current_price,
+                sales_price: i.sales_price,
+                total_price: i.total_price,
+                discount_percent: i.discount_percent,
+            }
+        });
+
         let cconfirm = await window.s_confirm("submit order");
         if (cconfirm) {
-            axios.post('/admin/order/store-order', { carts, discount, customer_id, type: 'create', order_id: state.admin_order?.id })
+            axios.post('/admin/order/store-order', {
+                    carts,
+                    discount,
+                    customer_id,
+                    type: 'create',
+                    order_id: state.admin_order?.id
+                })
                 .then(res => {
                     // console.log(res.data);
                     state.admin_oder_cart = [];

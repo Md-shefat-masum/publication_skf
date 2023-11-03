@@ -210,13 +210,23 @@ class AdminOrderController extends Controller
             }
             $si = $key + 1;
             $product->qty = $item->qty;
+            $product->discount_percent = $item->discount_percent;
+            $product->discount_price = $item->current_price;
             $products[] = $product;
             $main_price = $product->sales_price;
-            $discount_percent = $product->discount_info->discount_percent;
-            $price = $product->discount_info->discount_amount ? $product->discount_info->discount_price : $product->sales_price;
+
+            // if(isset($product->discount_info->discount_percent)){
+            //     $discount_percent = $product->discount_info->discount_percent;
+            //     $price = $product->discount_info->discount_amount ? $product->discount_info->discount_price : $product->sales_price;
+            // }
+
+            $discount_percent = $item->discount_percent;
+            $price = $item->current_price;
+
             $total = $item->qty * $price;
             $sub_total_cost += $total;
-            $total_discount += $product->discount_info->discount_amount;
+            // $total_discount += $product->discount_info->discount_amount;
+            $total_discount += ( $item->sales_price - $item->current_price );
             $bn_price = enToBn("৳ $price x $item->qty	= ৳ $total \n\t\t\t (৳ $main_price - $discount_percent%)");
             $message_products .= "$si. $item->product_name - \n\t\t\t $bn_price \n";
         }
@@ -294,7 +304,11 @@ class AdminOrderController extends Controller
                 "product_name" => $product->product_name,
                 "product_code" => $product->sku,
                 "product_price" => $product->sales_price,
-                "discount_price" => $product->discount_info->discount_amount,
+                // "discount_percent" => $product->discount_info->discount_amount,
+                // "discount_price" => $product->discount_info->discount_amount,
+                // "sales_price" => $product->discount_info->discount_price,
+                "discount_percent" => $product->discount_percent,
+                "discount_price" => $product->discount_price,
                 "sales_price" => $product->discount_info->discount_price,
                 "qty" => $product->qty,
                 "user_id" => $order->user_id,
