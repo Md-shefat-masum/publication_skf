@@ -34,7 +34,7 @@
                             </tr>
                             <tr>
                                 <td>Designer</td>
-                                <td>{{ data.design.name }}</td>
+                                <td>{{ data.design?.name }}</td>
                             </tr>
                             <tr>
                                 <td>production statuses</td>

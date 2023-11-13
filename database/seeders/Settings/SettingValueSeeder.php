@@ -69,7 +69,7 @@ class SettingValueSeeder extends Seeder
             "invoice_address_line_1" => "1212, rampura",
             "invoice_address_line_2" => "dhaka, bangladesh",
 
-            "telegram_bot_api" => "5599292546:AAFukGO7qtKIVuINcZJo-9XbqtllVxSwgmY",
+            "telegram_bot_api" => env('BOT_TOKEN'),
 
             "mail_mailer" => "smtp",
             "mail_host" => "mail.pub.com",

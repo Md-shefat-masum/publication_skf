@@ -28,7 +28,7 @@ class Order extends Model
         return $this->hasMany(OrderDetails::class, 'order_id')->select([
             'id', 'order_id', 'customer_id', 'user_id', 'product_id',
             'product_name', 'product_price', 'discount_price', 'sales_price', 'qty'
-        ]);
+        ])->with('product');
     }
 
     public function order_delivery_info()

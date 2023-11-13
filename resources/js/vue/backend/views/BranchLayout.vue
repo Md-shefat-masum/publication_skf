@@ -1,17 +1,24 @@
 <template>
     <div v-if="get_check_auth">
-        <top-nav></top-nav>
-        <main-menu></main-menu>
-        <!-- BEGIN: Content-->
-        <div class="app-content content"
-            onclick="window.innerWidth < 769 && document.querySelector('html').classList.remove('nav-hide')">
-            <div class="content-wrapper container-xxl p-0">
-                <!-- <bread-cumb></bread-cumb> -->
-                <div class="content-body">
-                    <router-view></router-view>
+        <div class="app_frame">
+            <div class="left" @mouseover="mouseover" @mouseleave="mouseleave">
+                <main-menu></main-menu>
+                <div class="sm_overlay" @click="menu_hide"></div>
+            </div>
+            <div class="right">
+                <top-nav></top-nav>
+                <!-- BEGIN: Content-->
+                <div class="app-content content">
+                    <div class="content-wrapper p-0">
+                        <!-- <bread-cumb></bread-cumb> -->
+                        <div class="content-body">
+                            <router-view></router-view>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+
 
         <!-- END: Content-->
         <div class="loader export_loader">
@@ -33,8 +40,14 @@ import TopNav from "./layouts/TopNav.vue";
 import { mapActions, mapGetters } from "vuex";
 export default {
     components: { TopNav, MainMenu, BreadCumb },
+    data: function(){
+        return {
+            html: null,
+        }
+    },
     created: function () {
         this.fetch_check_auth();
+        this.html = document.querySelector('html');
     },
     watch: {
         get_check_auth: {
@@ -43,6 +56,7 @@ export default {
                 // setTimeout(() => {
                 // $('.navigation li a.active').parents('li.has-sub').addClass('open');
                 // }, 500);
+
                 if (!newv) {
                     localStorage.removeItem("token");
                     location.href = "/login";
@@ -53,6 +67,25 @@ export default {
     },
     methods: {
         ...mapActions(["fetch_check_auth"]),
+        mouseover: function(){
+            let nav_hide = this.html.classList.contains('nav-hide');
+            if(nav_hide){
+                this.html.classList.add('nav-hide-hover');
+                this.html.classList.remove('nav-hide');
+            }
+        },
+        mouseleave: function(){
+            let nav_hide_hover = this.html.classList.contains('nav-hide-hover');
+            if(nav_hide_hover){
+                this.html.classList.add('nav-hide');
+                this.html.classList.remove('nav-hide-hover');
+            }
+        },
+        menu_hide: function(){
+            event.stopPropagation();
+            this.html.classList.remove('nav-hide')
+            this.html.classList.remove('nav-hide-hover')
+        }
     },
     computed: {
         ...mapGetters({

@@ -22,9 +22,12 @@ class CreateOrderDetailsTable extends Migration
             $table->bigInteger("product_id")->unsigned()->nullable();
             $table->string("product_name", 100)->nullable();
             $table->string("product_code", 100)->nullable();
+
             $table->double("product_price")->nullable();
+            $table->float("discount_percent")->nullable();
             $table->double("discount_price")->nullable();
             $table->float("sales_price")->nullable();
+
             $table->integer("qty")->nullable();
 
             $table->timestamps();

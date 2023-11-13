@@ -93,9 +93,8 @@ class Product extends Model
                 $discount_percent = round(100 * $discount->flat_discount / $discount->main_price);
                 $discount_price =  $discount->main_price - $discount->flat_discount;
                 $expire_date = Carbon::parse($discount->expire_date)->format('Y-m-d H:i');
-            }
-            else if ($discount->parcent_discount) {
-                $discount_amount = round($discount->main_price * $discount->parcent_discount / 100);
+            } else if ($discount->parcent_discount) {
+                $discount_amount = ($discount->main_price * $discount->parcent_discount / 100); // no round price
                 $discount_amount = $discount_amount;
                 $discount_percent  = $discount->parcent_discount;
                 $discount_price =  $discount->main_price - $discount_amount;

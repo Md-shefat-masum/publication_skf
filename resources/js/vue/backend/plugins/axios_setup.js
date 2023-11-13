@@ -78,8 +78,12 @@ window.axios.interceptors.response.use(
         //     window.clear_session();
         // }
         // console.log(error);
-        let status = error.response.status;
-        window.s_alert('error '+status+': '+error.response?.statusText,'error')
+        try {
+            let status = error.response?.status;
+            window.s_alert('error '+status+': '+error.response?.statusText,'error')
+        } catch (error) {
+            throw error;
+        }
         throw error;
     }
 );

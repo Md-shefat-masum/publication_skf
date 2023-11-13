@@ -328,11 +328,11 @@ class CheckoutController extends Controller
 
     public function send_telegram($message)
     {
-        $bot_token = '5599292546:AAFukGO7qtKIVuINcZJo-9XbqtllVxSwgmY';
+        $bot_token = env('BOT_TOKEN');
         $method = "sendMessage";
 
         $parameters = [
-            'chat_id' => 812239513,
+            'chat_id' => env('BOT_ID'),
             'text' => $message,
         ];
 
