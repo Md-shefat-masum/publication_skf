@@ -18,6 +18,7 @@ class CreateAccountLogsTable extends Migration
 
             $table->timestamp('date')->nullable();
             $table->string('name',200)->nullable();
+            $table->bigInteger('customer_id')->nullable();
             $table->float('amount')->nullable();
 
             $table->bigInteger('category_id')->nullable();
