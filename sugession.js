@@ -51,8 +51,11 @@
     Task List: problem need solution
 
     1. admin jokhon payment approve korbe receipt id kivabe generat hobe.
-    2. 
+    2.
 
+    nov 14
+
+    1. accounts e branch due collection.
 
 
  */
