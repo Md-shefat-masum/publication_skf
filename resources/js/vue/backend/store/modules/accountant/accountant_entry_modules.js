@@ -34,6 +34,12 @@ const actions = {
         // const { get_accountant_category_type_selected: types } = getters;
         // types.forEach(i => form_data.append('type_id', i.id));
 
+        const { get_accountant_customer_selected: customer } = getters;
+        if(customer.length){
+            form_data.append('name', customer[0].name);
+            form_data.append('customer_id', customer[0].id);
+        }
+
         axios.post(`/${api_prefix}/store`, form_data)
             .then(res => {
                 $('.create_form').trigger('reset');
@@ -57,6 +63,12 @@ const actions = {
         const { form_values, form_inputs, form_data } = window.get_form_data('.create_form');
         // const { get_accountant_category_type_selected: types } = getters;
         // types.forEach(i => form_data.append('type_id', i.id));
+
+        const { get_accountant_customer_selected: customer } = getters;
+        if(customer.length){
+            form_data.append('name', customer[0].name);
+            form_data.append('customer_id', customer[0].id);
+        }
 
         axios.post(`/${api_prefix}/store/expense`, form_data)
             .then(res => {

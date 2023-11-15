@@ -7,9 +7,11 @@ use App\Models\User\Customer;
 use Database\Seeders\Account\AccountantVendorSeeder;
 use Database\Seeders\Account\AccountCategorySeeder;
 use Database\Seeders\Account\AccountCategoryTypeSeeder;
+use Database\Seeders\Account\AccountCustomerSeeder;
 use Database\Seeders\Account\AccountLogSeeder;
 use Database\Seeders\Account\AccountNumberSeeder;
 use Database\Seeders\Account\AccountSeeder;
+use Database\Seeders\Account\AccountSupplierLogSeeder;
 use Database\Seeders\Common\AddressSeeder;
 use Database\Seeders\Common\BannerSeeder;
 use Database\Seeders\Common\MobileNumberSeeder;
@@ -87,10 +89,11 @@ class DatabaseSeeder extends Seeder
             AboutSeeder::class,
             AddressSeeder::class,
 
-
+            AccountCustomerSeeder::class,
             AccountCategoryTypeSeeder::class,
             // AccountCategorySeeder::class,
             AccountLogSeeder::class,
+            AccountSupplierLogSeeder::class,
         ]);
     }
 }

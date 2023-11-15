@@ -418,6 +418,22 @@ Route::group(
                     Route::post('/add-to-top-cat', 'Accountant\SupplierLogController@add_to_top_cat');
                     Route::get('/{id}', 'Accountant\SupplierLogController@show');
                 });
+
+                Route::group(['prefix' => 'customer'], function () {
+                    Route::get('/all', 'Accountant\CustomerController@all');
+                    Route::post('/store', 'Accountant\CustomerController@store');
+                    Route::post('/canvas-store', 'Accountant\CustomerController@canvas_store');
+                    Route::post('/update', 'Accountant\CustomerController@update');
+                    Route::post('/canvas-update', 'Accountant\CustomerController@canvas_update');
+                    Route::post('/soft-delete', 'Accountant\CustomerController@soft_delete');
+                    Route::post('/destroy', 'Accountant\CustomerController@destroy');
+                    Route::post('/restore', 'Accountant\CustomerController@restore');
+                    Route::post('/bulk-import', 'Accountant\CustomerController@bulk_import');
+                    Route::get('/all-json', 'Accountant\CustomerController@all_json');
+                    Route::post('/check-exists', 'Accountant\CustomerController@check_exists');
+                    Route::post('/add-to-top-cat', 'Accountant\CustomerController@add_to_top_cat');
+                    Route::get('/{id}', 'Accountant\CustomerController@show');
+                });
             });
         });
 
