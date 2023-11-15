@@ -91,7 +91,7 @@ class AccountEntryController extends Controller
             'amount' => ['required'],
             'account_id' => ['required'],
             'description' => ['required'],
-            'trx_id' => ['required'],
+            // 'trx_id' => ['required'],
             // 'attachments' => ['required']
         ]);
 
@@ -108,19 +108,28 @@ class AccountEntryController extends Controller
         try {
             $payment_method = json_decode(request()->payment_method);
         } catch (\Throwable $th) {
+
         }
 
         $account_log = new AccountLog();
         $account_log->date = Carbon::now()->toDateString();
         $account_log->category_id = $category->id;
-        $account_log->trx_id = $request->trx_id;
+
+        $account_log->name = $request->name;
+        $account_log->customer_id = $request->customer_id;
+
         $account_log->receipt_no = $request->receipt_no;
         $account_log->account_id = $request->account_id;
+
         $account_log->account_number_id = $payment_method->id ?? 0;
+        $account_log->trx_id = $request->trx_id;
+
         $account_log->is_expense = 0;
         $account_log->is_income = 1;
+
         $account_log->amount = $request->amount;
         $account_log->description = request()->description;
+
         $account_log->creator = Auth::user()->id;
         $account_log->save();
 
@@ -146,7 +155,7 @@ class AccountEntryController extends Controller
             'amount' => ['required'],
             'account_id' => ['required'],
             'description' => ['required'],
-            'trx_id' => ['required'],
+            // 'trx_id' => ['required'],
             // 'attachments' => ['required']
         ]);
 
@@ -166,6 +175,10 @@ class AccountEntryController extends Controller
         }
 
         $account_log = new AccountLog();
+
+        $account_log->name = $request->name;
+        $account_log->customer_id = $request->customer_id;
+
         $account_log->date = Carbon::now()->toDateString();
         $account_log->category_id = $category->id;
         $account_log->trx_id = $request->trx_id;
