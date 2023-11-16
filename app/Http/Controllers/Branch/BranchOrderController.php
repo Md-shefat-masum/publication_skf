@@ -10,6 +10,7 @@ use App\Models\Order\Order;
 use App\Models\Order\OrderDeliveryInfo;
 use App\Models\Order\OrderDetails;
 use App\Models\Order\OrderPayment;
+use App\Models\Order\OrderPaymentAttachment;
 use App\Models\Product\Category;
 use App\Models\Product\Product;
 use App\Models\Settings\AppSettingTitle;
@@ -19,6 +20,7 @@ use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class BranchOrderController extends Controller
@@ -446,6 +448,7 @@ class BranchOrderController extends Controller
             "payment_method" => ["required"],
             "trx_id" => ["required"],
             "amount" => ["required"],
+            "attachment" => ["required"],
         ]);
 
         if ($validator->fails()) {
@@ -455,6 +458,15 @@ class BranchOrderController extends Controller
             ], 422);
         }
 
+        $attachment_path = null;
+        if(request()->hasFile('attachment')){
+            $attachment_path = Storage::put('uploads/payment', request()->file('attachment'));
+        }else{
+            return response()->json([
+                'err_message' => 'validation error',
+                'data' => ["attachment"=>["no atachment"]],
+            ], 422);
+        }
 
         $payment_method_info = json_decode(request()->payment_method);
         $payment_account = Account::find($payment_method_info->account_id);
@@ -469,6 +481,11 @@ class BranchOrderController extends Controller
             "account_id" => $payment_method_info->account_id,
             "account_number_id" => $payment_method_info->id,
         ]);
+
+        $order_payment_attachment = new OrderPaymentAttachment();
+        $order_payment_attachment->order_payment_id = $order_payment->id;
+        $order_payment_attachment->file = $attachment_path;
+        $order_payment_attachment->save();
 
         $order = Order::find(request()->order_id);
         $total_paid = OrderPayment::where('order_id', $order->id)->sum('amount');
