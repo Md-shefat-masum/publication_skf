@@ -57,14 +57,14 @@ class DatabaseSeeder extends Seeder
             ContactMessageSeeder::class,
             MobileNumberSeeder::class,
 
-            BrandSeeder::class,
-            ProductCategorySeeder::class,
-            ProductTranslatorSeeder::class,
-            ProductWriterSeeder::class,
+            // BrandSeeder::class,
+            // ProductCategorySeeder::class,
+            // ProductTranslatorSeeder::class,
+            // ProductWriterSeeder::class,
 
-            ProductSeeder::class,
-            ProductReviewSeeder::class,
-            ProductImageSeeder::class,
+            // ProductSeeder::class,
+            // ProductReviewSeeder::class,
+            // ProductImageSeeder::class,
 
             SupplierBindingSeeder::class,
             SupplierPaperSeeder::class,
