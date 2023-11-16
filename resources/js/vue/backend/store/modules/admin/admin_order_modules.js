@@ -216,7 +216,7 @@ const actions = {
             cart_product.current_price = d_price;
         }
 
-        console.log(products);
+        // console.log(products);
 
         state.admin_oder_cart = products;
         commit('set_admin_cart_total')

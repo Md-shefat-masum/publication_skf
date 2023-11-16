@@ -65,6 +65,7 @@ class BranchOrderManagementController extends Controller
         $data->payment_accounts = Account::select('id', 'name')
             ->whereIn('name', [
                 // 'bkash',
+                
                 // 'nagad',
                 // 'rocket',
                 'bank_account'
