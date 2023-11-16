@@ -5,6 +5,8 @@ import Edit from "../../../views/admin/payment_requests/Edit";
 import Details from "../../../views/admin/payment_requests/Details";
 import Import from "../../../views/admin/payment_requests/Import";
 
+import UploadPayments from "../../../views/admin/payment_requests/UploadPayments";
+
 let prefix = "AdminPaymentRequest"
 export default {
     path: "payment-request",
@@ -28,6 +30,11 @@ export default {
             path: `create`,
             name: `Create${prefix}`,
             component: Create,
+        },
+        {
+            path: `upload-payments`,
+            name: `UploadPayments`,
+            component: UploadPayments,
         },
         {
             path: `edit/:id`,
