@@ -176,7 +176,7 @@
                     </div>
 
                     <div v-if="data" class="col-12">
-                        <div v-if="data?.payment_records.length">
+                        <div class="payment_histories" v-if="data?.payment_records.length">
                             <div>
                                 <h4 id="payment_id" class="mt-4">Payment Information</h4>
                             </div>
@@ -272,7 +272,7 @@ export default {
             this.account_vlaues = this.data.payment_accounts.find(i=>i.id==account_id)?.numbers || [];
         },
         number_format: (number) => new Intl.NumberFormat().format(number),
-        
+
     },
     computed: {
         ...mapGetters({

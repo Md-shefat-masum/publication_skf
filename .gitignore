@@ -13,6 +13,7 @@ yarn-error.log
 .zip
 /public/uploads/products/*
 /public/uploads/product/*
+/public/uploads/payment/*
 /*.zip
 /public/css/backend.css
 /public/css/backend.css.map
