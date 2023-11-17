@@ -4,7 +4,7 @@
             <div class="card-header">
                 <h4>Create</h4>
                 <div class="btns">
-                    <router-link :to="{ name: `BranchOrder` }" class="btn rounded-pill btn-outline-warning" >
+                    <router-link :to="{ name: `BranchOrder` }" class="btn d-flex rounded-pill btn-outline-warning" >
                         <i class="fa fa-arrow-left me-5px"></i>
                         Back
                     </router-link>
@@ -16,6 +16,7 @@
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="d-flex gap-2">
+
                                 <input @keyup="set_p_search_key($event.target.value)" type="search" placeholder="search" class="form-control">
                                 <select class="form-select" @change="set_branch_product_category($event.target.value)">
                                     <option value="">সকল বই</option>

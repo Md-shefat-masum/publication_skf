@@ -181,6 +181,7 @@ Route::group(
             });
 
             Route::group(['prefix' => 'admin'], function () {
+                Route::get('/at-a-glance','AtaGlance\AdminAtaGlanceController@analytics');
 
                 Route::group(['prefix' => 'writer'], function () {
                     Route::get('/all', 'Admin\Product\WriterController@all');
@@ -313,6 +314,7 @@ Route::group(
                 Route::post('/update-order', 'Branch\BranchOrderController@update_order');
                 Route::post('/pay-due', 'Branch\BranchOrderController@pay_due');
                 Route::post('/delete-payment', 'Branch\BranchOrderController@delete_payment');
+                Route::get('/at-a-glance','AtaGlance\BranchAtaGlanceController@analytics');
 
                 Route::group(['prefix' => 'order'], function () {
                     Route::get('/all', 'Branch\BranchOrderManagementController@all');

@@ -10,6 +10,9 @@ class Order extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    protected $casts = [
+        "invoice_date" => 'date',
+    ];
 
     public static function boot()
     {
@@ -49,8 +52,12 @@ class Order extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id')->select([
-            'id', 'first_name', "last_name",
-            "mobile_number", "photo"
+            'id',
+            'first_name',
+            'user_name',
+            "last_name",
+            "mobile_number",
+            "photo"
         ]);
     }
 }

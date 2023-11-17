@@ -42,9 +42,9 @@ class BranchOrderController extends Controller
 
         $query = Product::where('status', $status)->orderBy($orderBy, $orderByType);
 
-        if(request()->has('category_id') && request()->get('category_id')){
+        if (request()->has('category_id') && request()->get('category_id')) {
             $category_id = request()->get('category_id');
-            $category = Category::where('id',$category_id)->first();
+            $category = Category::where('id', $category_id)->first();
             $query = $category->products();
         }
 
@@ -121,6 +121,7 @@ class BranchOrderController extends Controller
         return response()->json([
             "message" => "Order Completed Successfully",
             "order" => $order->invoice_id,
+            "id" => $order->id,
         ], 200);
     }
 
@@ -211,9 +212,9 @@ class BranchOrderController extends Controller
         $message_products = "";
         foreach ($carts as $key => $item) {
             $item = (object) $item;
-            if(isset($item->product_id)){
+            if (isset($item->product_id)) {
                 $product = Product::find($item->product_id);
-            }else{
+            } else {
                 $product = Product::find($item->id);
             }
             $si = $key + 1;
@@ -295,6 +296,7 @@ class BranchOrderController extends Controller
         $order->save();
 
         foreach ($products as $product) {
+            $sales_price = $product->discount_info->discount_price? $product->discount_info->discount_price:$product->sales_price;
             OrderDetails::create([
                 "order_id" => $order->id,
                 "product_id" => $product->id,
@@ -302,7 +304,7 @@ class BranchOrderController extends Controller
                 "product_code" => $product->sku,
                 "product_price" => $product->sales_price,
                 "discount_price" => $product->discount_info->discount_amount,
-                "sales_price" => $product->discount_info->discount_price,
+                "sales_price" => $sales_price,
                 "qty" => $product->qty,
             ]);
         }
@@ -425,18 +427,22 @@ class BranchOrderController extends Controller
 
     public function send_telegram($message)
     {
-        $bot_token = env('BOT_TOKEN');
-        $method = "sendMessage";
+        try {
+            $bot_token = env('BOT_TOKEN');
+            $method = "sendMessage";
 
-        $parameters = [
-            'chat_id' => env('BOT_ID'),
-            'text' => $message,
-        ];
+            $parameters = [
+                'chat_id' => env('BOT_ID'),
+                'text' => $message,
+            ];
 
-        $url = "https://api.telegram.org/bot$bot_token/$method";
+            $url = "https://api.telegram.org/bot$bot_token/$method";
 
-        $response = Http::get($url . '?chat_id=' . $parameters['chat_id'] . '&text=' . $parameters['text']);
-        return $response->json();
+            $response = Http::get($url . '?chat_id=' . $parameters['chat_id'] . '&text=' . $parameters['text']);
+            return $response->json();
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
 
     public function pay_due()
@@ -446,9 +452,11 @@ class BranchOrderController extends Controller
             "order_id" => ["required"],
             "account_id" => ["required"],
             "payment_method" => ["required"],
-            "trx_id" => ["required"],
+            "trx_id" => ["required",'unique:order_payments'],
             "amount" => ["required"],
             "attachment" => ["required"],
+        ],[
+            'trx_id.unique' => ['this trx id already submitted.'],
         ]);
 
         if ($validator->fails()) {
@@ -459,12 +467,12 @@ class BranchOrderController extends Controller
         }
 
         $attachment_path = null;
-        if(request()->hasFile('attachment')){
+        if (request()->hasFile('attachment')) {
             $attachment_path = Storage::put('uploads/payment', request()->file('attachment'));
-        }else{
+        } else {
             return response()->json([
                 'err_message' => 'validation error',
-                'data' => ["attachment"=>["no atachment"]],
+                'data' => ["attachment" => ["no atachment"]],
             ], 422);
         }
 
@@ -520,15 +528,15 @@ class BranchOrderController extends Controller
             "total" => enToBn(number_format($order->total_price)),
             "paid" => enToBn(number_format($order->total_paid)),
             "due" => enToBn(number_format($order->total_price - $order->total_paid)),
-            "name" => auth()->user()->first_name.' '.auth()->user()->last_name,
+            "name" => auth()->user()->first_name . ' ' . auth()->user()->last_name,
             "mobile_number" => auth()->user()->mobile_number,
-            "invoice" => url("/invoice".'/'.$order->invoice_id),
+            "invoice" => url("/invoice" . '/' . $order->invoice_id),
             "time" => Carbon::now()->format('d M, Y h:i a'),
         ]);
         return response()->json([$order, $order_payment]);
     }
 
-    public function make_due_pay_message($data=[])
+    public function make_due_pay_message($data = [])
     {
         $transaction_media = $data["transaction_media"];
         $transaction_id = $data["transaction_id"];
@@ -562,7 +570,6 @@ class BranchOrderController extends Controller
         $message .= "------------------- \n";
         $message .= "বিস্তারিত : $invoice";
         $this->send_telegram($message);
-
     }
 
     public function delete_payment()
@@ -578,13 +585,13 @@ class BranchOrderController extends Controller
             ], 422);
         }
         $payment = OrderPayment::find(request()->payment_id);
-        if($payment && $payment->approved){
+        if ($payment && $payment->approved) {
             return response()->json([
                 'err_message' => 'validation error',
-                'data' => ["payment_id"=>["deleting this payment is not permitted."]],
+                'data' => ["payment_id" => ["deleting this payment is not permitted."]],
             ], 422);
         }
-        if($payment){
+        if ($payment) {
             $payment->delete();
 
             $order = Order::find($payment->order_id);

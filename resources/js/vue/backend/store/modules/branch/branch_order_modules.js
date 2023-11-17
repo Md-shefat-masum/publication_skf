@@ -91,6 +91,7 @@ const actions = {
                     // console.log(res.data);
                     state.branch_oder_cart  = [];
                     window.s_alert(`order submitted successfully.`);
+                    management_router.push({name:`Details${route_prefix}`,params:{id:res.data.id}})
                 })
         }
     },
@@ -160,12 +161,16 @@ const actions = {
 
         product.current_price = product.sales_price;
         product.total_price = product.sales_price * product.qty;
-        if(product.discount_info){
+        if(product.discount_info && product.discount_info.discount_price){
             product.total_price = product.qty*product.discount_info.discount_price;
             product.current_price = product.discount_info.discount_price;
         }
 
         state.branch_oder_cart = products;
+
+        if(window.innerWidth < 992){
+            window.s_alert('product added');
+        }
     },
 
     [`remove_product_from_cart`]: function({state}, {product}){
@@ -184,6 +189,7 @@ const actions = {
                     console.log(res.data);
                     state.branch_oder_cart  = [];
                     window.s_alert(`Transaction completed.`);
+                    document.getElementById('pay_due_form').reset();
                     dispatch("fetch_branch_order",{id: state.branch_order.id, });
                 })
         }

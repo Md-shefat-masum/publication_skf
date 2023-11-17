@@ -57,5 +57,7 @@
 
     1. accounts e branch due collection.
 
-
+    nov 8
+    1. payment request accept korle sales id generate hobe.
+    2. 
  */

@@ -479,6 +479,7 @@ class AdminOrderController extends Controller
             "number" => $payment_method_info->value,
             "trx_id" => request()->trx_id,
             "amount" => request()->amount,
+            "date" => Carbon::now()->toDateString(),
             "approved" => 1,
             "account_id" => request()->account_id,
             "account_number_id" => $payment_method_info->id,
@@ -497,6 +498,11 @@ class AdminOrderController extends Controller
             $order->payment_status =  'paid';
         }
         $order->save();
+
+        if(!$order->sales_id){
+            $payment_controller = new PaymentRequestController();
+            $payment_controller->set_sales_id($order);
+        }
 
         $account_log = AccountLog::class;
         $log = AccountLog::create([
@@ -588,13 +594,15 @@ class AdminOrderController extends Controller
         if ($payment) {
 
             $order = Order::find($payment->order_id);
-            $order->total_paid = $order->order_payments()->sum('amount');
+            $order->total_paid = $order->order_payments()->sum('amount') - $payment->amount;
             if ($order->total_paid == $order->total_price) {
                 $order->payment_status = 'paid';
             } else if ($order->total_paid > $order->total_price) {
                 $order->payment_status = 'partially paid';
             } else {
                 $order->payment_status = 'pending';
+                $order->backup_sales_id = $order->sales_id;
+                $order->sales_id = null;
             }
             $order->save();
 

@@ -1,10 +1,10 @@
 <template>
     <div class="container">
         <div class="card list_card">
-            <div class="card-header">
+            <div class="card-header no_print">
                 <h4>Order Details</h4>
-                <div class="btns">
-                    <a href="" @click.prevent="call_store(`set_${store_prefix}`,null), $router.push({ name: `All${route_prefix}` })"  class="btn rounded-pill btn-outline-warning" >
+                <div class="btns ">
+                    <a href="" @click.prevent="call_store(`set_${store_prefix}`,null), $router.push({ name: `All${route_prefix}` })"  class="btn btn-sm rounded-pill btn-outline-warning" >
                         <i class="fa fa-arrow-left me-5px"></i>
                         <span >
                             Back
@@ -18,20 +18,20 @@
                         <table class="table w-100">
                             <thead>
                                 <tr>
-                                    <th>Title</th>
+                                    <th class="text-start">Title</th>
                                     <th class="text-end">Qty</th>
                                     <th class="text-end">Total</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="item in data.order_details" :key="item.id">
-                                    <td>{{ item.product_name }}</td>
+                                    <td class="text-start">{{ item.product_name }}</td>
                                     <td class="text-end">{{ item.sales_price }} * {{ item.qty }}</td>
                                     <td class="text-end">{{ item.sales_price * item.qty }}</td>
                                 </tr>
                             </tbody>
                             <tfoot>
-                                <tr style="border-top: 1px solid white;">
+                                <tr style="border-top: 1px solid black;">
                                     <td class="border-bottom-0"></td>
                                     <td class="text-end">
                                         <b>Sub Total</b>
@@ -42,46 +42,46 @@
                                 </tr>
                                 <tr style="border-top: 0">
                                     <td class="border-0"></td>
-                                    <td class="text-end border-top-2">
+                                    <td class="text-end">
                                         <b>Shipping</b>
                                     </td>
-                                    <td class="text-end border-top-2">
+                                    <td class="text-end">
                                         {{ number_format( data.delivery_charge ) }}
                                     </td>
                                 </tr>
                                 <tr style="border-top: 0">
                                     <td class="border-0"></td>
-                                    <td class="text-end border-top-2">
+                                    <td class="text-end">
                                         <b>Discount</b>
                                     </td>
-                                    <td class="text-end border-top-2">
+                                    <td class="text-end">
                                         - {{ number_format( data.discount ) }}
                                     </td>
                                 </tr>
                                 <tr style="border-top: 0">
                                     <td class="border-0"></td>
-                                    <td class="text-end border-top-2">
+                                    <td class="text-end">
                                         <b>Total</b>
                                     </td>
-                                    <td class="text-end border-top-2">
+                                    <td class="text-end">
                                         {{ number_format(  data.total_price )}}
                                     </td>
                                 </tr>
                                 <tr style="border-top: 0">
                                     <td class="border-0"></td>
-                                    <td class="text-end border-top-2">
+                                    <td class="text-end">
                                         <b>Paid</b>
                                     </td>
-                                    <td class="text-end border-top-2">
+                                    <td class="text-end">
                                         {{ number_format( data.order_payments_sum_amount )}}
                                     </td>
                                 </tr>
                                 <tr style="border-top: 0">
                                     <td class="border-0"></td>
-                                    <td class="text-end border-top-2">
+                                    <td class="text-end">
                                         <b>Due</b>
                                     </td>
-                                    <td class="text-end border-top-2">
+                                    <td class="text-end">
                                         {{ number_format( data.total_price - data.order_payments_sum_amount )}}
                                     </td>
                                 </tr>
@@ -135,8 +135,8 @@
                         </table>
                     </div>
                     <div class="col-lg-1"></div>
-                    <div class="col-lg-5 py-4">
-                        <form v-if="data && data.total_paid < data.total_price " @submit.prevent="branch_pay_due" action="" class="mt-2">
+                    <div class="col-lg-5 py-4 no_print" >
+                        <form v-if="data && data.total_paid < data.total_price " @submit.prevent="branch_pay_due" action="" id="pay_due_form" class="mt-2">
                             <h4>Pay due amount</h4>
                             <div class="form-group mb-2 mt-2">
                                 <label for="Account">Account</label>

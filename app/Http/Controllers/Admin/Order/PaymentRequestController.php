@@ -67,14 +67,19 @@ class PaymentRequestController extends Controller
 
         $account_log = AccountLog::class;
         $order_payment = OrderPayment::find(request()->payment_id);
+        $order = Order::find($order_payment->order_id);
         if ($order_payment->approved == 1) {
             $order_payment->approved = 0;
             $order_payment->account_logs_id = null;
             $order_payment->save();
 
+            $order->backup_sales_id = $order->sales_id;
+            $order->sales_id = null; // remove sales id;
+            $order->save();
+
             $log = $account_log::create([
                 'date' => Carbon::now()->toDateTimeString(),
-                "name" => $order_payment->user->first_name." ".$order_payment->user->last_name,
+                "name" => $order_payment->user->first_name . " " . $order_payment->user->last_name,
                 'amount' => - ($order_payment->amount),
                 'category_id' => 1, // ponno theke ay
                 'account_id' => $order_payment->account_id,
@@ -90,7 +95,7 @@ class PaymentRequestController extends Controller
             // $cash_acount = Account::where('name','cash')->first();
             $log = $account_log::create([
                 'date' => Carbon::now()->toDateTimeString(),
-                "name" => $order_payment->user->first_name." ".$order_payment->user->last_name,
+                "name" => $order_payment->user->first_name . " " . $order_payment->user->last_name,
                 'amount' => $order_payment->amount,
                 'category_id' => 1, // ponno theke ay
                 'account_id' => $order_payment->account_id,
@@ -105,8 +110,23 @@ class PaymentRequestController extends Controller
             $order_payment->account_logs_id = $log->id;
             $order_payment->save();
 
+            if(!$order->sales_id){
+                $this->set_sales_id($order);
+            }
+
             return response()->json("approved");
         }
+    }
+
+    public function set_sales_id($order)
+    {
+        $latest_sales_id = Order::orderBy('sales_id', 'DESC')->first();
+        $sales_id = 10001;
+        if ($latest_sales_id->sales_id) {
+            $sales_id = $latest_sales_id->sales_id + 1;
+        }
+        $order->sales_id = $sales_id; // remove sales id;
+        $order->save();
     }
 
     public function show($id)
