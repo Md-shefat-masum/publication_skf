@@ -237,6 +237,9 @@ Route::group(
                     Route::post('/delete-payment', 'Admin\Order\AdminOrderController@delete_payment');
                     Route::post('/approve-payment', 'Admin\Order\AdminOrderController@approve_payment');
 
+                    Route::post('/check-orders-with-payments', 'Admin\Order\PaymentRequestController@check_orders_with_payments');
+                    Route::post('/save-orders-with-payments', 'Admin\Order\PaymentRequestController@save_orders_with_payments');
+
                     Route::get('/all', 'Admin\Order\AdminOrderManagementController@all');
                     Route::post('/store', 'Admin\Order\AdminOrderManagementController@store');
                     Route::post('/canvas-store', 'Admin\Order\AdminOrderManagementController@canvas_store');

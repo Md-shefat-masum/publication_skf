@@ -30,7 +30,7 @@ class Order extends Model
     {
         return $this->hasMany(OrderDetails::class, 'order_id')->select([
             'id', 'order_id', 'customer_id', 'user_id', 'product_id',
-            'product_name', 'product_price', 'discount_price', 'sales_price', 'qty'
+            'product_name', 'product_price', 'discount_price', 'discount_percent', 'sales_price', 'qty'
         ])->with('product');
     }
 

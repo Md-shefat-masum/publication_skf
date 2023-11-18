@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Order;
 use App\Http\Controllers\Controller;
 use App\Models\Account\Account;
 use App\Models\Account\AccountLog;
+use App\Models\Account\AccountNumber;
 use App\Models\Order\Order;
 use App\Models\Order\OrderPayment;
 use App\Models\Product\Brand;
@@ -150,54 +151,6 @@ class PaymentRequestController extends Controller
         return response()->json($data, 200);
     }
 
-    public function store(Request $request)
-    {
-        $validator = Validator::make(request()->all(), [
-            'name' => ['required', 'unique:brands']
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'err_message' => 'validation error',
-                'errors' => $validator->errors(),
-            ], 422);
-        }
-
-        $data = new Brand();
-        $data->name = $request->name;
-        $data->creator = Auth::user()->id;
-        $data->save();
-        $data->slug = $data->id . uniqid(5);
-        $data->save();
-
-        return response()->json($data, 200);
-    }
-
-    public function canvas_store(Request $request)
-    {
-        $validator = Validator::make(request()->all(), [
-            'amount' => ['required'],
-            'payment_method' => ['required'],
-            'trx_id' => ['required'],
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'err_message' => 'validation error',
-                'errors' => $validator->errors(),
-            ], 422);
-        }
-
-        $data = new Brand();
-        $data->name = $request->name;
-        $data->creator = Auth::user()->id;
-        $data->save();
-        $data->slug = $data->id . uniqid(5);
-        $data->save();
-
-        return response()->json($data, 200);
-    }
-
     public function update()
     {
         $data = OrderPayment::find(request()->id);
@@ -233,112 +186,68 @@ class PaymentRequestController extends Controller
         return response()->json($data, 200);
     }
 
-    public function canvas_update()
+    public function check_orders_with_payments()
     {
-        $data = Brand::find(request()->id);
-        if (!$data) {
-            return response()->json([
-                'err_message' => 'validation error',
-                'errors' => ['name' => ['user_role not found by given id ' . (request()->id ? request()->id : 'null')]],
-            ], 422);
-        }
-
-        $validator = Validator::make(request()->all(), [
-            'name' => ['required'],
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'err_message' => 'validation error',
-                'errors' => $validator->errors(),
-            ], 422);
-        }
-
-        $data->name = request()->name;
-        $data->save();
-
-        return response()->json($data, 200);
+        $order_payments = OrderPayment::whereIn('trx_id',request()->instument_no)
+            ->with(['user'])
+            ->select(['user_id','trx_id','amount','order_id'])
+            ->get();
+        return response()->json($order_payments);
+        dd(request()->all());
     }
 
-    public function soft_delete()
+    public function save_orders_with_payments()
     {
-        $validator = Validator::make(request()->all(), [
-            'id' => ['required', 'exists:categories,id'],
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'err_message' => 'validation error',
-                'errors' => $validator->errors(),
-            ], 422);
+        foreach (request()->trxs as $item) {
+            $this->save_single_payment((object) $item);
         }
-
-        $data = Brand::find(request()->id);
-        $data->status = 0;
-        $data->save();
-
-        return response()->json([
-            'result' => 'deactivated',
-        ], 200);
+        return response()->json("success");
     }
 
-    public function destroy()
+    public function save_single_payment($item)
     {
-    }
+        $order_payment = OrderPayment::where('trx_id',$item->trx_id)->first();
 
-    public function restore()
-    {
+        if($order_payment && $order_payment->approved == 1 || !$order_payment){
+            return 0;
+        }
 
-        $validator = Validator::make(request()->all(), [
-            'id' => ['required', 'exists:categories,id'],
+        $order_payment->approved = 1;
+        $order_payment->save();
+
+        $order = Order::find($item->order_id);
+        $total_paid = OrderPayment::where('order_id', $order->id)->sum('amount');
+        $order->total_paid = $total_paid;
+        if ($total_paid < $order->total_price) {
+            $order->payment_status =  'partially paid';
+        }
+        if ($total_paid == 0) {
+            $order->payment_status =  'due';
+        }
+        if ($total_paid >= $order->total_price) {
+            $order->payment_status =  'paid';
+        }
+        $order->save();
+
+        if(!$order->sales_id){
+            $payment_controller = new PaymentRequestController();
+            $payment_controller->set_sales_id($order);
+        }
+
+        $log = AccountLog::create([
+            'date' => Carbon::now()->toDateTimeString(),
+            "name" => $order_payment->user->first_name." ".$order_payment->user->last_name,
+            'amount' => $order_payment->amount,
+            'category_id' => 1, // ponno theke ay
+            'account_id' => $order_payment->account_id,
+            'account_number_id' => $order_payment->account_number_id,
+            'trx_id' => $order_payment->trx_id,
+            'receipt_no' => $order->sales_id,
+            'is_income' => 1,
+            'description' => 'admin received and inserted client payment',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'err_message' => 'validation error',
-                'errors' => $validator->errors(),
-            ], 422);
-        }
-
-        $data = Brand::find(request()->id);
-        $data->status = 1;
-        $data->save();
-
-        return response()->json([
-            'result' => 'activated',
-        ], 200);
-    }
-
-    public function bulk_import()
-    {
-        $validator = Validator::make(request()->all(), [
-            'data' => ['required', 'array'],
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'err_message' => 'validation error',
-                'errors' => $validator->errors(),
-            ], 422);
-        }
-
-        foreach (request()->data as $item) {
-            $item['created_at'] = $item['created_at'] ? Carbon::parse($item['created_at']) : Carbon::now()->toDateTimeString();
-            $item['updated_at'] = $item['updated_at'] ? Carbon::parse($item['updated_at']) : Carbon::now()->toDateTimeString();
-            $item = (object) $item;
-            $check = Brand::where('id', $item->id)->first();
-            if (!$check) {
-                try {
-                    Brand::create((array) $item);
-                } catch (\Throwable $th) {
-                    return response()->json([
-                        'err_message' => 'validation error',
-                        'errors' => $th->getMessage(),
-                    ], 400);
-                }
-            }
-        }
-
-        return response()->json('success', 200);
+        $order_payment->account_logs_id = $log->id;
+        $order_payment->save();
     }
 }

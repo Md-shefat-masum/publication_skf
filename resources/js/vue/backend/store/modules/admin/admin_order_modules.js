@@ -66,15 +66,20 @@ const actions = {
         await axios.get(url).then((res) => {
             // console.log(res.data);
             res.data.order_details.forEach(el => {
-                el.total_price = el.sales_price * el.qty;
-                el.current_price = el.product_price;
+                // console.log(el);
+                el.total_price = el.discount_price? el.discount_price * el.qty : el.sales_price * el.qty;
+                el.current_price = el.discount_price? el.discount_price : el.product_price;
                 el.id = el.product_id;
-                el.discount_percent = 0;
 
-                if (el.product.discount_info) {
-                    el.current_price = el.product.discount_info?.discount_price;
-                    el.discount_percent = el.product.discount_info?.discount_percent
+                if(el.product.discount_info.discount_percent){
+                    el.product.discount_info.discount_percent = el.discount_percent;
                 }
+                // el.discount_percent = el.discount_percent? el.discount_percent : 0;
+                // if (!el.discount_percent && el.product.discount_info && el.product.discount_info.discount_price > 0) {
+                //     el.current_price = el.product.discount_info?.discount_price;
+                //     el.discount_percent = el.product.discount_info?.discount_percent
+                // }
+
             });
             state.admin_oder_cart = res.data.order_details;
             state.admin_order = res.data;
@@ -85,7 +90,7 @@ const actions = {
         }
     },
 
-    [`store_admin_order`]: async function ({ state, rootGetters }, { type }) {
+    [`store_admin_order`]: async function ({ state, rootGetters }, { shipping_charge, total_discount }) {
         let carts = [...state.admin_oder_cart];
         let discount = state.admin_order_discount;
         let customer_id = rootGetters.get_user_selected[0]?.id;
@@ -105,10 +110,11 @@ const actions = {
         if (cconfirm) {
             axios.post('/admin/order/store-order', {
                     carts,
-                    discount,
                     customer_id,
                     type: 'create',
-                    order_id: state.admin_order?.id
+                    order_id: state.admin_order?.id,
+                    discount: total_discount,
+                    shipping_charge,
                 })
                 .then(res => {
                     // console.log(res.data);
@@ -118,11 +124,14 @@ const actions = {
         }
     },
 
-    [`update_admin_order`]: async function ({ state }) {
+    [`update_admin_order`]: async function ({ state },{shipping_charge, discount}) {
         let carts = [...state.admin_oder_cart];
         let cconfirm = await window.s_confirm("update order");
         if (cconfirm) {
-            axios.post('/admin/order/update-order', { carts, order_id: state.admin_order.id })
+            axios.post('/admin/order/update-order', {
+                carts, order_id: state.admin_order.id,
+                shipping_charge, discount
+            })
                 .then(res => {
                     // console.log(res.data);
                     // state.admin_oder_cart  = [];
@@ -202,10 +211,6 @@ const actions = {
             products.push(cart_product);
         }
 
-        if(!commission && product.discount_info?.discount_percent){
-            commission = product.discount_info.discount_percent;
-        }
-
         cart_product.discount_percent = commission || 0;
         cart_product.current_price = product.sales_price;
         cart_product.total_price = product.sales_price * cart_product.qty;
@@ -215,8 +220,6 @@ const actions = {
             cart_product.total_price = cart_product.qty * d_price;
             cart_product.current_price = d_price;
         }
-
-        // console.log(products);
 
         state.admin_oder_cart = products;
         commit('set_admin_cart_total')

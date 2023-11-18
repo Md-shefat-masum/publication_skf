@@ -165,7 +165,7 @@
                             </div>
                             <div class="form-group mb-2">
                                 <label for="">Amount</label>
-                                <input type="number" name="amount" id="amount" min="10" :max="data.total_price - data.order_payments_sum_amount" :value="data.total_price - data.order_payments_sum_amount" class="form-control">
+                                <input type="number" step=".01" name="amount" id="amount" min="10" :max="data.total_price - data.order_payments_sum_amount" :value="data.total_price - data.order_payments_sum_amount" class="form-control">
                             </div>
                             <div class="form-group mb-2">
                                 <label for="">Check or Payment Screenshot</label>

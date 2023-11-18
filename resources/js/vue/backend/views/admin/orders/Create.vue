@@ -38,9 +38,12 @@
                                         <div style="padding: 5px;">
                                             <h6 style="flex:1" class="mb-0">{{ product.product_name }}</h6>
                                             <div class="mt-1">
-                                                <span v-if="product.discount_info">
+                                                <span v-if="product.discount_info && product.discount_info.discount_price">
                                                     <b>৳ {{ product.discount_info.discount_price.toString().enToBn() }}</b>
                                                     <del>৳ {{ product.sales_price.toString().enToBn() }}</del>
+                                                </span>
+                                                <span v-else>
+                                                    <b>৳ {{ product.sales_price.toString().enToBn() }}</b>
                                                 </span>
                                             </div>
                                         </div>
@@ -65,6 +68,10 @@
                                         <tr v-for="product in order_carts" :key="product.id">
                                             <td class="text-start">
                                                 {{ product.product_name }}
+                                                <br>
+                                                <div>
+                                                    ৳ {{ product.current_price.toString().enToBn() }}
+                                                </div>
                                                 <br>
                                                 <a href="#" @click.prevent="remove_cart({product})" class="text-danger">delete</a>
                                             </td>
@@ -99,6 +106,31 @@
                                     </tfoot>
                                 </table>
                                 <form action="#" class="mt-3" v-if="order_carts.length">
+                                    <div class="mb-2 d-flex gap-2 justify-content-end">
+                                        <label for="delivery_charge">Delivery Charge</label>
+                                        <input type="number" v-model="shipping_charge" step=".01" name="delivery_charge" id="delivery_charge" class="form-control text-end" style="width: 130px">
+                                    </div>
+                                    <div  class="mb-2 d-flex gap-2 justify-content-end">
+                                        <label for="discount">Discount on product</label>
+                                        <input type="number" readonly v-model="discount_on_product" step=".01" name="discount" id="discount" class="form-control text-end" style="width: 130px">
+                                    </div>
+                                    <div class="mb-2 d-flex gap-2 justify-content-end">
+                                        <label for="discount">Discount on total</label>
+                                        <input type="number" v-model="total_discount" step=".01" name="discount" id="discount" class="form-control text-end" style="width: 130px">
+                                    </div>
+                                    <div class="mb-2 d-flex gap-2 justify-content-end">
+                                        <label for="discount">Sub total</label>
+                                        <input type="number" readonly :value="+tota_order_price + +shipping_charge - +total_discount" step=".01" name="discount" id="discount" class="form-control text-end" style="width: 130px">
+                                    </div>
+                                    <div class="mb-2 d-flex gap-2 justify-content-end">
+                                        <label for="total_paid">Total Paid</label>
+                                        <input type="number" v-model="total_paid" step=".01" name="total_paid" id="total_paid" class="form-control text-end" style="width: 130px">
+                                    </div>
+                                    <div class="mb-2 d-flex gap-2 justify-content-end">
+                                        <label for="total_paid">Due</label>
+                                        <input type="number" readonly :value="+tota_order_price + +shipping_charge  - +total_discount - +total_paid" step=".01" name="total_paid" id="total_paid" class="form-control text-end" style="width: 130px">
+                                    </div>
+
                                     <div class="mb-2">
                                         <label class="mb-1">Select Customer</label>
                                         <UserManagementModal :id="`customer_id`" :select_qty="1"></UserManagementModal>
@@ -120,7 +152,7 @@
                                         <input class="form-control" :value="admin_due_amount" name="" readonly style="cursor: no-drop;"/>
                                     </div> -->
                                     <div class="d-flex gap-1 flex-wrap">
-                                        <button type="button" @click.prevent="store_order"  class="btn btn-outline-info" >
+                                        <button type="button" @click.prevent="store_order({shipping_charge, total_discount})"  class="btn btn-outline-info" >
                                             <i class="fa fa-paper-plane"></i>
                                             Create Order
                                         </button>
@@ -159,6 +191,10 @@ export default {
             /** store prefix for JSX */
             store_prefix,
             route_prefix,
+            shipping_charge: 0,
+            total_discount: 0,
+            discount_on_product: 0,
+            total_paid: 0,
         }
     },
     created: async function () {
@@ -169,6 +205,10 @@ export default {
         })
         this.$watch('discount',(n,o)=>{
             // console.log(n, o);
+        })
+        this.$watch('order_carts',(n,o)=>{
+            // console.log(n);
+            this.discount_on_product = n.reduce((total,i)=>total+=((i.sales_price-i.current_price)*i.qty),0);
         })
     },
     methods: {

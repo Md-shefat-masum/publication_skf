@@ -78,10 +78,8 @@
                                                 <div>
                                                     {{ product.product_name }}
                                                     <br>
-                                                    <div class="d-flex">
-                                                        <div>
-                                                            ৳ {{ product.current_price.toString().enToBn() }}
-                                                        </div>
+                                                    <div>
+                                                        ৳ {{ product.current_price.toString().enToBn() }}
                                                     </div>
 
                                                 </div>

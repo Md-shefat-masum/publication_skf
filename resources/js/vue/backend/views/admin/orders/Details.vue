@@ -4,7 +4,14 @@
             <div class="card-header">
                 <h4>Order Details</h4>
                 <div class="btns">
-                    <a href="" @click.prevent="call_store(`set_${store_prefix}`,null), $router.push({ name: `BranchOrder` })"  class="btn rounded-pill btn-outline-warning" >
+                    <router-link
+                        :to="{name:`Edit${route_prefix}`,params:{id: data.id}}">
+                        <span class="btn btn-sm btn-outline-warning rounded-pill me-2">
+                            Edit
+                        </span>
+                    </router-link>
+
+                    <a href="" @click.prevent="call_store(`set_${store_prefix}`,null), $router.push({ name: `BranchOrder` })"  class="btn btn-sm rounded-pill btn-outline-warning" >
                         <i class="fa fa-arrow-left me-5px"></i>
                         <span >
                             Back

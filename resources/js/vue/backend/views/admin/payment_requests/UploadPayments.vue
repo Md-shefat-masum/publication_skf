@@ -33,48 +33,50 @@
                                     <th>Particulars</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <template v-for="(item, index) in excel_data" >
-                                    <template>
-                                        <tr :key="index">
-                                            <td></td>
-                                            <td></td>
-                                            <td>
-                                                {{ item["Trans Date"] }}
-                                            </td>
-                                            <td>
-                                                {{ item["Post Date"] }}
-                                            </td>
-                                            <td class="text-start">
-                                                <span class="badge bg-rose-600 text-light">
-                                                    {{ item["Instrument No"] }}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                {{ item["Withdraw"] }}
-                                            </td>
-                                            <td class="text-start">
-                                                <span class="badge bg-green-700 text-light">
-                                                    {{ item["Deposit"] }}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <span class="badge bg-purple-600 text-light">
-                                                    {{ item["Balance"] }}
-                                                </span>
-                                            </td>
-                                            <td class="text-start">
-                                                {{ item["Particulars"] }}
-                                            </td>
-                                        </tr>
-                                        <!-- <tr :key="index+item[`Instrument No`]">
-                                            <td colspan="6" class="text-start">
-                                                <b>Particulars: </b>
-                                                {{ item["Particulars"] }}
-                                            </td>
-                                        </tr> -->
-                                    </template>
-                                </template>
+                            <tbody v-if="excel_data.length">
+                                <tr v-for="item in excel_data" :key="item.instument_no">
+                                    <td>
+                                        {{ item["branch_name"] }}
+                                    </td>
+                                    <td>
+                                        <a target="_blank" :href="`#/admin/order/details/${item.order_id}`">
+                                            {{ item["order_id"] }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        {{ item["Trans Date"] }}
+                                    </td>
+                                    <td>
+                                        {{ item["Post Date"] }}
+                                    </td>
+                                    <td class="text-start">
+                                        <span class="badge bg-rose-600 text-light">
+                                            {{ item["Instrument No"] }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        {{ item["Withdraw"] }}
+                                    </td>
+                                    <td class="text-start">
+                                        <span class="badge bg-green-700 text-light">
+                                            {{ item["Deposit"] }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-purple-600 text-light">
+                                            {{ item["Balance"] }}
+                                        </span>
+                                    </td>
+                                    <td class="text-start">
+                                        {{ item["Particulars"] }}
+                                    </td>
+                                </tr>
+                                <!-- <tr :key="index+item[`Instrument No`]">
+                                    <td colspan="6" class="text-start">
+                                        <b>Particulars: </b>
+                                        {{ item["Particulars"] }}
+                                    </td>
+                                </tr> -->
                             </tbody>
                         </table>
                     </div>
@@ -85,9 +87,9 @@
                         Check Related Branch
                     </button>
 
-                    <button type="button" class="btn btn-outline-warning" >
+                    <button type="button" @click="save_transactions()" class="btn btn-outline-warning" >
                         <i class="fa fa-upload"></i>
-                        Submit
+                        Save transactions
                     </button>
                 </div>
             </form>
@@ -120,14 +122,34 @@ export default {
         },
         load_excel: async function(){
             this.excel_data = await window.handleFileSelect(event);
-            console.log(this.excel_data);
+            this.excel_data.forEach(e=>{
+                e.instument_no = e["Instrument No"];
+                e.trx_id = e["Instrument No"];
+                e.amount = e["Deposit"];
+            });
+            // console.log(this.excel_data);
         },
-        check_branch: function(){
-            console.log(this.excel_data);
-            let instument_no = this.excel_data.filter(i=>i["Instrument No"].length > 3)
-                                    .map(i=>i["Instrument No"]);
+        check_branch: async function(){
+            // console.log(this.excel_data);
+            let instument_no = this.excel_data.filter(i=>i.instument_no.length > 3)
+                                    .map(i=>i.instument_no);
+            // console.log(instument_no);
+            let res = await axios.post('/admin/order/check-orders-with-payments',{instument_no});
+            let temp = [...this.excel_data];
+            res.data.forEach(el => {
+                let ex_data = temp.find(i=>i.instument_no == el.trx_id);
+                if(ex_data){
+                    ex_data.branch_name = el.user.first_name +' '+el.user.last_name;
+                    ex_data.order_id = el.order_id;
+                }
+            });
 
-            console.log(instument_no);
+            this.excel_data = temp;
+
+        },
+        save_transactions: async function(){
+            let trxs = this.excel_data.filter(i=>i.branch_name!=null);
+            await axios.post(`/admin/order/save-orders-with-payments`,{trxs})
         }
     },
 };
