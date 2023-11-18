@@ -135,18 +135,26 @@
         justify-content: space-between;
         gap: 20px;
         padding: 15px 25px;
+
+        @media (max-width: 991.9px) {
+            .search{
+                width: 84%;
+            }
+        }
     }
 
     .card-body {
         min-height: 300px;
-        max-height: calc(100vh - 280px);
+        max-height: calc(100vh - 320px);
         overflow-y: scroll;
         padding-top: 0;
         padding-bottom: 0;
         @extend .custom_scroll;
 
         @media (max-width: 767.9px) {
-            max-height: calc(100vh - 390px);
+            max-height: calc(100vh - 243px);
+            // max-height: calc(100vh - 365px);
+
         }
 
         .table>:not(caption)>*>* {

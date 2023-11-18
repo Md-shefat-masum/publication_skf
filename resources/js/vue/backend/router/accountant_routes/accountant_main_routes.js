@@ -10,6 +10,7 @@ import print from "./sub_routes/print";
 import binding from "./sub_routes/binding";
 import designer from "./sub_routes/designer";
 import report from "./sub_routes/report";
+import customer from "./sub_routes/customer";
 
 export default {
     path: "/accountant",
@@ -30,5 +31,6 @@ export default {
         binding,
         designer,
         report,
+        customer,
     ],
 };

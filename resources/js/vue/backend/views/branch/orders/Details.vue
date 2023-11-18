@@ -1,10 +1,10 @@
 <template>
     <div class="container">
         <div class="card list_card">
-            <div class="card-header">
+            <div class="card-header no_print">
                 <h4>Order Details</h4>
-                <div class="btns">
-                    <a href="" @click.prevent="call_store(`set_${store_prefix}`,null), $router.push({ name: `All${route_prefix}` })"  class="btn rounded-pill btn-outline-warning" >
+                <div class="btns ">
+                    <a href="" @click.prevent="call_store(`set_${store_prefix}`,null), $router.push({ name: `All${route_prefix}` })"  class="btn btn-sm rounded-pill btn-outline-warning" >
                         <i class="fa fa-arrow-left me-5px"></i>
                         <span >
                             Back
@@ -18,20 +18,20 @@
                         <table class="table w-100">
                             <thead>
                                 <tr>
-                                    <th>Title</th>
+                                    <th class="text-start">Title</th>
                                     <th class="text-end">Qty</th>
                                     <th class="text-end">Total</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="item in data.order_details" :key="item.id">
-                                    <td>{{ item.product_name }}</td>
+                                    <td class="text-start">{{ item.product_name }}</td>
                                     <td class="text-end">{{ item.sales_price }} * {{ item.qty }}</td>
                                     <td class="text-end">{{ item.sales_price * item.qty }}</td>
                                 </tr>
                             </tbody>
                             <tfoot>
-                                <tr style="border-top: 1px solid white;">
+                                <tr style="border-top: 1px solid black;">
                                     <td class="border-bottom-0"></td>
                                     <td class="text-end">
                                         <b>Sub Total</b>
@@ -42,46 +42,46 @@
                                 </tr>
                                 <tr style="border-top: 0">
                                     <td class="border-0"></td>
-                                    <td class="text-end border-top-2">
+                                    <td class="text-end">
                                         <b>Shipping</b>
                                     </td>
-                                    <td class="text-end border-top-2">
+                                    <td class="text-end">
                                         {{ number_format( data.delivery_charge ) }}
                                     </td>
                                 </tr>
                                 <tr style="border-top: 0">
                                     <td class="border-0"></td>
-                                    <td class="text-end border-top-2">
+                                    <td class="text-end">
                                         <b>Discount</b>
                                     </td>
-                                    <td class="text-end border-top-2">
+                                    <td class="text-end">
                                         - {{ number_format( data.discount ) }}
                                     </td>
                                 </tr>
                                 <tr style="border-top: 0">
                                     <td class="border-0"></td>
-                                    <td class="text-end border-top-2">
+                                    <td class="text-end">
                                         <b>Total</b>
                                     </td>
-                                    <td class="text-end border-top-2">
+                                    <td class="text-end">
                                         {{ number_format(  data.total_price )}}
                                     </td>
                                 </tr>
                                 <tr style="border-top: 0">
                                     <td class="border-0"></td>
-                                    <td class="text-end border-top-2">
+                                    <td class="text-end">
                                         <b>Paid</b>
                                     </td>
-                                    <td class="text-end border-top-2">
+                                    <td class="text-end">
                                         {{ number_format( data.order_payments_sum_amount )}}
                                     </td>
                                 </tr>
                                 <tr style="border-top: 0">
                                     <td class="border-0"></td>
-                                    <td class="text-end border-top-2">
+                                    <td class="text-end">
                                         <b>Due</b>
                                     </td>
-                                    <td class="text-end border-top-2">
+                                    <td class="text-end">
                                         {{ number_format( data.total_price - data.order_payments_sum_amount )}}
                                     </td>
                                 </tr>
@@ -135,8 +135,8 @@
                         </table>
                     </div>
                     <div class="col-lg-1"></div>
-                    <div class="col-lg-5 py-4">
-                        <form v-if="data && data.total_paid < data.total_price " @submit.prevent="branch_pay_due" action="" class="mt-2">
+                    <div class="col-lg-5 py-4 no_print" >
+                        <form v-if="data && data.total_paid < data.total_price " @submit.prevent="branch_pay_due" action="" id="pay_due_form" class="mt-2">
                             <h4>Pay due amount</h4>
                             <div class="form-group mb-2 mt-2">
                                 <label for="Account">Account</label>
@@ -151,6 +151,7 @@
                                     <div class="d-flex flex-wrap">
                                         <input class="order-1" :id="value.id" name="payment_method" type="radio" :value="JSON.stringify(value)">
                                         <div class="order-2">
+                                            &nbsp;
                                             {{ value.value }}
                                             &nbsp;
                                             &nbsp;
@@ -164,14 +165,18 @@
                             </div>
                             <div class="form-group mb-2">
                                 <label for="">Amount</label>
-                                <input type="number" name="amount" id="amount" min="10" :max="data.total_price - data.order_payments_sum_amount" :value="data.total_price - data.order_payments_sum_amount" class="form-control">
+                                <input type="number" step=".01" name="amount" id="amount" min="10" :max="data.total_price - data.order_payments_sum_amount" :value="data.total_price - data.order_payments_sum_amount" class="form-control">
+                            </div>
+                            <div class="form-group mb-2">
+                                <label for="">Check or Payment Screenshot</label>
+                                <input type="file" name="attachment" id="file" class="form-control">
                             </div>
                             <button class="btn btn-outline-adn">Submit</button>
                         </form>
                     </div>
 
                     <div v-if="data" class="col-12">
-                        <div v-if="data?.payment_records.length">
+                        <div class="payment_histories" v-if="data?.payment_records.length">
                             <div>
                                 <h4 id="payment_id" class="mt-4">Payment Information</h4>
                             </div>
@@ -267,57 +272,7 @@ export default {
             this.account_vlaues = this.data.payment_accounts.find(i=>i.id==account_id)?.numbers || [];
         },
         number_format: (number) => new Intl.NumberFormat().format(number),
-        make_data: function(){
-            this.data = [
-                `মোমেনশাহী জেলা দক্ষিণ`,
-                `কিশোরগঞ্জ জেলা উত্তর`,
-                `কিশোরগঞ্জ জেলা দক্ষিণ`,
-                `নেত্রকোনা জেলা`,
-                `চট্টগ্রাম মহানগর উত্তর`,
-                `চট্টগ্রাম মহানগর দক্ষিণ`,
-                `চট্টগ্রাম বিশ্ববিদ্যালয়`,
-                `চট্টগ্রাম জেলা উত্তর`
-            ].map((i, index)=>{
-                return {
-                        id:parseInt(Math.random()*1000),
-                        order_id: `#202204`+parseInt(Math.random()*1000),
-                        branch: i,
-                        contact: '+880 1646376015',
-                        subtotal: parseInt(Math.random()*10000),
-                        shipping: parseInt(Math.random()*100),
-                        paid: 2000,
-                        payment_status: parseInt(Math.random()*10) % 2==0?'due':'paid',
-                        status: ['pending','accepted','processing','delivered','canceled'][index],
-                        created_at: new Date().toDateString() + ' ' + new Date().toLocaleTimeString(),
-                        products: [
-                            {
-                                id:parseInt(Math.random()*1000),
-                                price:parseInt(Math.random()*1000),
-                                title: 'ক্যারিয়ার বিকশিত জীবনের দ্বার',
-                                image: 'http://almari.info/uploads/product/product_main_image/dh2QioXn122GuTfvBBcrEkDKM0XAEiG2z63zwRKC.png',
-                                status: 'designing',
-                                qty: 300,
-                            },
-                            {
-                                id:parseInt(Math.random()*1000),
-                                price:parseInt(Math.random()*1000),
-                                title: 'বিষয়ভিত্তিক আয়াত ও হাদিস সংকলন (ছোটো)',
-                                image: 'http://almari.info/uploads/product/product_main_image/PWGp7nvai1IYlG3xbEt8WBmV6nZ7V0Rmc3FeM2eP.jpeg',
-                                status: 'binding',
-                                qty: 500,
-                            },
-                            {
-                                id:parseInt(Math.random()*1000),
-                                price:parseInt(Math.random()*1000),
-                                title: 'এসো আলোর পথে',
-                                image: 'http://almari.info/uploads/product/product_main_image/juRgRV0pxxjFkulEA4flJI1UAKSr966a9JFgyKyb.jpeg',
-                                status: 'printing',
-                                qty: 450,
-                            },
-                        ]
-                    }
-            })
-        },
+
     },
     computed: {
         ...mapGetters({

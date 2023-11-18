@@ -9,7 +9,7 @@ class AccountNumberSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
+        php artisan db:seed --class="Database\Seeders\Account\AccountNumberSeeder"
      * @return void
      */
     public function run()
@@ -18,28 +18,28 @@ class AccountNumberSeeder extends Seeder
         AccountAccountNumber::truncate();
         $values = [
             // bank account
-            "3" => [
-                '+880 169874523',
-                '+880 169874524',
-                '+880 169874525',
-            ],
+            // "3" => [
+            //     '+880 169874523',
+            //     '+880 169874524',
+            //     '+880 169874525',
+            // ],
             // bkash
-            "4" => [
-                '+880 169874526',
-                '+880 169874527',
-                '+880 169874528',
-            ],
+            // "4" => [
+            //     '+880 169874526',
+            //     '+880 169874527',
+            //     '+880 169874528',
+            // ],
             // nagad
-            "5" => [
-                '+880 169874529',
-                '+880 169874530',
-                '+880 169874531',
-            ],
+            // "5" => [
+            //     '+880 169874529',
+            //     '+880 169874530',
+            //     '+880 169874531',
+            // ],
             // bank account
             "2" => [
-                'Islami bank 874523',
-                'Agrani bank 874524',
-                'City bank 874525',
+                '20503110201262812',
+                // 'Agrani bank 874524',
+                // 'City bank 874525',
             ],
         ];
 

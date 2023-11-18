@@ -25,6 +25,12 @@
                                         </option>
                                     </select>
                                 </div>
+
+                                <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
+                                    <label>Select Customer</label>
+                                    <CustomerModal></CustomerModal>
+                                </div>
+
                                 <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Expense Amount`"
@@ -92,12 +98,13 @@
 import { mapActions, mapGetters } from 'vuex'
 import InputField from '../../components/InputField.vue'
 import CateogryTypesModal from "../account_types/components/ManagementModal.vue"
+import CustomerModal from "../customers/components/ManagementModal.vue"
 /** store and route prefix for export object use */
 import PageSetup from './PageSetup';
 const {route_prefix, store_prefix} = PageSetup;
 
 export default {
-    components: { InputField, CateogryTypesModal },
+    components: { InputField, CateogryTypesModal, CustomerModal },
     data: function(){
         return {
             /** store prefix for JSX */

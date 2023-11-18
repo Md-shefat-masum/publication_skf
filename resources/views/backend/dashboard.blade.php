@@ -35,6 +35,8 @@
     <!-- END: Custom CSS-->
     <link rel="stylesheet" href="/css/tailwind/tailwind.css">
     <link rel="stylesheet" href="/css/backend.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
+    <script script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
     <script src="/backend/assets/js/jquery-3.6.3.min.js"></script>
     <script src="/js/pace.min.js"></script>
     <script src="/js/vue/dashboard.js" defer></script>
@@ -76,6 +78,14 @@
 <!-- BEGIN: Body-->
 
 <body class="vertical-layout vertical-menu-modern  navbar-floating footer-static">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
+<script>
+
+
+
+</script>
 
     <div id="app">
         <ex-app></ex-app>

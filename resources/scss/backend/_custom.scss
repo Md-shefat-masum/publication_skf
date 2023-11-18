@@ -2,8 +2,8 @@
 
 .content-body {
     // border: 1px solid;
-    min-height: calc(100vh - 103px);
-    max-height: calc(100vh - 103px);
+    min-height: calc(100vh - 116px);
+    max-height: calc(100vh - 116px);
     overflow-y: hidden;
 }
 
@@ -33,6 +33,12 @@
 
     &:hover {
         span {
+            transform: translate(-50%, -50%) scale(.7);
+        }
+    }
+
+    @media (max-width: 991.9px) {
+        .add_icon {
             transform: translate(-50%, -50%) scale(.7);
         }
     }
@@ -463,4 +469,9 @@
     color: white;
     width: 108px;
     background: transparent;
+}
+
+.payment_histories{
+    max-width: 100vw;
+    overflow-x: scroll;
 }
