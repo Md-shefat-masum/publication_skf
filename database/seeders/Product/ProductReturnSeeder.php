@@ -54,23 +54,25 @@ class ProductReturnSeeder extends Seeder
         $j=0;
         for ($i = 1; $i <= 50; $i+=4) {
             $product = OrderDetails::find($i); // return from order list
-            $review = [
-                'user_id' => $product->user_id,
-                'product_id' => $product->product_id,
-                'order_id' => $product->order_id,
-                'order_details_id' => $product->id,
-                'qty' => 1,
-                'description' => generateRandomReviewDescription($j++),
-            ];
-            $product_return = ProductReturn::create($review);
+            if($product){
+                $review = [
+                    'user_id' => $product->user_id,
+                    'product_id' => $product->product_id,
+                    'order_id' => $product->order_id,
+                    'order_details_id' => $product->id,
+                    'qty' => 1,
+                    'description' => generateRandomReviewDescription($j++),
+                ];
+                $product_return = ProductReturn::create($review);
 
-            ProductStockLog::create([
-                "product_id" => $product->product_id,
-                "qty" => 1,
-                "type" => "return",
-                "product_return_id" => $product_return->id,
-                "order_id" => $product->order_id,
-            ]);
+                ProductStockLog::create([
+                    "product_id" => $product->product_id,
+                    "qty" => 1,
+                    "type" => "return",
+                    "product_return_id" => $product_return->id,
+                    "order_id" => $product->order_id,
+                ]);
+            }
         }
     }
 }
