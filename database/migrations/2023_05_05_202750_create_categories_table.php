@@ -20,6 +20,7 @@ class CreateCategoriesTable extends Migration
             $table->integer("parent_id")->default(0);
             $table->string("url", 100)->nullable();
             $table->tinyInteger("is_top_category")->default(0);
+            $table->tinyInteger("is_public")->default(0);
             $table->string("category_image", 100)->nullable();
             $table->text("description")->nullable();
 

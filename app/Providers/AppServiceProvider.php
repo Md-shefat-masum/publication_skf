@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Settings\AppSettingValue;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use Laravel\Passport\Console\ClientCommand;
@@ -9,6 +10,7 @@ use Laravel\Passport\Console\InstallCommand;
 use Laravel\Passport\Console\KeysCommand;
 use Illuminate\Support\Facades\Schema;
 use Laravel\Passport\Passport;
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -36,7 +38,13 @@ class AppServiceProvider extends ServiceProvider
             ClientCommand::class,
             KeysCommand::class,
         ]);
-
+        View::composer('*', function ($view) {
+            $app_settings = AppSettingValue::get();
+            $GLOBALS['app_settings'] = $app_settings;
+            $view->with([
+                'app_settings'=> $app_settings,
+            ]);
+        });
         // View::composer('dashboard.*', function ($view) {
         //     $notifications = Notification::where('user_id',Auth::user()->id)
         //                                 ->orderBy('id','DESC')

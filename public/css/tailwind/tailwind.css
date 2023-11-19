@@ -298,9 +298,6 @@
 .overflow-hidden{
     overflow: hidden
 }
-.overflow-x-scroll{
-    overflow-x: scroll
-}
 .rounded{
     border-radius: 0.25rem
 }
@@ -419,6 +416,10 @@
     -webkit-padding-end: 0px;
             padding-inline-end: 0px
 }
+.pe-1{
+    -webkit-padding-end: 0.25rem;
+            padding-inline-end: 0.25rem
+}
 .pe-2{
     -webkit-padding-end: 0.5rem;
             padding-inline-end: 0.5rem
@@ -452,10 +453,6 @@
 }
 .pt-8{
     padding-top: 2rem
-}
-.pe-1{
-    -webkit-padding-end: 0.25rem;
-            padding-inline-end: 0.25rem
 }
 .text-left{
     text-align: left

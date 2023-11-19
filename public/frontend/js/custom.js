@@ -220,7 +220,7 @@ let cart = {
     render_cart_list: function () {
         let html = this.carts
             .map((i) => {
-                let price = i.discount_info.discount_amount ? i.discount_info.discount_price : i.sales_price;
+                let price = i.discount_info?.discount_amount ? i.discount_info.discount_price : i.sales_price;
                 return `
                 <div class="single-cart">
                     <div class="cart-img">
@@ -331,7 +331,7 @@ let cart = {
     },
     calc_cart_total: function () {
         return this.carts.reduce((t, i) => {
-            let price = i.discount_info.discount_amount ? i.discount_info.discount_price : i.sales_price;
+            let price = i.discount_info?.discount_amount ? i.discount_info.discount_price : i.sales_price;
             return (t += price * i.qty);
         }, 0);
     },

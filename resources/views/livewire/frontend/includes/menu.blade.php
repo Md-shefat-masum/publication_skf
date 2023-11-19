@@ -9,10 +9,10 @@
         <a href="{{ route('category_product',[$item->id, urlencode($item->name) ]) }}">
             <span class="menu-label-level-0"> {{$item->name}} </span>
         </a>
-        @if (count($item->child))
+        @if (count($item->frontend_child))
         <div class="sub-menu">
             <ul>
-                @foreach ($item->child as $child)
+                @foreach ($item->frontend_child as $child)
                 <li>
                     <a href="{{ route('category_product',[$child->id, urlencode($child->name) ]) }}"> {{$child->name}} </a>
                 </li>

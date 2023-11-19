@@ -20,8 +20,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="mobile-menu">
+                    <div class="mobile-menu" id="mobile_menu">
+                        <div class="backdrop" onclick="mobile_menu.classList.toggle('active')"></div>
                         <nav>
+                            <i class="fa nav_close fa-close" onclick="mobile_menu.classList.toggle('active')"></i>
                             @include('livewire.frontend.includes.menu')
                         </nav>
                     </div>

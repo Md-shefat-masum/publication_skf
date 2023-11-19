@@ -2,6 +2,7 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -26,6 +27,7 @@
     <link rel="stylesheet" href="{{ asset('frontend') }}/style.css">
     <link rel="stylesheet" href="{{ asset('frontend') }}/css/responsive.css">
     <link rel="stylesheet" href="{{ asset('frontend') }}/css/custom.css">
+    <link rel="stylesheet" href="{{ asset('frontend') }}/css/mobilemenu.css">
     @livewireStyles
 
     <script src="/js/sweetalert.js"></script>

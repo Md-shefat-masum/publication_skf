@@ -237,7 +237,7 @@
                             <div class="tab-pane fade show active" id="Details">
                                 <div class="value">
                                     <p class="solaiman">
-                                        {{ $product->description }}
+                                        {!! $product->description !!}
                                     </p>
                                 </div>
                             </div>

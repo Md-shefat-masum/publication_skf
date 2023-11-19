@@ -21,3 +21,22 @@ function enToBn($NRS)
     $converted = str_replace($englDTN, $bangDTN, $NRS);
     return $converted;
 }
+
+function setting($key, $multiple = false)
+{
+    try {
+        if(!$multiple){
+            $value = $GLOBALS['app_settings']->where("title", $key)->first();
+            if ($value) {
+                return $value->setting_value;
+            } else {
+                return '';
+            }
+        }else{
+            $values = $GLOBALS['app_settings']->where("title", $key)->all();
+            return $values;
+        }
+    } catch (\Throwable $th) {
+        var_dump($th->getMessage());
+    }
+}
