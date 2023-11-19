@@ -117,7 +117,7 @@
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
-                                        :label="`Thumb Image ( 500 x 680 px)`"
+                                        :label="`Thumb Image ( 400 x 550 px)`"
                                         :name="`thumb_image`"
                                         :type="`file`"
                                     />

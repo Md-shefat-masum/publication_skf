@@ -131,7 +131,7 @@ class OldDataImportController extends Controller
                     "description" => $row->product_description,
                     "stock_alert_qty" => $row->alert_quantity,
                     "sales_price" => $row->product_price,
-                    "is_top_product" => 1,
+                    "is_top_product" => 0,
 
                     // "product_category" => $row->product_category,
                     // "product_sub_category" => $row->product_sub_category,

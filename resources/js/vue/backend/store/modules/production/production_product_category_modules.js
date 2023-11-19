@@ -51,6 +51,16 @@ const actions = {
         }
         return res.data;
     },
+    [`fetch_${store_prefix}_add_to_public`]: async function ({state, commit }, id) {
+        let res = await axios.post("/category/add-to-is-public",{id})
+        if(res.data){
+            window.s_alert("added to public");
+        }else{
+            window.s_alert("removed from public");
+
+        }
+        return res.data;
+    },
     generateSlug: function(context, str_data="") {
         return str_data
           .toLowerCase() // convert to lowercase

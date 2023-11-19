@@ -21,7 +21,7 @@
     background-color: #3b3779;
 }
 
-.pace .pace-progress{
+.pace .pace-progress {
     z-index: 999999;
 }
 
@@ -102,25 +102,27 @@
     }
 }
 
-.error{
+.error {
     padding-top: 5px;
     width: 100%;
 }
 
-.details_table{
-    tr{
-        td{
-            &:nth-child(1){
-                width:140px;
+.details_table {
+    tr {
+        td {
+            &:nth-child(1) {
+                width: 140px;
                 max-width: 200px;
                 font-weight: bold;
                 text-transform: capitalize;
                 text-align: right;
             }
-            &:nth-child(2){
+
+            &:nth-child(2) {
                 padding-left: 30px;
                 padding-right: 30px;
             }
+
             padding: 10px 2px;
         }
     }
@@ -137,7 +139,7 @@
         padding: 15px 25px;
 
         @media (max-width: 991.9px) {
-            .search{
+            .search {
                 width: 84%;
             }
         }
@@ -234,7 +236,7 @@
     }
 }
 
-.upload_demo_form{
+.upload_demo_form {
     position: fixed;
     top: 90vh;
     right: 10px;
@@ -264,7 +266,7 @@
     opacity: 0;
     visibility: hidden;
 
-    &.active{
+    &.active {
         visibility: visible;
         opacity: 1;
     }
@@ -279,7 +281,8 @@
         border-radius: 5px;
         box-shadow: 0px 0px 10px rgba(0, 0, 0, .3);
         position: relative;
-        .progress{
+
+        .progress {
             position: absolute;
             width: 100%;
             height: 4px;
@@ -287,6 +290,7 @@
             bottom: 0;
             background-color: $purple;
         }
+
         .load_amount {
             display: flex;
             gap: 3px;
@@ -304,4 +308,50 @@
             }
         }
     }
+}
+
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: rotate(-34deg) translateX(0);
+        box-shadow: 0 0 10px 0px rgba(255, 0, 0, 0.3);
+    }
+
+    25% {
+        transform: rotate(-34deg) translateX(-5px);
+    }
+
+    50% {
+        transform: rotate(-34deg) translateX(5px);
+        box-shadow: 0 0 20px 10px rgba(255, 0, 0, 0.3);
+    }
+
+    75% {
+        transform: rotate(-34deg) translateX(-5px);
+        box-shadow: 0 0 10px 0px rgba(255, 0, 0, 0.3);
+    }
+}
+
+td.stock_alert {
+    position: relative;
+
+    .stock_badge {
+        position: absolute;
+        top: 15px;
+        left: -5px;
+        background-color: rgba(226, 96, 16, 0.171);
+        transform: rotate(-34deg);
+        font-size: 10px;
+        animation: shake 0.5s infinite;
+    }
+}
+
+.position_sticky {
+    position: sticky;
+    top: 0;
+    left: -20px;
+    backdrop-filter: blur(4px);
+    background-color: rgb(0 0 0 / 8%) !important;
 }

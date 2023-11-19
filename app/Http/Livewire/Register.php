@@ -7,6 +7,7 @@ use Livewire\Component;
 
 class Register extends Component
 {
+    public $first_name;
     public $email;
     public $password;
     public $auth_check;
@@ -16,7 +17,7 @@ class Register extends Component
     {
         $this->auth_check = auth()->check();
 
-        if(auth()->check()){
+        if (auth()->check()) {
             // return header("Location:admin");
         }
     }
@@ -25,12 +26,12 @@ class Register extends Component
     {
         $email = $this->email;
         $password = $this->password;
-        $user = User::where(function($q) use($email){
+        $user = User::where(function ($q) use ($email) {
             return $q->where('email', $email)
                 ->orWhere('user_name', $email)
                 ->orWhere('mobile_number', $email);
         })->first();
-        if($user){
+        if ($user) {
             auth()->login($user);
             $this->auth_check = auth()->check();
             $this->access_token = $user->createToken('accessToken')->accessToken;

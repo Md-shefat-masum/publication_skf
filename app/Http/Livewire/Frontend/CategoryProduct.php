@@ -22,7 +22,7 @@ class CategoryProduct extends Component
     public function render()
     {
         return view('livewire.frontend.category-product',[
-                'products' => $this->category->products()->paginate(10),
+                'products' => $this->category->products()->where('is_public',1)->paginate(10),
             ])->extends('layouts.app', [
             'meta' => [
                 "title" =>  "",

@@ -307,6 +307,7 @@ Route::group(
                 Route::get('/{id}/products', 'Admin\Product\CategoryController@products');
                 Route::post('/check-exists', 'Admin\Product\CategoryController@check_exists');
                 Route::post('/add-to-top-cat', 'Admin\Product\CategoryController@add_to_top_cat');
+                Route::post('/add-to-is-public', 'Admin\Product\CategoryController@add_to_public');
                 Route::get('/{id}', 'Admin\Product\CategoryController@show');
             });
 

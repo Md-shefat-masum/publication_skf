@@ -345,4 +345,30 @@ class CategoryController extends Controller
             return response()->json('success');
         }
     }
+
+    public function add_to_public()
+    {
+        $validator = Validator::make(request()->all(), [
+            'id' => ['required','exists:categories,id'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'err_message' => 'category not exists',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        $id = request()->id;
+        $category = Category::find($id);
+        if($category->is_public){
+            $category->is_public = 0;
+            $category->save();
+            return response()->json(0);
+        }else{
+            $category->is_public = 1;
+            $category->save();
+            return response()->json('success');
+        }
+    }
 }

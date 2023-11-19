@@ -27,15 +27,15 @@
                         <div class="login-form">
                             <div class="single-login">
                                 <label class="hind-siliguri font-18">আপনার সম্পূর্ণ নাম লিখুন<span class="text-danger">*</span></label>
-                                <input type="email" wire:model="email" type="email" class="form-control" name="email" placeholder="Full name" required />
+                                <input type="text" wire:model="first_name" class="form-control" name="first_name" placeholder="Full name" required />
                             </div>
                             <div class="single-login">
                                 <label class="hind-siliguri font-18">আপনার ইমেইল লিখুন</label>
-                                <input type="email" wire:model="email" type="email" class="form-control" name="email" placeholder="email" required />
+                                <input type="email" wire:model="email" class="form-control" name="email" placeholder="email" required />
                             </div>
                             <div class="single-login">
                                 <label class="hind-siliguri font-18">আপনার মোবাইল নাম্বার লিখুন<span class="text-danger">*</span></label>
-                                <input type="email" wire:model="email" type="email" class="form-control" name="email" placeholder="mobile no" required />
+                                <input type="text" wire:model="email" class="form-control" name="email" placeholder="mobile no" required />
                             </div>
                             <div class="single-login">
                                 <label class="hind-siliguri font-18">আপনার পাসওয়ার্ড লিখুন <span class="text-danger">*</span></label>

@@ -97,14 +97,14 @@
                                                 </div>
                                             </td>
                                             <td class="text-end px-0 pe-1 px-md-1" style="vertical-align: bottom;">
-                                                ৳ {{ product.total_price.toString().enToBn() }}
+                                                ৳ {{ product.total_price.toFixed(2).enToBn() }}
                                             </td>
                                         </tr>
                                     </tbody>
                                     <tfoot>
                                         <tr>
                                             <th colspan="2" class="text-end">total</th>
-                                            <th class="text-end pe-1">৳ {{ tota_order_price.toString().enToBn() }}</th>
+                                            <th class="text-end pe-1">৳ {{ tota_order_price.toFixed(2).enToBn() }}</th>
                                         </tr>
                                     </tfoot>
                                 </table>

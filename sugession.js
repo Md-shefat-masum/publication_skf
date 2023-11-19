@@ -59,5 +59,8 @@
 
     nov 8
     1. payment request accept korle sales id generate hobe.
-    2. 
+    2.
+
+    nov 19
+    1. registration ta fix korte hobe
  */

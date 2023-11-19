@@ -747,6 +747,80 @@ html.nav-hide-hover .header-navbar.floating-nav {
   margin-bottom: 0;
 }
 
+@-webkit-keyframes shake {
+  0%, 100% {
+    -webkit-transform: rotate(-34deg) translateX(0);
+            transform: rotate(-34deg) translateX(0);
+    -webkit-box-shadow: 0 0 10px 0px rgba(255, 0, 0, 0.3);
+            box-shadow: 0 0 10px 0px rgba(255, 0, 0, 0.3);
+  }
+  25% {
+    -webkit-transform: rotate(-34deg) translateX(-5px);
+            transform: rotate(-34deg) translateX(-5px);
+  }
+  50% {
+    -webkit-transform: rotate(-34deg) translateX(5px);
+            transform: rotate(-34deg) translateX(5px);
+    -webkit-box-shadow: 0 0 20px 10px rgba(255, 0, 0, 0.3);
+            box-shadow: 0 0 20px 10px rgba(255, 0, 0, 0.3);
+  }
+  75% {
+    -webkit-transform: rotate(-34deg) translateX(-5px);
+            transform: rotate(-34deg) translateX(-5px);
+    -webkit-box-shadow: 0 0 10px 0px rgba(255, 0, 0, 0.3);
+            box-shadow: 0 0 10px 0px rgba(255, 0, 0, 0.3);
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    -webkit-transform: rotate(-34deg) translateX(0);
+            transform: rotate(-34deg) translateX(0);
+    -webkit-box-shadow: 0 0 10px 0px rgba(255, 0, 0, 0.3);
+            box-shadow: 0 0 10px 0px rgba(255, 0, 0, 0.3);
+  }
+  25% {
+    -webkit-transform: rotate(-34deg) translateX(-5px);
+            transform: rotate(-34deg) translateX(-5px);
+  }
+  50% {
+    -webkit-transform: rotate(-34deg) translateX(5px);
+            transform: rotate(-34deg) translateX(5px);
+    -webkit-box-shadow: 0 0 20px 10px rgba(255, 0, 0, 0.3);
+            box-shadow: 0 0 20px 10px rgba(255, 0, 0, 0.3);
+  }
+  75% {
+    -webkit-transform: rotate(-34deg) translateX(-5px);
+            transform: rotate(-34deg) translateX(-5px);
+    -webkit-box-shadow: 0 0 10px 0px rgba(255, 0, 0, 0.3);
+            box-shadow: 0 0 10px 0px rgba(255, 0, 0, 0.3);
+  }
+}
+td.stock_alert {
+  position: relative;
+}
+td.stock_alert .stock_badge {
+  position: absolute;
+  top: 15px;
+  left: -5px;
+  background-color: rgba(226, 96, 16, 0.171);
+  -webkit-transform: rotate(-34deg);
+      -ms-transform: rotate(-34deg);
+          transform: rotate(-34deg);
+  font-size: 10px;
+  -webkit-animation: shake 0.5s infinite;
+          animation: shake 0.5s infinite;
+}
+
+.position_sticky {
+  position: sticky;
+  top: 0;
+  left: -20px;
+  -webkit-backdrop-filter: blur(4px);
+          backdrop-filter: blur(4px);
+  background-color: rgba(0, 0, 0, 0.08) !important;
+}
+
 .custom_scroll, .canvas_backdrop .content .cotent_body, .list_card .card-body {
   /* width */
   /* Track */
