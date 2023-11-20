@@ -41,8 +41,14 @@ class ProductController extends Controller
                     ->orWhere('sales_price', 'LIKE', '%' . $key . '%');
             });
         }
-        $users = $query->paginate($paginate);
-        return response()->json($users);
+        $data = $query->paginate($paginate);
+
+        foreach ($data->items() as $item) {
+            $item->final_stock = $item->stock + $item->sales + $item->returns;
+            $item->is_low_stock = $item->final_stock <= $item->stock_alert_qty? 1: 0;
+            // dd($item);
+        }
+        return response()->json($data);
     }
 
     public function show($id)
@@ -80,7 +86,7 @@ class ProductController extends Controller
         $validator = Validator::make(request()->all(), [
             'product_name' => ['required','unique:products'],
             'product_name_english' => ['required'],
-            'pages' => ['required'],
+            // 'pages' => ['required'],
             'initial_stock' => ['required'],
             'stock_alert_qty' => ['required'],
             'search_keywords' => ['required'],
@@ -88,7 +94,7 @@ class ProductController extends Controller
             'meta_description' => ['required'],
             'meta_description' => ['required'],
             'category_id' => ['required'],
-            'writer_id' => ['required'],
+            // 'writer_id' => ['required'],
             'thumb_image' => ['required'],
         ]);
 
@@ -181,8 +187,8 @@ class ProductController extends Controller
         // $image->save($path);
         // $this->image_save_to_db($path);
 
-        $width = 500;
-        $height = 680;
+        $width = 400;
+        $height = 550;
         $canvas = interImage::canvas($width, $height);
         $image->fit($width, $height, function ($constraint) {
             $constraint->aspectRatio();
@@ -232,7 +238,7 @@ class ProductController extends Controller
             'id' => ['required',"exists:products"],
             'product_name' => ['required'],
             'product_name_english' => ['required'],
-            'pages' => ['required'],
+            // 'pages' => ['required'],
             'initial_stock' => ['required'],
             'stock_alert_qty' => ['required'],
             'search_keywords' => ['required'],
@@ -240,7 +246,7 @@ class ProductController extends Controller
             'meta_description' => ['required'],
             'meta_description' => ['required'],
             'category_id' => ['required'],
-            'writer_id' => ['required'],
+            // 'writer_id' => ['required'],
         ]);
 
         if ($validator->fails()) {

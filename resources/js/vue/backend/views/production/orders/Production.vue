@@ -42,8 +42,13 @@
                                     <label for="">Production Progress</label>
                                     <select class="form-control form-select" name="status" id="">
                                         <option value="planning">Planning</option>
-                                        <option value="processing">Processing</option>
+                                        <option value="assign">Assign</option>
+                                        <option value="handover">Handover</option>
+                                        <option value="editing">Editing</option>
+                                        <option value="first_proof">First Proof</option>
+                                        <option value="second_proof">Second Proof</option>
                                         <option value="designing">Designing</option>
+                                        <option value="plate">Plate</option>
                                         <option value="printing">Printing</option>
                                         <option value="binding">Binding</option>
                                         <option value="complete">Complete</option>

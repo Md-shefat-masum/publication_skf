@@ -19,7 +19,11 @@ class CreateOrdersTable extends Migration
             $table->bigInteger("user_id")->unsigned()->nullable();
             $table->bigInteger("customer_id")->unsigned()->nullable();
             $table->bigInteger("address_id")->unsigned()->nullable();
+
             $table->string("invoice_id", 100)->nullable();
+            $table->bigInteger("sales_id")->unsigned()->nullable();
+            $table->bigInteger("backup_sales_id")->unsigned()->nullable();
+
             $table->timestamp("invoice_date")->nullable();
             $table->enum("order_type", ["quotation", "invoice", "ecommerce"])->nullable()->comment("quotation, invoice, ecomerce order");
             $table->enum("order_status", ["pending", "accepted", "processing", "delivered", "canceled"])->default("pending")->comment("pending, accepted, processing, delivered, canceled");

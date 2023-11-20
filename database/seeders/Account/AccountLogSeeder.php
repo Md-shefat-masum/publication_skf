@@ -272,7 +272,14 @@ class AccountLogSeeder extends Seeder
         foreach ($account_categories as $category) {
             for ($i = 0; $i < 5; $i++) {
                 $account = Account::where('id', rand(2, 5))->first();
-                $account_number = $account->numbers()->get()->random();
+                try {
+                    //code...
+                    $account_number = $account->numbers()->get()->random();
+                } catch (\Throwable $th) {
+                    $account_number = $account->numbers()->first();
+                    //throw $th;
+                }
+
                 $ac_log = AccountLog::create([
                     "date" => Carbon::parse('2023-' . rand(1, 12) . '-' . rand(1, 25)),
                     'category_id' => $category->id,

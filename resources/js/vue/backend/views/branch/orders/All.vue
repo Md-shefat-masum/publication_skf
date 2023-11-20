@@ -20,7 +20,7 @@
                         <input @keyup="call_store(`set_${store_prefix}_search_key`,$event.target.value)" class="form-control border border-info" placeholder="search..." type="search">
                     </form>
                 </div>
-                <div class="btns d-flex gap-2 align-items-center">
+                <div class="btns order_btns d-flex gap-2 align-items-center">
                     <permission-button
                         :permission="'can_create'"
                         :to="{name: `Create${route_prefix}`}"
@@ -210,8 +210,8 @@
                 <div class="d-inline-block">
                     <pagination :data="this[`get_${store_prefix}s`]" :limit="5" :size="'small'" :show-disabled="true" :align="'left'"
                         @pagination-change-page="handle_pagination">
-                        <span slot="prev-nav"><i class="fa fa-angle-left"></i> Previous</span>
-                        <span slot="next-nav">Next <i class="fa fa-angle-right"></i></span>
+                        <span slot="prev-nav"><i class="fa fa-angle-left"></i> </span>
+                        <span slot="next-nav"> <i class="fa fa-angle-right"></i></span>
                     </pagination>
                 </div>
                 <div class="show-limit d-inline-block">

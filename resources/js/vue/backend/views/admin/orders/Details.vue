@@ -4,7 +4,14 @@
             <div class="card-header">
                 <h4>Order Details</h4>
                 <div class="btns">
-                    <a href="" @click.prevent="call_store(`set_${store_prefix}`,null), $router.push({ name: `BranchOrder` })"  class="btn rounded-pill btn-outline-warning" >
+                    <router-link
+                        :to="{name:`Edit${route_prefix}`,params:{id: data.id}}">
+                        <span class="btn btn-sm btn-outline-warning rounded-pill me-2">
+                            Edit
+                        </span>
+                    </router-link>
+
+                    <a href="" @click.prevent="call_store(`set_${store_prefix}`,null), $router.push({ name: `BranchOrder` })"  class="btn btn-sm rounded-pill btn-outline-warning" >
                         <i class="fa fa-arrow-left me-5px"></i>
                         <span >
                             Back
@@ -136,7 +143,7 @@
                     </div>
                     <div class="col-lg-1"></div>
                     <div class="col-lg-5 py-4">
-                        <form v-if="data && data.total_paid < data.total_price " @submit.prevent="admin_receive_due" action="" class="mt-2">
+                        <form v-if="data" @submit.prevent="admin_receive_due" action="" class="mt-2">
                             <h4>Receive due amount</h4>
                             <div class="form-group mb-2 mt-2">
                                 <label for="Account">Account</label>
@@ -164,7 +171,7 @@
                             </div>
                             <div class="form-group mb-2">
                                 <label for="">Amount</label>
-                                <input type="number" name="amount" id="amount" min="10" :max="data.total_price - data.order_payments_sum_amount" :value="data.total_price - data.order_payments_sum_amount" class="form-control">
+                                <input type="number" step="0.01" name="amount" id="amount" min="10" :max="data.total_price - data.order_payments_sum_amount" :value="data.total_price - data.order_payments_sum_amount" class="form-control">
                             </div>
                             <button class="btn btn-outline-adn">Submit</button>
                         </form>

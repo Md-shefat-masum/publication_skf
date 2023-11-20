@@ -4,8 +4,11 @@
             <div class="content_header">
                 <h3 class="offcanvas-title">Details</h3>
                 <div>
+                    <a class="btn btn-sm btn-outline-primary" target="_blank" :href="`/invoice-printout/${this[`get_${store_prefix}`].id}`">
+                        Print Invoice
+                    </a>
                     <router-link
-                        :to="{name:`Details${route_prefix}`,params:{id: this[`get_${store_prefix}`].id}}">
+                        :to="{name:`DetailsAdminOrder`,params:{id: this[`get_${store_prefix}`].id}}">
                         <span class="btn btn-sm btn-outline-success rounded-pill me-2">
                             Details
                         </span>
@@ -176,7 +179,7 @@
                                 <b>Paid</b>
                             </td>
                             <td class="text-end text-warning">
-                                - {{ number_format( this[`get_${store_prefix}`].order_payments_sum_amount ).enToBn() }}
+                                - {{ number_format( this[`get_${store_prefix}`].total_paid ).enToBn() }}
                             </td>
                         </tr>
                         <tr>

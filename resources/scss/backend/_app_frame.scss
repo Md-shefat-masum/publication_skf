@@ -47,8 +47,18 @@ html.nav-hide .vertical-layout.vertical-menu-modern .app-content {
     }
     .card-header{
         .btns{
+            -webkit-box-flex: 1;
+            -ms-flex: 1;
             flex: 1;
+            display: flex;
+            -webkit-box-pack: end;
+            -ms-flex-pack: end;
             justify-content: flex-end;
+            gap: 12px;
+
+            &.order_btns{
+                display: none!important;
+            }
         }
     }
 }

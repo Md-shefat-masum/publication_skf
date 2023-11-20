@@ -81,7 +81,7 @@ class Category extends Model
 
     public function get_category_nested()
     {
-        $categories = Category::select(['id','name','name_english','parent_id'])
+        $categories = Category::select(['id', 'name', 'name_english', 'parent_id'])
             ->where("status", 1)
             ->where('parent_id', 0)
             ->get();
@@ -106,5 +106,15 @@ class Category extends Model
             }
         }
         return $all_category;
+    }
+
+    public function frontend_child()
+    {
+        $fields = ['id','name','name_english','parent_id','url','is_top_category','is_public'];
+        return $this->hasMany(Category::class, 'parent_id' ,'id')
+            ->select($fields)
+            ->where('is_public', 1)
+            ->where('status', 1)
+            ->with('frontend_child');
     }
 }

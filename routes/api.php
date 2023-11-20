@@ -3,16 +3,6 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return [$request->user(), auth()->user()];
@@ -191,6 +181,7 @@ Route::group(
             });
 
             Route::group(['prefix' => 'admin'], function () {
+                Route::get('/at-a-glance','AtaGlance\AdminAtaGlanceController@analytics');
 
                 Route::group(['prefix' => 'writer'], function () {
                     Route::get('/all', 'Admin\Product\WriterController@all');
@@ -245,6 +236,9 @@ Route::group(
                     Route::post('/receive-due', 'Admin\Order\AdminOrderController@receive_due');
                     Route::post('/delete-payment', 'Admin\Order\AdminOrderController@delete_payment');
                     Route::post('/approve-payment', 'Admin\Order\AdminOrderController@approve_payment');
+
+                    Route::post('/check-orders-with-payments', 'Admin\Order\PaymentRequestController@check_orders_with_payments');
+                    Route::post('/save-orders-with-payments', 'Admin\Order\PaymentRequestController@save_orders_with_payments');
 
                     Route::get('/all', 'Admin\Order\AdminOrderManagementController@all');
                     Route::post('/store', 'Admin\Order\AdminOrderManagementController@store');
@@ -313,6 +307,7 @@ Route::group(
                 Route::get('/{id}/products', 'Admin\Product\CategoryController@products');
                 Route::post('/check-exists', 'Admin\Product\CategoryController@check_exists');
                 Route::post('/add-to-top-cat', 'Admin\Product\CategoryController@add_to_top_cat');
+                Route::post('/add-to-is-public', 'Admin\Product\CategoryController@add_to_public');
                 Route::get('/{id}', 'Admin\Product\CategoryController@show');
             });
 
@@ -323,6 +318,7 @@ Route::group(
                 Route::post('/update-order', 'Branch\BranchOrderController@update_order');
                 Route::post('/pay-due', 'Branch\BranchOrderController@pay_due');
                 Route::post('/delete-payment', 'Branch\BranchOrderController@delete_payment');
+                Route::get('/at-a-glance','AtaGlance\BranchAtaGlanceController@analytics');
 
                 Route::group(['prefix' => 'order'], function () {
                     Route::get('/all', 'Branch\BranchOrderManagementController@all');

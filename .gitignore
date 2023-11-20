@@ -12,4 +12,12 @@ npm-debug.log
 yarn-error.log
 .zip
 /public/uploads/products/*
+/public/uploads/product/*
+/public/uploads/payment/*
 /*.zip
+/public/css/backend.css
+/public/css/backend.css.map
+/public/css/tailwind
+/public/js/app.js
+/public/js/app.js.map
+/public/js/vue/*

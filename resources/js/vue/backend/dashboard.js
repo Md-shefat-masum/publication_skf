@@ -8,6 +8,7 @@ require('./plugins/demo_data_load');
 require('./plugins/get_selector_form_data');
 require('./plugins/set_selector_form_data');
 require('./plugins/enToBn');
+require('./plugins/parse_excel');
 
 window.debounce = require('debounce');
 window.CsvBuilder = require('filefy').CsvBuilder;

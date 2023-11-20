@@ -354,7 +354,7 @@ main .loader.active::before {
   bottom: 0px;
   left: 0;
   position: relative;
-  z-index: 99999;
+  z-index: 9;
   height: 41px;
 }
 .product__wrapper .add-cart a {
@@ -641,6 +641,64 @@ main .loader.active::before {
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
   .product__list {
     margin-bottom: 30px;
+  }
+}
+@media (max-width: 991.9px) {
+  .kroy_talika {
+    margin-left: 15px;
+  }
+  .my-cart {
+    padding-top: 20px;
+  }
+  .my-cart.fixed {
+    background: white;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    position: fixed;
+    padding: 15px 10px;
+    z-index: 99;
+    box-shadow: 0px 0px 5px black;
+    justify-content: space-between;
+  }
+  .my-cart.fixed ul {
+    justify-content: space-between !important;
+    width: 100%;
+  }
+  .logo-area {
+    margin-top: 0;
+  }
+  .product__wrapper .add-cart {
+    height: 66px;
+  }
+  .product__wrapper .add-cart a {
+    color: #201f1f;
+    font-size: 16px;
+    font-weight: 600;
+    display: block;
+    position: absolute;
+    top: 40px;
+    width: 100%;
+    opacity: 1;
+    visibility: visible;
+  }
+  .product__wrapper:hover .add-cart a {
+    top: 40px;
+  }
+  .product__wrapper:hover .product__price {
+    opacity: 1;
+    visibility: visible;
+  }
+  .mini-cart-sub {
+    left: unset;
+    right: 50%;
+    transform: translateX(27%);
+  }
+  .shop-left {
+    margin-top: 30px;
+  }
+  .single-footer {
+    text-align: left;
   }
 }
 /*# sourceMappingURL=./custom.css.map */

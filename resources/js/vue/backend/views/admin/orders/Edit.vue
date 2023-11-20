@@ -31,9 +31,12 @@
                                             </span>
                                         </div>
                                         <div class="mt-1">
-                                            <span v-if="product.discount_info">
+                                            <span v-if="product.discount_info && product.discount_info.discount_price">
                                                 <b>৳ {{ product.discount_info.discount_price.toString().enToBn() }}</b>
                                                 <del>৳ {{ product.sales_price.toString().enToBn() }}</del>
+                                            </span>
+                                            <span v-else>
+                                                <b>৳ {{ product.sales_price.toString().enToBn() }}</b>
                                             </span>
                                         </div>
                                         <h6 style="flex:1" class="mt-2 mb-0">{{ product.product_name }}</h6>
@@ -57,22 +60,21 @@
                                             <td class="text-start">
                                                 {{ product.product_name }}
                                                 <br>
-                                                ৳ {{ product.product.sales_price }}
-                                                <br>
-                                                ৳ {{ product.current_price.toFixed(2).toString().enToBn() }}
-                                                <br>
+                                                <div>
+                                                    ৳ {{ product.current_price.toString().enToBn() }}
+                                                </div>
                                                 <a href="#" @click.prevent="remove_cart({product})" class="text-danger">delete</a>
                                             </td>
                                             <td class="text-center">
                                                 <input type="number" min="0"
-                                                    @change="add_to_cart({product,qty: $event.target.value})"
-                                                    @keyup="add_to_cart({product,qty: $event.target.value})"
+                                                    @change="add_to_cart({product,qty: $event.target.value, commission: product.discount_percent})"
+                                                    @keyup="add_to_cart({product,qty: $event.target.value, commission: product.discount_percent})"
                                                     :value="product.qty" style="width: 70px;" class="form-control">
                                             </td>
                                             <td class="text-center">
                                                 <input type="number" min="0"
                                                     @keyup="add_to_cart({product,qty: product.qty,commission: $event.target.value})"
-                                                    :value="product.discount_percent || 0"
+                                                    v-model="product.discount_percent"
                                                     style="width: 70px;" class="form-control">
                                             </td>
                                             <td class="text-end">
@@ -89,8 +91,32 @@
                                 </table>
                                 <form action="#" class="mt-3">
                                     <div> <input type="hidden" id="order_id"> </div>
+                                    <div class="mb-2 d-flex gap-2 justify-content-end">
+                                        <label for="delivery_charge">Delivery Charge</label>
+                                        <input type="number" v-model="shipping_charge" step=".01" name="delivery_charge" id="delivery_charge" class="form-control text-end" style="width: 130px">
+                                    </div>
+                                    <div  class="mb-2 d-flex gap-2 justify-content-end">
+                                        <label for="discount">Discount on product</label>
+                                        <input type="number" readonly v-model="discount_on_product" step=".01" name="discount" id="discount" class="form-control text-end" style="width: 130px">
+                                    </div>
+                                    <div class="mb-2 d-flex gap-2 justify-content-end">
+                                        <label for="discount">Discount on total</label>
+                                        <input type="number" v-model="discount" step=".01" name="discount" id="discount" class="form-control text-end" style="width: 130px">
+                                    </div>
+                                    <div class="mb-2 d-flex gap-2 justify-content-end">
+                                        <label for="discount">Sub total</label>
+                                        <input type="number" readonly :value="+tota_order_price + +shipping_charge - +discount" step=".01" name="discount" id="discount" class="form-control text-end" style="width: 130px">
+                                    </div>
+                                    <div class="mb-2 d-flex gap-2 justify-content-end">
+                                        <label for="total_paid">Total Paid</label>
+                                        <input type="number" v-model="total_paid" step=".01" name="total_paid" id="total_paid" class="form-control text-end" style="width: 130px">
+                                    </div>
+                                    <div class="mb-2 d-flex gap-2 justify-content-end">
+                                        <label for="total_paid">Due</label>
+                                        <input type="number" readonly :value="+tota_order_price + +shipping_charge - +discount - +total_paid" step=".01" name="total_paid" id="total_paid" class="form-control text-end" style="width: 130px">
+                                    </div>
                                     <div class="d-flex gap-1 flex-wrap">
-                                        <button type="button" @click.prevent="update_order()"  class="btn btn-outline-info" >
+                                        <button type="button" @click.prevent="update_order({shipping_charge, discount})"  class="btn btn-outline-info">
                                             <i class="fa fa-paper-plane"></i>
                                             Update Order
                                         </button>
@@ -126,14 +152,38 @@ export default {
             /** store prefix for JSX */
             store_prefix,
             route_prefix,
+
+            shipping_charge: 0,
+            discount: 0,
+            discount_on_product: 0,
+            total_paid: 0,
         }
     },
-    created: function () {
-        this.fetch_branch_product_for_order();
-        this[`fetch_${store_prefix}`]({id: this.$route.params.id});
+    created: async function () {
+        await this.fetch_branch_product_for_order();
+        await this[`fetch_${store_prefix}`]({id: this.$route.params.id});
+
+        let dis_on_product = this.order_carts.reduce((total,i)=>total+=i.total_price,0);
+        this.discount_on_product = dis_on_product;
+        this.discount = this.data.discount - dis_on_product;
+
         this.$watch('p_search_key',(n,o)=>{
             this.fetch_branch_product_for_order();
         })
+        this.$watch('order_carts',(n,o)=>{
+            this.discount_on_product = n.reduce((total,i)=>total+=((i.sales_price-i.current_price)*i.qty),0);
+        })
+    },
+    watch: {
+        'data': {
+            handler: function(n){
+                this.shipping_charge = n.delivery_charge;
+                // this.discount_on_product = dis_on_product;
+                // this.discount = n.discount;
+                this.total_paid = n.total_paid;
+            },
+            deep: true,
+        }
     },
     methods: {
         ...mapActions([
@@ -165,6 +215,7 @@ export default {
     computed: {
         ...mapGetters([`get_${store_prefix}`]),
         ...mapGetters({
+            'data': `get_${store_prefix}`,
             'products': "get_branch_product_for_order",
             'p_search_key': "get_admin_p_search_key",
             "order_carts": "get_admin_oder_cart",

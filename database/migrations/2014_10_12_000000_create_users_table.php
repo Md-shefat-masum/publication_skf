@@ -25,7 +25,7 @@ class CreateUsersTable extends Migration
 
             $table->string('mobile_number',100)->nullable()->unique();
             $table->string('photo')->nullable()->default('avatar.png');
-            $table->string('email')->unique();
+            $table->string('email')->nullable()->unique();
 
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

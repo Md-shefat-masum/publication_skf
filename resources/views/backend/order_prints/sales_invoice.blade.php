@@ -121,26 +121,31 @@
                             <tr class="header_infos">
                                 <td>
                                     <b> Client Name: </b>
-                                    <span> 1012 </span>
+                                    <span> {{ $order->user->user_name }} </span>
                                     <br>
 
                                     <b>Address:</b>
-                                    <span>বগুড়া দক্ষিণ</span>
+                                    <span>{{ $order->user->first_name }}</span>
                                 </td>
                                 <td colspan="3" style="vertical-align: top;">
                                     <h3>Sales Invoice</h3>
                                 </td>
                                 <td colspan="2" style="text-align: right;">
                                     <b>Bill Date:</b>
-                                    <span>15-Oct-23</span>
+                                    <span>
+                                        {{ $order->invoice_date->format('d-M-y')}}
+                                    </span>
                                     <br>
 
-                                    <b>Address:</b>
-                                    <span>বগুড়া দক্ষিণ</span>
+                                    <b>Sales ID:</b>
+                                    <span>{{$order->sales_id}}</span>
                                     <br>
 
-                                    <b>Bill Date:</b>
-                                    <span>15-Oct-23</span>
+                                    <b>Sales Date:</b>
+                                    <span>
+                                        {{ \Carbon\Carbon::now()->format('d-M-y')}}
+                                    </span>
+                                    <br>
                                 </td>
                             </tr>
                             <tr>
@@ -155,7 +160,11 @@
                         <tbody>
                             @foreach ($order->details as $item)
                                 <tr>
-                                    <td>{{ $item->product_name }}</td>
+                                    <td>
+                                        {{ $item->id }}
+                                        {{ $item->product_id }}
+                                        {{ $item->product_name }}
+                                    </td>
                                     <td>{{ $item->qty }}</td>
                                     <td>{{ $item->product_price }}</td>
                                     <td>{{ round((100 * $item->discount_price) / $item->product_price)  }} %</td>

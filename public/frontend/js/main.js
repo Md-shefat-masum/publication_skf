@@ -13,6 +13,14 @@
         } else {
             header.removeClass("sticky");
         }
+
+        if(window.innerWidth < 992){
+            if ($(this).scrollTop() > 120) {
+                $('#my_cart').addClass("fixed");
+            } else {
+                $('#my_cart').removeClass("fixed");
+            }
+        }
     });
 
     // Pace.start();

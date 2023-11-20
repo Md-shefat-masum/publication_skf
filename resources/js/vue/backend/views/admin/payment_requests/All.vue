@@ -75,8 +75,8 @@
                             <table-th :sort="false" :tkey="'user_id'" :title="'User'"/>
                             <table-th :sort="true" :tkey="'amount'" :title="'Amount'" />
                             <table-th :sort="false" :tkey="''" :title="'TRX ID'" />
-                            <table-th :sort="true" :tkey="'payment_method'" :title="'Payment Method'" />
-                            <table-th :sort="false" :tkey="''" :title="'Number'" />
+                            <!-- <table-th :sort="true" :tkey="'payment_method'" :title="'Payment Method'" /> -->
+                            <!-- <table-th :sort="false" :tkey="''" :title="'Number'" /> -->
                             <!-- <table-th :sort="false" :tkey="''" :title="'Account no'" /> -->
                             <table-th :sort="true" :tkey="'approved'" :title="'Approved'" />
                             <table-th :sort="true" :tkey="'created_at'" :title="'Date'" />
@@ -103,12 +103,12 @@
                             </td>
                             <td><b>{{ number_format(item.amount).enToBn()  }}</b> tk</td>
                             <td>{{ item.trx_id  }}</td>
-                            <td>
+                            <!-- <td>
                                 {{ item.payment_method }}
-                            </td>
-                            <td>
+                            </td> -->
+                            <!-- <td>
                                 {{ item.number }}
-                            </td>
+                            </td> -->
 
                             <!-- <td>{{ item.account_no }}</td> -->
 

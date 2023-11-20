@@ -4,84 +4,107 @@
             <div class="card-header">
                 <h4>Create</h4>
                 <div class="btns">
-                    <router-link :to="{ name: `All${route_prefix}` }" class="btn rounded-pill btn-outline-warning" >
+                    <button v-if="order_carts.length" @click.prevent="toggle_product_list()" class="btn btn-sm btn-danger product_list_colse d-md-none">
+                        Products
+                    </button>
+                    <router-link :to="{ name: `All${route_prefix}` }" class="btn d-flex btn-sm rounded-pill btn-outline-warning" >
                         <i class="fa fa-arrow-left me-5px"></i>
-                        Back
+                        <span class="d-none d-lg-block">
+                            Back
+                        </span>
                     </router-link>
                 </div>
             </div>
             <!-- <form @submit.prevent="call_store(`store_${store_prefix}`,$event.target)" autocomplete="false"> -->
             <div onsubmit="event.preventDefault()">
-                <div class="card-body">
+                <div class="card-body order_creation_form">
                     <div class="row">
                         <div class="col-lg-7">
-                            <div class="d-flex gap-2">
-                                <input @keyup="set_p_search_key($event.target.value)" type="search" placeholder="search" class="form-control">
-                                <select class="form-select" @change="set_branch_product_category($event.target.value)">
-                                    <option value="">সকল বই</option>
-                                    <option v-for="category in all_categories"  :key="category.id" :value="category.id">
-                                        {{ category.name }}
-                                    </option>
-                                </select>
-                                <button type="button" class="btn btn-outline-adn"><i class="fa fa-search"></i></button>
-                            </div>
-                            <div class="row py-3" v-if="products.data && products.data.length">
-                                <div class="col-lg-3" v-for="product in products.data" :key="product.id">
-                                    <div class="card h-100 d-flex flex-column justify-between" >
-                                        <div class="pos_card_image_card">
-                                            <img :src="product.thumb_image" class="img-fluid" alt=""/>
-                                            <span @click="add_to_cart({product})" class="add_icon">
-                                                <i class="fa fa-plus"></i>
-                                            </span>
+                            <div class="product_list_pos" id="product_list_pos">
+                                <div class="d-flex gap-2 product_filter">
+                                    <button onclick="product_list_pos.classList.toggle('active')" class="btn btn-sm btn-danger product_list_colse d-md-none">
+                                        <i class="fa fa-close"></i>
+                                    </button>
+                                    <input @keyup="set_p_search_key($event.target.value)" type="search" placeholder="search" class="form-control">
+                                    <select class="form-select" @change="set_branch_product_category($event.target.value)">
+                                        <option value="">সকল বই</option>
+                                        <option v-for="category in all_categories"  :key="category.id" :value="category.id">
+                                            {{ category.name }}
+                                        </option>
+                                    </select>
+                                    <button type="button" class="btn btn-outline-adn"><i class="fa fa-search"></i></button>
+                                </div>
+                                <div v-if="products.data && products.data.length">
+                                    <div class="row py-3">
+                                        <div class="col-12" v-for="product in products.data" :key="product.id">
+                                            <div class="card d-flex flex-row align-items-center border rounded-sm overflow-hidden" style="gap: 5px;" >
+                                                <div class="pos_card_image_card">
+                                                    <img :src="product.thumb_image" style="width: 50px;" alt=""/>
+                                                    <span @click="add_to_cart({product, qty: product.qty?product.qty+1:1})" class="add_icon">
+                                                        <i class="fa fa-plus"></i>
+                                                    </span>
+                                                </div>
+                                                <div style="padding: 5px;">
+                                                    <h6 style="flex:1" class="mb-0">{{ product.product_name }}</h6>
+                                                    <div class="mt-1">
+                                                        <span v-if="product.discount_info && product.discount_info.discount_price">
+                                                            <b>৳ {{ product.discount_info.discount_price.toString().enToBn() }}</b>
+                                                            <del>৳ {{ product.sales_price.toString().enToBn() }}</del>
+                                                        </span>
+                                                        <span v-else>
+                                                            <b>৳ {{ product.sales_price.toString().enToBn() }}</b>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="mt-1">
-                                            <span v-if="product.discount_info && product.discount_info.discount_price">
-                                                <b>৳ {{ product.discount_info.discount_price.toString().enToBn() }}</b>
-                                                <del>৳ {{ product.sales_price.toString().enToBn() }}</del>
-                                            </span>
-                                            <span v-else>
-                                                <b>৳ {{ product.sales_price.toString().enToBn() }}</b>
-                                            </span>
-                                        </div>
-                                        <h6 style="flex:1" class="mt-2 mb-0">{{ product.product_name }}</h6>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-5">
-                            <div class="border border-1 position-sticky top-0 borde-info p-1 rounded-sm mb-2">
+                            <div v-if="order_carts.length" class="border product_cart_list position-sticky top-0 borde-info p-1 rounded-sm mb-2">
                                 <table class="table ">
                                     <thead class="position-static">
                                         <tr>
                                             <th>Title</th>
-                                            <th style="width: 130px;">Qty</th>
-                                            <th>Amount</th>
+                                            <th >Qty</th>
+                                            <th style="width: 130px;">Amount</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr v-for="product in order_carts" :key="product.id">
-                                            <td class="text-start">
-                                                {{ product.product_name }}
-                                                <br>
-                                                ৳ {{ product.current_price.toString().enToBn() }}
-                                                <br>
-                                                <a href="#" @click.prevent="remove_cart({product})" class="text-danger">delete</a>
+                                            <td class="text-start px-0" colspan="2">
+                                                <div>
+                                                    {{ product.product_name }}
+                                                    <br>
+                                                    <div>
+                                                        ৳ {{ product.current_price.toString().enToBn() }}
+                                                    </div>
+
+                                                </div>
+                                                <div class="d-flex justify-content-between">
+                                                    <div>
+                                                        &nbsp; &nbsp;
+                                                        <a href="#" @click.prevent="remove_cart({product})" class="text-danger">delete</a>
+                                                    </div>
+                                                    <div>
+                                                        <input type="number" min="0"
+                                                        @change="add_to_cart({product,qty: $event.target.value})"
+                                                        @keyup="add_to_cart({product,qty: $event.target.value})"
+                                                        :value="product.qty" style="width: 70px;" class="form-control">
+                                                    </div>
+                                                </div>
                                             </td>
-                                            <td class="text-center">
-                                                <input type="number" min="0"
-                                                    @change="add_to_cart({product,qty: $event.target.value})"
-                                                    @keyup="add_to_cart({product,qty: $event.target.value})"
-                                                    :value="product.qty" style="width: 70px;" class="form-control">
-                                            </td>
-                                            <td class="text-end">
-                                                ৳ {{ product.total_price.toString().enToBn() }}
+                                            <td class="text-end px-0 pe-1 px-md-1" style="vertical-align: bottom;">
+                                                ৳ {{ product.total_price.toFixed(2).enToBn() }}
                                             </td>
                                         </tr>
                                     </tbody>
                                     <tfoot>
                                         <tr>
                                             <th colspan="2" class="text-end">total</th>
-                                            <th class="text-end">৳ {{ tota_order_price.toString().enToBn() }}</th>
+                                            <th class="text-end pe-1">৳ {{ tota_order_price.toFixed(2).enToBn() }}</th>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -94,15 +117,20 @@
                                     </div>
                                 </form>
                             </div>
+                            <div v-else class="text-center py-3">
+                                <button @click.prevent="toggle_product_list()" class="btn btn-sm btn-outline-danger product_list_colse d-md-none">
+                                    Select Products
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer text-center">
                     <!--  -->
-                    <pagination :data="this.products" :limit="5" :size="'small'" :show-disabled="true" :align="'left'"
+                    <pagination :data="this.products" :limit="4" :size="'small'" :show-disabled="true" :align="'left'"
                         @pagination-change-page="fetch_branch_product_for_order">
-                        <span slot="prev-nav"><i class="fa fa-angle-left"></i> Previous</span>
-                        <span slot="next-nav">Next <i class="fa fa-angle-right"></i></span>
+                        <span slot="prev-nav"><i class="fa fa-angle-left"></i></span>
+                        <span slot="next-nav"> <i class="fa fa-angle-right"></i></span>
                     </pagination>
                 </div>
             </div>
@@ -153,6 +181,9 @@ export default {
         },
         bn_price: function(price){
             return price.toString().enToBn();
+        },
+        toggle_product_list: function(){
+            document.getElementById('product_list_pos').classList.toggle('active');
         }
     },
     computed: {

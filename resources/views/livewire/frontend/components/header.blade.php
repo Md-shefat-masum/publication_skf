@@ -2,17 +2,16 @@
     <div class="header-mid-area py-3">
         <div class="container">
             <div class="row">
-                <div class="col-md-4 col-12">
+                <div class="col-md-4 col-4">
                     <div class="logo-area text-left logo-xs-mrg">
                         <a href="/">
-                            <img src="https://htmldemo.net/boighor/boighor/images/logo/logo.png"
-                                alt="logo" />
+                            <img src="/{{setting('logo')}}" alt="{{setting('title')}}" />
                         </a>
                     </div>
                 </div>
-                <div style="flex: 1;">
-                    <div class="header-search">
-                        <form action="#">
+                <div style="flex: 1; display:grid; align-items:center;">
+                    <div class="header-search m-0">
+                        <form action="#" class="m-0">
                             <input wire:model.debounce.500ms="search_query"  type="text"
                                 placeholder="Search entire store here..." />
                             <button type="button" class="border-0"><i class="fa fa-search"></i></button>
@@ -69,8 +68,11 @@
                     </div>
                 </div>
                 <div class="col-md-4 col-12">
-                    <div class="my-cart">
+                    <div class="my-cart" id="my_cart">
                         <ul class="d-flex flex-wrap gap-4 justify-content-end align-items-center">
+                            <li class="nav_toggler" onclick="mobile_menu.classList.toggle('active')">
+                                <i class="fa fa-align-left"></i>
+                            </li>
                             <li>
                                 <a href="{{auth()->check()?"/profile":"/login"}}">
                                     <i class="fa fa-user"></i>
@@ -84,9 +86,9 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="#" onclick="event.preventDefault();">
                                     <i class="fa fa-shopping-cart"></i>
-                                    <div class="d-inline-block">
+                                    <div class="d-inline-block kroy_talika">
                                         ক্রয় তালিকা
                                     </div>
                                     <span id="cart_total_qty">0</span>

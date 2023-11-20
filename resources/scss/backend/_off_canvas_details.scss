@@ -23,6 +23,7 @@
         background-color: $light_dark;
         padding: 20px;
 
+
         @media (min-width: 768px) {
             min-width: 450px;
             max-width: 50vw;
@@ -30,6 +31,10 @@
 
         &.right {
             float: right;
+
+            @media (max-width: 991.9px) {
+                width: calc(100vw - 10px);
+            }
         }
 
         .content_header {
@@ -40,6 +45,10 @@
             border-bottom: 1px solid #585656;
             padding-bottom: 20px;
             margin-bottom: 20px;
+
+            @media (max-width: 991.9px) {
+                display: grid;
+            }
 
             i {
                 cursor: pointer;

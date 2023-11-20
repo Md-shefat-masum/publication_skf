@@ -11,9 +11,10 @@ class OrderPrintoutController extends Controller
 {
     public function sales_invoice(Order $order)
     {
-        // $order->details = $order->order_details()->get();
-        $order->details = OrderDetails::take(60)->get();
-        // dd($order);
+        $order->details = $order->order_details()->get();
+        $order->user = $order->user()->first();
+        // $order->details = OrderDetails::take(60)->get();
+        // dd($order->toArray());
         return view('backend.order_prints.sales_invoice',compact('order'));
     }
 }

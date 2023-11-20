@@ -1,0 +1,86 @@
+.nav_toggler {
+    font-size: 20px;
+    background: var(--brand);
+    height: 30px;
+    width: 35px;
+    text-align: center !important;
+    line-height: 34px !important;
+    color: white;
+    border-radius: 5px;
+    display: none !important;
+    padding-top: 5px;
+
+    @media (max-width: 991.9px) {
+        display: block !important;
+    }
+}
+
+.mobile-menu {
+    @media (max-width: 991.9px) {
+
+        .nav_close {
+            font-size: 22px;
+            position: absolute;
+            right: 20px;
+            z-index: 99;
+            cursor: pointer;
+            color: var(--brand);
+        }
+
+        .backdrop {
+            height: 100vh;
+            width: 100vw;
+            position: fixed;
+            left: -150vw;
+            top: 0;
+            background-color: rgba(0, 0, 0, .6);
+            z-index: 9;
+            transition-duration: .3s;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: -150vw;
+            width: 100vw;
+            max-width: calc(100vw - 80px);
+            background-color: white;
+            z-index: 999;
+            height: 100vh;
+            padding: 20px;
+            box-shadow: 4px 0px 10px #838383f7;
+            transition-duration: .3s;
+            transition-delay: .1s;
+        }
+
+        ul {
+            display: grid;
+            gap: 10px;
+            margin-top: 10px;
+
+            li {
+                a {
+                    font-size: 22px;
+                    font-family: 'Hind Siliguri', sans-serif;
+                    color: black;
+                    display: block;
+                    font-weight: 600;
+
+                    &:hover {
+                        color: var(--brand);
+                    }
+                }
+            }
+        }
+
+        &.active {
+            .backdrop {
+                left: 0;
+            }
+
+            nav {
+                left: 0;
+            }
+        }
+    }
+}

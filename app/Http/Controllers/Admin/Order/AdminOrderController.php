@@ -194,13 +194,16 @@ class AdminOrderController extends Controller
      */
     public function get_product_details($carts = [], $request)
     {
+        // dd($request);
+        $request = (object) $request;
         $delivery_cost = HelperController::delivery_cost();
         $products = [];
         $sub_total_cost = 0;
         $total_cost = 0;
-        $shipping_cost = $delivery_cost->out_dhaka_home_delivery_cost;
-        $total_discount = 0;
+        $shipping_cost = $request->shipping_charge ? $request->shipping_charge : $delivery_cost->out_dhaka_home_delivery_cost;
+        $total_discount = $request->discount ? $request->discount : 0;
         $message_products = "";
+
         foreach ($carts as $key => $item) {
             $item = (object) $item;
             if (isset($item->product_id)) {
@@ -221,17 +224,18 @@ class AdminOrderController extends Controller
             // }
 
             $discount_percent = $item->discount_percent;
-            $price = $item->current_price;
+            $price = $item->current_price; // calculated including discount;
 
-            $total = $item->qty * $price;
+            $total = $item->qty * $main_price;
             $sub_total_cost += $total;
             // $total_discount += $product->discount_info->discount_amount;
-            $total_discount += ( $item->sales_price - $item->current_price );
+            $total_discount += ($item->qty * ($item->sales_price - $item->current_price));
             $bn_price = enToBn("৳ $price x $item->qty	= ৳ $total \n\t\t\t (৳ $main_price - $discount_percent%)");
             $message_products .= "$si. $item->product_name - \n\t\t\t $bn_price \n";
         }
 
-        $total_cost = $sub_total_cost + $shipping_cost;
+        $total_cost = $sub_total_cost + $shipping_cost - $total_discount;
+        // dd($total_discount, $sub_total_cost, $shipping_cost, $total_cost);
 
         return [
             "products" => $products,
@@ -298,6 +302,7 @@ class AdminOrderController extends Controller
         $order->save();
 
         foreach ($products as $product) {
+            $sales_price = $product->discount_info->discount_price ? $product->discount_info->discount_price : $product->sales_price;
             OrderDetails::create([
                 "order_id" => $order->id,
                 "product_id" => $product->id,
@@ -309,7 +314,7 @@ class AdminOrderController extends Controller
                 // "sales_price" => $product->discount_info->discount_price,
                 "discount_percent" => $product->discount_percent,
                 "discount_price" => $product->discount_price,
-                "sales_price" => $product->discount_info->discount_price,
+                "sales_price" => $sales_price,
                 "qty" => $product->qty,
                 "user_id" => $order->user_id,
             ]);
@@ -479,6 +484,7 @@ class AdminOrderController extends Controller
             "number" => $payment_method_info->value,
             "trx_id" => request()->trx_id,
             "amount" => request()->amount,
+            "date" => Carbon::now()->toDateString(),
             "approved" => 1,
             "account_id" => request()->account_id,
             "account_number_id" => $payment_method_info->id,
@@ -498,10 +504,15 @@ class AdminOrderController extends Controller
         }
         $order->save();
 
+        if (!$order->sales_id) {
+            $payment_controller = new PaymentRequestController();
+            $payment_controller->set_sales_id($order);
+        }
+
         $account_log = AccountLog::class;
         $log = AccountLog::create([
             'date' => Carbon::now()->toDateTimeString(),
-            "name" => $order_payment->user->first_name." ".$order_payment->user->last_name,
+            "name" => $order_payment->user->first_name . " " . $order_payment->user->last_name,
             'amount' => $order_payment->amount,
             'category_id' => 1, // ponno theke ay
             'account_id' => $order_payment->account_id,
@@ -588,20 +599,22 @@ class AdminOrderController extends Controller
         if ($payment) {
 
             $order = Order::find($payment->order_id);
-            $order->total_paid = $order->order_payments()->sum('amount');
+            $order->total_paid = $order->order_payments()->sum('amount') - $payment->amount;
             if ($order->total_paid == $order->total_price) {
                 $order->payment_status = 'paid';
             } else if ($order->total_paid > $order->total_price) {
                 $order->payment_status = 'partially paid';
             } else {
                 $order->payment_status = 'pending';
+                $order->backup_sales_id = $order->sales_id;
+                $order->sales_id = null;
             }
             $order->save();
 
-            if($payment->account_logs_id){
+            if ($payment->account_logs_id) {
                 $log = AccountLog::create([
                     'date' => Carbon::now()->toDateTimeString(),
-                    "name" => $payment->user->first_name." ".$payment->user->last_name,
+                    "name" => $payment->user->first_name . " " . $payment->user->last_name,
                     'amount' => - ($payment->amount),
                     'category_id' => 1, // ponno theke ay
                     'account_id' => $payment->account_id,
@@ -648,7 +661,7 @@ class AdminOrderController extends Controller
 
             $log = AccountLog::create([
                 'date' => Carbon::now()->toDateTimeString(),
-                "name" => $payment->user->first_name." ".$payment->user->last_name,
+                "name" => $payment->user->first_name . " " . $payment->user->last_name,
                 'amount' => $payment->amount,
                 'category_id' => 1, // ponno theke ay
                 'account_id' => $payment->account_id,
