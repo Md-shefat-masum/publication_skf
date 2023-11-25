@@ -70,7 +70,9 @@ class AccountSupplierLogSeeder extends Seeder
 
             for ($i = 0; $i < 5; $i++) {
                 $amount = rand(100, 1000);
-                $account = Account::where('id', rand(2, 5))->first();
+                // $account = Account::where('id', rand(2, 5))->first();
+                // $account_number = $account->numbers()->get()->random();
+                $account = Account::where('id', 2)->first();
                 $account_number = $account->numbers()->get()->random();
                 $ac_log = AccountLog::create([
                     "date" => Carbon::parse('2023-' . rand(1, 12) . '-' . rand(1, 25)),

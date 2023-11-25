@@ -23,27 +23,63 @@
                     </div>
                 </div>
                 <div class="offset-lg-3 col-lg-6 col-md-12 col-12">
-                    <form id="login-form" wire:submit.prevent="login_submit">
+                    @if (session()->has('message'))
+                    <div class="alert alert-success">
+                        {{ session('message') }}
+                    </div>
+                    @endif
+                    @if (session()->has('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                    @endif
+                    <form id="login-form" method="POST">
+                        @csrf
                         <div class="login-form">
                             <div class="single-login">
                                 <label class="hind-siliguri font-18">আপনার সম্পূর্ণ নাম লিখুন<span class="text-danger">*</span></label>
-                                <input type="text" wire:model="first_name" class="form-control" name="first_name" placeholder="Full name" required />
+                                <input type="text" class="form-control" value="{{ old('first_name') }}" name="first_name" placeholder="Full name" />
+                                @error('first_name')
+                                <div class="text-danger error">
+                                    {{ $message }}
+                                </div>
+                                @enderror
                             </div>
                             <div class="single-login">
                                 <label class="hind-siliguri font-18">আপনার ইমেইল লিখুন</label>
-                                <input type="email" wire:model="email" class="form-control" name="email" placeholder="email" required />
+                                <input type="email" class="form-control" value="{{ old('email') }}" name="email" placeholder="email" />
+                                @error('email')
+                                    <div class="text-danger error">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             <div class="single-login">
                                 <label class="hind-siliguri font-18">আপনার মোবাইল নাম্বার লিখুন<span class="text-danger">*</span></label>
-                                <input type="text" wire:model="email" class="form-control" name="email" placeholder="mobile no" required />
+                                <input type="text" class="form-control" value="{{ old('mobile_number') }}" name="mobile_number" placeholder="mobile no" />
+                                @error('mobile_number')
+                                    <div class="text-danger error">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             <div class="single-login">
                                 <label class="hind-siliguri font-18">আপনার পাসওয়ার্ড লিখুন <span class="text-danger">*</span></label>
-                                <input wire:model="password" type="password" class="form-control" name="password" pattern=".{5,}" required />
+                                <input type="password" class="form-control" value="{{ old('password') }}" name="password"  />
+                                @error('password')
+                                    <div class="text-danger error">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             <div class="single-login">
                                 <label class="hind-siliguri font-18">পুনরায় পাসওয়ার্ড লিখুন <span class="text-danger">*</span></label>
-                                <input wire:model="password" type="password_confirmation" class="form-control" name="password" pattern=".{5,}" required />
+                                <input type="password_confirmation" value="{{ old('password') }}" class="form-control" name="password_confirmation"  />
+                                @error('password_confirmation')
+                                    <div class="text-danger error">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             <div class="single-login single-login-2">
                                 <button class="submit_btn" type="submit">Submit</button>

@@ -24,33 +24,42 @@ class CheckoutController extends Controller
         $carts = json_decode(request()->carts);
         $data = request()->except('carts');
         $data['carts'] = $carts;
-        $validator = Validator::make($data, [
-            'first_name' => ['required', 'string'],
-            'last_name' => ['required'],
+        $rules = [
+            'full_name' => ['required', 'string'],
+            // 'last_name' => ['required'],
             'address' => ['required'],
             'mobile_number' => ['required', 'string'],
             // 'email' => ['email'],
-            'city' => ['required', 'string'],
-            'zone' => ['required', 'string'],
-            'payment_method' => ['required'],
-            'bkash_number' => ['required_if:payment_method,==,bkash'],
-            'bkash_trx_id' => ['required_if:payment_method,==,bkash'],
-            'bank_account_no' => ['required_if:payment_method,==,bank'],
-            'bank_transaction_id' => ['required_if:payment_method,==,bank'],
+            // 'city' => ['required', 'string'],
+            // 'zone' => ['required', 'string'],
+            // 'payment_method' => ['required'],
+            // 'bkash_number' => ['required_if:payment_method,==,bkash'],
+            // 'bkash_trx_id' => ['required_if:payment_method,==,bkash'],
+            // 'bank_account_no' => ['required_if:payment_method,==,bank'],
+            // 'bank_transaction_id' => ['required_if:payment_method,==,bank'],
             'shipping_method' => ['required'],
-            "carts" => ["required", "array", "min:1"],
-        ], [
-            "carts.required" => ["there is no product into cart list."]
-        ]);
+            'divisions' => ['required'],
+            'districts' => ['required'],
+            'police_stations' => ['required'],
+        ];
 
+        $validator = Validator::make(request()->all(), $rules);
         if ($validator->fails()) {
+            $errors = $validator->errors();
             return response()->json([
                 'err_message' => 'validation error',
-                'data' => $validator->errors(),
+                'data' => $errors,
             ], 422);
         }
 
-        $name = request()->first_name . ' ' . request()->last_name;
+        if(request()->police_stations == 'Enter police station name'){
+            return response()->json([
+                'err_message' => 'validation error',
+                'data' => ["police_stations"=>["enter your police station name."]],
+            ], 422);
+        }
+
+        $name = request()->full_name;
         $address = request()->address;
         $mobile_number = request()->mobile_number;
         $shipping_method = request()->shipping_method;
@@ -188,31 +197,31 @@ class CheckoutController extends Controller
     public function save_order_payments($order, $request)
     {
         $auth_user = auth()->check() ? auth()->user() : null;
-        $payment = OrderPayment::create([
-            "order_id" => $order->id,
-            "user_id" => $auth_user ? $auth_user->id : null,
-            "customer_id" => null,
-            "payment_method" => $request->payment_method,
-            "amount" => 0,
-            // "bkash_number" => $request->bkash_number,
-            // "trx_id" => $request->bkash_trx_id,
-            // "amount" => rand($order->total_price - round($order->total_price / 2), $order->total_price),
-            // "amount" => $order->total,
-        ]);
+        // $payment = OrderPayment::create([
+        //     "order_id" => $order->id,
+        //     "user_id" => $auth_user ? $auth_user->id : null,
+        //     "customer_id" => null,
+        //     "payment_method" => $request->payment_method,
+        //     "amount" => 0,
+        //     // "bkash_number" => $request->bkash_number,
+        //     // "trx_id" => $request->bkash_trx_id,
+        //     // "amount" => rand($order->total_price - round($order->total_price / 2), $order->total_price),
+        //     // "amount" => $order->total,
+        // ]);
 
-        if ($request->payment_method == 'bkash') {
-            $payment->number = $request->bkash_number;
-            $payment->trx_id = $request->bkash_trx_id;
-            $payment->amount = $order->total_price;
-            $payment->save();
-        }
+        // if ($request->payment_method == 'bkash') {
+        //     $payment->number = $request->bkash_number;
+        //     $payment->trx_id = $request->bkash_trx_id;
+        //     $payment->amount = $order->total_price;
+        //     $payment->save();
+        // }
 
-        if ($request->payment_method == 'bank') {
-            $payment->account_no = $request->bank_account_no;
-            $payment->trx_id = $request->bank_transaction_id;
-            $payment->amount = $order->total_price;
-            $payment->save();
-        }
+        // if ($request->payment_method == 'bank') {
+        //     $payment->account_no = $request->bank_account_no;
+        //     $payment->trx_id = $request->bank_transaction_id;
+        //     $payment->amount = $order->total_price;
+        //     $payment->save();
+        // }
     }
 
     public function save_address($request)
@@ -231,7 +240,7 @@ class CheckoutController extends Controller
             "table_name" => $auth_user ? "users" : "guest",
             "table_id" => $auth_user ? $auth_user->id : null,
             "address_type" => "shipping",
-            "first_name" => $request->first_name ?? '',
+            "first_name" => $request->full_name ?? '',
             "last_name" => $request->last_name ?? '',
             "mobile_number" => $request->mobile_number ?? '',
             "email" => $request->email ?? '',
@@ -373,10 +382,10 @@ class CheckoutController extends Controller
             'amount' => request()->amount,
             'date' => Carbon::now()->toDateString(),
         ]);
-        if (request()->payment_method == 'bank_account') {
-            $order_payment->account_no = request()->number;
-            $order_payment->save();
-        }
+        // if (request()->payment_method == 'bank_account') {
+        //     $order_payment->account_no = request()->number;
+        //     $order_payment->save();
+        // }
         $order->total_paid = $order->order_payments()->sum('amount');
         $order->save();
         return $order->total_paid;

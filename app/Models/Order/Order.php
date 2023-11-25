@@ -3,6 +3,7 @@
 namespace App\Models\Order;
 
 use App\Models\User;
+use App\Models\User\Address;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -34,14 +35,32 @@ class Order extends Model
         ])->with('product');
     }
 
+    public function products()
+    {
+        return $this->hasMany(OrderDetails::class, 'order_id')->select([
+            'id', 'order_id', 'customer_id', 'user_id', 'product_id',
+            'product_name', 'product_price', 'discount_price', 'discount_percent', 'sales_price', 'qty'
+        ])->with('product');
+    }
+
     public function order_delivery_info()
     {
         return $this->hasOne(OrderDeliveryInfo::class, 'order_id');
     }
 
+    public function address()
+    {
+        return $this->hasOne(Address::class, 'table_id','user_id')->orderBy('id','DESC');
+    }
+
     public function order_payments()
     {
         return $this->hasMany(OrderPayment::class, 'order_id');
+    }
+
+    public function payment()
+    {
+        return $this->hasOne(OrderPayment::class, 'order_id')->orderBy('id','DESC');
     }
 
     public function ecom_order_payment()

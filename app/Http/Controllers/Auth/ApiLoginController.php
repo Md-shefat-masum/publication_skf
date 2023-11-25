@@ -277,7 +277,7 @@ class ApiLoginController extends Controller
     {
         $rules = [
             'first_name' => ['required'],
-            'last_name' => ['required'],
+            // 'last_name' => ['required'],
             'mobile_number' => ['required'],
             // 'user_name' => ['required', 'min:4', 'unique:users'],
             // 'email' => ['required', 'unique:users'],

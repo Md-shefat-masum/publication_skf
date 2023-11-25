@@ -1,4 +1,9 @@
 <div>
+
+    <link rel="stylesheet" href="/css/select2.css">
+    <script src="/js/select2.js"></script>
+    <script src="/js/cart.js"></script>
+
     <div class="breadcrumbs-area mb-70">
 		<div class="container">
 			<div class="row">
@@ -29,212 +34,92 @@
 	<div class="checkout-area mb-70">
         <div class="pt-2 section-space shop-checkout-area">
             <div class="container">
-                <form class="checkout-content" id="checkout-form" onsubmit="checkout_submit(event)" method="post">
+                <form class="checkout-content" id="checkout-form" onsubmit="checkout_submit2(event)" method="post">
                     <div class="row">
-                        <div class="col-md-4 col-sm-12 mb-3">
+                        <div class="col-md-4 col-sm-12">
                             <div class="card checkout-section checkout-box h-100">
                                 <div class="section-head">
                                     <h2><span>1</span>Customer Information</h2>
                                 </div>
                                 <div class="address">
+                                    @php
+                                        $address = (object) [];
+                                        // $address = \App\Models\OrderAddress::where('user_id',auth()->user()->id)->orderBy('id','DESC')->first();
+                                    @endphp
                                     <div class="multiple-form-group">
-                                        <div class="form-group">
-                                            <label class="control-label" for="input-firstname">First Name</label>
-                                            <input value="{{$address->first_name}}" class="form-control" name="first_name" type="text" id="input-firstname" placeholder="First Name*" />
+                                        <div class="form-group mb-2">
+                                            <label class="control-label" for="input-firstname">Full Name <sub class="text-danger h6">*</sub></label>
+                                            <input class="form-control" onkeyup="set_checkout_info()" value="{{$address->first_name ?? ''}}" name="full_name" type="text" id="input-firstname" placeholder="Full Name" />
                                         </div>
-                                        <div class="form-group">
+                                        {{-- <div class="form-group mb-2">
                                             <label class="control-label" for="input-lastname">Last Name</label>
-                                            <input value="{{$address->last_name}}" type="text" id="input-lastname" name="last_name" class="form-control" placeholder="Last Name*" />
-                                        </div>
+                                            <input type="text"  value="{{$address->last_name ?? ''}}" id="input-lastname" name="last_name" class="form-control" placeholder="Last Name*" />
+                                        </div> --}}
                                     </div>
 
-                                    <div class="form-group">
-                                        <label class="control-label" for="input-address">Address</label>
-                                        <input value="{{$address->address}}" type="text" id="input-address" name="address" class="form-control" placeholder="Address*" />
+
+                                    <div class="form-group mb-2">
+                                        <label class="control-label" for="input-telephone">Mobile <sub class="text-danger h6">*</sub></label>
+                                        <input type="text" onkeyup="set_checkout_info()"  value="{{$address->mobile_number ?? ''}}" id="input-telephone" name="mobile_number" class="form-control" placeholder="Mobile" />
                                     </div>
-                                    <div class="form-group">
-                                        <label class="control-label" for="input-telephone">Mobile</label>
-                                        <input value="{{$address->mobile_number}}" type="tel" id="input-telephone" name="mobile_number" class="form-control" placeholder="Telephone*" />
-                                    </div>
-                                    <div class="form-group" for="input-email">
+                                    <div class="form-group mb-2" for="input-email">
                                         <label class="control-label">Email</label>
-                                        <input value="{{$address->email}}" type="email" id="input-email" name="email" class="form-control" placeholder="E-Mail*" />
+                                        <input type="email" onkeyup="set_checkout_info()"  value="{{$address->email ?? ''}}" id="input-email" name="email" class="form-control" placeholder="E-Mail" />
                                     </div>
                                     <div class="multiple-form-group">
-                                        <div class="form-group" for="input-city">
-                                            <label class="control-label">City</label>
-                                            <input value="{{$address->city}}" type="text" id="input-city" name="city" class="form-control" placeholder="City*" />
+                                        <div class="form-group mb-2" for="divisions">
+                                            <label class="control-label">Division <sub class="text-danger h6">*</sub></label>
+                                            <div>
+                                                <select id="divisions" name="divisions" class="form-control"></select>
+                                            </div>
                                         </div>
-                                        <div class="form-group" for="input-zone">
-                                            <label class="control-label">Zone</label>
-                                            <select id="input-zone" name="zone" class="form-control">
-                                                <option value="Dhaka City" selected=""> Dhaka City</option>
-                                                <option value="Khulna City"> Khulna City</option>
-                                                <option value="Rangpur City"> Rangpur City</option>
-                                                <option value="Chittagong City">Chittagong City</option>
-                                                <option value="Gazipur City">Gazipur City</option>
-                                                <option value="Others">Others</option>
-                                            </select>
+                                        <div class="form-group mb-2" for="districts">
+                                            <label class="control-label">District <sub class="text-danger h6">*</sub></label>
+                                            <div>
+                                                <select id="districts" name="districts" class="form-control"></select>
+                                            </div>
                                         </div>
+                                        <div class="form-group mb-2" for="police_stations">
+                                            <label class="control-label">Police Stations <sub class="text-danger h6">*</sub></label>
+                                            <div>
+                                                <select id="police_stations" name="police_stations" class="form-control"></select>
+                                            </div>
+                                        </div>
+                                        {{-- <div class="form-group mb-2" for="upazilas">
+                                            <label class="control-label">Upazila</label>
+                                            <div>
+                                                <select id="upazilas" name="upazilas" class="form-control"></select>
+                                            </div>
+                                        </div> --}}
+                                        {{-- <div class="form-group mb-2" for="unions">
+                                            <label class="control-label">Union</label>
+                                            <div>
+                                                <select id="unions" name="unions" class="form-control"></select>
+                                            </div>
+                                        </div> --}}
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group mb-2">
+                                        <label class="control-label" for="input-address">
+                                            Address
+                                            <sub class="text-danger h6">*</sub>
+                                            <div>
+                                                <sub class="mt-2 d-block">( eg: baily road, 16A, house 34, 4th floor )</sub>
+                                            </div>
+                                            <br>
+                                        </label>
+                                        {{-- <input type="text" value="{{$address->address ?? ''}}" id="input-address" name="address" class="form-control" placeholder="Address*" /> --}}
+                                        <textarea class="form-control" onkeyup="set_checkout_info()" name="address" placeholder="address" rows="3"></textarea>
+                                    </div>
+                                    <div class="form-group mb-2">
                                         <label class="control-label">Comment</label>
-                                        <textarea class="form-control" name="comment" placeholder="Comment" rows="6"></textarea>
+                                        <textarea class="form-control" name="comment" placeholder="Comment" rows="4"></textarea>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-8 col-sm-12">
                             <div class="row row-payment-delivery-order">
-                                <div class="col-md-12 col-lg-6 col-sm-12 payment-methods">
-                                    <div class="card checkout-section checkout-box">
-                                        <div class="section-head">
-                                            <h2><span>2</span>Payment Method</h2>
-                                        </div>
-                                        <div class="">
-                                            <p>Select a payment method</p>
-                                            <label class="radio-inline">
-                                                <input type="radio" onchange="checkout.set_payment_method('cashon')" id="cod_btn" name="payment_method" value="cod" checked />
-                                                Cash on Delivery
-                                            </label>
-                                            <br />
-                                            <label class="radio-inline">
-                                                <input type="radio" onchange="checkout.set_payment_method('bkash')" id="bkash_btn" name="payment_method"
-                                                    value="bkash" />
-                                                Bkash
-                                            </label>
-                                            {{-- <br />
-                                            <label class="radio-inline">
-                                                <input type="radio" onchange="checkout.set_payment_method('bank')" id="bank_transfer_btn" name="payment_method"
-                                                    value="bank" />
-                                                Bank Transfer
-                                            </label> --}}
-                                            <br />
-                                            <div id="bkash_section"
-                                                class="border border-1 rounded-1 my-2 p-2 d-none">
-                                                <p class="mb-3">
-                                                    অনুগ্রহ করে আপনার বিকাশ ‘পেমেন্ট অপশন’ থেকে আপনার পেমেন্ট
-                                                    কমপ্লিট করুন। তারপর নিচের ফর্মটি ফিলাপ করুন। আমাদের বিকাশ
-                                                    একাউন্টে টাকা পাঠানোর নিয়মঃ
-                                                </p>
-                                                <ul class="mb-3">
-                                                    <li class="d-flex gap-2">
-                                                        <span>১।</span>
-                                                        <span>*247# ডায়াল করে বিকাশ মোবাইল মেন্যুতে যান</span>
-                                                    </li>
-                                                    <li class="d-flex gap-2">
-                                                        <span>২।</span>
-                                                        <span>"Payment" অপশন সিলেক্ট করুন।</span>
-                                                    </li>
-                                                    <li class="d-flex gap-2">
-                                                        <span>৩।</span>
-                                                        <span>
-                                                            Enter Merchant Bkash account এ : বিকাশ নাম্বারটি লিখুন
-                                                        </span>
-                                                    </li>
-                                                    <li class="d-flex gap-2">
-                                                        <span>৪।</span>
-                                                        <span>
-                                                            Amount এ আপনার বিল এমাউন্টটি লিখুন।
-                                                        </span>
-                                                    </li>
-                                                    <li class="d-flex gap-2">
-                                                        <span>৫।</span>
-                                                        <span>Enter Reference এ আপনার নামের প্রথম শব্দ লিখুন।</span>
-                                                    </li>
-                                                    <li class="d-flex gap-2">
-                                                        <span>৬।</span>
-                                                        <span>Enter counter number এ 1 লিখুন।</span>
-                                                    </li>
-                                                    <li class="d-flex gap-2">
-                                                        <span> ৭।</span>
-                                                        <span>
-                                                            আপনার বিকাশ মোবাইল মেন্যু পিনটি দিয়ে লেনদেনটি সম্পন্ন করুন।
-                                                        </span>
-                                                    </li>
-                                                    <li class="d-flex gap-2">
-                                                        <b>bKash Agent No : </b>
-                                                        <ul>
-                                                            @php
-                                                                $bkash_numbers = \App\Models\Account\Account::where('name','bkash')->first()->numbers()->get();
-                                                            @endphp
-                                                            @foreach ($bkash_numbers as $item)
-                                                                <li style="cursor: pointer;">
-                                                                    <b onclick="bkash_number.value=`{{$item->value}}`">{{$item->value}}</b>
-                                                                </li>
-                                                            @endforeach
-                                                        </ul>
-                                                    </li>
-                                                    <div class="form-group">
-                                                        <label class="control-label" for="input-firstname">
-                                                            <b>BKash Number: </b>
-                                                        </label>
-                                                        <input class="form-control" name="bkash_number" type="text" id="bkash_number" placeholder="013******" />
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="control-label" for="input-firstname">
-                                                            <b>BKash transaction ID: </b>
-                                                        </label>
-                                                        <input class="form-control" name="bkash_trx_id" type="text" id="bkash_trx" placeholder="TRX-4548" />
-                                                    </div>
-                                                </ul>
-                                            </div>
-
-                                            {{-- <div id="bank_section"
-                                                class="border border-1 rounded-1 my-2 p-2 d-none">
-                                                <p class="mb-3">
-                                                    Please go to your personal bank or log into your online banking
-                                                    portal, and follow the guideline:
-                                                </p>
-                                                <ul class="mb-3">
-                                                    <li class="d-flex gap-2">
-                                                        <span>1।</span>
-                                                        <span>
-                                                            specify that you
-                                                            would like to send your funds to another bank account,
-                                                            and provides the bank account details obtained when they
-                                                            submitted the order.
-                                                        </span>
-                                                    </li>
-                                                    <li class="d-flex gap-2">
-                                                        <span>2।</span>
-                                                        <span>
-                                                            Send the funds
-                                                            and the bank transfer has been initiated.
-                                                        </span>
-                                                    </li>
-                                                    <li class="d-flex gap-2">
-                                                        <span>3।</span>
-                                                        <span>
-                                                            The payment is
-                                                            complete when we payment reaches the receiving
-                                                            account.
-                                                        </span>
-                                                    </li>
-                                                    <li class="d-flex gap-2">
-                                                        <span>4।</span>
-                                                        <span>
-                                                            Provide us the
-                                                            transaction ID
-                                                        </span>
-                                                    </li>
-                                                    <div class="form-group">
-                                                        <label class="control-label" for="input-firstname">
-                                                            <b>Bank account no: </b>
-                                                        </label>
-                                                        <input class="form-control" name="bank_account_no" type="text" id="bank_ac_no" placeholder="013******" />
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="control-label" for="input-firstname"><b>Transaction ID: </b></label>
-                                                        <input class="form-control" name="bank_transaction_id" type="text" id="bank_trx_no" placeholder="TRX-4548" />
-                                                    </div>
-                                                </ul>
-                                            </div> --}}
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 col-lg-6 col-sm-12 delivery-methods">
+                                <div class="col-12 delivery-methods">
                                     <div class="card checkout-section">
                                         <div class="section-head">
                                             <h2><span>3</span>Delivery Method</h2>
@@ -242,30 +127,25 @@
                                         <div class="">
                                             <p>Select a delivery method</p>
                                             <label class="radio-inline">
-                                                @php
-                                                    $setting = \App\Models\Settings\AppSettingTitle::class;
-                                                    $home_delivery = $setting::getValue('home_delivery_cost');
-                                                    $out_dhaka_home_delivery_cost = $setting::getValue('out_dhaka_home_delivery_cost');
-                                                @endphp
-                                                <input type="radio" onchange="delivery_method.set(`home_delivery`)"
-                                                    data-charge="{{$home_delivery}}"
-                                                    name="shipping_method" value="home_delivery" />
-                                                Home Delivery - {{$home_delivery}}৳
+                                                <input id="home_delivery" data-value="{{$home_delivery_value}}" disabled type="radio" checked onchange="shipping_cost.innerHTML=`{{$home_delivery_value}}`; cart.render_check_out_cart_list()" name="shipping_method" value="home_delivery"/>
+                                                Inside Dhaka - <span id="home_delivery_value">{{$home_delivery_value}}</span> ৳
                                             </label>
+                                            {{-- <br />
+                                            <label class="radio-inline">
+                                                <input type="radio" onchange="shipping_cost.innerHTML=0; shipping_cost.innerHTML=`{{$cart_total}}`;" checked name="shipping_method" value="pickup" />
+                                                Store Pickup - 0 ৳
+                                            </label> --}}
                                             <br />
                                             <label class="radio-inline">
-                                                <input type="radio" onchange="delivery_method.set(`pickup`)" data-charge="0" name="shipping_method" checked value="pickup" />
-                                                Store Pickup - 0৳
-                                            </label>
-                                            <br />
-                                            <label class="radio-inline">
-                                                <input type="radio" onchange="delivery_method.set(`outside_dhaka`)" data-charge="{{$out_dhaka_home_delivery_cost}}" name="shipping_method" value="outside_dhaka" />
-                                                Home Delivery outside Dhaka - {{$out_dhaka_home_delivery_cost}}৳
+                                                <input id="outside_dhaka" data-value="{{$outside_dhaka_value}}" disabled type="radio" onchange="shipping_cost.innerHTML=`{{$outside_dhaka_value}}`; cart.render_check_out_cart_list()" name="shipping_method" value="outside_dhaka" />
+                                                Outside Dhaka - <span id="outside_dhaka_value">{{$outside_dhaka_value}}</span> ৳
                                             </label>
                                             <br />
                                         </div>
+
                                     </div>
                                 </div>
+
                                 <div class="col-md-12 col-sm-12">
                                     <div class="checkout-section card checkout-box voucher-coupon p-1">
                                         <div class="card-body">
@@ -334,7 +214,9 @@
                                                         </td>
                                                         <td class="text-right">
                                                             <span class="amount solaiman">
-                                                                ৳ <span data-cost="0" id="delivery_cost">0</span>
+                                                                ৳ <span data-cost="0" id="shipping_cost">
+                                                                    {{ $home_delivery_value }}
+                                                                </span>
                                                             </span>
                                                         </td>
                                                     </tr>
@@ -379,8 +261,12 @@
                         </button>
                     </div>
                 </form>
-                <script>
-                    cart.render_check_out_cart_list();
+                <script defer>
+                    setTimeout(async () => {
+                        cart.render_check_out_cart_list();
+                        await init_division();
+                        get_checkout_info();
+                    }, 600);
                 </script>
             </div>
         </div>

@@ -54,8 +54,15 @@ Route::group(['prefix' => '', 'namespace' => "Controllers"], function () {
 
     Route::get('/invoice-printout/{order}', 'Admin\Order\OrderPrintoutController@sales_invoice');
 
+    Route::post('/register', 'WebsiteController@website_register');
+
     Route::get('/old-categories', 'OldDataImportController@old_categories');
     Route::get('/old-products', 'OldDataImportController@old_products');
+
+    Route::get('/payment/{invoice}', 'Payment\BkashController@payment')->name('payment');
+    Route::get('/payment/{invoice}/status', 'Payment\BkashController@status')->name('payment_status');
+    Route::get('/payment/{invoice}/success', 'Payment\BkashController@success')->name('payment_success');
+    Route::get('/payment/{invoice}/failed', 'Payment\BkashController@failed')->name('payment_failed');
 });
 
 Route::get('/dashboard', function () {
@@ -110,8 +117,6 @@ Route::get('/old-users', function () {
     }
     $conn->close();
 });
-
-
 
 Route::get('/data-reload', function () {
     \Illuminate\Support\Facades\Artisan::call('migrate:fresh', ['--seed' => true]);

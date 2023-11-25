@@ -39,10 +39,10 @@
                                     </div>
                                     <table class="table">
                                         <tbody>
-                                            <tr>
+                                            {{-- <tr>
                                                 <td>Page</td>
                                                 <td class="solaiman">&nbsp; {{ enToBn($product->pages) }} </td>
-                                            </tr>
+                                            </tr> --}}
                                             <tr>
                                                 <td>Writer</td>
                                                 <td class="author-link">&nbsp;
@@ -65,10 +65,10 @@
                                                     @endforeach
                                                 </td>
                                             </tr>
-                                            <tr>
+                                            {{-- <tr>
                                                 <td>Binding</td>
                                                 <td class="hind-siliguri">&nbsp; {{ $product->binding }} </td>
-                                            </tr>
+                                            </tr> --}}
                                             <tr>
                                                 <td>Categories</td>
                                                 <td>
@@ -83,14 +83,14 @@
                                                     @endforeach
                                                 </td>
                                             </tr>
-                                            <tr>
+                                            {{-- <tr>
                                                 <td>Product Code</td>
                                                 <td>&nbsp; {{ $product->sku }} </td>
-                                            </tr>
-                                            <tr>
+                                            </tr> --}}
+                                            {{-- <tr>
                                                 <td>ISBN</td>
                                                 <td>&nbsp; {{ $product->isbn }} </td>
-                                            </tr>
+                                            </tr> --}}
                                             @if ($product->discount_percent)
                                             <tr>
                                                 <td>Discount</td>

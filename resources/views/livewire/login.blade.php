@@ -27,7 +27,7 @@
                         <div class="login-form">
                             <div class="single-login">
                                 <label class="hind-siliguri font-18">আপনার ইমেইল অথবা মোবাইল নাম্বার লিখুন<span>*</span></label>
-                                <input type="email" wire:model="email" type="email" class="form-control" name="email" placeholder="email / mobile no" required />
+                                <input type="text" wire:model="email" type="email" class="form-control" name="email" placeholder="email / mobile no" required />
                             </div>
                             <div class="single-login">
                                 <label class="hind-siliguri font-18">আপনার পাসওয়ার্ড লিখুন <span>*</span></label>

@@ -245,8 +245,10 @@ class AccountLogSeeder extends Seeder
 
         $order_payments = OrderPayment::where('approved', 1)->get();
         foreach ($order_payments as $item) {
-            $account = Account::where('id', rand(2, 5))->first();
-            $account_number = $account->numbers()->get()->random();
+            // $account = Account::where('id', rand(2, 5))->first();
+            // $account_number = $account->numbers()->get()->random();
+            $account = Account::where('id', 2)->first();
+            $account_number = $account->numbers()->first();
             $user_name = "";
             $user = $item->user()->first();
             if ($user) {
@@ -271,15 +273,9 @@ class AccountLogSeeder extends Seeder
         $account_categories = AccountCategory::where('id', '>', 1)->where('type_id', 1)->get();
         foreach ($account_categories as $category) {
             for ($i = 0; $i < 5; $i++) {
-                $account = Account::where('id', rand(2, 5))->first();
-                try {
-                    //code...
-                    $account_number = $account->numbers()->get()->random();
-                } catch (\Throwable $th) {
-                    $account_number = $account->numbers()->first();
-                    //throw $th;
-                }
-
+                // $account = Account::where('id', rand(2, 5))->first();
+                $account = Account::where('id', 2)->first();
+                $account_number = $account->numbers()->first();
                 $ac_log = AccountLog::create([
                     "date" => Carbon::parse('2023-' . rand(1, 12) . '-' . rand(1, 25)),
                     'category_id' => $category->id,
@@ -298,8 +294,10 @@ class AccountLogSeeder extends Seeder
         $account_categories = AccountCategory::where('id', '>', 1)->where('type_id', 2)->get();
         foreach ($account_categories as $category) {
             for ($i = 0; $i < 5; $i++) {
-                $account = Account::where('id', rand(2, 5))->first();
-                $account_number = $account->numbers()->get()->random();
+                // $account = Account::where('id', rand(2, 5))->first();
+                // $account_number = $account->numbers()->get()->random();
+                $account = Account::where('id', 2)->first();
+                $account_number = $account->numbers()->first();
                 $ac_log = AccountLog::create([
                     "date" => Carbon::parse('2023-' . rand(1, 12) . '-' . rand(1, 25)),
                     'category_id' => $category->id,

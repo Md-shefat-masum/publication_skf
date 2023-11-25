@@ -24,6 +24,10 @@ class CreateOrderPaymentsTable extends Migration
             $table->bigInteger("account_number_id")->unsigned()->nullable();
 
             $table->string("payment_method", 40)->nullable();
+            $table->string("paymentID", 100)->nullable();
+            $table->string("payment_number", 100)->nullable();
+            $table->string("payerReference", 100)->nullable();
+            $table->string("customerMsisdn", 100)->nullable();
             $table->string("number", 20)->nullable();
             $table->string("account_no", 100)->nullable();
             $table->string("trx_id", 100)->nullable();

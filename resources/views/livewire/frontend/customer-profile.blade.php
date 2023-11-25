@@ -31,7 +31,7 @@
     <!-- entry-header-area-end -->
     <!-- my account wrapper start -->
     <div class="my-account-wrapper mb-70">
-        <div class="container">
+        <div class="container-fluid">
             <div class="section-bg-color">
                 <div class="row">
                     <div class="col-lg-12">
@@ -58,10 +58,10 @@
                                             <i class="fa fa-cart-arrow-down"></i>
                                             Orders
                                         </a>
-                                        <a href="#address-edit" wire:click="change_tab('address')" class="{{ $active_tab=="address"?"active":'' }}" data-bs-toggle="tab">
+                                        {{-- <a href="#address-edit" wire:click="change_tab('address')" class="{{ $active_tab=="address"?"active":'' }}" data-bs-toggle="tab">
                                             <i class="fa fa-map-marker"></i>
                                             address
-                                        </a>
+                                        </a> --}}
                                         <a href="#account-info" wire:click="change_tab('account')" class="{{ $active_tab=="account"?"active":'' }}" data-bs-toggle="tab">
                                             <i class="fa fa-user"></i>
                                             Account Details
@@ -108,7 +108,11 @@
                                                                             {{ $item->payment_status }}
                                                                         @else
                                                                             <span class="text-warning badge bg-secondary">not paid</span> <br>
-                                                                            <a href="" data-amount="{{ $item->total_price }}" data-order="{{ $item->invoice_id }}" onclick="event.preventDefault();show_modal();" class="d-inline-block mt-2"> <i class="fa fa-money"></i> Pay Now</a>
+                                                                            <a href="/payment/{{$item->invoice_id}}" data-turbolinks="false" data-amount="{{ $item->total_price }}"
+                                                                                data-order="{{ $item->invoice_id }}"
+                                                                                class="d-inline-block mt-2">
+                                                                                <i class="fa fa-money"></i> Pay Now
+                                                                            </a>
                                                                         @endif
                                                                     </td>
                                                                     <td>
@@ -141,18 +145,18 @@
                                                         <div class="row">
                                                             <div class="col-lg-6">
                                                                 <div class="single-input-item">
-                                                                    <label for="first_name" class="required">First Name</label>
+                                                                    <label for="first_name" class="required">Full Name</label>
                                                                     <input type="text" wire:model="first_name" name="first_name" id="first_name" placeholder="First Name" />
                                                                     @error('first_name') <div class="text-danger">{{ $message }}</div> @enderror
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-6">
+                                                            {{-- <div class="col-lg-6">
                                                                 <div class="single-input-item">
                                                                     <label for="last_name" class="required">Last Name</label>
                                                                     <input type="text" wire:model="last_name" name="last_name" id="last_name" placeholder="Last Name" />
                                                                     @error('last_name') <div class="text-danger">{{ $message }}</div> @enderror
                                                                 </div>
-                                                            </div>
+                                                            </div> --}}
                                                             <div class="col-lg-6">
                                                                 <div class="single-input-item">
                                                                     <label for="mobile_number" class="required">Mobile Number</label>
@@ -260,18 +264,18 @@
                                                                     <input type="text" value="{{ auth()->user()->first_name }}" name="first_name" id="first_name" placeholder="First Name" />
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-6">
+                                                            {{-- <div class="col-lg-6">
                                                                 <div class="single-input-item">
                                                                     <label for="last_name" class="required">Last Name</label>
                                                                     <input type="text" value="{{ auth()->user()->last_name }}" name="last_name" id="last_name" placeholder="Last Name" />
                                                                 </div>
-                                                            </div>
-                                                            <div class="col-lg-6">
+                                                            </div> --}}
+                                                            {{-- <div class="col-lg-6">
                                                                 <div class="single-input-item">
                                                                     <label for="user_name" class="required">User Name</label>
                                                                     <input type="text" name="user_name" value="{{ auth()->user()->user_name }}" id="user_name" placeholder="User Name" />
                                                                 </div>
-                                                            </div>
+                                                            </div> --}}
                                                             <div class="col-lg-6">
                                                                 <div class="single-input-item">
                                                                     <label for="mobile_number" class="required">Mobile Number</label>

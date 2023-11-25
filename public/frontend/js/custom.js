@@ -245,6 +245,7 @@ let cart = {
             `;
             })
             .join("");
+
         document.querySelector(".cart-product").innerHTML = html;
         document.querySelector("#cart_total_price").innerHTML = this.calc_cart_total().toString().getDigitBanglaFromEnglish();
         document.querySelector("#cart_total_qty").innerHTML = this.calc_cart_qty();
@@ -307,10 +308,10 @@ let cart = {
             .join("");
 
         let coupon_discount_price = this.calc_coupon_discount() || 0;
+        this.delivery_cost = delivery_cost= parseInt($("input[name='shipping_method']:checked").data('value') || 0);
         document.querySelector(".check_out_cart_list tbody").innerHTML = html;
         document.querySelector(".check_out_cart_list_subtotal").innerHTML = this.calc_cart_total().toString().getDigitBanglaFromEnglish();
         document.querySelector(".check_out_cart_list_total").innerHTML = ( this.calc_cart_total() + this.delivery_cost - coupon_discount_price ).toString().getDigitBanglaFromEnglish();
-
         let coupon_discount_el = document.querySelector('#coupon_discount');
         if(coupon_discount_el){
             coupon_discount_el.innerHTML = ( coupon_discount_price ).toString().getDigitBanglaFromEnglish();
@@ -346,7 +347,11 @@ let cart = {
         return coupon_discount_price;
     }
 };
-cart.init();
+window.addEventListener('load',function(){
+    setTimeout(() => {
+        cart.init();
+    }, 300);
+})
 
 let checkout = {
     set_payment_method: function (type) {

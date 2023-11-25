@@ -15,7 +15,7 @@ class OldDataImportController extends Controller
     public $conn = "";
     public function __construct()
     {
-        $this->conn = new mysqli("localhost", "root", "1234", "almariz_prokasona");
+        $this->conn = new mysqli("localhost", "root", "", "alzmariz_prokasona");
         if ($this->conn->connect_error) {
             die("Connection failed: " . $this->conn->connect_error);
         }
@@ -38,20 +38,16 @@ class OldDataImportController extends Controller
 
     public function old_categories()
     {
-        $conn = new mysqli("localhost", "root", "1234", "almariz_prokasona");
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
 
         $sql = "SELECT * FROM categories";
-        $result = $conn->query($sql);
+        $result = $this->conn->query($sql);
 
         if ($result->num_rows > 0) {
             $this->catogry_action($result);
         } else {
             echo "0 results";
         }
-        $conn->close();
+        $this->conn->close();
     }
 
     public function catogry_action($result)
