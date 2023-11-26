@@ -447,6 +447,27 @@ html.nav-hide-hover .header-navbar.floating-nav {
   z-index: 999999;
 }
 
+.task_list {
+  height: 600px;
+  overflow: auto;
+}
+.task_list .task_item {
+  position: relative;
+}
+.task_list .task_item .emergency {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+}
+.task_list .task_item .emergency img {
+  height: 50px;
+}
+
+.badge_padding {
+  padding: 10px;
+  letter-spacing: 1px;
+}
+
 .table_actions {
   position: relative;
   display: inline-block;

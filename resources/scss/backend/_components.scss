@@ -25,6 +25,27 @@
     z-index: 999999;
 }
 
+.task_list{
+    height: 600px;
+    overflow: auto;
+
+    .task_item{
+        position: relative;
+        .emergency{
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            img{
+                height: 50px;
+            }
+        }
+    }
+}
+.badge_padding{
+    padding: 10px;
+    letter-spacing: 1px;
+}
+
 .table_actions {
     position: relative;
     display: inline-block;

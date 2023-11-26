@@ -37,6 +37,10 @@ Route::group(
                 Route::post('/find-user-info', 'Auth\ApiLoginController@find_user_info');
             });
 
+            Route::group(['prefix' => 'task'], function () {
+                Route::get('/super-admin-get-all', 'Task\TaskController@super_admin_get_all');
+            });
+
             Route::group(['prefix' => 'user'], function () {
                 Route::post('/update-profile', 'Auth\ProfileController@update_profile');
                 Route::get('/all', 'Auth\UserController@all');

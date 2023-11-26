@@ -1,6 +1,6 @@
 <template>
     <li v-if="is_role_permitted" class="nav-item">
-        <router-link class="d-flex align-items-center nav_link_item" @click="hide_menu" :to="{name:to}" >
+        <router-link class="d-flex align-items-center nav_link_item" :to="{name:to}" >
             <i :class="icon"></i>
             <span class="menu-title text-truncate">{{ text }}</span>
             <span v-if="alert_count" class="badge badge-light-warning rounded-pill ms-auto me-1">

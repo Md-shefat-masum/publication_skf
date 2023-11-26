@@ -34,6 +34,8 @@ import accountant_supplier_log_modules from './modules/accountant/accountant_sup
 import accountant_report_modules from './modules/accountant/accountant_report_modules';
 import accountant_customer_modules from './modules/accountant/accountant_customer_modules';
 
+import superadmin_task from './modules/superadmin/superadmin_task';
+
 const store = new Vuex.Store({
     modules: {
         auth_modules,
@@ -66,6 +68,8 @@ const store = new Vuex.Store({
         accountant_supplier_log_modules,
         accountant_report_modules,
         accountant_customer_modules,
+
+        superadmin_task,
     },
     state: {},
     getters: {},
