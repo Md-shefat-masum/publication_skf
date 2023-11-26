@@ -58,6 +58,12 @@ class UserSeeder extends Seeder
         $user_role->role_serial = 6;
         $user_role->save();
 
+        $user_role = new UserRole();
+        $user_role->id = 52;
+        $user_role->name = 'employee';
+        $user_role->role_serial = 7;
+        $user_role->save();
+
         UserPermission::truncate();
 
         $permission = new UserPermission();
@@ -91,7 +97,7 @@ class UserSeeder extends Seeder
         $user->password = Hash::make('12345678');
         $user->save();
         $user->roles()->attach([1]);
-        $user->permissions()->attach([1,2,3]);
+        $user->permissions()->attach([1, 2, 3]);
 
         $user = new User();
         $user->first_name = 'mr';
@@ -104,7 +110,7 @@ class UserSeeder extends Seeder
         $user->password = Hash::make('12345678');
         $user->save();
         $user->roles()->attach([2]);
-        $user->permissions()->attach([1,2,3]);
+        $user->permissions()->attach([1, 2, 3]);
 
         $user = new User();
         $user->first_name = 'mr';
@@ -117,7 +123,7 @@ class UserSeeder extends Seeder
         $user->password = Hash::make('12345678');
         $user->save();
         $user->roles()->attach([3]);
-        $user->permissions()->attach([1,2,3]);
+        $user->permissions()->attach([1, 2, 3]);
 
         $user = new User();
         $user->first_name = 'mr';
@@ -130,7 +136,7 @@ class UserSeeder extends Seeder
         $user->password = Hash::make('12345678');
         $user->save();
         $user->roles()->attach([6]);
-        $user->permissions()->attach([1,2,3]);
+        $user->permissions()->attach([1, 2, 3]);
 
         $user = new User();
         $user->first_name = 'mr';
@@ -143,7 +149,7 @@ class UserSeeder extends Seeder
         $user->password = Hash::make('12345678');
         $user->save();
         $user->roles()->attach([4]);
-        $user->permissions()->attach([1,2,3]);
+        $user->permissions()->attach([1, 2, 3]);
 
         $user = new User();
         $user->first_name = 'mr';
@@ -169,5 +175,19 @@ class UserSeeder extends Seeder
         $user->password = Hash::make('12345678');
         $user->save();
         $user->roles()->attach([5]);
+
+        for ($i = 1; $i <= 5; $i++) {
+            $user = new User();
+            $user->first_name = 'mr';
+            $user->last_name = 'employee';
+            $user->user_name = 'employee'.$i;
+            $user->telegram_id = '812239513';
+            // $user->role_id = 3;
+            $user->mobile_number = '0161256e'.$i;
+            $user->email = 'e'.$i.'@gmail.com';
+            $user->password = Hash::make('12345678');
+            $user->save();
+            $user->roles()->attach([7]); // employee
+        }
     }
 }

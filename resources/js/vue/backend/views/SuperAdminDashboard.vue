@@ -75,7 +75,7 @@ export default {
     methods: {
         get_analytics: async function(){
             let res = await axios.get('admin/at-a-glance');
-            console.log(res.data);
+            // console.log(res.data);
             this.analytics = res.data.anatytics;
             this.titles = res.data.keys;
             this.account_titles = res.data.account_keys;
