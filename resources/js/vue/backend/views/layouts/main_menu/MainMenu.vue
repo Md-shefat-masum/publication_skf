@@ -1,6 +1,6 @@
 <template>
     <!-- BEGIN: Main Menu-->
-    <div  class="main-menu menu-fixed menu-dark menu-accordion menu-shadow" data-scroll-to-active="true">
+    <div  class="main-menu menu-fixed menu-dark menu-accordion menu-shadow">
         <main-menu-navbar-top></main-menu-navbar-top>
         <div class="shadow-bottom"></div>
         <div class="main-menu-content custom_scroll">
@@ -34,10 +34,16 @@ export default {
             auth_info: "get_auth_information",
         }),
         role_names: function(){
-            return this.auth_info.roles.map((i)=>i.name);
+            if(this.auth_info && this.auth_info.roles){
+                return this.auth_info.roles.map((i)=>i.name);
+            }
+            return [];
         },
         role_serials: function(){
-            return this.auth_info.roles.map((i)=>i.role_serial);
+            if(this.auth_info && this.auth_info.roles){
+                return this.auth_info.roles.map((i)=>i.role_serial);
+            }
+            return []
         },
     },
 

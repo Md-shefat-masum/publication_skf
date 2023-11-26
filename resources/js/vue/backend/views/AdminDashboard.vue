@@ -22,6 +22,28 @@
                 </div>
             </div>
         </div>
+
+        <h5 class="card-title mb-3 mt-5">Accounts At a Glance</h5>
+
+        <div class="analytics_list">
+            <div v-for="title in account_titles" :key="title">
+                <div class="card h-100 m-0">
+                    <div class="card-body">
+                        <div class="d-flex flex-wrap align-content-center gap-1">
+                            <div class="analytics_icon bg-label-success">
+                                <i class="fa-solid fa-chart-pie"></i>
+                            </div>
+                            <div class="card-info flex-1">
+                                <h5 class="mb-0">{{ analytics[title] }}</h5>
+                                <small class="text-capitalize">
+                                    {{ title.replaceAll('_',' ') }}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 </template>
 
@@ -42,6 +64,11 @@ export default {
                 "total_paid",
                 "total_due",
             ],
+            account_titles: [
+                "total_bill",
+                "total_paid",
+                "total_due",
+            ],
         }
     },
     created: async function(){
@@ -53,6 +80,7 @@ export default {
             console.log(res.data);
             this.analytics = res.data.anatytics;
             this.titles = res.data.keys;
+            this.account_titles = res.data.account_keys;
         }
     }
 }

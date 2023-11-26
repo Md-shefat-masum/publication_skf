@@ -20,8 +20,8 @@ const getters = {
 
 // actions
 const actions = {
-    fetch_check_auth: function (state) {
-        axios.post('/user/check-auth')
+    fetch_check_auth: async function (state) {
+        await axios.post('/user/check-auth')
             .then((res) => {
                 document.querySelector('#app_pre_loader')?.classList.toggle('d-none');
                 this.commit('set_check_auth', res.data.auth_status);

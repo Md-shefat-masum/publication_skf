@@ -3,29 +3,14 @@
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
 
             <left-nav-list-group :role_permissions="['super_admin','admin']" :icon="`fa fa-home`" :text="`Dashboard`" :alert_count="2">
-                <left-nav-list-item :to="'Dashboard'" :text="'Analytics'" />
-            </left-nav-list-group>
-
-            <left-nav-list-group :role_permissions="['super_admin']" :icon="`fa fa-users`" :text="`Users`" :alert_count="0">
-                <left-nav-list-item :to="'AllUser'" :text="'All users'" />
-                <left-nav-list-item :to="'CreateUser'" :text="'Create user'" />
-            </left-nav-list-group>
-
-            <left-nav-list-group :role_permissions="['super_admin']" :icon="`fa fa-users`" :text="`Roles`" :alert_count="0">
-                <left-nav-list-item :to="'AllRole'" :text="'All roles'" />
-                <left-nav-list-item :to="'CreateRole'" :text="'Create role'" />
-            </left-nav-list-group>
-
-            <left-nav-list-group :role_permissions="['super_admin','admin']" :icon="`fa fa-list`" :text="`Contact Message`" :alert_count="0">
-                <left-nav-list-item :to="'AllContactMessage'" :text="'All'" />
-                <left-nav-list-item :to="'CreateContactMessage'" :text="'Create'" />
+                <left-nav-list-item :to="'SuperAdminDashboard'" :text="'Analytics'" />
             </left-nav-list-group>
 
             <li class="navigation-header">
                 <span data-i18n="Apps &amp; Pages">managements</span>
             </li>
 
-            <left-nav-list-single :role_permissions="['super_admin','admin']" :icon="'fa fa-envelope'" :text="'Email'" :alert_count="15" />
+            <!-- <left-nav-list-single :role_permissions="['super_admin','admin']" :icon="'fa fa-envelope'" :text="'Email'" :alert_count="15" /> -->
 
             <left-nav-list-group :role_permissions="['super_admin','admin','user']" :icon="`fa fa-gears`" :text="`Settings`" :alert_count="0">
                 <left-nav-list-item :to="'settingProfile'" :text="'Profile'" />

@@ -262,7 +262,7 @@ class ApiLoginController extends Controller
 
     public function user_info()
     {
-        return response()->json(auth()->user(), 200);
+        return response()->json(Auth::user()->load(['permissions','roles']), 200);
     }
 
     public function logout()

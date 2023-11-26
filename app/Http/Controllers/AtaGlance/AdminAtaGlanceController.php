@@ -15,7 +15,9 @@ class AdminAtaGlanceController extends Controller
         "processing_order" => null,
         "delivered_order" => null,
         "canceled_order" => null,
+    ];
 
+    public $accounts_analytics = [
         "total_bill" => null,
         "total_paid" => null,
         "total_due" => null,
@@ -27,9 +29,14 @@ class AdminAtaGlanceController extends Controller
             $this->analytics[$title] = number_format($this->get_analytics($title) );
         }
 
+        foreach ($this->accounts_analytics as $title=>$value) {
+            $this->analytics[$title] = number_format($this->get_analytics($title) );
+        }
+
         return response()->json([
             "anatytics" => $this->analytics,
             "keys" => array_keys($this->analytics),
+            'account_keys' => array_keys($this->accounts_analytics),
         ]);
     }
 

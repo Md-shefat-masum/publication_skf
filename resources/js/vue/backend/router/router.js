@@ -10,6 +10,7 @@ import setting_route from './dashboard_routes/setting_route'
 import user_role_route from './dashboard_routes/user_role_route'
 import contact_meesage_route from './dashboard_routes/contact_meesage_route'
 
+import super_admin_main_routes from './super_admin_routes/super_admin_main_routes'
 import admin_main_routes from './admin_routes/admin_main_routes'
 import branch_main_routes from './branch_routes/branch_main_routes'
 import production_main_routes from './production_routes/production_main_routes'
@@ -31,6 +32,9 @@ const routes = [{
             user_role_route,
             contact_meesage_route,
         ]
+    },
+    {
+        ...super_admin_main_routes,
     },
     {
         ...admin_main_routes,

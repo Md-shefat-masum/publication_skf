@@ -61,6 +61,9 @@ export default {
                     localStorage.removeItem("token");
                     location.href = "/login";
                 }
+                if(this.role_names.includes('super_admin') && this.$route.name === "Dashboard"){
+                    this.$router.replace('/super-admin')
+                }
                 if(this.role_names.includes('admin') && this.$route.name === "Dashboard"){
                     this.$router.replace('/admin')
                 }
