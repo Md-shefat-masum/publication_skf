@@ -1,6 +1,16 @@
 <template>
     <div>
-        <h3 class="mb-2">{{ layout_title }}</h3>
+        <div class="d-flex flex-wrap justify-content-between gap-2">
+            <h3 class="mb-2">{{ layout_title }}</h3>
+            <div class="">
+                <router-link :to="{name: 'SuperAdminTaskVarient'}" class="btn btn-sm rounded-pill btn-outline-info">
+                    varients
+                </router-link>
+                <router-link :to="{name: 'SuperAdminTaskCreate'}" class="btn ms-2 btn-sm rounded-pill btn-outline-info">
+                    Tasks
+                </router-link>
+            </div>
+        </div>
         <router-view v-if="is_role_permitted"></router-view>
         <div v-else class="text-center">
             <h4 class="text-warning">sorry you have no permission</h4>

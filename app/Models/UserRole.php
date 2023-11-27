@@ -27,4 +27,9 @@ class UserRole extends Model
             }
         });
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_user_role', 'user_role_id', 'user_id', 'role_serial', 'id');
+    }
 }

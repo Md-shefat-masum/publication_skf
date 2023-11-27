@@ -447,22 +447,6 @@ html.nav-hide-hover .header-navbar.floating-nav {
   z-index: 999999;
 }
 
-.task_list {
-  height: 600px;
-  overflow: auto;
-}
-.task_list .task_item {
-  position: relative;
-}
-.task_list .task_item .emergency {
-  position: absolute;
-  right: 15px;
-  top: 15px;
-}
-.task_list .task_item .emergency img {
-  height: 50px;
-}
-
 .badge_padding {
   padding: 10px;
   letter-spacing: 1px;
@@ -1988,6 +1972,32 @@ html.nav-hide .vertical-layout.vertical-menu-modern .app-content {
 .dashboard_analytics .bg-label-primary {
   background-color: #3a3b64 !important;
   color: #7367f0 !important;
+}
+
+.flex_1 {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+label {
+  margin-bottom: 10px;
+}
+
+.task_list {
+  max-height: calc(100vh - 300px);
+  overflow: auto;
+}
+.task_list .task_item {
+  position: relative;
+}
+.task_list .task_item .emergency {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+}
+.task_list .task_item .emergency img {
+  height: 50px;
 }
 
 @media print {

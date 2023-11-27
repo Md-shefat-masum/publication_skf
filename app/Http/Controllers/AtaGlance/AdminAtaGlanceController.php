@@ -4,11 +4,14 @@ namespace App\Http\Controllers\AtaGlance;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order\Order;
+use App\Models\Task\Task;
 use Illuminate\Http\Request;
 
 class AdminAtaGlanceController extends Controller
 {
-    public $analytics = [
+    public $analytics = [];
+
+    public $sales_analytics = [
         "total_order" => null,
         "pending_order" => null,
         "accepted_order" => null,
@@ -23,9 +26,16 @@ class AdminAtaGlanceController extends Controller
         "total_due" => null,
     ];
 
+    public $task_analytics = [
+        "total_task" => null,
+        "incomplete_task" => null,
+        "complete_task" => null,
+        "important_task" => null,
+    ];
+
     public function analytics()
     {
-        foreach ($this->analytics as $title=>$value) {
+        foreach ($this->sales_analytics as $title=>$value) {
             $this->analytics[$title] = number_format($this->get_analytics($title) );
         }
 
@@ -33,10 +43,15 @@ class AdminAtaGlanceController extends Controller
             $this->analytics[$title] = number_format($this->get_analytics($title) );
         }
 
+        foreach ($this->task_analytics as $title=>$value) {
+            $this->analytics[$title] = number_format($this->get_analytics($title) );
+        }
+
         return response()->json([
             "anatytics" => $this->analytics,
-            "keys" => array_keys($this->analytics),
+            "keys" => array_keys($this->sales_analytics),
             'account_keys' => array_keys($this->accounts_analytics),
+            'task_keys' => array_keys($this->task_analytics),
         ]);
     }
 
@@ -79,6 +94,26 @@ class AdminAtaGlanceController extends Controller
                 $bill= Order::where('order_status','!=','canceled')->sum('total_price');
                 $due= Order::sum('total_paid');
                 return $bill - $due;
+                break;
+
+            case 'total_task':
+                $task= Task::count();
+                return $task;
+                break;
+
+            case 'incomplete_task':
+                $task= Task::where('complete', 0)->count();
+                return $task;
+                break;
+
+            case 'complete_task':
+                $task= Task::where('complete', 1)->count();
+                return $task;
+                break;
+
+            case 'important_task':
+                $task= Task::where('complete', 0)->where('is_blink',1)->count();
+                return $task;
                 break;
 
             default:

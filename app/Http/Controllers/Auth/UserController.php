@@ -49,6 +49,13 @@ class UserController extends Controller
         return response()->json($users);
     }
 
+    public function all_employee()
+    {
+        $role = UserRole::where('role_serial',7)->first();
+        $users = $role->users()->get();
+        return response()->json($users);
+    }
+
     public function show($id)
     {
         $select = [

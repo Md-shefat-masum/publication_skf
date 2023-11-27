@@ -5,6 +5,8 @@ import Edit from "../../../views/superadmin/task/Edit";
 import Details from "../../../views/superadmin/task/Details";
 import Import from "../../../views/superadmin/task/Import";
 import TaskCreate from "../../../views/superadmin/task/TaskCreate";
+import TaskVarient from "../../../views/superadmin/task/TaskVarient";
+import TaskDetails from "../../../views/superadmin/task/TaskDetails";
 
 let prefix = "SuperAdminTask"
 export default {
@@ -19,6 +21,11 @@ export default {
             path: ``,
             name: `SuperAdminTaskCreate`,
             component: TaskCreate,
+        },
+        {
+            path: `varient`,
+            name: `SuperAdminTaskVarient`,
+            component: TaskVarient,
         },
         {
             path: `all`,
@@ -42,8 +49,8 @@ export default {
         },
         {
             path: `details/:id`,
-            name: `Details${prefix}`,
-            component: Details,
+            name: `TaskDetails`,
+            component: TaskDetails,
         },
 
     ],

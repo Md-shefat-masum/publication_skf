@@ -38,13 +38,22 @@ Route::group(
             });
 
             Route::group(['prefix' => 'task'], function () {
+                Route::get('/varients', 'Task\TaskController@varients');
                 Route::get('/super-admin-get-all', 'Task\TaskController@super_admin_get_all');
+                Route::post('/save-varient-values', 'Task\TaskController@save_varient_values');
+                Route::post('/new-varient', 'Task\TaskController@save_new_varient');
+                Route::post('/new-task', 'Task\TaskController@save_new_task');
+                Route::get('/complete/{task}', 'Task\TaskController@complete');
+                Route::post('/update-task', 'Task\TaskController@update');
+                Route::post('/delete-task', 'Task\TaskController@delete');
+                Route::get('/incomplete-task-count', 'Task\TaskController@incomplete_task_count');
+                Route::get('/{task}', 'Task\TaskController@get_task');
             });
 
             Route::group(['prefix' => 'user'], function () {
                 Route::post('/update-profile', 'Auth\ProfileController@update_profile');
                 Route::get('/all', 'Auth\UserController@all');
-                Route::get('/{id}', 'Auth\UserController@show');
+                Route::get('/all-employee', 'Auth\UserController@all_employee');
                 Route::post('/store', 'Auth\UserController@store');
                 Route::post('/canvas-store', 'Auth\UserController@canvas_store');
                 Route::post('/update', 'Auth\UserController@update');
@@ -52,6 +61,7 @@ Route::group(
                 Route::post('/destroy', 'Auth\UserController@destroy');
                 Route::post('/restore', 'Auth\UserController@restore');
                 Route::post('/bulk-import', 'Auth\UserController@bulk_import');
+                Route::get('/{id}', 'Auth\UserController@show');
             });
 
             Route::group(['prefix' => 'user-role'], function () {

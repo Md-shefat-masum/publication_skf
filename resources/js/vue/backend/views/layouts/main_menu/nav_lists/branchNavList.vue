@@ -2,9 +2,12 @@
     <div @mouseover="mouseover" @mouseleave="mouseleave">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
 
-            <left-nav-list-group :role_permissions="['branch']" :icon="`fa fa-home`" :text="`Dashboard`" :alert_count="0">
+            <!-- <left-nav-list-group :role_permissions="['branch']" :icon="`fa fa-home`" :text="`Dashboard`" :alert_count="0">
                 <left-nav-list-item :to="'BranchDashboard'" :text="'Analytics'" />
-            </left-nav-list-group>
+            </left-nav-list-group> -->
+
+            <left-nav-list-single :role_permissions="['branch']" :icon="'fa fa-home'" :to="`BranchDashboard`" :text="'Dashboard'" :alert_count="0" />
+
 
             <!-- <left-nav-list-group :role_permissions="['branch']" :icon="`fa fa-list`" :text="`Test`" :alert_count="0">
                 <left-nav-list-item :to="'BranchTestPage1'" :text="'All'" />

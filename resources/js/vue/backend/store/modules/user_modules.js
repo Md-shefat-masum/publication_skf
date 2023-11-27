@@ -13,11 +13,14 @@ const state = {
 
     get_filter_guest_role: (state) => state.filter_guest_role,
     get_filter_branch_role: (state) => state.filter_branch_role,
+
+    all_employee: [],
 };
 
 // get state
 const getters = {
     ...test_module.getters(),
+    all_employee: (state) => state.all_employee,
 };
 
 // actions
@@ -55,6 +58,13 @@ const actions = {
                 window.s_alert('user has been updated');
             })
     },
+
+    "fetch_all_employee": async function({state}){
+        await axios.get('/user/all-employee')
+            .then(res=>{
+                state.all_employee = res.data;
+            })
+    }
 }
 
 // mutators

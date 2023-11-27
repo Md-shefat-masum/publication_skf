@@ -10,7 +10,7 @@
                 <span data-i18n="Apps &amp; Pages">managements</span>
             </li>
 
-            <left-nav-list-single :role_permissions="['super_admin','admin']" :icon="'fa fa-list'" :to="`SuperAdminTaskCreate`" :text="'Tasks'" :alert_count="15" />
+            <left-nav-list-single :role_permissions="['super_admin','admin']" :icon="'fa fa-list'" :to="`SuperAdminTaskCreate`" :text="'Tasks'" :alert_count="incomplete_task_count" />
 
             <left-nav-list-group :role_permissions="['super_admin','admin','user']" :icon="`fa fa-gears`" :text="`Settings`" :alert_count="0">
                 <left-nav-list-item :to="'settingProfile'" :text="'Profile'" />
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import LeftNavListGroup from '../../LeftNavListGroup.vue';
 import LeftNavListItem from '../../LeftNavListItem.vue';
 import LeftNavListSingle from '../../LeftNavListSingle.vue';
@@ -45,9 +45,10 @@ export default{
     },
     created: function(){
         this.html = document.querySelector('html');
+        this.fetch_incomplete_task_count();
     },
     methods: {
-        ...mapActions(['fetch_logout']),
+        ...mapActions(['fetch_logout','fetch_incomplete_task_count']),
         mouseover: function(){
             let nav_hide = this.html.classList.contains('nav-hide');
             if(nav_hide){
@@ -63,6 +64,9 @@ export default{
             }
         },
     },
+    computed: {
+        ...mapGetters(['incomplete_task_count'])
+    }
 
 }
 </script>
