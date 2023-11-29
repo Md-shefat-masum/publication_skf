@@ -40,7 +40,7 @@ class BranchOrderController extends Controller
             $status = request()->status;
         }
 
-        $query = Product::where('status', $status)->orderBy($orderBy, $orderByType);
+        $query = Product::where('status', $status)->orderBy('product_name_english', 'ASC');
 
         if (request()->has('category_id') && request()->get('category_id')) {
             $category_id = request()->get('category_id');
@@ -51,11 +51,12 @@ class BranchOrderController extends Controller
         if (request()->has('search_key')) {
             $key = request()->search_key;
             $query->where(function ($q) use ($key) {
-                return $q->where('products.id', $key)
+                return $q->where('product_name_english', $key)
+                    ->orWhere('product_name_english', 'LIKE', '%' . $key . '%')
                     ->orWhere('product_name', $key)
-                    ->orWhere('sales_price', $key)
-                    ->orWhere('product_name', 'LIKE', '%' . $key . '%')
-                    ->orWhere('sales_price', 'LIKE', '%' . $key . '%');
+                    ->orWhere('product_name', 'LIKE', '%' . $key . '%');
+                    // ->orWhere('sales_price', $key)
+                    // ->orWhere('sales_price', 'LIKE', '%' . $key . '%');
             });
         }
         $query->withSum('stocks', 'qty');
@@ -296,7 +297,7 @@ class BranchOrderController extends Controller
         $order->save();
 
         foreach ($products as $product) {
-            $sales_price = $product->discount_info->discount_price? $product->discount_info->discount_price:$product->sales_price;
+            $sales_price = $product->discount_info->discount_price ? $product->discount_info->discount_price : $product->sales_price;
             OrderDetails::create([
                 "order_id" => $order->id,
                 "product_id" => $product->id,
@@ -452,10 +453,10 @@ class BranchOrderController extends Controller
             "order_id" => ["required"],
             "account_id" => ["required"],
             "payment_method" => ["required"],
-            "trx_id" => ["required",'unique:order_payments'],
+            "trx_id" => ["required", 'unique:order_payments'],
             "amount" => ["required"],
             "attachment" => ["required"],
-        ],[
+        ], [
             'trx_id.unique' => ['this trx id already submitted.'],
         ]);
 
