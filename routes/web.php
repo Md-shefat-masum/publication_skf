@@ -63,6 +63,14 @@ Route::group(['prefix' => '', 'namespace' => "Controllers"], function () {
     Route::get('/payment/{invoice}/status', 'Payment\BkashController@status')->name('payment_status');
     Route::get('/payment/{invoice}/success', 'Payment\BkashController@success')->name('payment_success');
     Route::get('/payment/{invoice}/failed', 'Payment\BkashController@failed')->name('payment_failed');
+
+    Route::get('/json-to-db',function(){
+        $file = file_get_contents(public_path('jsons/products.json'));
+        $data = collect(json_decode($file));
+        $file2 = file_get_contents(public_path('jsons/products_with_name.json'));
+        $data2 = json_decode($file2);
+        return view('product_upload.json_to_db',compact('data','data2'));
+    });
 });
 
 Route::get('/dashboard', function () {
