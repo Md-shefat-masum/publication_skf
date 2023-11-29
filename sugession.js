@@ -63,4 +63,22 @@
 
     nov 19
     1. registration ta fix korte hobe
+
+
+    Project: publication skf
+    User: MD Shefat Masum
+    Github: https://github.com/Md-shefat-masum
+    Date: 28 November 2023
+    Time: 15:31:23
+    Path: sugession.js
+    Task List: custom scripts, cart managment
+
+    1. order button baire rakha
+    2. cash taka recive
+    3. due payment e id generate hobe
+
+    nov 30:
+
+    1. oder create korle delivered hobe. edit korle price edit kora jabena quantity manage kora jabe
+
  */
