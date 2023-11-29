@@ -44,8 +44,10 @@ class AdminOrderController extends Controller
             $query->where(function ($q) use ($key) {
                 return $q->where('id', $key)
                     ->orWhere('product_name', $key)
+                    ->orWhere('product_name_english', $key)
                     ->orWhere('sales_price', $key)
                     ->orWhere('product_name', 'LIKE', '%' . $key . '%')
+                    ->orWhere('product_name_english', 'LIKE', '%' . $key . '%')
                     ->orWhere('sales_price', 'LIKE', '%' . $key . '%');
             });
         }
@@ -110,9 +112,11 @@ class AdminOrderController extends Controller
             "type" => "create order",
         ]);
 
+        // dd($order);
         return response()->json([
             "message" => "Order Completed Successfully",
             "order" => $order->invoice_id,
+            "id" => $order->id,
         ], 200);
     }
 
@@ -178,6 +182,7 @@ class AdminOrderController extends Controller
         return response()->json([
             "message" => "Order Completed Successfully",
             "order" => $order->invoice_id,
+            "id" => $order->id,
         ], 200);
     }
 
@@ -200,7 +205,7 @@ class AdminOrderController extends Controller
         $products = [];
         $sub_total_cost = 0;
         $total_cost = 0;
-        $shipping_cost = $request->shipping_charge ? $request->shipping_charge : $delivery_cost->out_dhaka_home_delivery_cost;
+        $shipping_cost = $request->shipping_charge ? $request->shipping_charge : 0;
         $total_discount = $request->discount ? $request->discount : 0;
         $message_products = "";
 
@@ -216,28 +221,27 @@ class AdminOrderController extends Controller
             $product->discount_percent = $item->discount_percent;
             $product->discount_price = $item->current_price;
             $products[] = $product;
-            $main_price = $product->sales_price;
 
+            // $main_price = $product->sales_price;
             // if(isset($product->discount_info->discount_percent)){
             //     $discount_percent = $product->discount_info->discount_percent;
             //     $price = $product->discount_info->discount_amount ? $product->discount_info->discount_price : $product->sales_price;
             // }
+            // $discount_percent = $item->discount_percent;
 
-            $discount_percent = $item->discount_percent;
             $price = $item->current_price; // calculated including discount;
 
-            $total = $item->qty * $main_price;
+            $total = $item->qty * $price;
             $sub_total_cost += $total;
-            // $total_discount += $product->discount_info->discount_amount;
-            $total_discount += ($item->qty * ($item->sales_price - $item->current_price));
-            $bn_price = enToBn("৳ $price x $item->qty	= ৳ $total \n\t\t\t (৳ $main_price - $discount_percent%)");
+
+            $bn_price = enToBn("৳ $price x $item->qty	= ৳ $total");
             $message_products .= "$si. $item->product_name - \n\t\t\t $bn_price \n";
         }
 
         $total_cost = $sub_total_cost + $shipping_cost - $total_discount;
         // dd($total_discount, $sub_total_cost, $shipping_cost, $total_cost);
 
-        return [
+        $order_info =  [
             "products" => $products,
             "sub_total_cost" => $sub_total_cost,
             "total_discount" => $total_discount,
@@ -245,6 +249,8 @@ class AdminOrderController extends Controller
             "total_cost" => $total_cost,
             "message_products" => $message_products,
         ];
+
+        return $order_info;
     }
 
     public function save_order($data = [])
@@ -262,6 +268,10 @@ class AdminOrderController extends Controller
         $variant_price = 0;
         $invoice_prefix = AppSettingTitle::getValue("invoice_prefix");
         $user_id = $request->customer_id ?? null;
+        $order = new Order();
+        if ($this->type == "update") {
+            $order = Order::find($this->order_id);
+        }
 
         $order_data = [
             // 'user_id' => $auth_user ? $auth_user->id : null, // user id
@@ -270,7 +280,7 @@ class AdminOrderController extends Controller
             "invoice_id" => $invoice_prefix . "-" . Carbon::now()->format("Ymd"),
             "invoice_date" => Carbon::now()->toDateTimeString(),
             "order_type" => "invoice", // Quotation, Pos order, Ecomerce order
-            "order_status" => "pending",
+            "order_status" => $order->order_status ? $order->order_status : "processing",
             // "order_coupon_id" => $coupon_info["order_coupon_id"],
             "order_coupon_id" => null,
 
@@ -281,14 +291,12 @@ class AdminOrderController extends Controller
             "variant_price" => $variant_price, // extra charge for product variants
             "total_price" => $total_cost + $variant_price,
 
-            "payment_status" => "pending", // pending, partially paid, paid
+            "payment_status" => $order->payment_status ? $order->payment_status : "due", // pending, partially paid, paid
             // "delivery_method" => $request->shipping_method,
             "delivery_method" => "courier_out_dhaka", // courier_in_dhaka, courier_out_dhaka, pickup
         ];
 
-        $order = new Order();
         if ($this->type == "update") {
-            $order = Order::find($this->order_id);
             unset($order_data['invoice_id']);
             unset($order_data['invoice_date']);
             $order->fill($order_data);
@@ -313,7 +321,11 @@ class AdminOrderController extends Controller
                 // "discount_price" => $product->discount_info->discount_amount,
                 // "sales_price" => $product->discount_info->discount_price,
                 "discount_percent" => $product->discount_percent,
+
+                // calculated from sales discount
                 "discount_price" => $product->discount_price,
+
+                // sales price is after real discount of the product
                 "sales_price" => $sales_price,
                 "qty" => $product->qty,
                 "user_id" => $order->user_id,
@@ -321,7 +333,13 @@ class AdminOrderController extends Controller
         }
 
         // $this->save_delivery_info($order, $request, $shipping_cost, $address);
-        // $this->save_order_payments($order, $request);
+        if (request()->total_paid && $this->type != "update") {
+            $this->save_order_payments($order, $request);
+        }else if($this->type == "update"){
+            $this->update_order_payment_status($order);
+        }else{
+            $this->attach_sales_id($order);
+        }
 
         return $order;
     }
@@ -443,18 +461,22 @@ class AdminOrderController extends Controller
 
     public function send_telegram($message)
     {
-        $bot_token = env('BOT_TOKEN');
-        $method = "sendMessage";
+        try {
+            $bot_token = env('BOT_TOKEN');
+            $method = "sendMessage";
 
-        $parameters = [
-            'chat_id' => 812239513,
-            'text' => $message,
-        ];
+            $parameters = [
+                'chat_id' => 812239513,
+                'text' => $message,
+            ];
 
-        $url = "https://api.telegram.org/bot$bot_token/$method";
+            $url = "https://api.telegram.org/bot$bot_token/$method";
 
-        $response = Http::get($url . '?chat_id=' . $parameters['chat_id'] . '&text=' . $parameters['text']);
-        return $response->json();
+            $response = Http::get($url . '?chat_id=' . $parameters['chat_id'] . '&text=' . $parameters['text']);
+            return $response->json();
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
 
     public function receive_due()
@@ -700,5 +722,65 @@ class AdminOrderController extends Controller
 
         return response()->json($order);
         dd($order->toArray(), $order_status);
+    }
+
+    public function save_order_payments($order, $request)
+    {
+        $account = Account::where('name', 'cash')->first();
+        $order_payment = OrderPayment::create([
+            "order_id" => $order->id,
+            "user_id" => $order->user_id,
+            "payment_method" => "cash",
+            "amount" => $request->total_paid,
+            "account_id" => $account->id,
+            "payment_method" => "cash",
+            "date" => Carbon::now()->toDateString(),
+            "account_logs_id" => null,
+            "approved" => 1,
+            // "trx_id" => $request->bkash_trx_id,
+            // "account_number_id" => null,
+        ]);
+
+        $log = AccountLog::create([
+            'date' => Carbon::now()->toDateTimeString(),
+            "name" => $order_payment->user->first_name . " " . $order_payment->user->last_name,
+            'amount' => $order_payment->amount,
+            'category_id' => 1, // ponno theke ay
+            'account_id' => $order_payment->account_id,
+            'account_number_id' => $order_payment->account_number_id,
+            'trx_id' => $order_payment->trx_id,
+            'receipt_no' => null,
+            'is_income' => 1,
+            'description' => 'admin accept payment cash',
+        ]);
+
+        $order_payment->account_logs_id = $log->id;
+        $order_payment->save();
+
+        $this->attach_sales_id($order);
+        $this->update_order_payment_status($order);
+    }
+
+    public function attach_sales_id($order)
+    {
+        if ($order->sales_id > 0) {
+            return 0;
+        }
+        $latest_order = Order::orderBy('sales_id', 'DESC')->first();
+        $order->sales_id = $latest_order ? $latest_order->sales_id + 1 : 0;
+        $order->save();
+    }
+
+    public function update_order_payment_status($order)
+    {
+        $order->total_paid = $order->order_payments()->where('approved', 1)->sum('amount');
+        $order->order_status = "delivered";
+        $order->payment_status = "due";
+        if ($order->total_paid >= $order->total_price) {
+            $order->payment_status = 'paid';
+        } else if ($order->total_paid > 0 && $order->total_paid < $order->total_price) {
+            $order->payment_status = 'partially paid';
+        }
+        $order->save();
     }
 }
