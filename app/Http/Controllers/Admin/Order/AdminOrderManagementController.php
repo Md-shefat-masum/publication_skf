@@ -59,8 +59,9 @@ class AdminOrderManagementController extends Controller
             ->withSum('order_payments', 'amount')
             ->where('id', $id)
             ->first();
+
         $data->payment_records = $data->order_payments()
-            ->select(['id', 'order_id', 'number', 'payment_method', 'trx_id', 'amount', 'approved'])
+            ->select(['id', 'order_id', 'number', 'date', 'payment_method', 'trx_id', 'amount', 'approved'])
             ->get();
 
         $data->payment_accounts = Account::select('id', 'name')
@@ -208,6 +209,7 @@ class AdminOrderManagementController extends Controller
 
     public function destroy()
     {
+        dd(request()->all());
     }
 
     public function restore()
