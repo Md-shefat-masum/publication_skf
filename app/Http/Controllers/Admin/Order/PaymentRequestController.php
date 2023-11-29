@@ -10,9 +10,11 @@ use App\Models\Order\Order;
 use App\Models\Order\OrderPayment;
 use App\Models\Product\Brand;
 use App\Models\Settings\AppSettingTitle;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class PaymentRequestController extends Controller
@@ -51,6 +53,31 @@ class PaymentRequestController extends Controller
 
         $users = $query->paginate($paginate);
         return response()->json($users);
+    }
+
+    public function all_dues()
+    {
+        $branches = User::whereExists(function($q){
+            $q->select(DB::raw(1))
+                ->from('user_user_role')
+                ->where('user_role_id',4)
+                ->whereColumn('users.id','user_user_role.user_id');
+        })->get();
+
+        $data = [];
+        foreach ($branches as $branch) {
+            $branch->total_bill = Order::where('order_status','!=','pending')->where('user_id',$branch->id)->sum('total_price');
+            $branch->total_paid = Order::where('order_status','!=','pending')->where('user_id',$branch->id)->sum('total_paid');
+            $branch->total_due = $branch->total_bill - $branch->total_paid;
+        }
+
+        $branches->sortBy('total_due')->where('total_bill','>',0)->all();
+        foreach ($branches as $item) {
+            $data[] = $item;
+        }
+
+
+        return $data;
     }
 
     public function approve()
@@ -121,13 +148,15 @@ class PaymentRequestController extends Controller
 
     public function set_sales_id($order)
     {
-        $latest_sales_id = Order::orderBy('sales_id', 'DESC')->first();
-        $sales_id = 10001;
-        if ($latest_sales_id->sales_id) {
-            $sales_id = $latest_sales_id->sales_id + 1;
+        if(!$order->sales_id){
+            $latest_sales_id = Order::orderBy('sales_id', 'DESC')->first();
+            $sales_id = 10001;
+            if ($latest_sales_id->sales_id) {
+                $sales_id = $latest_sales_id->sales_id + 1;
+            }
+            $order->sales_id = $sales_id; // remove sales id;
+            $order->save();
         }
-        $order->sales_id = $sales_id; // remove sales id;
-        $order->save();
     }
 
     public function show($id)
