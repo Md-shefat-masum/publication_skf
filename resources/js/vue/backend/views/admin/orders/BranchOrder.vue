@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container-fluid">
         <div class="card list_card">
             <div class="card-header">
                 <h4>
@@ -72,6 +72,7 @@
                             <th><input @click="call_store(`set_select_all_${store_prefix}s`)" type="checkbox" class="form-check-input check_all"></th>
                             <table-th :sort="true" :tkey="'id'" :title="'ID'" :ariaLable="'id'"/>
                             <table-th :sort="true" :tkey="'invoice_id'" :title="'Order ID'" />
+                            <table-th :sort="true" :tkey="'sales_id'" :title="'Sales ID'" />
                             <table-th :sort="true" :tkey="'order_status'" :title="'Order Status'" />
                             <table-th :sort="false" :tkey="''" :title="'Branch'" />
                             <table-th :sort="false" :tkey="''" :title="'Contact'" />
@@ -103,6 +104,11 @@
                                 </span>
                             </td>
                             <td>
+                                <span class="text-warning cursor_pointer" @click.prevent="call_store(`set_${store_prefix}`,item)">
+                                    {{ item.sales_id }}
+                                </span>
+                            </td>
+                            <td>
                                 <order-status-message :status="item.order_status"></order-status-message>
                             </td>
                             <td>
@@ -117,12 +123,12 @@
                             </td>
                             <td>
                                 <strong class="text-info">
-                                    {{ item.sub_total}}
+                                    {{ item.sub_total.toFixed(2) }}
                                 </strong>
                             </td>
                             <td>
                                 <strong class="text-info">
-                                    + {{ item.delivery_charge}}
+                                    + {{ item.delivery_charge }}
                                 </strong>
                             </td>
                             <!-- <td>
@@ -138,21 +144,23 @@
 
                             <td>
                                 <strong class="text-info">
-                                    {{ item.total_price}}
+                                    {{ item.total_price.toFixed(2) }}
                                 </strong>
                             </td>
                             <td>
                                 <strong class="text-warning">
-                                   - {{ item.order_payments_sum_amount }}
+                                   - {{ item.order_payments_sum_amount  }}
                                 </strong>
                             </td>
                             <td>
                                 <strong class="text-warning">
-                                   {{ item.total_price - item.order_payments_sum_amount }}
+                                   {{ (item.total_price - item.order_payments_sum_amount).toFixed(2)  }}
                                 </strong>
                             </td>
                             <td>
-                                <span :class="`badge ${item.payment_status == 'paid'? `bg-secondary`: 'bg-danger'} me-1`">{{ item.payment_status }}</span>
+                                <span :class="`badge ${item.payment_status == 'paid'? `bg-secondary`: 'bg-danger'} me-1`">
+                                    {{ item.payment_status }}
+                                </span>
                             </td>
                             <td>
                                 {{ item.delivery_method }}
@@ -184,28 +192,6 @@
                                                 <i class="fa text-secondary fa-eye"></i>
                                                 Details
                                             </router-link>
-                                        </li>
-                                        <li v-if="item.status == 1">
-                                            <permission-button
-                                                :permission="'can_delete'"
-                                                :to="{}"
-                                                :click="()=>call_store(`soft_delete_${store_prefix}`,item.id)"
-                                                :click_param="item.id"
-                                                :classList="''">
-                                                <i class="fa text-danger fa-trash"></i>
-                                                Deactive
-                                            </permission-button>
-                                        </li>
-                                        <li v-else>
-                                            <permission-button
-                                                :permission="'can_delete'"
-                                                :to="{}"
-                                                :click="()=>call_store(`restore_${store_prefix}`,item.id)"
-                                                :click_param="item.id"
-                                                :classList="''">
-                                                <i class="fa text-danger fa-recycle"></i>
-                                                Activate
-                                            </permission-button>
                                         </li>
                                     </ul>
                                 </div>

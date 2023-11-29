@@ -169,14 +169,14 @@
                             </div>
                             <div class="form-group mb-2">
                                 <label for="">Check or Payment Screenshot</label>
-                                <input type="file" name="attachment" id="file" class="form-control">
+                                <input type="file" accept="image/*" name="attachment" id="file" class="form-control">
                             </div>
                             <button class="btn btn-outline-adn">Submit</button>
                         </form>
                     </div>
 
                     <div v-if="data" class="col-12">
-                        <div class="payment_histories" v-if="data?.payment_records.length">
+                        <div class="payment_histories" v-if="data?.payment_records.length" style="overflow: auto;">
                             <div>
                                 <h4 id="payment_id" class="mt-4">Payment Information</h4>
                             </div>
@@ -208,13 +208,15 @@
                                             <span v-else-if="record.approved == 2" class="badge bg-danger">cancled</span>
                                             <span v-else class="badge bg-secondary">no</span>
                                         </td>
-                                        <td class="text-end">{{ record.amount.toString().enToBn() }}</td>
+                                        <td class="text-end text-2xl">{{ record.amount.toString().enToBn() }}</td>
                                     </tr>
                                 </tbody>
                                 <tfoot>
                                     <tr>
                                         <th colspan="4" class="text-end">Total</th>
-                                        <th class="text-end">{{ data.order_payments_sum_amount.toString().enToBn() }}</th>
+                                        <th class="text-end text-2xl">
+                                            <div class="text-2xl bn">{{ data.order_payments_sum_amount.toString().enToBn() }}</div>
+                                        </th>
                                     </tr>
                                 </tfoot>
                             </table>

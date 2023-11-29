@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container-fluid">
         <div class="card list_card">
             <div class="card-header">
                 <h4>Create</h4>
@@ -13,162 +13,176 @@
             <!-- <form @submit.prevent="call_store(`store_${store_prefix}`,$event.target)" autocomplete="false"> -->
             <div onsubmit="event.preventDefault()">
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-lg-4">
-                            <div class="d-flex gap-2">
-
-                                <input @keyup="set_p_search_key($event.target.value)" type="search" placeholder="search" class="form-control">
-                                <select class="form-select" @change="set_branch_product_category($event.target.value)">
-                                    <option value="">সকল বই</option>
-                                    <option v-for="category in all_categories"  :key="category.id" :value="category.id">
-                                        {{ category.name }}
-                                    </option>
-                                </select>
-                                <button type="button" class="btn btn-outline-adn"><i class="fa fa-search"></i></button>
-                            </div>
-                            <div class="row py-3" v-if="products.data && products.data.length">
-                                <div class="col-12" v-for="product in products.data" :key="product.id">
-                                    <div class="card d-flex flex-row align-items-center border rounded-sm overflow-hidden" style="gap: 5px;" >
-                                        <div class="pos_card_image_card">
-                                            <img :src="product.thumb_image" style="width: 50px;" alt=""/>
-                                            <span @click="add_to_cart({product, qty: product.qty?product.qty+1:1})" class="add_icon">
-                                                <i class="fa fa-plus"></i>
+                    <div class="mb-2">
+                        <div>
+                            <input v-model="search_key" @keyup="set_p_search_key($event.target.value)" type="search" placeholder="search" class="form-control">
+                        </div>
+                        <div class="py-3 order_search_result" v-if="search_key.length && products.data && products.data.length">
+                            <div class="" v-for="product in products.data" :key="product.id">
+                                <div @click="search_key = ''; add_to_cart({product, qty: product.qty?product.qty+1:1})" class="card d-flex cursor-pointer flex-row align-items-center border rounded-sm overflow-hidden" style="gap: 5px;" >
+                                    <div class="pos_card_image_card">
+                                        <img :src="product.thumb_image" style="width: 50px;" alt=""/>
+                                        <span class="add_icon">
+                                            <i class="fa fa-plus"></i>
+                                        </span>
+                                    </div>
+                                    <div style="padding: 5px;">
+                                        <h6 style="flex:1" class="mb-0">{{ product.product_name }}</h6>
+                                        <h6 style="flex:1" class="mb-0">{{ product.product_name_english }}</h6>
+                                        <div class="mt-1">
+                                            <span v-if="product.discount_info && product.discount_info.discount_price">
+                                                <b>৳ {{ product.discount_info.discount_price.toString().enToBn() }}</b>
+                                                <del>৳ {{ product.sales_price.toString().enToBn() }}</del>
                                             </span>
-                                        </div>
-                                        <div style="padding: 5px;">
-                                            <h6 style="flex:1" class="mb-0">{{ product.product_name }}</h6>
-                                            <div class="mt-1">
-                                                <span v-if="product.discount_info && product.discount_info.discount_price">
-                                                    <b>৳ {{ product.discount_info.discount_price.toString().enToBn() }}</b>
-                                                    <del>৳ {{ product.sales_price.toString().enToBn() }}</del>
-                                                </span>
-                                                <span v-else>
-                                                    <b>৳ {{ product.sales_price.toString().enToBn() }}</b>
-                                                </span>
-                                            </div>
+                                            <span v-else>
+                                                <b>৳ {{ product.sales_price.toString().enToBn() }}</b>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-8">
-                            <div class="border border-1 position-sticky top-0 borde-info p-1 rounded-sm mb-2">
-                                <table class="table ">
-                                    <thead class="position-static">
-                                        <tr >
-                                            <th class="text-start">Title</th>
-                                            <th style="width: 125px;">Price</th>
-                                            <th style="width: 125px;">Qty</th>
-                                            <th style="width: 125px;">Com %</th>
-                                            <th style="width: 125px;">D.Price</th>
-                                            <th style="width: 170px;" class="text-end">Amount</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="product in order_carts" :key="product.id">
-                                            <td class="text-start">
-                                                {{ product.product_name }}
-                                                <br>
-                                                <div>
-                                                    ৳ {{ product.current_price.toString().enToBn() }}
-                                                </div>
-                                                <br>
-                                                <a href="#" @click.prevent="remove_cart({product})" class="text-danger">delete</a>
-                                            </td>
-                                            <td>
-                                                {{ product.product.sales_price.toString().enToBn() }}
-                                            </td>
-                                            <td class="text-center">
-                                                <input type="number" min="0"
-                                                    @change="add_to_cart({product,qty: $event.target.value})"
-                                                    @keyup="add_to_cart({product,qty: $event.target.value})"
-                                                    :value="product.qty" style="width: 70px;" class="form-control">
-                                            </td>
-                                            <td class="text-center">
-                                                <input type="number" min="0"
-                                                    @keyup="add_to_cart({product,qty: product.qty,commission: $event.target.value})"
-                                                    :value="product.discount_percent || 0"
-                                                    style="width: 70px;" class="form-control">
-                                            </td>
-                                            <td>
-                                                {{ product.current_price.toFixed(2).toString().enToBn() }}
-                                            </td>
-                                            <td class="text-end">
-                                                ৳ {{ product.total_price.toFixed(2).toString().enToBn() }}
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <th colspan="5" class="text-end">total</th>
-                                            <th class="text-end">৳ {{ tota_order_price.toFixed(2).toString().enToBn() }}</th>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-                                <form action="#" class="mt-3" v-if="order_carts.length">
-                                    <div class="mb-2 d-flex gap-2 justify-content-end">
-                                        <label for="delivery_charge">Delivery Charge</label>
-                                        <input type="number" v-model="shipping_charge" step=".01" name="delivery_charge" id="delivery_charge" class="form-control text-end" style="width: 130px">
-                                    </div>
-                                    <div  class="mb-2 d-flex gap-2 justify-content-end">
-                                        <label for="discount">Discount on product</label>
-                                        <input type="number" readonly v-model="discount_on_product" step=".01" name="discount" id="discount" class="form-control text-end" style="width: 130px">
-                                    </div>
-                                    <div class="mb-2 d-flex gap-2 justify-content-end">
-                                        <label for="discount">Discount on total</label>
-                                        <input type="number" v-model="total_discount" step=".01" name="discount" id="discount" class="form-control text-end" style="width: 130px">
-                                    </div>
-                                    <div class="mb-2 d-flex gap-2 justify-content-end">
-                                        <label for="discount">Sub total</label>
-                                        <input type="number" readonly :value="+tota_order_price + +shipping_charge - +total_discount" step=".01" name="discount" id="discount" class="form-control text-end" style="width: 130px">
-                                    </div>
-                                    <div class="mb-2 d-flex gap-2 justify-content-end">
-                                        <label for="total_paid">Total Paid</label>
-                                        <input type="number" v-model="total_paid" step=".01" name="total_paid" id="total_paid" class="form-control text-end" style="width: 130px">
-                                    </div>
-                                    <div class="mb-2 d-flex gap-2 justify-content-end">
-                                        <label for="total_paid">Due</label>
-                                        <input type="number" readonly :value="+tota_order_price + +shipping_charge  - +total_discount - +total_paid" step=".01" name="total_paid" id="total_paid" class="form-control text-end" style="width: 130px">
-                                    </div>
-
-                                    <div class="mb-2">
-                                        <label class="mb-1">Select Customer</label>
-                                        <UserManagementModal :id="`customer_id`" :select_qty="1"></UserManagementModal>
-                                    </div>
-                                    <!-- <div class="mb-2">
-                                        <label class="mb-1">Discount %</label>
-                                        <input max="100" @keyup="set_admin_order_discount($event)" type="number" min="0" class="form-control"/>
-                                    </div> -->
-                                    <!-- <div class="mb-2">
-                                        <label class="mb-1">Total Amount</label>
-                                        <input class="form-control" :value="admin_cart_total" readonly name="" style="cursor: no-drop;"/>
-                                    </div> -->
-                                    <!-- <div class="mb-2">
-                                        <label class="mb-1">Paid Amount</label>
-                                        <input @keyup="set_admin_paid_amount($event.target.value)" class="form-control" name=""/>
-                                    </div> -->
-                                    <!-- <div class="mb-2">
-                                        <label class="mb-1">Due Amount</label>
-                                        <input class="form-control" :value="admin_due_amount" name="" readonly style="cursor: no-drop;"/>
-                                    </div> -->
-                                    <div class="d-flex gap-1 flex-wrap">
-                                        <button type="button" @click.prevent="store_order({shipping_charge, total_discount})"  class="btn btn-outline-info" >
-                                            <i class="fa fa-paper-plane"></i>
-                                            Create Order
-                                        </button>
-                                    </div>
-                                </form>
+                    </div>
+                    <div class="order_at_a_glance">
+                        <div class="products_list custom_scroll">
+                            <div class="table">
+                                <div class="border border-1 position-sticky top-0 borde-info p-1 rounded-sm mb-2">
+                                    <table class="table ">
+                                        <thead class="position-static" style="position: sticky; bottom: 0;">
+                                            <tr>
+                                                <th class="text-start">Title</th>
+                                                <th style="width: 125px;">Price</th>
+                                                <th style="width: 125px;">Qty</th>
+                                                <th style="width: 125px;">Com %</th>
+                                                <th style="width: 125px;">D.Price</th>
+                                                <th style="width: 200px;" class="text-end">Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="product in order_carts" :key="product.id">
+                                                <td class="text-start">
+                                                    {{ product.product_name }} <br>
+                                                    <!-- <br>
+                                                    <div>
+                                                        ৳ {{ product.current_price.toString().enToBn() }}
+                                                    </div>
+                                                    <br> -->
+                                                    <a href="#" @click.prevent="remove_cart({product})" class="text-danger">delete</a>
+                                                </td>
+                                                <td>
+                                                    {{ product.product.sales_price.toString().enToBn() }}
+                                                </td>
+                                                <td class="text-center">
+                                                    <input type="number" min="0"
+                                                        @change="add_to_cart({product,qty: $event.target.value})"
+                                                        @keyup="add_to_cart({product,qty: $event.target.value})"
+                                                        :value="product.qty" style="width: 70px;" class="form-control">
+                                                </td>
+                                                <td class="text-center">
+                                                    <input type="number" min="0"
+                                                        @keyup="add_to_cart({product,qty: product.qty,commission: $event.target.value})"
+                                                        :value="product.discount_percent || 0"
+                                                        style="width: 70px;" class="form-control">
+                                                </td>
+                                                <td>
+                                                    {{ product.current_price.toFixed(2).toString().enToBn() }}
+                                                </td>
+                                                <td class="text-end">
+                                                    ৳ {{ product.total_price.toFixed(2).toString().enToBn() }}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot style="position: sticky; bottom: 0;">
+                                            <tr>
+                                                <th colspan="5" class="text-end">total</th>
+                                                <th class="text-end font_20">৳ {{ tota_order_price.toFixed(2).toString().enToBn() }}</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
                             </div>
                         </div>
+                        <div class="total p-1 border border-1">
+                            <form action="#" class="mt-3" v-if="order_carts.length">
+                                <div class="mb-2 d-flex gap-2 justify-content-end">
+                                    <label for="delivery_charge">Sub Total</label>
+                                    <div class="form-control text-end font_20" style="width: 180px;">
+                                        ৳ {{ tota_order_price.toFixed(2).toString().enToBn() }}
+                                    </div>
+                                </div>
+
+                                <div class="mb-2 d-flex gap-2 justify-content-end">
+                                    <label for="delivery_charge">Delivery Charge</label>
+                                    <input type="number" v-model="shipping_charge" step=".01" name="delivery_charge" id="delivery_charge" class="form-control text-end font_20" style="width: 180px">
+                                </div>
+                                <!-- <div  class="mb-2 d-flex gap-2 justify-content-end">
+                                    <label for="discount">Discount on product</label>
+                                    <input type="number" readonly v-model="discount_on_product" step=".01" name="discount" id="discount" class="form-control text-end font_20" style="width: 180px">
+                                </div> -->
+
+                                <div class="mb-2 d-flex gap-2 justify-content-end">
+                                    <label for="delivery_charge">Total</label>
+                                    <div class="form-control text-end font_20" style="width: 180px">
+                                        ৳ {{ (+tota_order_price + +shipping_charge).toFixed(2).toString().enToBn() }}
+                                    </div>
+                                </div>
+
+                                <div class="mb-2 d-flex gap-2 justify-content-end">
+                                    <label for="discount">Discount on total %</label>
+                                    <input type="number" v-model="total_discount_percent" step=".01" name="discount" id="discount" class="form-control text-end font_20" style="width: 180px">
+                                </div>
+
+                                <div class="mb-2 d-flex gap-2 justify-content-end">
+                                    <label for="delivery_charge">Total Payable</label>
+                                    <div class="form-control text-end font_20" style="width: 180px">
+                                        ৳ {{ (+tota_order_price + +shipping_charge - +total_discount).toFixed(2).toString().enToBn() }}
+                                    </div>
+                                </div>
+
+                                <div class="mb-2 d-flex gap-2 justify-content-end">
+                                    <label for="total_paid">Total Paid</label>
+                                    <input type="number" v-model="total_paid" step=".01" name="total_paid" id="total_paid" class="form-control text-end font_20" style="width: 180px">
+                                </div>
+                                <div class="mb-2 d-flex gap-2 justify-content-end">
+                                    <label for="total_paid">Due</label>
+                                    <div class="form-control text-end font_20" style="width: 180px">
+                                        ৳ {{ (+tota_order_price + +shipping_charge  - +total_discount - +total_paid).toFixed(2).toString().enToBn() }}
+                                    </div>
+                                </div>
+
+                                <div class="mb-2">
+                                    <label class="mb-1">Select Customer</label>
+                                    <UserManagementModal :id="`customer_id`" :select_qty="1"></UserManagementModal>
+                                </div>
+                                <!-- <div class="mb-2">
+                                    <label class="mb-1">Discount %</label>
+                                    <input max="100" @keyup="set_admin_order_discount($event)" type="number" min="0" class="form-control"/>
+                                </div> -->
+                                <!-- <div class="mb-2">
+                                    <label class="mb-1">Total Amount</label>
+                                    <input class="form-control" :value="admin_cart_total" readonly name="" style="cursor: no-drop;"/>
+                                </div> -->
+                                <!-- <div class="mb-2">
+                                    <label class="mb-1">Paid Amount</label>
+                                    <input @keyup="set_admin_paid_amount($event.target.value)" class="form-control" name=""/>
+                                </div> -->
+                                <!-- <div class="mb-2">
+                                    <label class="mb-1">Due Amount</label>
+                                    <input class="form-control" :value="admin_due_amount" name="" readonly style="cursor: no-drop;"/>
+                                </div> -->
+                                <div class="d-flex gap-1 flex-wrap">
+                                    <button type="button" @click.prevent="store_order({shipping_charge, total_discount, total_paid})"  class="btn btn-outline-info" >
+                                        <i class="fa fa-paper-plane"></i>
+                                        Create Order
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
                     </div>
                 </div>
                 <div class="card-footer text-center">
-                    <!--  -->
-                    <pagination :data="this.products" :limit="5" :size="'small'" :show-disabled="true" :align="'left'"
-                        @pagination-change-page="fetch_branch_product_for_order">
-                        <span slot="prev-nav"><i class="fa fa-angle-left"></i> Previous</span>
-                        <span slot="next-nav">Next <i class="fa fa-angle-right"></i></span>
-                    </pagination>
+
                 </div>
             </div>
         </div>
@@ -195,21 +209,40 @@ export default {
             total_discount: 0,
             discount_on_product: 0,
             total_paid: 0,
+            total_discount_percent: 0,
+            search_key: '',
         }
     },
     created: async function () {
+        document.querySelector('html').classList.add('nav-hide');
+        this.clear_cart();
         await this.fetch_branch_product_for_order();
         await this.fetch_category();
         this.$watch('p_search_key',(n,o)=>{
             this.fetch_branch_product_for_order();
         })
-        this.$watch('discount',(n,o)=>{
-            // console.log(n, o);
+        this.$watch('total_discount_percent',(n,o)=>{
+            let total_payable_amout = this.tota_order_price + this.shipping_charge;
+            let discount_amount = total_payable_amout * n / 100;
+            this.total_discount = discount_amount;
         })
         this.$watch('order_carts',(n,o)=>{
             // console.log(n);
             this.discount_on_product = n.reduce((total,i)=>total+=((i.sales_price-i.current_price)*i.qty),0);
         })
+    },
+    watch: {
+        "tota_order_price": {
+            handler: function(v){
+                if(v <= 10000){
+                    this.shipping_charge = 100;
+                }else{
+                    let mod_price = ((v - 10000 )/ 5000) * 50;
+                    this.shipping_charge = 100 + mod_price;
+                }
+                console.log(v);
+            }
+        }
     },
     methods: {
         ...mapActions([
@@ -221,6 +254,7 @@ export default {
             remove_cart: "remove_product_from_cart",
             store_order: "store_admin_order",
             fetch_category: "fetch_category_all_json",
+            clear_cart: "clear_cart",
         }),
         ...mapMutations({
             set_p_search_key: "set_branch_p_search_key",

@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container-fluid">
         <div class="card list_card">
             <div class="card-header">
                 <h4>
@@ -94,7 +94,7 @@
                             </td>
                             <td>
                                 <span class="text-warning cursor_pointer" @click.prevent="call_store(`set_${store_prefix}`,item.order)">
-                                    {{ item.order.invoice_id }}
+                                    {{ item.order?.invoice_id }}
                                 </span>
                             </td>
                             <td>

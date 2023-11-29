@@ -29,11 +29,13 @@
             </left-nav-list-group>
 
             <left-nav-list-group :role_permissions="['admin']" :icon="`fa fa-shopping-cart`" :text="`Orders`" :alert_count="0">
+                <left-nav-list-item :to="'CreateAdminOrder'" :text="'Create New Order'" />
                 <left-nav-list-item :to="'BranchOrder'" :text="'Branch Orders'" />
                 <left-nav-list-item :to="'AllEcommerceAdminOrder'" :text="'Ecommerce Orders'" />
             </left-nav-list-group>
 
             <left-nav-list-group :role_permissions="['admin']" :icon="`fa fa-dollar`" :text="`Accounts`" :alert_count="0">
+                <left-nav-list-item :to="'BranchDue'" :text="'All Dues'" />
                 <left-nav-list-item :to="'AllAdminPaymentRequest'" :text="'Payment Requests'" />
                 <left-nav-list-item :to="'UploadPayments'" :text="'Upload Payments'" />
                 <!-- <left-nav-list-item :to="'AllAdminAccount'" :text="'Income & expenses'" /> -->

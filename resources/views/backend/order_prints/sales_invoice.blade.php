@@ -161,8 +161,8 @@
                             @foreach ($order->details as $item)
                                 <tr>
                                     <td>
-                                        {{ $item->id }}
-                                        {{ $item->product_id }}
+                                        {{-- {{ $item->id }} --}}
+                                        {{-- {{ $item->product_id }} --}}
                                         {{ $item->product_name }}
                                     </td>
                                     <td>{{ $item->qty }}</td>
@@ -187,7 +187,7 @@
                         <table  cellspacing="0" width="50%">
                             <tr>
                                 <td>Deduction</td>
-                                <td>0</td>
+                                <td>{{ number_format($order->discount) }}</td>
                             </tr>
                             <tr>
                                 <td>After Deduction</td>
@@ -200,8 +200,8 @@
                                 <td>Due Amount</td>
                             </tr>
                             <tr>
-                                <td>{{ number_format($order->total_price) }}</td>
-                                <td>0</td>
+                                <td>{{ number_format($order->paid) }}</td>
+                                <td>{{ number_format($order->total_price - $order->paid) }}</td>
                             </tr>
                         </table>
                     </div>

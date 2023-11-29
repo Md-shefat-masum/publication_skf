@@ -11,6 +11,22 @@
     background-color: rgba(67, 89, 113, .3);
 }
 
+.order_search_result{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 320px);
+    gap: 20px;
+}
+
+.order_at_a_glance{
+    display: grid;
+    grid-template-columns: 1fr 390px;
+    gap: 30px;
+}
+
+.font_20{
+    font-size: 20px !important;
+    line-height: 20px !important;
+}
 .pos_card_image_card {
     position: relative;
 
@@ -80,6 +96,10 @@
     }
 }
 
+.products_list{
+    max-height: 646px !important;
+    overflow-y: auto;
+}
 .vertical-layout.vertical-menu-modern .main-menu {
 
     @media screen and (max-width: 992.9px) {

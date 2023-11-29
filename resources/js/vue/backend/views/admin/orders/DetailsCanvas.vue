@@ -4,6 +4,11 @@
             <div class="content_header">
                 <h3 class="offcanvas-title">Details</h3>
                 <div>
+                    <a target="_blank" :href="`/invoice-printout/${this[`get_${store_prefix}`].id}`">
+                        <span class="btn btn-sm btn-outline-warning rounded-pill me-2">
+                            print
+                        </span>
+                    </a>
                     <router-link
                         :to="{name:`Details${route_prefix}`,params:{id: this[`get_${store_prefix}`].id}}">
                         <span class="btn btn-sm btn-outline-success rounded-pill me-2">
@@ -163,8 +168,8 @@
                     <tbody>
                         <tr v-for="item in this[`get_${store_prefix}`].order_details" :key="item.id">
                             <td>{{ item.product_name }}</td>
-                            <td class="text-center">{{ item.sales_price.toString().enToBn() }} * {{ item.qty.toString().enToBn() }}</td>
-                            <td class="text-end">{{ number_format( item.sales_price * item.qty ).enToBn() }}</td>
+                            <td class="text-center">{{ item.discount_price.toString().enToBn() }} * {{ item.qty.toString().enToBn() }}</td>
+                            <td class="text-end">{{ number_format( item.discount_price * item.qty ).enToBn() }}</td>
                         </tr>
                     </tbody>
                     <tfoot>

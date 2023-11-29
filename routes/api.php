@@ -194,6 +194,8 @@ Route::group(
                 Route::get('/main-accounts', 'Admin\TransactionAccountController@accounts');
             });
 
+            Route::get('/all-dues', 'Admin\Order\PaymentRequestController@all_dues');
+
             Route::group(['prefix' => 'admin'], function () {
                 Route::get('/at-a-glance','AtaGlance\AdminAtaGlanceController@analytics');
 
@@ -269,9 +271,10 @@ Route::group(
                     Route::get('/{id}', 'Admin\Order\AdminOrderManagementController@show');
                 });
 
+
+
                 Route::group(['prefix' => 'payment-request'], function () {
                     Route::post('/approve', 'Admin\Order\PaymentRequestController@approve');
-
                     Route::get('/all', 'Admin\Order\PaymentRequestController@all');
                     Route::post('/store', 'Admin\Order\PaymentRequestController@store');
                     Route::post('/canvas-store', 'Admin\Order\PaymentRequestController@canvas_store');

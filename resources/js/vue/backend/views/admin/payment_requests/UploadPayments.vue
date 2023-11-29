@@ -39,7 +39,7 @@
                                         {{ item["branch_name"] }}
                                     </td>
                                     <td>
-                                        <a target="_blank" :href="`#/admin/order/details/${item.order_id}`">
+                                        <a v-if="item[`order_id`]" class="btn btn-sm btn-outline-warning" target="_blank" :href="`#/admin/order/details/${item.order_id}`">
                                             {{ item["order_id"] }}
                                         </a>
                                     </td>
@@ -50,7 +50,7 @@
                                         {{ item["Post Date"] }}
                                     </td>
                                     <td class="text-start">
-                                        <span class="badge bg-rose-600 text-light">
+                                        <span class="badge bg-rose-600 text-light font_20">
                                             {{ item["Instrument No"] }}
                                         </span>
                                     </td>
@@ -58,7 +58,7 @@
                                         {{ item["Withdraw"] }}
                                     </td>
                                     <td class="text-start">
-                                        <span class="badge bg-green-700 text-light">
+                                        <span class="badge bg-green-700 text-light font_20">
                                             {{ item["Deposit"] }}
                                         </span>
                                     </td>

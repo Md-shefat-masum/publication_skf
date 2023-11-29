@@ -15,17 +15,26 @@ const state = {
     orderByAsc: false,
 
     transaction_accounts: [],
+    all_dues: [],
 };
 
 // get state
 const getters = {
     ...test_module.getters(),
     get_transaction_accounts: (state) => state.transaction_accounts,
+    all_dues: (state) => state.all_dues,
 };
 
 // actions
 const actions = {
     ...test_module.actions(),
+
+    [`branch_all_dues`]: async function ({ state }) {
+        let url = `/all-dues`;
+        await axios.get(url).then((res) => {
+            state.all_dues = res.data;
+        });
+    },
 
     [`${store_prefix}_approve`]: async function ({ state }, { id, event }) {
         let url = `/${api_prefix}/approve`;
@@ -79,6 +88,24 @@ const actions = {
     //         window.set_form_data(".admin_form", data);
     //     }
     // },
+
+    export_in_csv: async function({state}, {data, col}){
+        let cconfirm = await window.s_confirm("export");
+        if (cconfirm) {
+            var export_csv = new window.CsvBuilder(
+                `export.csv`
+            ).setColumns(col);
+
+            console.log(data, col);
+            let values = [];
+            data.forEach((item, index) => {
+                values[index] = col.map(c=>item[c]);
+            });
+            export_csv.addRows(values);
+
+            await export_csv.exportFile();
+        }
+    }
 };
 
 // mutators

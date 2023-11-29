@@ -1,9 +1,15 @@
 <template>
     <div class="container">
         <div class="card list_card">
-            <div class="card-header">
-                <h4>Order Details</h4>
-                <div class="btns">
+            <div class="card-header no_print">
+                <h4>Order Products</h4>
+                <div class="btns" v-if="data">
+                    <a target="_blank" :href="`/invoice-printout/${data.id}`">
+                        <span class="btn btn-sm btn-outline-warning rounded-pill me-2">
+                            print
+                        </span>
+                    </a>
+
                     <router-link
                         :to="{name:`Edit${route_prefix}`,params:{id: data.id}}">
                         <span class="btn btn-sm btn-outline-warning rounded-pill me-2">
@@ -32,9 +38,9 @@
                             </thead>
                             <tbody>
                                 <tr v-for="item in data.order_details" :key="item.id">
-                                    <td>{{ item.product_name }}</td>
-                                    <td class="text-end">{{ item.sales_price }} * {{ item.qty }}</td>
-                                    <td class="text-end">{{ item.sales_price * item.qty }}</td>
+                                    <td class="font_20">{{ item.product_name }}</td>
+                                    <td class="text-end font_20">{{ item.discount_price }} * {{ item.qty }}</td>
+                                    <td class="text-end font_20">{{ (item.discount_price * item.qty)?.toFixed(2) }}</td>
                                 </tr>
                             </tbody>
                             <tfoot>
@@ -43,8 +49,8 @@
                                     <td class="text-end">
                                         <b>Sub Total</b>
                                     </td>
-                                    <td class="text-end" >
-                                        {{ number_format( data.sub_total ) }}
+                                    <td class="text-end font_20" >
+                                        {{ number_format( (data.sub_total)?.toFixed(2) ) }}
                                     </td>
                                 </tr>
                                 <tr style="border-top: 0">
@@ -52,8 +58,8 @@
                                     <td class="text-end border-top-2">
                                         <b>Shipping</b>
                                     </td>
-                                    <td class="text-end border-top-2">
-                                        {{ number_format( data.delivery_charge ) }}
+                                    <td class="text-end border-top-2 font_20">
+                                        {{ number_format( (data.delivery_charge)?.toFixed(2) ) }}
                                     </td>
                                 </tr>
                                 <tr style="border-top: 0">
@@ -61,8 +67,8 @@
                                     <td class="text-end border-top-2">
                                         <b>Discount</b>
                                     </td>
-                                    <td class="text-end border-top-2">
-                                        - {{ number_format( data.discount ) }}
+                                    <td class="text-end border-top-2 font_20">
+                                        - {{ number_format( (data.discount).toFixed(2) ) }}
                                     </td>
                                 </tr>
                                 <tr style="border-top: 0">
@@ -70,8 +76,8 @@
                                     <td class="text-end border-top-2">
                                         <b>Total</b>
                                     </td>
-                                    <td class="text-end border-top-2">
-                                        {{ number_format(  data.total_price )}}
+                                    <td class="text-end border-top-2 text-info font_20">
+                                        {{ number_format(  (data.total_price).toFixed(2) )}}
                                     </td>
                                 </tr>
                                 <tr style="border-top: 0">
@@ -79,8 +85,8 @@
                                     <td class="text-end border-top-2">
                                         <b>Paid</b>
                                     </td>
-                                    <td class="text-end border-top-2">
-                                        {{ number_format( data.order_payments_sum_amount )}}
+                                    <td class="text-end text-warning border-top-2 font_20">
+                                        {{ number_format( (data.order_payments_sum_amount) )}}
                                     </td>
                                 </tr>
                                 <tr style="border-top: 0">
@@ -88,8 +94,8 @@
                                     <td class="text-end border-top-2">
                                         <b>Due</b>
                                     </td>
-                                    <td class="text-end border-top-2">
-                                        {{ number_format( data.total_price - data.order_payments_sum_amount )}}
+                                    <td class="text-end text-danger border-top-2 font_20">
+                                        {{ number_format( (data.total_price - data.order_payments_sum_amount).toFixed(2) )}}
                                     </td>
                                 </tr>
                             </tfoot>
@@ -107,6 +113,13 @@
                                     <td class="px-0">:</td>
                                     <td>
                                         {{ data.invoice_id }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Saels ID</td>
+                                    <td class="px-0">:</td>
+                                    <td>
+                                        {{ data.sales_id }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -142,8 +155,8 @@
                         </table>
                     </div>
                     <div class="col-lg-1"></div>
-                    <div class="col-lg-5 py-4">
-                        <form v-if="data" @submit.prevent="admin_receive_due" action="" class="mt-2">
+                    <div class="col-lg-5 py-4 no_print">
+                        <!-- <form v-if="data" @submit.prevent="admin_receive_due" action="" class="mt-2">
                             <h4>Receive due amount</h4>
                             <div class="form-group mb-2 mt-2">
                                 <label for="Account">Account</label>
@@ -174,10 +187,10 @@
                                 <input type="number" step="0.01" name="amount" id="amount" min="10" :max="data.total_price - data.order_payments_sum_amount" :value="data.total_price - data.order_payments_sum_amount" class="form-control">
                             </div>
                             <button class="btn btn-outline-adn">Submit</button>
-                        </form>
+                        </form> -->
                     </div>
 
-                    <div class="col-12" v-if="data && data.payment_records">
+                    <div class="col-12 no_print" v-if="data && data.payment_records">
                         <div >
                             <div>
                                 <h4 id="payment_id" class="mt-4">Payment Information</h4>
@@ -186,6 +199,7 @@
                                 <thead>
                                     <tr>
                                         <th>Media</th>
+                                        <th>Date</th>
                                         <th>Contact No</th>
                                         <th>TR No</th>
                                         <th>Approved</th>
@@ -204,6 +218,9 @@
                                             <a href="" @click.prevent="admin_delete_branch_payment({payment:record})" class="text-danger">
                                                 delete
                                             </a>
+                                        </td>
+                                        <td>
+                                            {{ record.date }}
                                         </td>
                                         <td>
                                             {{ record.number }}
@@ -225,7 +242,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th colspan="4" class="text-end">Total</th>
+                                        <th colspan="5" class="text-end">Total</th>
                                         <th class="text-end">
                                             <span v-if="data.order_payments_sum_amount">
                                                 {{ data.order_payments_sum_amount.toString().enToBn() }}

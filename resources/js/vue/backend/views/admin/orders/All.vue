@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container-fluid">
         <div class="card list_card">
             <div class="card-header">
                 <h4>
@@ -101,7 +101,7 @@
                             <td>{{ item.contact }}</td>
                             <td>
                                 <strong class="text-info">
-                                    {{ item.subtotal}}
+                                    {{ item.subtotal.toFixed(2) }}
                                 </strong>
                             </td>
                             <td>
@@ -111,12 +111,12 @@
                             </td>
                             <td>
                                 <strong class="text-info">
-                                    {{ item.subtotal * item.shipping}}
+                                    {{ (item.discount).toFixed(2) }}
                                 </strong>
                             </td>
                             <td>
                                 <strong class="text-warning">
-                                    {{ item.subtotal * item.paid}}
+                                    {{ item.subtotal * item.paid }}
                                 </strong>
                             </td>
                             <td>

@@ -90,10 +90,11 @@ const actions = {
         }
     },
 
-    [`store_admin_order`]: async function ({ state, rootGetters }, { shipping_charge, total_discount }) {
+    [`store_admin_order`]: async function ({ state, rootGetters, dispatch }, { shipping_charge, total_discount, total_paid }) {
         let carts = [...state.admin_oder_cart];
         let discount = state.admin_order_discount;
         let customer_id = rootGetters.get_user_selected[0]?.id;
+        // console.log(carts);
         carts = carts.map(i=>{
             return {
                 id: i.id,
@@ -115,27 +116,40 @@ const actions = {
                     order_id: state.admin_order?.id,
                     discount: total_discount,
                     shipping_charge,
+                    total_paid,
                 })
                 .then(res => {
                     // console.log(res.data);
+                    dispatch('clear_cart');
                     state.admin_oder_cart = [];
-                    window.s_alert(`order submitted successfully.`);
+                    window.s_alert(`order created successfully.`);
+                    setTimeout(() => {
+                        management_router.push({name:`Details${route_prefix}`,params:{id: res.data.id}})
+                    }, 200);
                 })
         }
     },
 
-    [`update_admin_order`]: async function ({ state },{shipping_charge, discount}) {
+    [`update_admin_order`]: async function ({ state, dispatch },{shipping_charge, total_discount, total_paid }) {
         let carts = [...state.admin_oder_cart];
         let cconfirm = await window.s_confirm("update order");
         if (cconfirm) {
             axios.post('/admin/order/update-order', {
-                carts, order_id: state.admin_order.id,
-                shipping_charge, discount
+                order_id: state.admin_order.id,
+                carts,
+                shipping_charge,
+                discount: total_discount,
+                total_paid,
+                total_discount,
             })
                 .then(res => {
                     // console.log(res.data);
-                    // state.admin_oder_cart  = [];
+                    dispatch('clear_cart');
+                    state.admin_oder_cart  = [];
                     window.s_alert(`order updated successfully.`);
+                    setTimeout(() => {
+                        management_router.push({name:`Details${route_prefix}`,params:{id: res.data.id}})
+                    }, 200);
                 })
         }
     },
@@ -207,6 +221,8 @@ const actions = {
             product.qty = 1;
             product.product_id = product.id;
             product.product = product;
+            // console.log(product);
+            commission = product.discount_info.discount_percent?product.discount_info.discount_percent:0;
             cart_product = product;
             products.push(cart_product);
         }
@@ -234,6 +250,10 @@ const actions = {
         commit('calc_discount_amount');
     },
 
+    [`clear_cart`]: function ({ state, commit }) {
+        state.admin_oder_cart = [];
+    },
+
     [`admin_receive_due`]: async function ({ state, dispatch }, { form }) {
         let form_data = new FormData(event.target);
         form_data.append('order_id', state.admin_order.id);
@@ -248,6 +268,7 @@ const actions = {
                 })
         }
     },
+
 }
 
 // mutators
