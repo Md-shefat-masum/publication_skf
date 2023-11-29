@@ -29,7 +29,7 @@ const getters = {
 const actions = {
     ...test_module.actions(),
     "super_admin_fetch_all_tasks": async function ({ state }, url = null) {
-        if(!url){
+        if (!url) {
             url = 'task/super-admin-get-all'
         }
         await axios.get(url)
@@ -43,62 +43,69 @@ const actions = {
                 state.super_admin_all_task_varients = res.data;
             })
     },
-    "super_admin_selecte_varient": async function ({ state },item) {
+    "super_admin_selecte_varient": async function ({ state }, item) {
         state.selected_varient = item;
     },
-    "new_varient": async function({state, dispatch}){
-        await axios.post('/task/new-varient',new FormData(event.target))
-            .then(res=>{
+    "new_varient": async function ({ state, dispatch }) {
+        await axios.post('/task/new-varient', new FormData(event.target))
+            .then(res => {
                 dispatch("super_admin_fetch_all_tasks_varients")
             })
     },
-    "save_varients": async function({state, dispatch}, varient_values){
-        await axios.post('/task/save-varient-values',{varient_values})
-            .then(res=>{
+    "save_varients": async function ({ state, dispatch }, varient_values) {
+        await axios.post('/task/save-varient-values', { varient_values })
+            .then(res => {
                 dispatch("super_admin_fetch_all_tasks_varients")
             })
     },
-    "new_task": async function({state, dispatch}){
+    "new_task": async function ({ state, dispatch }) {
         let target = event.target;
-        await axios.post('/task/new-task',new FormData(target))
-            .then(res=>{
+        await axios.post('/task/new-task', new FormData(target))
+            .then(res => {
                 target.reset();
                 dispatch("super_admin_fetch_all_tasks")
             })
     },
-    "save_task_details": async function({state, dispatch}){
+    "save_task_details": async function ({ state, dispatch }) {
         let target = event.target;
-        await axios.post('/task/update-task',new FormData(target))
-            .then(res=>{
+        await axios.post('/task/update_employee_task', new FormData(target))
+            .then(res => {
                 window.s_alert('task updated');
             })
     },
-    "get_task": async function({state, dispatch},id){
-        await axios.get('/task/'+id)
-            .then(res=>{
+    "employee_task_details_update": async function ({ state, dispatch }) {
+        let target = event.target;
+        await axios.post('/task/update-employee-task', new FormData(target))
+            .then(res => {
+                window.s_alert('task updated');
+            })
+    },
+    "get_task": async function ({ state, dispatch }, id) {
+        await axios.get('/task/' + id)
+            .then(res => {
                 state.task = res.data;
             })
     },
-    "complete_task": async function({state, dispatch},id){
-        await axios.get('/task/complete/'+id)
-            .then(res=>{
+    "complete_task": async function ({ state, dispatch }, id) {
+        await axios.get('/task/complete/' + id)
+            .then(res => {
                 state.task = res.data;
                 window.s_alert('task updated');
             })
     },
-    "delete_task": async function({state, dispatch},id){
+    "delete_task": async function ({ state, dispatch }, id) {
         let c_confirm = await window.s_confirm('sure want to delete?');
-        if(!c_confirm){
+        if (!c_confirm) {
             return 0;
         }
-        await axios.post('/task/delete-task',{id})
-            .then(res=>{
+        await axios.post('/task/delete-task', { id })
+            .then(res => {
                 dispatch("super_admin_fetch_all_tasks")
             })
     },
-    "fetch_incomplete_task_count": async function({state, dispatch},id){
+    "fetch_incomplete_task_count": async function ({ state, dispatch }, id) {
         await axios.get('/task/incomplete-task-count')
-            .then(res=>{
+            .then(res => {
                 state.incomplete_task_count = res.data;
             })
     },

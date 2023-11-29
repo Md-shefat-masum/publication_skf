@@ -17,7 +17,7 @@ class Login extends Component
     public function mount()
     {
         $this->auth_check = auth()->check();
-        if(auth()->check()){
+        if (auth()->check()) {
             return redirect('/profile');
         }
     }
@@ -29,7 +29,6 @@ class Login extends Component
                 'title' => 'login',
                 'meta_image' => 'https://www.prossodprokashon.com/uploads/file_manager/fm_image_350x500_106195df55457491637211989.jpg',
             ]);
-
     }
 
     public function login_submit()
@@ -43,7 +42,7 @@ class Login extends Component
                 ->orWhere('mobile_number', $email);
         })->first();
         if ($user && Hash::check($password, $user->password)) {
-            if ($user->roles()->whereIn('role_serial', [1,2,3,4,6])->first()) {
+            if ($user->roles()->whereIn('role_serial', [1, 2, 3, 4, 6, 7])->first()) {
                 $this->access_token = $user->createToken('accessToken')->accessToken;
                 return;
             } else {
@@ -51,6 +50,10 @@ class Login extends Component
                 $this->auth_check = auth()->check();
                 return redirect('/profile');
             }
+            return 0;
+        }else{
+            $this->error = "password not match";
+            return;
         }
         $this->error = "user not found";
     }

@@ -1,6 +1,5 @@
 <template>
     <div v-if="get_check_auth">
-
         <div class="app_frame">
             <div class="left" @mouseover="mouseover" @mouseleave="mouseleave">
                 <main-menu></main-menu>
@@ -19,6 +18,7 @@
                 </div>
             </div>
         </div>
+
 
         <!-- END: Content-->
         <div class="loader export_loader">
@@ -40,19 +40,19 @@ import TopNav from "./layouts/TopNav.vue";
 import { mapActions, mapGetters } from "vuex";
 export default {
     components: { TopNav, MainMenu, BreadCumb },
-    created: function () {
-        this.fetch_check_auth();
-        this.html = document.querySelector('html');
-    },
-    data: function () {
+    data: function(){
         return {
             html: null,
         }
     },
+    created: async function () {
+        await this.fetch_check_auth();
+        this.html = document.querySelector('html');
+    },
     watch: {
         get_check_auth: {
             handler: function (newv, oldv) {
-                // console.log(newv);
+                console.log(newv);
                 // setTimeout(() => {
                 // $('.navigation li a.active').parents('li.has-sub').addClass('open');
                 // }, 500);
@@ -61,46 +61,27 @@ export default {
                     localStorage.removeItem("token");
                     location.href = "/login";
                 }
-                if (this.role_names.includes('employee') && this.$route.name === "Dashboard") {
-                    this.$router.replace('/employee')
-                }
-                if (this.role_names.includes('super_admin') && this.$route.name === "Dashboard") {
-                    this.$router.replace('/super-admin')
-                }
-                if (this.role_names.includes('admin') && this.$route.name === "Dashboard") {
-                    this.$router.replace('/admin')
-                }
-                if (this.role_names.includes('branch') && this.$route.name === "Dashboard") {
-                    this.$router.replace('/branch')
-                }
-                if (this.role_names.includes('production') && this.$route.name === "Dashboard") {
-                    this.$router.replace('/production')
-                }
-                if (this.role_names.includes('accountant') && this.$route.name === "Dashboard") {
-                    this.$router.replace('/accountant')
-                }
-
             },
             deep: true,
         },
     },
     methods: {
         ...mapActions(["fetch_check_auth"]),
-        mouseover: function () {
-            let nav_hide = this.html.classList.contains('nav-hide');
-            if (nav_hide) {
+        mouseover: function(){
+            let nav_hide = this.html?.classList.contains('nav-hide');
+            if(nav_hide){
                 this.html.classList.add('nav-hide-hover');
                 this.html.classList.remove('nav-hide');
             }
         },
-        mouseleave: function () {
-            let nav_hide_hover = this.html.classList.contains('nav-hide-hover');
-            if (nav_hide_hover) {
+        mouseleave: function(){
+            let nav_hide_hover = this.html?.classList.contains('nav-hide-hover');
+            if(nav_hide_hover){
                 this.html.classList.add('nav-hide');
                 this.html.classList.remove('nav-hide-hover');
             }
         },
-        menu_hide: function () {
+        menu_hide: function(){
             event.stopPropagation();
             this.html.classList.remove('nav-hide')
             this.html.classList.remove('nav-hide-hover')
@@ -108,17 +89,24 @@ export default {
     },
     computed: {
         ...mapGetters({
-            get_check_auth: "get_check_auth",
+            get_check_auth : "get_check_auth",
             auth_info: "get_auth_information",
         }),
-        role_names: function () {
-            return this.auth_info.roles.map((i) => i.name);
+        role_names: function(){
+            if(this.auth_info && this.auth_info.roles){
+                return this.auth_info.roles.map((i)=>i.name);
+            }
+            return [];
         },
-        role_serials: function () {
-            return this.auth_info.roles.map((i) => i.role_serial);
+        role_serials: function(){
+            if(this.auth_info && this.auth_info.roles){
+                return this.auth_info.roles.map((i)=>i.role_serial);
+            }
+            return []
         },
     },
 };
 </script>
 
-<style></style>
+<style>
+</style>
