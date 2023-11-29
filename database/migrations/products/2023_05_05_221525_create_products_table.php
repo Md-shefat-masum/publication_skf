@@ -47,6 +47,7 @@ class CreateProductsTable extends Migration
 
             $table->text("custom_fields")->nullable();
             $table->tinyInteger('is_public')->unsigned()->default(0);
+            $table->tinyInteger('is_branch')->unsigned()->default(0);
 
             $table->bigInteger('creator')->unsigned()->nullable();
             $table->string('slug',100)->nullable();
