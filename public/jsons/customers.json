@@ -1,0 +1,1233 @@
+[
+    {
+        "si": "1",
+        "english_name": "A H P Publication",
+        "bangla_name": "এ এইচ পি পাবলিকেশন",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "2",
+        "english_name": "Adhunik Prokashone",
+        "bangla_name": "আধুনিক প্রকাশনা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "3",
+        "english_name": "Ahasan Publication",
+        "bangla_name": "আহাসান পাবলিকেশন",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "4",
+        "english_name": "Al Hera Prokashoni",
+        "bangla_name": "আল হেরা প্রকাশনী",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "5",
+        "english_name": "Al Quran Libriy",
+        "bangla_name": "আল কুরাআন লাইব্রেরী",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "6",
+        "english_name": "Al-amin Laibrary",
+        "bangla_name": "আল আমিন লাইব্রেরী",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "7",
+        "english_name": "Al-Helal Library (Jessore)",
+        "bangla_name": "আল হেলাল লাইব্রেরী ( যশোর )",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "8",
+        "english_name": "Al-Hera Book Center",
+        "bangla_name": "আল হেরা বুক সেন্টার",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "9",
+        "english_name": "Al-Maruf Publication",
+        "bangla_name": "আল মারুফ পাবলিকেশন",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "10",
+        "english_name": "Azad Books",
+        "bangla_name": "আজাদ বুক",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "11",
+        "english_name": "Bagerhat District",
+        "bangla_name": "বাগেরহাট জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "12",
+        "english_name": "Bagum Rokeya University",
+        "bangla_name": "বেরোবি",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "13",
+        "english_name": "Bandarban Parbatta District",
+        "bangla_name": "বান্দরবান পার্বত্য জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "14",
+        "english_name": "Barguna District",
+        "bangla_name": "বরগুনা জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "15",
+        "english_name": "Barisal City",
+        "bangla_name": "বরিশাল মহানগর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "16",
+        "english_name": "Barisal District East",
+        "bangla_name": "বরিশাল জেলা পূর্ব",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "17",
+        "english_name": "Barisal District West",
+        "bangla_name": "বরিশাল জেলা পশ্চিম",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "18",
+        "english_name": "BICS (Central )",
+        "bangla_name": "কেন্দ্র",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "19",
+        "english_name": "Bindu Publication",
+        "bangla_name": "বিন্দু পাবলিকেশন",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "20",
+        "english_name": "Bogura District East",
+        "bangla_name": "বগুড়া জেলা পূর্ব",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "21",
+        "english_name": "Bogura District West",
+        "bangla_name": "বগুড়া জেলা পশ্চিম",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "22",
+        "english_name": "Bogura Town",
+        "bangla_name": "বগুড়া শহর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "23",
+        "english_name": "Brahman-baria District",
+        "bangla_name": "ব্রাহ্মণবাড়িয়া জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "24",
+        "english_name": "Central Baitulmal",
+        "bangla_name": "কেন্দ্রীয় বাইতুলমাল",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "25",
+        "english_name": "Central Jamat",
+        "bangla_name": "কেন্দ্রীয় জামাত",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "26",
+        "english_name": "Chandpur District",
+        "bangla_name": "চাঁদপুর জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "27",
+        "english_name": "Chandpur Town",
+        "bangla_name": "চাঁদপুর শহর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "28",
+        "english_name": "Chapainababgonj Dist: East",
+        "bangla_name": "চাঁপাইনবাবগঞ্জ জেলা পূর্ব",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "29",
+        "english_name": "Chapainababgonj Dist: West",
+        "bangla_name": "চাঁপাইনবাবগঞ্জ জেলা পশ্চিম",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "30",
+        "english_name": "Chapainababgonj Town",
+        "bangla_name": "চাঁপাইনবাবগঞ্জ শহর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "31",
+        "english_name": "Chattagram Distric East",
+        "bangla_name": "চাঁপাইনবাবগঞ্জ জেলা পূর্ব",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "32",
+        "english_name": "Chattagram City North",
+        "bangla_name": "চট্টগ্রাম মহানগর উত্তর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "33",
+        "english_name": "Chattagram City South",
+        "bangla_name": "চট্টগ্রাম মহানগর দক্ষিণ",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "34",
+        "english_name": "Chattagram District East",
+        "bangla_name": "চট্টগ্রাম জেলা পূর্ব",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "35",
+        "english_name": "Chattagram District North",
+        "bangla_name": "চট্টগ্রাম জেলা উত্তর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "36",
+        "english_name": "Chattagram District South",
+        "bangla_name": "চট্টগ্রাম জেলা দক্ষিণ",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "37",
+        "english_name": "Chattagram District West",
+        "bangla_name": "চট্টগ্রাম জেলা পশ্চিম",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "38",
+        "english_name": "Chattagram University",
+        "bangla_name": "চট্টগ্রাম বিশ্ববিদ্যালয়",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "39",
+        "english_name": "Chattagram District",
+        "bangla_name": "চট্টগ্রাম জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "40",
+        "english_name": "Comilla City",
+        "bangla_name": "কুমিল্লা মহানগর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "41",
+        "english_name": "Comilla District East",
+        "bangla_name": "কুমিল্লা জেলা পূর্ব",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "42",
+        "english_name": "Comilla District North",
+        "bangla_name": "কুমিল্লা জেলা উত্তর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "43",
+        "english_name": "Comilla District South",
+        "bangla_name": "কুমিল্লা জেলা দক্ষিণ",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "44",
+        "english_name": "Comilla District West",
+        "bangla_name": "কুমিল্লা জেলা পশ্চিম",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "45",
+        "english_name": "Comilla University",
+        "bangla_name": "কুমিল্লা বিশ্ববিদ্যালয়",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "46",
+        "english_name": "Cox'sbazar District",
+        "bangla_name": "কক্সবাজার জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "47",
+        "english_name": "Cox'sbazar Town",
+        "bangla_name": "কক্সবাজার শহর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "48",
+        "english_name": "Dhaka City East",
+        "bangla_name": "ঢাকা মহানগর পূর্ব",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "49",
+        "english_name": "Dhaka City West",
+        "bangla_name": "ঢাকা মহানগর পশ্চিম",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "50",
+        "english_name": "Dhaka City North",
+        "bangla_name": "ঢাকা মহানগর উত্তর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "51",
+        "english_name": "Dhaka City South",
+        "bangla_name": "ঢাকা মহানগর দক্ষিণ",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "52",
+        "english_name": "Dhaka Collage",
+        "bangla_name": "ঢাকা কলেজ",
+        "user_name": "9",
+        "password": ""
+    },
+    {
+        "si": "53",
+        "english_name": "Dhaka District North",
+        "bangla_name": "ঢাকা জেলা উত্তর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "54",
+        "english_name": "Dhaka District South",
+        "bangla_name": "ঢাকা জেলা দক্ষিণ",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "55",
+        "english_name": "Dhaka University",
+        "bangla_name": "ঢাকা বিশ্ববিদ্যালয়",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "56",
+        "english_name": "Dinajpur Town",
+        "bangla_name": "দিনাজপুর শহর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "57",
+        "english_name": "Dinaspur District North",
+        "bangla_name": "দিনাজপুর জেলা উত্তর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "58",
+        "english_name": "Dinaspur District South",
+        "bangla_name": "দিনাজপুর জেলা দক্ষিণ",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "59",
+        "english_name": "DUET (Gazipur)",
+        "bangla_name": "ডুয়েট",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "60",
+        "english_name": "Education Media",
+        "bangla_name": "এডুকেশন মিডিয়া",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "61",
+        "english_name": "English Medium",
+        "bangla_name": "ইংলিশ মিডিয়াম",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "62",
+        "english_name": "Faridpur District",
+        "bangla_name": "ফরিদপুর জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "63",
+        "english_name": "Faridpur Town",
+        "bangla_name": "ফরিদপুর শহর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "64",
+        "english_name": "Feni District",
+        "bangla_name": "ফেনী জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "65",
+        "english_name": "Feni Town",
+        "bangla_name": "ফেনী শহর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "66",
+        "english_name": "FOCUS",
+        "bangla_name": "ফোকাস",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "67",
+        "english_name": "Foyaj Book Cornar",
+        "bangla_name": "ফয়াজ বুক কর্ণার",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "68",
+        "english_name": "Gaibandha District",
+        "bangla_name": "গাইবান্ধা জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "69",
+        "english_name": "Gazipur City",
+        "bangla_name": "গাজীপুর মহানগর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "70",
+        "english_name": "Gazipur District",
+        "bangla_name": "গাজীপুর জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "71",
+        "english_name": "Gopalgonj District",
+        "bangla_name": "গোপালগঞ্জ জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "72",
+        "english_name": "Hobigonj District",
+        "bangla_name": "হবিগঞ্জ জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "73",
+        "english_name": "I.I.U.C Chittagong",
+        "bangla_name": "আইআইইউসি",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "74",
+        "english_name": "Ideal Institute-(K/J)",
+        "bangla_name": "আইডিয়াল ইন্সটিটিউট",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "75",
+        "english_name": "Islami Bhoy Ghor",
+        "bangla_name": "ইসলামী বই ঘর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "76",
+        "english_name": "Islami Chattri Sanastha",
+        "bangla_name": "ইসলামী ছাত্রী সংস্থা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "77",
+        "english_name": "Islami University",
+        "bangla_name": "ইসলামী বিশ্ববিদ্যালয়",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "78",
+        "english_name": "Jagannath University",
+        "bangla_name": "জগন্নাথ বিশ্ববিদ্যালয়",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "79",
+        "english_name": "Jamalpur District",
+        "bangla_name": "জামালপুর জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "80",
+        "english_name": "Jashore District East",
+        "bangla_name": "যশোর জেলা পূর্ব",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "81",
+        "english_name": "Jashore District West",
+        "bangla_name": "যশোর জেলা পশ্চিম",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "82",
+        "english_name": "Jashore Town",
+        "bangla_name": "যশোর শহর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "83",
+        "english_name": "Jhalokathi District",
+        "bangla_name": "ঝালকাঠি জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "84",
+        "english_name": "Jhenaidah District",
+        "bangla_name": "ঝিনাইদহ জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "85",
+        "english_name": "Jhenaidah Town",
+        "bangla_name": "ঝিনাইদহ শহর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "86",
+        "english_name": "Joypurhat District",
+        "bangla_name": "জয়পুরহাট জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "87",
+        "english_name": "kamiab Publication",
+        "bangla_name": "কামিয়াব পাবলিকেশন",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "88",
+        "english_name": "Kataban Book Corner",
+        "bangla_name": "কাটাবন বুক কর্ণার",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "89",
+        "english_name": "Kazi Library",
+        "bangla_name": "কাজী লাইব্রেরী",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "90",
+        "english_name": "Khagrachari Parbotto District",
+        "bangla_name": "খাগড়াছড়ি পার্বত্য জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "91",
+        "english_name": "Khulna City",
+        "bangla_name": "খুলনা মহানগর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "92",
+        "english_name": "Khulna District North",
+        "bangla_name": "খুলনা জেলা উত্তর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "93",
+        "english_name": "Khulna District South",
+        "bangla_name": "খুলনা জেলা দক্ষিণ"
+    },
+    {
+        "si": "",
+        "english_name": "",
+        "bangla_name": ""
+    },
+    {
+        "si": "94",
+        "english_name": "Kishorgonj District North",
+        "bangla_name": "কিশোরগঞ্জ জেলা উত্তর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "95",
+        "english_name": "Kishorgonj District South",
+        "bangla_name": "কিশোরগঞ্জ জেলা দক্ষিণ",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "96",
+        "english_name": "Krishi University",
+        "bangla_name": "বাকৃবি",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "97",
+        "english_name": "Kurigram District",
+        "bangla_name": "কুড়িগ্রাম জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "98",
+        "english_name": "Kushtia District",
+        "bangla_name": "কুষ্টিয়া জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "99",
+        "english_name": "Kushtia Town",
+        "bangla_name": "কুষ্টিয়া শহর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "100",
+        "english_name": "Lalmonirhat District",
+        "bangla_name": "লালমনিরহাট জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "101",
+        "english_name": "Laxmipur District",
+        "bangla_name": "লক্ষ্মীপুর জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "102",
+        "english_name": "Laxmipur Town",
+        "bangla_name": "লক্ষ্মীপুর শহর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "103",
+        "english_name": "Madaripur District",
+        "bangla_name": "মাদারীপুর জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "104",
+        "english_name": "Magura District",
+        "bangla_name": "মাগুরা জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "105",
+        "english_name": "Manikgonj District",
+        "bangla_name": "মানিকগঞ্জ জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "106",
+        "english_name": "Medical Zoone",
+        "bangla_name": "মেডিকেল জোন",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "107",
+        "english_name": "Meherpur District",
+        "bangla_name": "মেহেরপুর জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "108",
+        "english_name": "Model Institute",
+        "bangla_name": "মডেল ইন্সটিটিউট",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "109",
+        "english_name": "Modina Academi",
+        "bangla_name": "মদিনা একাডেমী",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "110",
+        "english_name": "Moulovibazar District",
+        "bangla_name": "মৌলভীবাজার জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "111",
+        "english_name": "Moulovibazar Town",
+        "bangla_name": "মৌলভীবাজার শহর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "112",
+        "english_name": "Munshigonj District",
+        "bangla_name": "মুন্সিগঞ্জ জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "113",
+        "english_name": "Mymensingh City",
+        "bangla_name": "মোমেনশাহী মহানগর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "114",
+        "english_name": "Mymensingh District North",
+        "bangla_name": "মোমেনশাহী জেলা উত্তর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "115",
+        "english_name": "Mymensingh District South",
+        "bangla_name": "মোমেনশাহী জেলা দক্ষিণ",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "116",
+        "english_name": "N.S.T.U- (Noakhali)",
+        "bangla_name": "নোবিপ্রবি",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "117",
+        "english_name": "Naogaon District East",
+        "bangla_name": "নওগাঁ জেলা পূর্ব",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "118",
+        "english_name": "Naogaon District West",
+        "bangla_name": "নওগাঁ জেলা পশ্চিম",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "119",
+        "english_name": "Narail District",
+        "bangla_name": "নড়াইল জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "120",
+        "english_name": "Narayangonj City",
+        "bangla_name": "নারায়ণগঞ্জ মহানগর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "121",
+        "english_name": "Narayangonj District",
+        "bangla_name": "নারায়ণগঞ্জ জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "122",
+        "english_name": "Narshingdi District",
+        "bangla_name": "নরসিংদী জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "123",
+        "english_name": "Narshingdi Town",
+        "bangla_name": "নরসিংদী শহর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "124",
+        "english_name": "Natore District",
+        "bangla_name": "নাটোর জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "125",
+        "english_name": "Netrokona District",
+        "bangla_name": "নেত্রকোনা জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "126",
+        "english_name": "Nilfamari District",
+        "bangla_name": "নীলফামারী জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "127",
+        "english_name": "Nilfamari Town",
+        "bangla_name": "নীলফামারী শহর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "128",
+        "english_name": "Noakhali Town",
+        "bangla_name": "নোয়াখালী শহর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "129",
+        "english_name": "Noakhali District North",
+        "bangla_name": "নোয়াখালী জেলা উত্তর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "130",
+        "english_name": "Noakhali District South",
+        "bangla_name": "নোয়াখালী জেলা দক্ষিণ",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "131",
+        "english_name": "Open Book",
+        "bangla_name": "ওপেন বুক",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "132",
+        "english_name": "Others",
+        "bangla_name": "অন্যান্য",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "133",
+        "english_name": "Pabna District East",
+        "bangla_name": "পাবনা জেলা পূর্ব",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "134",
+        "english_name": "Pabna District West",
+        "bangla_name": "পাবনা জেলা পশ্চিম",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "135",
+        "english_name": "Pabna Town",
+        "bangla_name": "পাবনা শহর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "136",
+        "english_name": "Panchagar District",
+        "bangla_name": "পঞ্চগড় জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "137",
+        "english_name": "Patuakhali District",
+        "bangla_name": "পটুয়াখালী জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "138",
+        "english_name": "Patuakhali Town",
+        "bangla_name": "পটুয়াখালী শহর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "139",
+        "english_name": "Pirojpur District",
+        "bangla_name": "পিরোজপুর জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "140",
+        "english_name": "Privet University",
+        "bangla_name": "প্রাইভেট ইউনিভার্সিটি",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "141",
+        "english_name": "Professors Book Corner",
+        "bangla_name": "প্রফেসর বুক কর্ণার",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "142",
+        "english_name": "Professor's Publication",
+        "bangla_name": "প্রফেসর পাবলিকেশন",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "143",
+        "english_name": "Prottoy publicatipn",
+        "bangla_name": "প্রত্তয় পাবলিকেশন",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "144",
+        "english_name": "Rajbari District",
+        "bangla_name": "রাজবাড়ী জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "145",
+        "english_name": "Rajshahi City",
+        "bangla_name": "রাজশাহী মহানগর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "146",
+        "english_name": "Rajshahi District East",
+        "bangla_name": "রাজশাহী জেলা পূর্ব",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "147",
+        "english_name": "Rajshahi District West",
+        "bangla_name": "রাজশাহী জেলা পশ্চিম",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "148",
+        "english_name": "Rajshahi University",
+        "bangla_name": "রাজশাহী বিশ্ববিদ্যালয়",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "149",
+        "english_name": "Rangamati Parbotto District",
+        "bangla_name": "রাঙ্গামাটি পার্বত্য জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "150",
+        "english_name": "Rangpur City",
+        "bangla_name": "রংপুর মহানগর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "151",
+        "english_name": "Rangpur District North",
+        "bangla_name": "রংপুর জেলা উত্তর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "152",
+        "english_name": "Rangpur District South",
+        "bangla_name": "রংপুর জেলা দক্ষিণ",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "153",
+        "english_name": "Rex Publication",
+        "bangla_name": "রেক্স পাবলিকেশন",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "154",
+        "english_name": "Rokomare",
+        "bangla_name": "বকমারি",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "155",
+        "english_name": "Saimum",
+        "bangla_name": "সাইমুম",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "156",
+        "english_name": "Satkhira District",
+        "bangla_name": "সাতক্ষীরা জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "157",
+        "english_name": "Satkhira Town",
+        "bangla_name": "সাতক্ষীরা শহর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "158",
+        "english_name": "Science Academy",
+        "bangla_name": "সায়েন্স একাডেমি"
+    },
+    {
+        "si": "",
+        "english_name": "",
+        "bangla_name": ""
+    },
+    {
+        "si": "159",
+        "english_name": "Shahjalal University",
+        "bangla_name": "শাবিপ্রবি",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "160",
+        "english_name": "Shariatpur District",
+        "bangla_name": "শরীয়তপুর জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "161",
+        "english_name": "Sherpur District",
+        "bangla_name": "শেরপুর জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "162",
+        "english_name": "Sirajganj District",
+        "bangla_name": "সিরাজগঞ্জ জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "163",
+        "english_name": "Sirajganj Town",
+        "bangla_name": "সিরাজগঞ্জ শহর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "164",
+        "english_name": "Sunamganj District",
+        "bangla_name": "সুনামগঞ্জ জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "165",
+        "english_name": "Sylhet City",
+        "bangla_name": "সিলেট মহানগর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "166",
+        "english_name": "Sylhet District East",
+        "bangla_name": "সিলেট জেলা পূর্ব",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "167",
+        "english_name": "Sylhet District West",
+        "bangla_name": "সিলেট জেলা পশ্চিম",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "168",
+        "english_name": "Tamanna Book Corner",
+        "bangla_name": "তামান্না বুক সেন্টার",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "169",
+        "english_name": "Tangail District",
+        "bangla_name": "টাঙ্গাইল জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "170",
+        "english_name": "Tangail Town",
+        "bangla_name": "টাঙ্গাইল শহর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "171",
+        "english_name": "Thakurgaon District",
+        "bangla_name": "ঠাকুরগাঁও জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "172",
+        "english_name": "Thakurgaon Town",
+        "bangla_name": "ঠাকুরগাঁও শহর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "173",
+        "english_name": "Vola District",
+        "bangla_name": "ভোলা জেলা",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "174",
+        "english_name": "Vola Town",
+        "bangla_name": "ভোলা শহর",
+        "user_name": "",
+        "password": ""
+    },
+    {
+        "si": "175",
+        "english_name": "WAMY",
+        "bangla_name": "ওয়ামি",
+        "user_name": "",
+        "password": ""
+    }
+]

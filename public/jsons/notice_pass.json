@@ -1,0 +1,866 @@
+[
+    {
+
+        "bangla_name": "ঢাকা মহানগর উত্তর",
+        "user_name": "1",
+        "password": "KamruL901#"
+    },
+    {
+
+        "bangla_name": "ঢাকা মহানগর দক্ষিণ",
+        "user_name": "2",
+        "password": "kAmruL902#"
+    },
+    {
+
+        "bangla_name": "ঢাকা মহানগর পূর্ব",
+        "user_name": "3",
+        "password": "kaMruL903#"
+    },
+    {
+
+        "bangla_name": "ঢাকা মহানগর পশ্চিম",
+        "user_name": "4",
+        "password": "kamRuL904#"
+    },
+    {
+
+        "bangla_name": "ঢাকা বিশ্ববিদ্যালয়",
+        "user_name": "5",
+        "password": "kamruL905#"
+    },
+    {
+
+        "bangla_name": "আইডিয়াল ইন্সটিটিউট",
+        "user_name": "6",
+        "password": "KamruL906#"
+    },
+    {
+
+        "bangla_name": "জগন্নাথ বিশ্ববিদ্যালয়",
+        "user_name": "7",
+        "password": "kAmruL907#"
+    },
+    {
+
+        "bangla_name": "প্রাইভেট ইউনিভার্সিটি",
+        "user_name": "8",
+        "password": "kaMruL908#"
+    },
+    {
+
+        "bangla_name": "ঢাকা কলেজ",
+        "user_name": "9",
+        "password": "kamRuL909#"
+    },
+    {
+
+        "bangla_name": "সায়েন্স একাডেমি",
+        "user_name": "10",
+        "password": "kamruL910#"
+    },
+    {
+
+        "bangla_name": "গাজীপুর মহানগর",
+        "user_name": "11",
+        "password": "KamrUL811#"
+    },
+    {
+
+        "bangla_name": "ঢাকা জেলা উত্তর",
+        "user_name": "12",
+        "password": "kAmruL812#"
+    },
+    {
+
+        "bangla_name": "ঢাকা জেলা দক্ষিণ",
+        "user_name": "13",
+        "password": "kaMruL813#"
+    },
+    {
+
+        "bangla_name": "মানিকগঞ্জ জেলা",
+        "user_name": "14",
+        "password": "kamRuL814#"
+    },
+    {
+
+        "bangla_name": "ডুয়েট",
+        "user_name": "15",
+        "password": "kamruL815#"
+    },
+    {
+
+        "bangla_name": "গাজীপুর জেলা",
+        "user_name": "16",
+        "password": "KamrUL816#"
+    },
+    {
+
+        "bangla_name": "নারায়ণগঞ্জ মহানগর",
+        "user_name": "17",
+        "password": "kAmruL817#"
+    },
+    {
+
+        "bangla_name": "নারায়ণগঞ্জ জেলা",
+        "user_name": "18",
+        "password": "kaMruL818#"
+    },
+    {
+
+        "bangla_name": "মুন্সিগঞ্জ জেলা",
+        "user_name": "19",
+        "password": "kamRuL819#"
+    },
+    {
+
+        "bangla_name": "নরসিংদী শহর",
+        "user_name": "20",
+        "password": "kamruL820#"
+    },
+    {
+
+        "bangla_name": "নরসিংদী জেলা",
+        "user_name": "21",
+        "password": "KamrUL721*"
+    },
+    {
+
+        "bangla_name": "টাঙ্গাইল শহর",
+        "user_name": "22",
+        "password": "kAmruL722*"
+    },
+    {
+
+        "bangla_name": "টাঙ্গাইল জেলা",
+        "user_name": "23",
+        "password": "kaMruL723*"
+    },
+    {
+
+        "bangla_name": "বাকৃবি",
+        "user_name": "24",
+        "password": "kamRuL724*"
+    },
+    {
+
+        "bangla_name": "মোমেনশাহী মহানগর",
+        "user_name": "25",
+        "password": "kamruL725*"
+    },
+    {
+
+        "bangla_name": "মোমেনশাহী জেলা উত্তর",
+        "user_name": "26",
+        "password": "KamrUL726*"
+    },
+    {
+
+        "bangla_name": "মোমেনশাহী জেলা দক্ষিণ",
+        "user_name": "27",
+        "password": "kAmruL727*"
+    },
+    {
+        "": "kaMruL728*",
+        "bangla_name": "কিশোরগঞ্জ জেলা উত্তর",
+        "user_name": "28",
+        "password": "kaMruL728*"
+    },
+    {
+
+        "bangla_name": "কিশোরগঞ্জ জেলা দক্ষিণ",
+        "user_name": "29",
+        "password": "kamRuL729*"
+    },
+    {
+
+        "bangla_name": "নেত্রকোনা জেলা",
+        "user_name": "30",
+        "password": "kamruL730*"
+    },
+    {
+
+        "bangla_name": "জামালপুর জেলা",
+        "user_name": "31",
+        "password": "KamrUL631&"
+    },
+    {
+
+        "bangla_name": "শেরপুর জেলা",
+        "user_name": "32",
+        "password": "kAmruL632&"
+    },
+    {
+
+        "bangla_name": "ফরিদপুর শহর",
+        "user_name": "33",
+        "password": "kaMruL633&"
+    },
+    {
+
+        "bangla_name": "ফরিদপুর জেলা",
+        "user_name": "34",
+        "password": "kamRuL634&"
+    },
+    {
+
+        "bangla_name": "রাজবাড়ী জেলা",
+        "user_name": "35",
+        "password": "kamruL635&"
+    },
+    {
+
+        "bangla_name": "গোপালগঞ্জ জেলা",
+        "user_name": "36",
+        "password": "KamrUL636&"
+    },
+    {
+
+        "bangla_name": "মাদারীপুর জেলা",
+        "user_name": "37",
+        "password": "kAmruL637&"
+    },
+    {
+
+        "bangla_name": "শরীয়তপুর জেলা",
+        "user_name": "38",
+        "password": "kaMruL638&"
+    },
+    {
+
+        "bangla_name": "চট্টগ্রাম মহানগর উত্তর",
+        "user_name": "39",
+        "password": "kamRuL639&"
+    },
+    {
+
+        "bangla_name": "চট্টগ্রাম মহানগর দক্ষিণ",
+        "user_name": "40",
+        "password": "kamruL640&"
+    },
+    {
+
+        "bangla_name": "চট্টগ্রাম বিশ্ববিদ্যালয়",
+        "user_name": "41",
+        "password": "KamrUL541#"
+    },
+    {
+
+        "bangla_name": "আইআইইউসি",
+        "user_name": "42",
+        "password": "kAmruL542#"
+    },
+    {
+
+        "bangla_name": "চট্টগ্রাম জেলা উত্তর",
+        "user_name": "43",
+        "password": "kaMruL543#"
+    },
+    {
+
+        "bangla_name": "চট্টগ্রাম জেলা দক্ষিণ",
+        "user_name": "44",
+        "password": "kamRuL544#"
+    },
+    {
+
+        "bangla_name": "চট্টগ্রাম জেলা পূর্ব",
+        "user_name": "45",
+        "password": "kamruL545#"
+    },
+    {
+
+        "bangla_name": "রাঙ্গামাটি পার্বত্য জেলা",
+        "user_name": "46",
+        "password": "KamrUL546#"
+    },
+    {
+
+        "bangla_name": "খাগড়াছড়ি পার্বত্য জেলা",
+        "user_name": "47",
+        "password": "kAmruL547#"
+    },
+    {
+
+        "bangla_name": "বান্দরবান পার্বত্য জেলা",
+        "user_name": "48",
+        "password": "kaMruL548#"
+    },
+    {
+
+        "bangla_name": "কক্সবাজার শহর",
+        "user_name": "49",
+        "password": "kamRuL549#"
+    },
+    {
+
+        "bangla_name": "কক্সবাজার জেলা",
+        "user_name": "50",
+        "password": "kamruL550#"
+    },
+    {
+
+        "bangla_name": "কুমিল্লা মহানগর",
+        "user_name": "51",
+        "password": "KamrUL451%"
+    },
+    {
+
+        "bangla_name": "কুমিল্লা বিশ্ববিদ্যালয়",
+        "user_name": "52",
+        "password": "kAmruL452%"
+    },
+    {
+
+        "bangla_name": "কুমিল্লা জেলা উত্তর",
+        "user_name": "53",
+        "password": "kaMruL453%"
+    },
+    {
+
+        "bangla_name": "কুমিল্লা জেলা দক্ষিণ",
+        "user_name": "54",
+        "password": "kamRuL454%"
+    },
+    {
+
+        "bangla_name": "কুমিল্লা জেলা পশ্চিম",
+        "user_name": "55",
+        "password": "kamruL455%"
+    },
+    {
+
+        "bangla_name": "ব্রাহ্মণবাড়িয়া জেলা",
+        "user_name": "56",
+        "password": "KamrUL456%"
+    },
+    {
+
+        "bangla_name": "চাঁদপুর শহর",
+        "user_name": "57",
+        "password": "kAmruL457%"
+    },
+    {
+
+        "bangla_name": "চাঁদপুর জেলা",
+        "user_name": "58",
+        "password": "kaMruL458%"
+    },
+    {
+
+        "bangla_name": "নোয়াখালী শহর",
+        "user_name": "59",
+        "password": "kamRuL459%"
+    },
+    {
+
+        "bangla_name": "নোয়াখালী জেলা উত্তর",
+        "user_name": "60",
+        "password": "kamruL460%"
+    },
+    {
+
+        "bangla_name": "নোয়াখালী জেলা দক্ষিণ",
+        "user_name": "61",
+        "password": "KamrUL361#"
+    },
+    {
+
+        "bangla_name": "ফেনী শহর",
+        "user_name": "62",
+        "password": "kAmruL362#"
+    },
+    {
+
+        "bangla_name": "ফেনী জেলা",
+        "user_name": "63",
+        "password": "kaMruL363#"
+    },
+    {
+
+        "bangla_name": "লক্ষ্মীপুর শহর",
+        "user_name": "64",
+        "password": "kamRuL364#"
+    },
+    {
+
+        "bangla_name": "লক্ষ্মীপুর জেলা",
+        "user_name": "65",
+        "password": "kamruL365#"
+    },
+    {
+
+        "bangla_name": "সিলেট মহানগর",
+        "user_name": "66",
+        "password": "KamrUL366#"
+    },
+    {
+
+        "bangla_name": "শাবিপ্রবি",
+        "user_name": "67",
+        "password": "kAmruL367#"
+    },
+    {
+
+        "bangla_name": "সিলেট জেলা পূর্ব",
+        "user_name": "68",
+        "password": "kaMruL368#"
+    },
+    {
+
+        "bangla_name": "সিলেট জেলা পশ্চিম",
+        "user_name": "69",
+        "password": "kamRuL369#"
+    },
+    {
+
+        "bangla_name": "সুনামগঞ্জ জেলা",
+        "user_name": "70",
+        "password": "kamruL370#"
+    },
+    {
+
+        "bangla_name": "মৌলভীবাজার শহর",
+        "user_name": "71",
+        "password": "KamrUL271*"
+    },
+    {
+
+        "bangla_name": "মৌলভীবাজার জেলা",
+        "user_name": "72",
+        "password": "kAmruL272*"
+    },
+    {
+
+        "bangla_name": "হবিগঞ্জ জেলা",
+        "user_name": "73",
+        "password": "kaMruL273*"
+    },
+    {
+
+        "bangla_name": "রাজশাহী মহানগর",
+        "user_name": "74",
+        "password": "kamRuL274*"
+    },
+    {
+
+        "bangla_name": "রাজশাহী বিশ্ববিদ্যালয়",
+        "user_name": "75",
+        "password": "kamruL275*"
+    },
+    {
+
+        "bangla_name": "রাজশাহী জেলা পূর্ব",
+        "user_name": "76",
+        "password": "KamrUL276*"
+    },
+    {
+
+        "bangla_name": "রাজশাহী জেলা পশ্চিম",
+        "user_name": "77",
+        "password": "kAmruL277*"
+    },
+    {
+
+        "bangla_name": "নাটোর জেলা",
+        "user_name": "78",
+        "password": "kaMruL278*"
+    },
+    {
+
+        "bangla_name": "চাঁপাইনবাবগঞ্জ শহর",
+        "user_name": "79",
+        "password": "kamRuL279*"
+    },
+    {
+
+        "bangla_name": "চাঁপাইনবাবগঞ্জ জেলা পশ্চিম",
+        "user_name": "80",
+        "password": "kamruL280*"
+    },
+    {
+
+        "bangla_name": "নওগাঁ জেলা পূর্ব",
+        "user_name": "81",
+        "password": "KamrUL181&"
+    },
+    {
+
+        "bangla_name": "নওগাঁ জেলা পশ্চিম",
+        "user_name": "82",
+        "password": "kAmruL182&"
+    },
+    {
+
+        "bangla_name": "পাবনা শহর",
+        "user_name": "83",
+        "password": "kaMruL183&"
+    },
+    {
+
+        "bangla_name": "পাবনা জেলা পূর্ব",
+        "user_name": "84",
+        "password": "kamRuL184&"
+    },
+    {
+
+        "bangla_name": "পাবনা জেলা পশ্চিম",
+        "user_name": "85",
+        "password": "kamruL185&"
+    },
+    {
+
+        "bangla_name": "সিরাজগঞ্জ শহর",
+        "user_name": "86",
+        "password": "KamrUL186&"
+    },
+    {
+
+        "bangla_name": "সিরাজগঞ্জ জেলা",
+        "user_name": "87",
+        "password": "kAmruL187&"
+    },
+    {
+
+        "bangla_name": "বগুড়া শহর",
+        "user_name": "88",
+        "password": "kaMruL188&"
+    },
+    {
+
+        "bangla_name": "বগুড়া জেলা পূর্ব",
+        "user_name": "89",
+        "password": "kamRuL189&"
+    },
+    {
+
+        "bangla_name": "বগুড়া জেলা পশ্চিম",
+        "user_name": "90",
+        "password": "kamruL190&"
+    },
+    {
+
+        "bangla_name": "জয়পুরহাট জেলা",
+        "user_name": "91",
+        "password": "KamrUL691#"
+    },
+    {
+
+        "bangla_name": "রংপুর মহানগর",
+        "user_name": "92",
+        "password": "kAmruL692#"
+    },
+    {
+
+        "bangla_name": "রংপুর জেলা উত্তর",
+        "user_name": "93",
+        "password": "kaMruL693#"
+    },
+    {
+
+        "bangla_name": "কুড়িগ্রাম জেলা",
+        "user_name": "94",
+        "password": "kamRuL694#"
+    },
+    {
+
+        "bangla_name": "নীলফামারী জেলা",
+        "user_name": "95",
+        "password": "kamruL695#"
+    },
+    {
+
+        "bangla_name": "লালমনিরহাট জেলা",
+        "user_name": "96",
+        "password": "KamrUL696#"
+    },
+    {
+
+        "bangla_name": "গাইবান্ধা জেলা",
+        "user_name": "97",
+        "password": "kAmruL697#"
+    },
+    {
+
+        "bangla_name": "দিনাজপুর শহর",
+        "user_name": "98",
+        "password": "kaMruL698#"
+    },
+    {
+
+        "bangla_name": "দিনাজপুর জেলা উত্তর",
+        "user_name": "99",
+        "password": "kamRuL699#"
+    },
+    {
+
+        "bangla_name": "দিনাজপুর জেলা দক্ষিণ",
+        "user_name": "100",
+        "password": "kamruL5100*"
+    },
+    {
+
+        "bangla_name": "ঠাকুরগাঁও জেলা",
+        "user_name": "101",
+        "password": "KamrUL5101*"
+    },
+    {
+
+        "bangla_name": "পঞ্চগড় জেলা",
+        "user_name": "102",
+        "password": "kAmruL5102*"
+    },
+    {
+
+        "bangla_name": "খুলনা মহানগর",
+        "user_name": "103",
+        "password": "kaMruL5103*"
+    },
+    {
+
+        "bangla_name": "খুলনা জেলা উত্তর",
+        "user_name": "104",
+        "password": "kamRuL5104*"
+    },
+    {
+
+        "bangla_name": "খুলনা জেলা দক্ষিণ",
+        "user_name": "105",
+        "password": "kamruL5105*"
+    },
+    {
+
+        "bangla_name": "বাগেরহাট জেলা",
+        "user_name": "106",
+        "password": "KamrUL5106*"
+    },
+    {
+
+        "bangla_name": "সাতক্ষীরা শহর",
+        "user_name": "107",
+        "password": "kAmruL5107*"
+    },
+    {
+
+        "bangla_name": "সাতক্ষীরা জেলা",
+        "user_name": "108",
+        "password": "kaMruL5108*"
+    },
+    {
+
+        "bangla_name": "যশোর শহর",
+        "user_name": "109",
+        "password": "kamRuL5109*"
+    },
+    {
+
+        "bangla_name": "যশোর জেলা পূর্ব",
+        "user_name": "110",
+        "password": "kamruL5110*"
+    },
+    {
+
+        "bangla_name": "যশোর জেলা পশ্চিম",
+        "user_name": "111",
+        "password": "KamrUL4111&"
+    },
+    {
+
+        "bangla_name": "নড়াইল জেলা",
+        "user_name": "112",
+        "password": "kAmruL4112&"
+    },
+    {
+
+        "bangla_name": "মাগুরা জেলা",
+        "user_name": "113",
+        "password": "kaMruL4113&"
+    },
+    {
+
+        "bangla_name": "ইসলামী বিশ্ববিদ্যালয়",
+        "user_name": "114",
+        "password": "kamRuL4114&"
+    },
+    {
+
+        "bangla_name": "ঝিনাইদহ শহর",
+        "user_name": "115",
+        "password": "kamruL4115&"
+    },
+    {
+
+        "bangla_name": "ঝিনাইদহ জেলা",
+        "user_name": "116",
+        "password": "KamrUL4116&"
+    },
+    {
+
+        "bangla_name": "কুষ্টিয়া শহর",
+        "user_name": "117",
+        "password": "kAmruL4117&"
+    },
+    {
+
+        "bangla_name": "কুষ্টিয়া জেলা",
+        "user_name": "118",
+        "password": "kaMruL4118&"
+    },
+    {
+
+        "bangla_name": "চুয়াডাঙ্গা জেলা",
+        "user_name": "119",
+        "password": "kamRuL4119&"
+    },
+    {
+
+        "bangla_name": "মেহেরপুর জেলা",
+        "user_name": "120",
+        "password": "kamruL4120&"
+    },
+    {
+
+        "bangla_name": "বরিশাল মহানগর",
+        "user_name": "121",
+        "password": "KamrUL3121#"
+    },
+    {
+
+        "bangla_name": "বরিশাল জেলা পূর্ব",
+        "user_name": "122",
+        "password": "kAmruL3122#"
+    },
+    {
+
+        "bangla_name": "বরিশাল জেলা পশ্চিম",
+        "user_name": "123",
+        "password": "kaMruL3123#"
+    },
+    {
+
+        "bangla_name": "ঝালকাঠি জেলা",
+        "user_name": "124",
+        "password": "kamRuL3124#"
+    },
+    {
+
+        "bangla_name": "পিরোজপুর জেলা",
+        "user_name": "125",
+        "password": "kamruL3125#"
+    },
+    {
+
+        "bangla_name": "পটুয়াখালী জেলা",
+        "user_name": "126",
+        "password": "KamrUL3126#"
+    },
+    {
+
+        "bangla_name": "বরগুনা জেলা",
+        "user_name": "127",
+        "password": "kAmruL3127#"
+    },
+    {
+
+        "bangla_name": "ভোলা শহর",
+        "user_name": "128",
+        "password": "kaMruL3128#"
+    },
+    {
+
+        "bangla_name": "ভোলা জেলা",
+        "user_name": "129",
+        "password": "kamRuL3129#"
+    },
+    {
+
+        "bangla_name": "মেডিকেল জোন",
+        "user_name": "130",
+        "password": "kamruL3130#"
+    },
+    {
+
+        "bangla_name": "ইংলিশ মিডিয়াম",
+        "user_name": "131",
+        "password": "KamrUL2131#"
+    },
+    {
+
+        "bangla_name": "সাইমুম",
+        "user_name": "132",
+        "password": "kAmruL2132#"
+    },
+    {
+
+        "bangla_name": "পটুয়াখালী শহর",
+        "user_name": "133",
+        "password": "kAmruL2133#"
+    },
+    {
+
+        "bangla_name": "ঠাকুরগাঁও শহর",
+        "user_name": "134",
+        "password": "kaMruL2134#"
+    },
+    {
+
+        "bangla_name": "নোবিপ্রবি",
+        "user_name": "135",
+        "password": "kamRuL2135#"
+    },
+    {
+
+        "bangla_name": "মডেল ইন্সটিটিউট",
+        "user_name": "136",
+        "password": "mahmUd3136#"
+    },
+    {
+
+        "bangla_name": "বেরোবি",
+        "user_name": "137",
+        "password": "kamruL3176#"
+    },
+    {
+
+        "bangla_name": "রংপুর জেলা দক্ষিণ",
+        "user_name": "138",
+        "password": "kAmruL197&"
+    },
+    {
+
+        "bangla_name": "চট্টগ্রাম জেলা পশ্চিম",
+        "user_name": "139",
+        "password": "kamRuL198*"
+    },
+    {
+
+        "bangla_name": "কুমিল্লা জেলা পূর্ব",
+        "user_name": "140",
+        "password": "kamruL200*"
+    },
+    {
+
+        "bangla_name": "নীলফামারী শহর",
+        "user_name": "141",
+        "password": "KamRuL141#"
+    },
+    {
+
+        "bangla_name": "চাঁপাইনবাবগঞ্জ জেলা পূর্ব",
+        "user_name": "142",
+        "password": "kamruL142#"
+    },
+    {
+
+        "bangla_name": "শিশুকল্যাণ",
+        "user_name": "888",
+        "password": "KamrUL888#"
+    },
+    {
+
+        "bangla_name": "কেন্দ্র",
+        "user_name": "999",
+        "password": "kaMruL999#"
+    }
+]

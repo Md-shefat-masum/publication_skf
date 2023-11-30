@@ -103,8 +103,16 @@
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <th colspan="2" class="text-end">total</th>
+                                            <th colspan="2" class="text-end">Sub Total</th>
                                             <th class="text-end pe-1">৳ {{ tota_order_price.toFixed(2).enToBn() }}</th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="2" class="text-end">Delivery Charge</th>
+                                            <th class="text-end pe-1">৳ {{ shipping_charge.toFixed(2).enToBn() }}</th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="2" class="text-end">Bank Charge</th>
+                                            <th class="text-end pe-1">৳ {{ bank_charge.toFixed(2).enToBn() }}</th>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -146,12 +154,14 @@ import PageSetup from './PageSetup';
 const {route_prefix, store_prefix} = PageSetup;
 
 export default {
-    components: { InputField, },
+    components: { InputField },
     data: function(){
         return {
             /** store prefix for JSX */
             store_prefix,
             route_prefix,
+            shipping_charge: 100,
+            bank_charge: 100,
         }
     },
     created: async function () {
@@ -160,6 +170,19 @@ export default {
         this.$watch('p_search_key',(n,o)=>{
             this.fetch_branch_product_for_order();
         })
+    },
+    watch: {
+        "tota_order_price": {
+            handler: function(v){
+                if(v <= 10000){
+                    this.shipping_charge = 100;
+                }else{
+                    let mod_price = ((v - 10000 )/ 5000) * 50;
+                    this.shipping_charge = 100 + mod_price;
+                }
+                console.log(v);
+            }
+        }
     },
     methods: {
         ...mapActions([

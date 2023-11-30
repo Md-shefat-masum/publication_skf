@@ -18,10 +18,12 @@
             box-sizing: border-box;
         }
         .sales_amoutn_print_content{
-            width: 5in;
+            width: 4.6in;
             text-align: center;
+            float: right;
             padding: 5px;
             box-sizing: border-box;
+            /* border: 1px solid rgba(0, 0, 0, 0.397); */
         }
         h4{
             font-size: 22px;
@@ -43,16 +45,17 @@
         }
 
         .products{
-            display: flex;
+            /* display: flex; */
             flex-wrap: wrap;
         }
 
         .products .list{
-
+            /* width:  */
         }
 
         .products table{
             font-size: 12px;
+            width: 100%;
         }
         .products table td,
         .products table th{
@@ -96,10 +99,35 @@
         @media print{
             @page {
                 size: landscape;
-                margin: 0px;
+                margin-left: 25px;
+                margin-top: 20px;
+                /* size: 5in 8in; */
+                /* size: 7in 4.3in landscape; */
+            }
+
+            body{
+                /* padding: 10px; */
+            }
+
+            body *{
+                color: rgba(0, 0, 0, 1);
+            }
+            table thead tr th,
+            table thead tr td,
+            table tbody tr td,
+            table tbody tr th,
+            table tfoot tr td,
+            table tfoot tr th{
+                border: 1px solid rgba(0, 0, 0, 1)!important;
             }
         }
     </style>
+    {{-- <style type="text/css" media="print">
+        @page {
+            size: landscape;
+            margin: 0px;
+        }
+    </style> --}}
 </head>
 
 <body>
@@ -158,20 +186,22 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($order->details as $item)
-                                <tr>
-                                    <td>
-                                        {{-- {{ $item->id }} --}}
-                                        {{-- {{ $item->product_id }} --}}
-                                        {{ $item->product_name }}
-                                    </td>
-                                    <td>{{ $item->qty }}</td>
-                                    <td>{{ $item->product_price }}</td>
-                                    <td>{{ round((100 * $item->discount_price) / $item->product_price)  }} %</td>
-                                    <td>{{ $item->sales_price }}</td>
-                                    <td>{{ $item->qty * $item->sales_price }}</td>
-                                </tr>
-                            @endforeach
+                            @for ($i = 0; $i < 7; $i++)
+                                @foreach ($order->details as $item)
+                                    <tr>
+                                        <td>
+                                            {{-- {{ $item->id }} --}}
+                                            {{-- {{ $item->product_id }} --}}
+                                            {{ $item->product_name }}
+                                        </td>
+                                        <td>{{ $item->qty }}</td>
+                                        <td>{{ $item->product_price }}</td>
+                                        <td>{{ round((100 * $item->discount_price) / $item->product_price)  }} %</td>
+                                        <td>{{ $item->sales_price }}</td>
+                                        <td>{{ $item->qty * $item->sales_price }}</td>
+                                    </tr>
+                                @endforeach
+                            @endfor
                         </tbody>
                         <tfoot>
                             <tr>

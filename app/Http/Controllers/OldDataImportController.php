@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Product\Category;
 use App\Models\Product\Product;
 use App\Models\Product\ProductStockLog;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use mysqli;
 
@@ -165,5 +167,13 @@ class OldDataImportController extends Controller
         } else {
             echo "0 results";
         }
+    }
+
+    public function users()
+    {
+        $file = file_get_contents(public_path('jsons/customers.json'));
+        $customers = collect(json_decode($file));
+        $file2 = file_get_contents(public_path('jsons/notice_pass.json'));
+        $notice_pass = collect(json_decode($file2));
     }
 }
