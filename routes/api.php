@@ -71,9 +71,12 @@ Route::group(
                 Route::post('/new-varient', 'Task\TaskController@save_new_varient');
                 Route::post('/new-task', 'Task\TaskController@save_new_task');
                 Route::get('/complete/{task}', 'Task\TaskController@complete');
+                Route::get('/complete_employee/{task}', 'Task\TaskController@complete_by_employee');
+                Route::get('/blink/{task}', 'Task\TaskController@blink');
                 Route::post('/update-task', 'Task\TaskController@update');
                 Route::post('/delete-task', 'Task\TaskController@delete');
                 Route::get('/incomplete-task-count', 'Task\TaskController@incomplete_task_count');
+                Route::get('/all', 'Task\TaskController@all');
                 Route::get('/{task}', 'Task\TaskController@get_task');
             });
 
