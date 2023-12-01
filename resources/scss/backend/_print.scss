@@ -13,14 +13,27 @@
         padding: 20px;
     }
 
-    .print_body{
+    .print_body {
         padding-bottom: 50px;
     }
 
-    .break_before{
+    .break_before {
         break-before: always;
+        page-break-after: always;
     }
-    .break_after{
+
+    .break_after {
         break-after: always;
+        page-break-after: always;
+    }
+
+    .content-body,
+    .list_card .card-body {
+        max-height: unset;
+        height: unset;
+    }
+
+    .app_frame {
+        display: unset;
     }
 }
