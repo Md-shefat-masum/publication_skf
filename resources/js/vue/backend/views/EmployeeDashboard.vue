@@ -39,7 +39,7 @@
                             <ul class="custom_scroll">
                                 <li v-for="task in get_employee_taks.data" :key="task.id">
                                     <div class="left">
-                                        <input :checked="task.complete" @change="complete_employee_task(task.auth_user.id)" type="checkbox" class="form-check-input">
+                                        <input :checked="task.auth_user && task.auth_user.is_complete" @change="complete_employee_task(task.auth_user.id)" type="checkbox" class="form-check-input">
                                         <router-link v-if="task.creator && task.creator == auth.id" :to="{ name: 'TaskDetailsEmployee', params: { id: task.id } }"
                                             class="text-warning">
                                             <i class="fa fa-pencil"></i>
