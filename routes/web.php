@@ -111,9 +111,9 @@ Route::get('/old-users', function () {
     $conn->close();
 });
 
-Route::get('/data-reload', function () {
-    \Illuminate\Support\Facades\Artisan::call('migrate:fresh', ['--seed' => true]);
-    \Illuminate\Support\Facades\Artisan::call('migrate', ['--path' => 'vendor/laravel/passport/database/migrations', '--force' => true]);
-    \Illuminate\Support\Facades\Artisan::call('passport:install');
-    return redirect()->back();
-});
+// Route::get('/data-reload', function () {
+//     \Illuminate\Support\Facades\Artisan::call('migrate:fresh', ['--seed' => true]);
+//     \Illuminate\Support\Facades\Artisan::call('migrate', ['--path' => 'vendor/laravel/passport/database/migrations', '--force' => true]);
+//     \Illuminate\Support\Facades\Artisan::call('passport:install');
+//     return redirect()->back();
+// });
