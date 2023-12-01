@@ -39,8 +39,8 @@
                             <ul class="custom_scroll">
                                 <li v-for="task in get_employee_taks.data" :key="task.id">
                                     <div class="left">
-                                        <input :checked="task.complete" @change="complete_task(task.id)" type="checkbox" class="form-check-input">
-                                        <router-link :to="{ name: 'TaskDetailsEmployee', params: { id: task.id } }"
+                                        <input :checked="task.complete" @change="complete_employee_task(task.auth_user.id)" type="checkbox" class="form-check-input">
+                                        <router-link v-if="task.creator && task.creator == auth.id" :to="{ name: 'TaskDetailsEmployee', params: { id: task.id } }"
                                             class="text-warning">
                                             <i class="fa fa-pencil"></i>
                                         </router-link>
@@ -114,7 +114,7 @@ export default {
     methods: {
         ...mapActions([
             'employeeFetchAllTasks',
-            'complete_task',
+            'complete_employee_task',
             'new_task',
         ]),
         get_analytics: async function(){
@@ -138,8 +138,12 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'get_employee_taks'
-        ])
+            'get_employee_taks',
+
+        ]),
+        ...mapGetters({
+            auth: `get_auth_information`,
+        }),
     }
 }
 </script>
