@@ -16,18 +16,29 @@
                     </small>
                 </h4>
                 <div class="search">
-                    <form action="#">
+                    <form action="#" class="d-flex gap-1">
                         <input @keyup="call_store(`set_${store_prefix}_search_key`,$event.target.value)" class="form-control border border-info" placeholder="search..." type="search">
+                        <input @change="set_selected_task_target_date($event.target.value)" @click="$event.target.showPicker();" class="form-control border border-info" type="date">
+                        <select name="" id="" @change="set_selected_task_user_id($event.target.value)" class="form-select">
+                            <option value="">select user</option>
+                            <option v-for="employee in all_employee" :value="employee.id" :key="employee.id">
+                                {{ employee.first_name }}
+                                {{ employee.last_name }}
+                            </option>
+                        </select>
+                        <button type="reset" @click="reset_task_filter()" class="btn btn-sm btn-outline-warning">
+                            clear
+                        </button>
                     </form>
                 </div>
                 <div class="btns d-flex gap-2 align-items-center">
-                    <router-link
+                    <!-- <router-link
                         :permission="'can_create'"
                         :to="{name: `Create${route_prefix}`}"
                         :class="'btn rounded-pill btn-outline-info'">
                         <i class="fa fa-pencil me-5px"></i>
                         Create
-                    </router-link>
+                    </router-link> -->
                     <div class="table_actions">
                         <a href="#" @click.prevent="()=>''" class="btn px-1 btn-outline-secondary">
                             <i class="fa fa-list"></i>
@@ -45,12 +56,12 @@
                                     Export Selected
                                 </a>
                             </li>
-                            <li>
+                            <!-- <li>
                                 <router-link :to="{name:`Import${route_prefix}`}">
                                     <i class="fa-regular fa-hand-point-right"></i>
                                     Import
                                 </router-link>
-                            </li>
+                            </li> -->
                             <li>
                                 <a href="#" v-if="this[`get_${store_prefix}_show_active_data`]" title="display data that has been deactivated" @click.prevent="call_store(`set_${store_prefix}_show_active_data`,0)" class="d-flex">
                                     <i class="fa-regular fa-hand-point-right"></i>
@@ -71,11 +82,12 @@
                         <tr>
                             <th><input @click="call_store(`set_select_all_${store_prefix}s`)" type="checkbox" class="form-check-input check_all"></th>
                             <table-th :sort="true" :tkey="'id'" :title="'ID'" :ariaLable="'id'"/>
-                            <table-th :sort="true" :tkey="'name'" :title="'Name'" />
-                            <table-th :sort="false" :tkey="'phone_number'" :title="'Number'" />
-                            <table-th :sort="false" :tkey="'address'" :title="'address'" />
-                            <table-th :sort="false" :tkey="'income'" :title="'Income'" />
-                            <table-th :sort="false" :tkey="'expense'" :title="'expense'" />
+                            <table-th :sort="true" :tkey="'title'" :title="'Title'" />
+                            <table-th :sort="true" :tkey="'target_date'" :title="'date'" />
+                            <table-th :sort="true" :tkey="'target_time'" :title="'time'" />
+                            <table-th :sort="true" :tkey="'complete'" :title="'IS Complete'" />
+                            <table-th :sort="true" :tkey="'is_blink'" :title="'Is Important'" />
+                            <table-th :sort="true" :tkey="'details'" :title="'Details'" />
                             <!-- <table-th :sort="true" :tkey="'status'" :title="'Status'" /> -->
                             <th aria-label="actions">Actions</th>
                         </tr>
@@ -87,15 +99,39 @@
                                 <input v-else @change="call_store(`set_selected_${store_prefix}s`,item)" type="checkbox" class="form-check-input">
                             </td>
                             <td>{{ item.id }}</td>
-                            <td>
+                            <td class="text-start">
+                                <span style="width: 35px;" class="me-1 d-inline-block">
+                                    <img style="width: 35px; float:left; " v-if="item.is_blink && item.complete==0"  src="/Emergency_Light.gif" alt="">
+                                </span>
                                 <span class="text-warning cursor_pointer" @click.prevent="call_store(`set_${store_prefix}`,item)">
-                                    {{ item.name }}
+                                    {{ item.title }}
                                 </span>
                             </td>
-                            <td>{{ item.phone_number }} </td>
-                            <td>{{ item.address }} </td>
-                            <td>{{ item.income }} </td>
-                            <td>{{ item.expense }} </td>
+                            <td>{{ item.formated_date }} </td>
+                            <td>{{ item.formated_time }} </td>
+                            <td>
+                                <!-- <div v-if="!selected_task_user_id" class="form-check form-switch">
+                                    <label class="form-check-label" for="flexSwitchCheckChecked">
+                                        <input @change="complete_task(item.id)" v-if="item.complete" checked class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" >
+                                        <input @change="complete_task(item.id)" v-else class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" >
+                                    </label>
+                                </div> -->
+                                <div v-if="selected_task_user_id" class="form-check form-switch">
+                                    <label class="form-check-label" for="flexSwitchCheckChecked">
+                                        <input @change="complete_employee_task(item.given_user.id)" v-if="item.given_user.is_complete" checked class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" >
+                                        <input @change="complete_employee_task(item.given_user.id)" v-else class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" >
+                                    </label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-check form-switch">
+                                    <label class="form-check-label" for="flexSwitchCheckChecked">
+                                        <input @change="blink_task(item.id); item.is_blink = 0;" v-if="item.is_blink" checked class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" >
+                                        <input @change="blink_task(item.id); item.is_blink = 1;" v-else class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" >
+                                    </label>
+                                </div>
+                            </td>
+                            <td>{{ item.details }} </td>
                             <!-- <td>
                                 <span v-if="item.status == 1" class="badge bg-label-success me-1">active</span>
                                 <span v-if="item.status == 0" class="badge bg-label-success me-1">deactive</span>
@@ -207,8 +243,9 @@ export default {
 
         }
     },
-    created: function(){
-        this[`fetch_${store_prefix}s`]();
+    created: async function(){
+        await this.fetch_all_employee();
+        await this[`fetch_${store_prefix}s`]();
     },
     methods: {
         ...mapActions([
@@ -217,7 +254,15 @@ export default {
             `restore_${store_prefix}`,
             `export_${store_prefix}_all`,
             `export_selected_${store_prefix}_csv`,
+            `fetch_all_employee`,
+            'complete_employee_task',
         ]),
+        ...mapActions({
+            fetch_tasks: 'super_admin_fetch_all_tasks',
+            delete_task: 'delete_task',
+            complete_task: 'complete_task',
+            blink_task: 'blink_task',
+        }),
         ...mapMutations([
             `set_${store_prefix}_paginate`,
             `set_${store_prefix}_page`,
@@ -229,6 +274,9 @@ export default {
             `set_select_all_${store_prefix}s`,
             `set_clear_selected_${store_prefix}s`,
             `set_${store_prefix}_show_selected`,
+            `set_selected_task_user_id`,
+            `set_selected_task_target_date`,
+            `reset_task_filter`,
         ]),
 
         call_store: function(name, params=null){
@@ -252,6 +300,8 @@ export default {
             `get_${store_prefix}s`,
             `get_${store_prefix}_selected`,
             `get_${store_prefix}_show_active_data`,
+            `selected_task_user_id`,
+            `all_employee`,
         ]),
     }
 }
