@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="product_report card-body text-nowrap">
-                <table class="table table-bordered" v-if="product_report.length">
+                <table class="table table-bordered table-hover" v-if="product_report.length">
                     <thead>
                         <tr>
                             <template v-for="(title, index) in Object.keys(product_report[0])">
