@@ -5,7 +5,7 @@
         :aria-label="ariaLable"
     >
         {{ title }}
-        <table-heading-asc-caret :tkey="tkey" :module="`${store_prefix}_modules`" />
+        <table-heading-asc-caret :tkey="tkey" :module="`${store_prefix}`" />
     </th>
 </template>
 
