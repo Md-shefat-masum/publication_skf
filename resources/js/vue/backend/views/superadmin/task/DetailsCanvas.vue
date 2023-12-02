@@ -4,7 +4,14 @@
             <div class="content_header">
                 <div class="d-flex gap-1 flex-wrap align-content-center">
                     <h3 class="offcanvas-title">Details</h3>
-
+                    <div>
+                        <router-link :to="{name: 'TaskDetails', params:{id:task.id}}" class="btn btn-sm btn-outline-warning mx-1">
+                            <i class="fa fa-pencil"></i> Edit
+                        </router-link>
+                        <a href="#" @click.prevent="delete_task(task.id)" class="btn btn-sm btn-outline-danger mx-1">
+                            <i class="fa fa-trash"></i> Delete
+                        </a>
+                    </div>
                 </div>
                 <i @click="call_store(`set_${store_prefix}`,null)" class="fa fa-times"></i>
             </div>
@@ -17,49 +24,16 @@
                             <td>{{ this[`get_${store_prefix}`].id }}</td>
                         </tr>
                         <tr>
-                            <td>Name</td>
+                            <td>Title</td>
                             <td>:</td>
-                            <td>{{ this[`get_${store_prefix}`].name }}</td>
+                            <td>{{ this[`get_${store_prefix}`].title }}</td>
                         </tr>
                         <tr>
-                            <td>Number</td>
+                            <td>Details</td>
                             <td>:</td>
-                            <td>{{ this[`get_${store_prefix}`].phone_number }}</td>
-                        </tr>
-                        <tr>
-                            <td>Address</td>
-                            <td>:</td>
-                            <td>{{ this[`get_${store_prefix}`].address }}</td>
-                        </tr>
-                        <tr>
-                            <td>Income</td>
-                            <td>:</td>
-                            <td>{{ this[`get_${store_prefix}`].income }}</td>
-                        </tr>
-                        <tr>
-                            <td>Expense</td>
-                            <td>:</td>
-                            <td>{{ this[`get_${store_prefix}`].expense }}</td>
+                            <td>{{ this[`get_${store_prefix}`].details }}</td>
                         </tr>
 
-                        <tr>
-                            <td>Status</td>
-                            <td>:</td>
-                            <td>
-                                <span v-if="this[`get_${store_prefix}`].status == 1" class="badge bg-label-success me-1">active</span>
-                                <span v-if="this[`get_${store_prefix}`].status == 0" class="badge bg-label-success me-1">deactive</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>created at</td>
-                            <td>:</td>
-                            <td>{{ new Date(this[`get_${store_prefix}`].created_at).toLocaleString() }}</td>
-                        </tr>
-                        <tr>
-                            <td>udpated at</td>
-                            <td>:</td>
-                            <td>{{ new Date(this[`get_${store_prefix}`].updated_at).toLocaleString() }}</td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -68,7 +42,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 /** store and route prefix for export object use */
 import PageSetup from './PageSetup';
 const {route_prefix, store_prefix} = PageSetup;
@@ -82,12 +56,20 @@ export default {
     },
     methods: {
         ...mapMutations([`set_${store_prefix}`]),
+        ...mapActions({
+            fetch_tasks: 'super_admin_fetch_all_tasks',
+            delete_task: 'delete_task',
+            complete_task: 'complete_task',
+        }),
         call_store: function(name, params=null){
             this[name](params)
         },
     },
     computed: {
-        ...mapGetters([`get_${store_prefix}`])
+        ...mapGetters([`get_${store_prefix}`]),
+        ...mapGetters({
+            task: `get_${store_prefix}`
+        }),
     }
 }
 </script>
