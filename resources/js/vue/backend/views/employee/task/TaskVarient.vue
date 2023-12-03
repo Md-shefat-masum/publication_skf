@@ -46,7 +46,7 @@
                             </li>
                             <li class="d-flex gap-2" v-for="(value, index) in varient_values" :key="index">
                                 <div>
-                                    <a @click.prevent="remove_varient(index)" href="#">
+                                    <a v-if="value.creator == auth.id" @click.prevent="remove_varient(index)" href="#">
                                         <i class="fa fa-trash text-danger"></i>
                                     </a>
                                     <br>
@@ -56,7 +56,11 @@
                                     </a>
                                 </div>
                                 <div class="flex_1">
-                                    <textarea class="form-control mb-2" v-model="value.title"></textarea>
+                                    <textarea v-if="value.creator == auth.id" class="form-control mb-2" v-model="value.title"></textarea>
+                                    <textarea v-else-if="!value.id" class="form-control mb-2" v-model="value.title"></textarea>
+                                    <div v-else class="form-control mb-2">
+                                        {{ value.title }}
+                                    </div>
                                 </div>
                             </li>
                         </ul>
@@ -120,7 +124,10 @@ export default {
         ...mapGetters({
             varients: "super_admin_all_task_varients",
             selected_varient: "super_admin_selected_varient",
-        })
+        }),
+        ...mapGetters({
+            auth: `get_auth_information`,
+        }),
     }
 };
 </script>
