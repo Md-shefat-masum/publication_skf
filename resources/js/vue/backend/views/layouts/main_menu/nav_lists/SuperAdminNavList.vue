@@ -17,7 +17,8 @@
                 <span data-i18n="Apps &amp; Pages">managements</span>
             </li>
 
-            <left-nav-list-single :role_permissions="['super_admin','admin']" :icon="'fa fa-list'" :to="`SuperAdminTaskCreate`" :text="'Tasks'" :alert_count="incomplete_task_count" />
+            <left-nav-list-single :role_permissions="['super_admin','admin']" :icon="'fa fa-pencil'" :to="`SuperAdminTaskCreate`" :text="'Create Task'" :alert_count="0" />
+            <left-nav-list-single :role_permissions="['super_admin','admin']" :icon="'fa fa-list'" :to="`AllSuperAdminTask`" :text="'All Tasks'" :alert_count="incomplete_task_count" />
 
             <left-nav-list-group :role_permissions="['super_admin','admin','user']" :icon="`fa fa-gears`" :text="`Settings`" :alert_count="0">
                 <left-nav-list-item :to="'settingProfile'" :text="'Profile'" />
