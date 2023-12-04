@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container-fluid">
         <div class="card list_card py-2">
             <div class="accounts_at_a_glance custom_scroll">
                 <table class="table table-bordered">
@@ -123,7 +123,7 @@ export default {
     },
     created: async function(){
         this.from_date = moment().subtract(30,'d').format('YYYY-MM-DD');
-        this.to_date = moment().format('YYYY-MM-DD');
+        this.to_date = moment().add(2,'d').format('YYYY-MM-DD');
         this.date_title = moment(this.from_date).format('MMM DD - ');
         this.date_title += moment(this.to_date).format('MMM DD');
 
