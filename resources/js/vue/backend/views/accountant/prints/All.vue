@@ -117,13 +117,13 @@
                                             </permission-button>
                                         </li>
                                         <li>
-                                            <permission-button
+                                            <!-- <permission-button
                                                 :permission="'can_edit'"
                                                 :to="{name:`Edit${route_prefix}`,params:{id: item.id}}"
                                                 :classList="''">
                                                 <i class="fa text-warning fa-pencil"></i>
                                                 Edit
-                                            </permission-button>
+                                            </permission-button> -->
                                         </li>
                                         <li v-if="item.status == 1">
                                             <permission-button
