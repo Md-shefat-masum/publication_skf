@@ -3,7 +3,7 @@
         <div class="card list_card">
             <div class="card-header">
                 <h4>
-                    Branch Due List s
+                    Branch Due List
                 </h4>
                 <div class="search">
                     <!-- <form action="#">
@@ -18,7 +18,7 @@
                         </a>
                         <ul>
                             <li>
-                                <a href="" @click.prevent="export_in_csv({data:all_dues, col:[`first_name`,`last_name`,`mobile_number`,`total_bill`,`total_paid`,`total_due`]})">
+                                <a href="" @click.prevent="export_in_csv({data:all_dues, col:[`first_name`,`last_name`,`mobile_number`,`deposit`,`total_bill`,`total_paid`,`total_due`,`extra`]})">
                                     <i class="fa-regular fa-hand-point-right"></i>
                                     Export All
                                 </a>
@@ -35,9 +35,11 @@
                             <table-th :sort="false" :tkey="'id'" :title="'SL'" :ariaLable="'id'"/>
                             <table-th :sort="false" :tkey="''" :title="'Full Name'" />
                             <table-th :sort="false" :tkey="''" :title="'Contact'" />
+                            <table-th :sort="false" :tkey="''" :title="'Deposit'" />
                             <table-th :sort="false" :tkey="''" :title="'Total Bill'" />
                             <table-th :sort="false" :tkey="''" :title="'Total Paid'" />
                             <table-th :sort="false" :tkey="''" :title="'Total Due'" />
+                            <table-th :sort="false" :tkey="''" :title="'Advanced'" />
                             <table-th :sort="false" :tkey="''" :title="'action'" />
                         </tr>
                     </thead>
@@ -46,9 +48,11 @@
                             <td>{{ index + 1 }}</td>
                             <td>{{ branch.first_name }} {{ branch.last_name }}</td>
                             <td>{{ branch.mobile_number }}</td>
+                            <td>{{ branch.transaction.deposit_amount }}</td>
                             <td>{{ branch.total_bill }}</td>
                             <td>{{ branch.total_paid }}</td>
                             <td>{{ branch.total_due }}</td>
+                            <td>{{ branch.transaction.extra_money }}</td>
                             <td>
                                 <router-link :to="{name:`BranchDuePayment`,params:{user_id:branch.id}}" class="btn btn-sm btn-outline-success">
                                     Payment
