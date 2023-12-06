@@ -130,8 +130,8 @@ export default {
         }
     },
     created: async function(){
-        this.from_date = moment().subtract(30,'d').format('YYYY-MM-DD');
-        this.to_date = moment().format('YYYY-MM-DD');
+        this.from_date = moment().subtract(31,'d').format('YYYY-MM-DD');
+        this.to_date = moment().add(2,'d').format('YYYY-MM-DD');
         this.date_title = moment(this.from_date).format('MMM DD - ');
         this.date_title += moment(this.to_date).format('MMM DD');
 
