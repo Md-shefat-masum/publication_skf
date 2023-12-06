@@ -60,6 +60,14 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td colspan="4" class="text-end">Advance Paid</td>
+                                        <td class="text-end ">
+                                            <b class="pe-1">
+                                                {{  advance_paid }}
+                                            </b>
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td colspan="4" class="text-end">Paid</td>
                                         <td class="text-end ">
                                             <span class="pe-1">
@@ -67,14 +75,18 @@
                                             </span>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td colspan="4" class="text-end">Due</td>
+                                    <tr >
+                                        <td v-if="total_due - total_paid - advance_paid > 0" colspan="4" class="text-end text-danger">
+                                            Due
+                                        </td>
+                                        <td v-else colspan="4" class="text-end text-warning">Present Extra Money</td>
                                         <td class="text-end ">
                                             <b class="pe-1">
-                                                {{  total_due - total_paid }}
+                                                {{  Math.abs(total_due - total_paid - advance_paid) }}
                                             </b>
                                         </td>
                                     </tr>
+
                                 </tfoot>
                             </table>
 
@@ -86,6 +98,7 @@
                                             <label for="Account">Account</label>
                                             <select v-model="account_id" id="account_id" @change="set_selected_account_values($event.target.value)" name="account_id" class="form-select">
                                                 <option value="">select</option>
+                                                <option value="paid_from_extra_money"> Paid from advanced payment</option>
                                                 <option  v-for="account in accounts" :key="account.id" :value="account.id">
                                                     {{ account.name.replaceAll('_',' ') }}
                                                 </option>
@@ -144,6 +157,7 @@ export default {
             store_prefix,
             route_prefix,
             total_paid: 0,
+            advance_paid: 0,
             account_vlaues: [],
             account_id: null,
             account_number_id: null,
@@ -154,29 +168,20 @@ export default {
         }
     },
     created: async function () {
+        await this.fetch_user({id: this.$route.params.user_id}),
         await this.branch_all_dues_by_id(this.$route.params.user_id);
         await this.fetch_payment_accounts();
         this.due_orders = this.orders;
+        this.advance_paid = this.user.transaction.extra_money;
 
+        this.calc_due_payment_of_orders();
         this.$watch('total_paid',function(v){
-            let rest_amount = this.total_due - this.total_paid;
-            this.due_orders.forEach(order => {
-                let order_due = order.total_price - order.total_paid;
-                if(rest_amount > order_due){
-                    order.minus = order_due;
-                    order.due_amount = 0;
-                    rest_amount = rest_amount - order_due;
-                }else{
-                    // console.log(order_due + " - " + rest_amount);
-                    order.due_amount = rest_amount > 0? order_due - rest_amount : order_due;
-                    order.minus = rest_amount > 0 ? rest_amount : 0;
-                    rest_amount  -= rest_amount;
-                }
-            });
+            this.calc_due_payment_of_orders();
         })
     },
     methods: {
         ...mapActions([
+            `fetch_user`,
             'branch_all_dues_by_id',
             `fetch_payment_accounts`,
         ]),
@@ -193,33 +198,62 @@ export default {
             let account_number_id = this.account_number_id;
             let trx_id = this.trx_id;
             let user_id = this.$route.params.user_id;
+            let total_paid = this.total_paid;
 
+            let extra_money = this.total_due - this.total_paid - this.advance_paid;
+            if(extra_money > 0){
+                extra_money = 0; // it is due, not extra money.
+            }
+
+            let that = this;
             let cconfirm = await window.s_confirm("Submit payment?");
             if(!cconfirm){
                 return 0;
             }
-            this.submitting = true;
-            if(this.submitting){
-                axios.post('/accountant/account-entry/store/due',{
-                    orders,
-                    account_id,
-                    account_number_id,
-                    trx_id,
-                    user_id,
-                })
-                .then(async (res)=>{
-                    this.submitting = false;
-                    this.total_paid = 0;
-                    await this.branch_all_dues_by_id(this.$route.params.user_id);
-                    this.due_orders = this.orders;
-                })
-                .catch(err=>{
-                    this.submitting = false;
-                })
+            that.submitting = true;
+            if(that.submitting){
+                try {
+                    await axios.post('/accountant/account-entry/store/due',{
+                        orders,
+                        account_id,
+                        account_number_id,
+                        trx_id,
+                        user_id,
+                        extra_money,
+                        total_paid,
+                    });
+                    that.submitting = false;
+                    that.total_paid = 0;
+                    await that.fetch_user({id: user_id});
+                    await that.branch_all_dues_by_id(user_id);
+                    that.advance_paid = that.user.transaction.extra_money;
+                    that.due_orders = that.orders;
+                    that.calc_due_payment_of_orders();
+
+                } catch (error) {
+                    that.submitting = false;
+                    console.log(error);
+                }
             }
 
         },
 
+        calc_due_payment_of_orders: function(){
+            let rest_amount = this.total_due - this.total_paid - this.advance_paid;
+            this.due_orders.forEach(order => {
+                let order_due = order.total_price - order.total_paid;
+                if(rest_amount > order_due){
+                    order.minus = order_due;
+                    order.due_amount = 0;
+                    rest_amount = rest_amount - order_due;
+                }else{
+                    // console.log(order_due + " - " + rest_amount);
+                    order.due_amount = rest_amount > 0? order_due - rest_amount : order_due;
+                    order.minus = rest_amount > 0 ? rest_amount : 0;
+                    rest_amount  -= rest_amount;
+                }
+            });
+        },
         set_selected_account_values: function(account_id){
             this.account_vlaues = this.accounts.find(i=>i.id==account_id)?.numbers || [];
         },
@@ -231,6 +265,7 @@ export default {
         ...mapGetters({
             orders: 'all_branch_due_orders',
             accounts: `get_payment_accounts`,
+            user: `get_user`,
         }),
         total_due: function(){
             return this.orders.reduce((t,i)=>t+= (i.total_price - i.total_paid), 0);
