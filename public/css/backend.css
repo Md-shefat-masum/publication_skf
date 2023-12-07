@@ -2185,11 +2185,21 @@ label {
     -webkit-column-break-before: always;
        -moz-column-break-before: always;
             break-before: always;
+    page-break-after: always;
   }
   .break_after {
     -webkit-column-break-after: always;
        -moz-column-break-after: always;
             break-after: always;
+    page-break-after: always;
+  }
+  .content-body,
+  .list_card .card-body {
+    max-height: unset;
+    height: unset;
+  }
+  .app_frame {
+    display: unset;
   }
 }
 
