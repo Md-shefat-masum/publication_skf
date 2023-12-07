@@ -17,6 +17,7 @@ class CreateTaskUsersTable extends Migration
             $table->id();
             $table->bigInteger('task_id')->nullable();
             $table->bigInteger('user_id')->nullable();
+            $table->tinyInteger('is_complete')->nullable();
             $table->timestamps();
         });
     }
