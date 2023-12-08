@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Account\AccountCategory;
+use App\Models\Account\AccountLog;
+use App\Models\Order\OrderPayment;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -39,7 +42,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    protected $appends = ['photo_url'];
+    protected $appends = [
+        'photo_url',
+        'transaction',
+    ];
 
     protected static function booted()
     {
@@ -56,6 +62,18 @@ class User extends Authenticatable
         } else {
             return url('') . '/' . $this->photo;
         }
+    }
+
+    public function getTransactionAttribute()
+    {
+        $expense_amount = OrderPayment::where('user_id',$this->id)->where('approved',1)->sum('amount');
+        $deposit_amount = AccountLog::where('customer_id',$this->id)->where('related_table','users')->sum('amount');
+        $extra_money = $deposit_amount - $expense_amount;
+        return [
+            "expese_amount" => $expense_amount,
+            "deposit_amount" => $deposit_amount,
+            "extra_money" => $extra_money > 0 ? $extra_money : 0,
+        ];
     }
 
     public function roles()
