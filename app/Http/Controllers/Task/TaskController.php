@@ -27,11 +27,11 @@ class TaskController extends Controller
                 ->where('task_users.user_id', auth()->id())
                 ->whereColumn('task_users.task_id', 'tasks.id');
         })
-        ->orderBy('id', 'DESC')
-        ->with(['variants']);
+            ->orderBy('id', 'DESC')
+            ->with(['variants','auth_user']);
 
-        if(request()->has('date')){
-            $query->whereDate('target_date',request()->date);
+        if (request()->has('date')) {
+            $query->whereDate('target_date', request()->date);
         }
 
         $tasks = $query->paginate(25);
@@ -49,9 +49,33 @@ class TaskController extends Controller
     public function complete(Task $task)
     {
         if ($task->complete) {
-            $task->complete = 1;
-        } else {
             $task->complete = 0;
+        } else {
+            $task->complete = 1;
+        }
+        $task->save();
+
+        return response()->json($task);
+    }
+
+    public function complete_by_employee(TaskUser $task)
+    {
+        if ($task->is_complete) {
+            $task->is_complete = 0;
+        } else {
+            $task->is_complete = 1;
+        }
+        $task->save();
+
+        return response()->json($task);
+    }
+
+    public function blink(Task $task)
+    {
+        if ($task->is_blink) {
+            $task->is_blink = 0;
+        } else {
+            $task->is_blink = 1;
         }
         $task->save();
 
@@ -74,7 +98,8 @@ class TaskController extends Controller
     {
         if (request()->title) {
             $varient = TaskVariant::create([
-                'title' => request()->title
+                'title' => request()->title,
+                'creator' => auth()->user()->id,
             ]);
             return $varient;
         }
@@ -108,7 +133,7 @@ class TaskController extends Controller
 
         TaskVariantValue::where('task_variant_id', $task_variant_id)
             ->whereNotIn('id', $ids)
-            ->where('creator',auth()->user()->id)
+            ->where('creator', auth()->user()->id)
             ->delete();
         return response()->json('success');
     }
@@ -130,6 +155,8 @@ class TaskController extends Controller
 
 
         if ($task = Task::create(request()->all())) {
+            $task->creator = auth()->user()->id;
+            $task->save();
             $userRoles = auth()->user()->roles()->first();
             if ($userRoles !== 1) {
                 $taskUser = new TaskUser();
@@ -192,5 +219,53 @@ class TaskController extends Controller
             return true;
         }
         return false;
+    }
+
+    public function all()
+    {
+        $paginate = (int) request()->paginate ?? 10;
+        $orderBy = request()->orderBy ?? 'id';
+        $orderByType = request()->orderByType ?? 'ASC';
+
+        $status = 1;
+        if (request()->has('status')) {
+            $status = request()->status;
+        }
+
+        $query = Task::orderBy($orderBy, $orderByType);
+
+        if (request()->has('target_date')) {
+            $query->whereDate('target_date', request()->target_date);
+        }
+
+        if (request()->has('search_key')) {
+            $key = request()->search_key;
+            $query->where(function ($q) use ($key) {
+                return $q->where('title', $key)
+                    ->orWhere('details', $key)
+                    ->orWhere('complete', $key)
+                    ->orWhere('title', 'LIKE', '%' . $key . '%')
+                    ->orWhere('details', 'LIKE', '%' . $key . '%')
+                    ->orWhere('complete', 'LIKE', '%' . $key . '%');
+            });
+        }
+
+        if (request()->has('user_id')) {
+            $user_id = request()->user_id;
+            $query->whereExists(function ($query) use ($user_id) {
+                $query->select(DB::raw(1))
+                    ->from('task_users')
+                    ->where('task_users.user_id', $user_id)
+                    ->whereColumn('task_users.task_id', 'tasks.id');
+            });
+            $query->with([
+                'given_user' => function($q) use ($user_id){
+                    $q->where('user_id', $user_id);
+                },
+            ]);
+        }
+
+        $data = $query->paginate($paginate);
+        return response()->json($data);
     }
 }
