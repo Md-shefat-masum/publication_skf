@@ -129,7 +129,7 @@ class ProductionController extends Controller
 
         ProductionRelatedSuppliers::where('production_id', $data->id)->delete();
         foreach ($categories as $categroy) {
-            $supplier = ProductionSupplier::where('category_id',$data->id)
+            $supplier = ProductionSupplier::where('category_id',$categroy->id)
                 ->where('name',$categroy->selected_name)->first();
 
             if(($categroy->selected_name && !$categroy->selected_id) || !$supplier && $categroy->selected_name){
@@ -328,7 +328,7 @@ class ProductionController extends Controller
         $categories = json_decode(request()->categories);
         ProductionRelatedSuppliers::where('production_id', $data->id)->delete();
         foreach ($categories as $categroy) {
-            $supplier = ProductionSupplier::where('category_id',$data->id)
+            $supplier = ProductionSupplier::where('category_id',$categroy->id)
                 ->where('name',$categroy->selected_name)->first();
 
             if(($categroy->selected_name && !$categroy->selected_id) || !$supplier && $categroy->selected_name){
