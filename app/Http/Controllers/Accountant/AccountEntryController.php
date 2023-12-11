@@ -113,7 +113,6 @@ class AccountEntryController extends Controller
         try {
             $payment_method = json_decode(request()->payment_method);
         } catch (\Throwable $th) {
-
         }
 
         $account_log = new AccountLog();
@@ -227,60 +226,97 @@ class AccountEntryController extends Controller
             ], 422);
         }
 
-        $category = AccountCategory::where('title','পণ্য বিক্রি আয়')->first();
+        $category = AccountCategory::where('title', 'পণ্য বিক্রি আয়')->first();
+        $advance_payment_category = AccountCategory::where('title', 'অগ্রিম আয়')->first();
         $user = User::find(request()->user_id);
         $payment_method = (object) [];
-        try {
-            $payment_method = json_decode(request()->account_number_id);
-        } catch (\Throwable $th) {
+        $account = null;
+        $account_id = request()->account_id;
+        $no_account_log = true;
+
+        if ($account_id != "paid_from_extra_money") {
+            $no_account_log = false;
+
+            try {
+                $payment_method = json_decode(request()->account_number_id);
+            } catch (\Throwable $th) {
+            }
+            $account = Account::find($account_id);
         }
 
-        $account = Account::find(request()->account_id);
-
-        // dd(request()->all());
+        $account_log = new AccountLog();
+        $extra_money = abs(request()->extra_money);
+        $total_given_amount_entry = 0;
 
         foreach (request()->orders as $order_info) {
             $order_info = (object) $order_info;
             $order = Order::find($order_info->id);
             $total_paid = $order_info->pay_amount;
-            if($total_paid > 0){
+            $total_given_amount_entry += $total_paid;
+            $account_number_id = null;
+            $payment_method_name = "paid_from_extra_money";
+
+            if ($no_account_log == false && $account && $account->id != 1) {
+                $account_number_id = $payment_method->id;
+                $payment_method_name = $account->name;
+            }
+
+            if ($total_paid > 0) {
                 $order_payment = OrderPayment::create([
                     "order_id" => $order->id,
                     "user_id" => $order->user_id,
                     "amount" => $total_paid,
-                    "account_id" => request()->account_id,
-                    "account_number_id" => $account->id != 1 ? $payment_method->id : null,
-                    "trx_id" => $account->id != 1 ? $request->trx_id : null,
-                    "payment_method" => $account->name,
+                    "account_id" => $no_account_log ? null : request()->account_id,
+                    "account_number_id" => $no_account_log ? null : $account_number_id,
+                    "trx_id" => $account_number_id ? $request->trx_id : null,
+                    "payment_method" => $payment_method_name,
                     "date" => Carbon::now()->toDateString(),
                     "account_logs_id" => null,
                     "approved" => 1,
                 ]);
 
-                $account_log = new AccountLog();
+                if ($no_account_log == false) {
+                    $log = $account_log->store([
+                        "name" => $user->first_name . ' ' . $user->last_name,
+                        "customer_id" => $user->id,
+                        "related_table" => "users",
+                        "date" => Carbon::now()->toDateTimeString(),
+                        "category_id" => $category->id,
+                        "trx_id" => $order_payment->trx_id,
+                        "receipt_no" => $order->invoice_id,
+                        "account_id" => $order_payment->account_id,
+                        "account_number_id" => $payment_method->id ?? 0,
+                        "is_expense" => 0,
+                        "is_income" => 1,
+                        "amount" => $order_payment->amount,
+                        "description" => "Customer due collection",
+                    ]);
 
-                $account_log->name = $user->first_name . ' '. $user->last_name;
-                $account_log->customer_id = $user->id;
-                $account_log->related_table = "users";
-
-                $account_log->date = Carbon::now()->toDateTimeString();
-                $account_log->category_id = $category->id;
-                $account_log->trx_id = $order_payment->trx_id;
-                $account_log->account_id = $order_payment->account_id;
-                $account_log->account_number_id = $payment_method->id ?? 0;
-                $account_log->is_expense = 0;
-                $account_log->is_income = 1;
-                $account_log->amount = $order_payment->amount;
-                $account_log->description = "Customer due collection";
-                $account_log->creator = Auth::user()->id;
-                $account_log->save();
-
-                $order_payment->account_logs_id = $account_log->id;
-                $order_payment->save();
-
-                $oderController = new AdminOrderController();
-                $oderController->update_order_payment_status($order);
+                    $order_payment->account_logs_id = $log->id;
+                    $order_payment->save();
+                }
             }
+            $oderController = new AdminOrderController();
+            $oderController->update_order_payment_status($order);
+        }
+
+        $amount = request()->total_paid - $total_given_amount_entry;
+        if ($extra_money > 0 && $amount > 0 && $no_account_log == false) {
+            $account_log->store([
+                "name" => $user->first_name . ' ' . $user->last_name,
+                "customer_id" => $user->id,
+                "related_table" => "users",
+                "date" => Carbon::now()->toDateTimeString(),
+                "category_id" => $advance_payment_category->id,
+                "trx_id" => request()->trx_id,
+                "account_id" =>  $account->id,
+                "account_number_id" => $account->id != 1 ? $payment_method->id : null,
+                "is_expense" => 0,
+                "is_income" => 1,
+                "amount" => $amount,
+                // "amount" => $extra_money,
+                "description" => "Extra Money during Customer due collection",
+            ]);
         }
 
         return response()->json("success", 200);
