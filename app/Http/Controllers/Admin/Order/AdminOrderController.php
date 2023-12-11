@@ -685,7 +685,7 @@ class AdminOrderController extends Controller
 
     public function update_order_payment_status($order)
     {
-        $order->total_paid = round($order->order_payments()->where('approved', 1)->sum('amount'));
+        $order->total_paid = $order->order_payments()->where('approved', 1)->sum('amount');
         $order->payment_status = "due";
         if ($order->total_paid >= $order->total_price) {
             $order->payment_status = 'paid';
