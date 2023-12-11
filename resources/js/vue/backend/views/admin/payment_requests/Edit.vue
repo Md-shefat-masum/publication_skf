@@ -17,7 +17,7 @@
                     <div class="row justify-content-center">
                         <div class="col-lg-10">
                             <div class="admin_form form_1" v-if="this[`get_${store_prefix}`]">
-                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                <div class=" d-none form-group d-grid align-content-start gap-1 mb-2 " >
                                     <!-- <input-field
                                         :label="`Payment Method`"
                                         :name="`payment_method`"
@@ -31,7 +31,7 @@
                                         </option>
                                     </select>
                                 </div>
-                                <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
+                                <div class=" d-none form-group full_width d-grid align-content-start gap-1 mb-2 " >
                                     <label>Select Account</label>
                                     <label :for="`number`+item.setting_value.replaceAll(' ','')" v-for="(item) in selected.values" :key="item.id">
                                         <input type="radio" :value="item.setting_value" :id="`number`+item.setting_value.replaceAll(' ','')" name="number">
@@ -65,6 +65,11 @@
                                     />
                                 </div>
 
+                            </div>
+                            <div v-if="data.attachment">
+                                <a :href="data.attachment.file_url" target="_blank">
+                                    <img :src="data.attachment.file_url" height="100px" alt="">
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -135,7 +140,10 @@ export default {
         ...mapGetters([
             `get_${store_prefix}`,
             `get_transaction_accounts`,
-        ])
+        ]),
+        ...mapGetters({
+            data: `get_${store_prefix}`,
+        })
     }
 };
 </script>

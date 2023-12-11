@@ -90,7 +90,7 @@ const actions = {
         }
     },
 
-    [`store_admin_order`]: async function ({ state, rootGetters, dispatch }, { shipping_charge, total_discount, total_paid }) {
+    [`store_admin_order`]: async function ({ state, rootGetters, dispatch }, { shipping_charge, total_discount, total_paid,account_id }) {
         let carts = [...state.admin_oder_cart];
         let discount = state.admin_order_discount;
         let customer_id = rootGetters.get_user_selected[0]?.id;
@@ -104,6 +104,7 @@ const actions = {
                 sales_price: i.sales_price,
                 total_price: i.total_price,
                 discount_percent: i.discount_percent,
+                account_id,
             }
         });
 
@@ -131,7 +132,11 @@ const actions = {
     },
 
     [`update_admin_order`]: async function ({ state, dispatch },{shipping_charge, total_discount, total_paid }) {
-        let carts = [...state.admin_oder_cart];
+        let carts = [...state.admin_oder_cart].map(i=>{
+            delete i.product;
+            return i;
+        });
+        // console.log(carts);
         let cconfirm = await window.s_confirm("update order");
         if (cconfirm) {
             axios.post('/admin/order/update-order', {
@@ -140,7 +145,7 @@ const actions = {
                 shipping_charge,
                 discount: total_discount,
                 total_paid,
-                total_discount,
+                total_discount
             })
                 .then(res => {
                     // console.log(res.data);
@@ -240,6 +245,21 @@ const actions = {
         state.admin_oder_cart = products;
         commit('set_admin_cart_total')
         commit('calc_discount_amount')
+    },
+
+    [`generete_sales_id`]: async function ({ state, dispatch }, order) {
+        if (!order.sales_id) {
+            let cconfirm = await window.s_confirm("Generate Sales Id");
+            if (cconfirm) {
+                axios.post('/admin/order/generate-sales-id', { order_id: order.id })
+                    .then(res => {
+                        window.s_alert(`sales id created successfully.`);
+                        dispatch("fetch_admin_order", { id: state.admin_order.id, });
+                    })
+            }
+        } else {
+            window.s_alert(`Sales id exists.`, 'warning');
+        }
     },
 
     [`remove_product_from_cart`]: function ({ state, commit }, { product }) {

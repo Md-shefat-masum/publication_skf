@@ -43,11 +43,8 @@ class PaymentRequestController extends Controller
             $key = request()->search_key;
             $query->where(function ($q) use ($key) {
                 return $q->where('id', $key)
-                    ->orWhere('invoice_id', $key)
-                    ->orWhere('invoice_id', 'LIKE', '%' . $key . '%')
-                    ->orWhere('order_status', 'LIKE', '%' . $key . '%')
-                    ->orWhere('payment_status', 'LIKE', '%' . $key . '%')
-                    ->orWhere('delivery_method', 'LIKE', '%' . $key . '%');
+                    ->orWhere('trx_id', $key)
+                    ->orWhere('trx_id', 'LIKE', '%' . $key . '%');
             });
         }
 
@@ -110,7 +107,7 @@ class PaymentRequestController extends Controller
                 "name" => $order_payment->user->first_name . " " . $order_payment->user->last_name,
                 'amount' => - ($order_payment->amount),
                 'category_id' => 1, // ponno theke ay
-                'account_id' => $order_payment->account_id,
+                'account_id' => $order_payment->account_id ?? 2,
                 'account_number_id' => $order_payment->account_number_id,
                 'trx_id' => $order_payment->trx_id,
                 'receipt_no' => request()->receipt_no,
@@ -126,7 +123,7 @@ class PaymentRequestController extends Controller
                 "name" => $order_payment->user->first_name . " " . $order_payment->user->last_name,
                 'amount' => $order_payment->amount,
                 'category_id' => 1, // ponno theke ay
-                'account_id' => $order_payment->account_id,
+                'account_id' => $order_payment->account_id ?? 2, // bank account
                 'account_number_id' => $order_payment->account_number_id,
                 'trx_id' => $order_payment->trx_id,
                 'receipt_no' => request()->receipt_no,
@@ -139,7 +136,7 @@ class PaymentRequestController extends Controller
             $order_payment->save();
 
             if(!$order->sales_id){
-                $this->set_sales_id($order);
+                // $this->set_sales_id($order);
             }
 
             return response()->json("approved");
@@ -165,8 +162,9 @@ class PaymentRequestController extends Controller
             ->with([
                 'user',
                 'order' => function ($q) {
-                    return $q->with(['order_details', 'user']);
-                }
+                    return $q->with(['order_details']);
+                },
+                'attachment'
             ])
             ->where('id', $id)
             ->first();
@@ -193,9 +191,9 @@ class PaymentRequestController extends Controller
         $validator = Validator::make(request()->all(), [
             'id' => ['required'],
             'amount' => ['required'],
-            'payment_method' => ['required'],
+            // 'payment_method' => ['required'],
             'trx_id' => ['required'],
-            'number' => ['required']
+            // 'number' => ['required']
         ]);
 
         if ($validator->fails()) {
@@ -260,7 +258,7 @@ class PaymentRequestController extends Controller
 
         if(!$order->sales_id){
             $payment_controller = new PaymentRequestController();
-            $payment_controller->set_sales_id($order);
+            // $payment_controller->set_sales_id($order);
         }
 
         $log = AccountLog::create([

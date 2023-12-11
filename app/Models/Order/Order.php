@@ -30,8 +30,10 @@ class Order extends Model
     public function order_details()
     {
         return $this->hasMany(OrderDetails::class, 'order_id')->select([
-            'id', 'order_id', 'customer_id', 'user_id', 'product_id',
-            'product_name', 'product_price', 'discount_price', 'discount_percent', 'sales_price', 'qty'
+            'id', 'order_id',
+            'customer_id', 'user_id', 'product_id',
+            'product_name', 'product_price', 'discount_price',
+            'discount_percent', 'sales_price', 'qty'
         ])->with('product');
     }
 
@@ -58,9 +60,16 @@ class Order extends Model
         return $this->hasMany(OrderPayment::class, 'order_id');
     }
 
+    public function approved_order_payments()
+    {
+        return $this->hasMany(OrderPayment::class, 'order_id')->where('approved',1);
+    }
+
     public function payment()
     {
-        return $this->hasOne(OrderPayment::class, 'order_id')->orderBy('id','DESC');
+        return $this->hasOne(OrderPayment::class, 'order_id')
+            ->orderBy('id','DESC')
+            ->with('attachment');
     }
 
     public function ecom_order_payment()

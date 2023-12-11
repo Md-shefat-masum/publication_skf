@@ -74,50 +74,32 @@ Route::group(['prefix' => '', 'namespace' => "Controllers"], function () {
     });
 
     Route::get('/customer-json-to-db', 'OldDataImportController@users');
+
+    Route::get('/reset', "WebsiteController@reset");
 });
 
 Route::get('/dashboard', function () {
     return view('backend.dashboard');
 })->name('dashboard');
 
-Route::get('/test', function () {
-    // return view('test');
-    // dd(request()->getClientIp());
-    DB::table('category_product')->truncate();
-    for ($i = 1; $i <= 12; $i++) {
-        DB::table('category_product')->insert([
-            'category_id' => $i,
-            "product_id" => $i,
-        ]);
-        DB::table('category_product')->insert([
-            'category_id' => 1,
-            "product_id" => $i,
-        ]);
-    }
-});
-
 Route::get('/old-users', function () {
-    $conn = new mysqli("localhost", "shefat", "1234", "almariz_prokasona");
+    $conn = new mysqli("localhost", "root", "", "alzmariz_prokasona");
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "SELECT * FROM users WHERE `role_serial` = 3";
+    $sql = "SELECT * FROM products WHERE `add_to_front` = 1";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
-        // output data of each row
-        User::where('id', '>', 7)->delete();
         while ($row = $result->fetch_object()) {
             try {
-                $user = User::create([
-                    'first_name' => $row->sakha_name,
-                    'user_name' => $row->username,
-                    'email' => $row->email,
-                    'photo' => $row->photo,
-                    'password' => $row->password,
-                ]);
-                $user->roles()->attach([4]);
+                // dd($row);
+                $product = Product::where('product_name',$row->product_title)->first();
+                if($product){
+                    $product->is_top_product = 1;
+                    $product->save();
+                }
             } catch (\Throwable $th) {
                 //throw $th;
                 dump($row);

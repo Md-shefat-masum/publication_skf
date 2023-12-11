@@ -31,6 +31,7 @@ class CreateOrdersTable extends Migration
 
             $table->double("sub_total")->unsigned()->default(0);
             $table->float("delivery_charge")->unsigned()->default(0);
+            $table->float("bank_charge")->unsigned()->default(0);
             $table->float("variant_price")->unsigned()->default(0);
 
             $table->float("discount")->unsigned()->default(0);

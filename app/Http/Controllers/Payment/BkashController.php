@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Order\Order;
 use App\Models\Order\OrderPayment;
 use App\Models\Settings\AppSettingTitle;
+use App\Models\User\Address;
 use Illuminate\Http\Request;
 
 class BkashController extends Controller
@@ -271,7 +272,8 @@ class BkashController extends Controller
             ])
             ->first();;
 
-        $customer_address = $order->order_delivery_info->address;
+        $customer_address = $order->order_delivery_info?
+            $order->order_delivery_info->address: new Address();
 
         return view('payment.bkash.failed', [
             'order' => $order,

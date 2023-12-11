@@ -8,9 +8,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return [$request->user(), auth()->user()];
 });
 
-Route::middleware('cors')->get('/t', function () {
-    return ['ok'];
-});
 
 Route::group(
     ['prefix' => 'v1', 'namespace' => 'Controllers'],
@@ -22,9 +19,31 @@ Route::group(
             Route::post('/api-register', 'Auth\ApiLoginController@register');
             Route::post('/forget-mail', 'Auth\ApiLoginController@forget_mail');
             Route::post('/logout-from-all-devices', 'Auth\ApiLoginController@logout_from_all_devices');
+            Route::post('/login-from-almari', 'Auth\ApiLoginController@login_almari');
         });
 
         Route::group(['middleware' => ['auth:api']], function () {
+            Route::group(['prefix' => 'app'], function () {
+                Route::get('/categories', 'AppApi\CommonController@categories');
+                Route::get('/top-products', 'AppApi\CommonController@top_products');
+                Route::get('/all-products', 'AppApi\CommonController@all_products');
+
+                Route::get('/top-categories', 'AppApi\CommonController@top_categories');
+                Route::get('/banners', 'AppApi\CommonController@banners');
+                Route::get('/products', 'AppApi\CommonController@products');
+
+                Route::post('/store-order', 'AppApi\CommonController@store_order');
+                Route::post('/profile-update', 'AppApi\CommonController@profile_update');
+
+                Route::get('/orders','AppApi\CommonController@orders');
+                Route::get('/orders/dues','AppApi\CommonController@dues');
+
+                Route::get('/payments','AppApi\CommonController@payments');
+                Route::post('/payment','AppApi\CommonController@payment');
+
+                Route::get('/orders/{id}','AppApi\CommonController@order');
+            });
+
             Route::group(['prefix' => 'user'], function () {
                 Route::get('/auth-check', 'Auth\ApiLoginController@auth_check');
                 Route::post('/check-code', 'Auth\ApiLoginController@check_code');
@@ -75,12 +94,6 @@ Route::group(
                 Route::post('/destroy', 'Auth\UserRoleController@destroy');
                 Route::post('/restore', 'Auth\UserRoleController@restore');
                 Route::post('/bulk-import', 'Auth\UserRoleController@bulk_import');
-            });
-
-            Route::group(['prefix' => 'app'], function () {
-                Route::get('/top-categories', 'AppApi\CommonController@top_categories');
-                Route::get('/banners', 'AppApi\CommonController@banners');
-                Route::get('/products', 'AppApi\CommonController@products');
             });
 
             Route::group(['prefix' => 'contact-message'], function () {
@@ -252,6 +265,7 @@ Route::group(
                     Route::post('/receive-due', 'Admin\Order\AdminOrderController@receive_due');
                     Route::post('/delete-payment', 'Admin\Order\AdminOrderController@delete_payment');
                     Route::post('/approve-payment', 'Admin\Order\AdminOrderController@approve_payment');
+                    Route::post('/generate-sales-id', 'Admin\Order\AdminOrderController@generate_sales_id');
 
                     Route::post('/check-orders-with-payments', 'Admin\Order\PaymentRequestController@check_orders_with_payments');
                     Route::post('/save-orders-with-payments', 'Admin\Order\PaymentRequestController@save_orders_with_payments');
@@ -270,8 +284,6 @@ Route::group(
                     Route::post('/add-to-top-cat', 'Admin\Order\AdminOrderManagementController@add_to_top_cat');
                     Route::get('/{id}', 'Admin\Order\AdminOrderManagementController@show');
                 });
-
-
 
                 Route::group(['prefix' => 'payment-request'], function () {
                     Route::post('/approve', 'Admin\Order\PaymentRequestController@approve');

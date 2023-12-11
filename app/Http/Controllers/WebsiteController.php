@@ -2,8 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Account\AccountLog;
+use App\Models\Account\AccountLogAttachment;
+use App\Models\Account\AccountSupplierLog;
 use App\Models\ContactMessage;
+use App\Models\Order\Order;
+use App\Models\Product\ProductCart;
+use App\Models\Product\ProductStockLog;
 use App\Models\User;
+use App\Models\User\PhoneNumber;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -93,5 +100,17 @@ class WebsiteController extends Controller
 
         // $user = User::where('id', Auth::user()->id)->with('roles')->first();
         // return response()->json($user, 200);
+    }
+
+    public function reset()
+    {
+        AccountLogAttachment::truncate();
+        AccountLog::truncate();
+        AccountSupplierLog::truncate();
+        ContactMessage::truncate();
+        Order::truncate();
+        PhoneNumber::truncate();
+        ProductCart::truncate();
+        ProductStockLog::truncate();
     }
 }

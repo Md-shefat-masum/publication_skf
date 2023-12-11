@@ -338,7 +338,7 @@ class AdminOrderController extends Controller
         }else if($this->type == "update"){
             $this->update_order_payment_status($order);
         }else{
-            $this->attach_sales_id($order);
+            // $this->attach_sales_id($order);
         }
 
         return $order;
@@ -686,7 +686,7 @@ class AdminOrderController extends Controller
                 "name" => $payment->user->first_name . " " . $payment->user->last_name,
                 'amount' => $payment->amount,
                 'category_id' => 1, // ponno theke ay
-                'account_id' => $payment->account_id,
+                'account_id' => $payment->account_id ? $payment->account_id : 2,
                 'account_number_id' => $payment->account_number_id,
                 'trx_id' => $payment->trx_id,
                 'receipt_no' => request()->receipt_no,
@@ -726,7 +726,11 @@ class AdminOrderController extends Controller
 
     public function save_order_payments($order, $request)
     {
-        $account = Account::where('name', 'cash')->first();
+        if(isset($request->account_id)){
+            $account = Account::where('id', $request->account_id)->first();
+        }else{
+            $account = Account::where('name', 'cash')->first();
+        }
         $order_payment = OrderPayment::create([
             "order_id" => $order->id,
             "user_id" => $order->user_id,
@@ -757,8 +761,25 @@ class AdminOrderController extends Controller
         $order_payment->account_logs_id = $log->id;
         $order_payment->save();
 
-        $this->attach_sales_id($order);
+        // $this->attach_sales_id($order);
         $this->update_order_payment_status($order);
+    }
+
+    public function generate_sales_id()
+    {
+        $validator = Validator::make(request()->all(), [
+            "order_id" => ["required", "exists:orders,id"],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'err_message' => 'validation error',
+                'data' => $validator->errors(),
+            ], 422);
+        }
+
+        $order = Order::find(request()->order_id);
+        $this->attach_sales_id($order);
     }
 
     public function attach_sales_id($order)
@@ -774,7 +795,6 @@ class AdminOrderController extends Controller
     public function update_order_payment_status($order)
     {
         $order->total_paid = $order->order_payments()->where('approved', 1)->sum('amount');
-        $order->order_status = "delivered";
         $order->payment_status = "due";
         if ($order->total_paid >= $order->total_price) {
             $order->payment_status = 'paid';

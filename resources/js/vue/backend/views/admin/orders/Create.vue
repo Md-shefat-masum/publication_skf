@@ -17,9 +17,9 @@
                         <div>
                             <input v-model="search_key" @keyup="set_p_search_key($event.target.value)" type="search" placeholder="search" class="form-control">
                         </div>
-                        <div class="py-3 order_search_result" v-if="search_key.length && products.data && products.data.length">
+                        <div class="py-3 order_search_result custom_scroll"  style="height: 200px;overflow-y: auto;"  v-if="search_key.length && products.data && products.data.length">
                             <div class="" v-for="product in products.data" :key="product.id">
-                                <div @click="search_key = ''; add_to_cart({product, qty: product.qty?product.qty+1:1})" class="card d-flex cursor-pointer flex-row align-items-center border rounded-sm overflow-hidden" style="gap: 5px;" >
+                                <div @click="add_to_cart({product, qty: product.qty?product.qty+1:1})" class="card d-flex cursor-pointer flex-row align-items-center border rounded-sm overflow-hidden" style="gap: 5px;" >
                                     <div class="pos_card_image_card">
                                         <img :src="product.thumb_image" style="width: 50px;" alt=""/>
                                         <span class="add_icon">
@@ -50,6 +50,7 @@
                                     <table class="table ">
                                         <thead class="position-static" style="position: sticky; bottom: 0;">
                                             <tr>
+                                                <th style="width: 10px;">SL</th>
                                                 <th class="text-start">Title</th>
                                                 <th style="width: 125px;">Price</th>
                                                 <th style="width: 125px;">Qty</th>
@@ -59,7 +60,8 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-for="product in order_carts" :key="product.id">
+                                            <tr v-for="(product, index) in order_carts" :key="product.id">
+                                                <td>{{ index+1 }}</td>
                                                 <td class="text-start">
                                                     {{ product.product_name }} <br>
                                                     <!-- <br>
@@ -94,7 +96,7 @@
                                         </tbody>
                                         <tfoot style="position: sticky; bottom: 0;">
                                             <tr>
-                                                <th colspan="5" class="text-end">total</th>
+                                                <th colspan="6" class="text-end">total</th>
                                                 <th class="text-end font_20">৳ {{ tota_order_price.toFixed(2).toString().enToBn() }}</th>
                                             </tr>
                                         </tfoot>
@@ -135,7 +137,7 @@
                                 <div class="mb-2 d-flex gap-2 justify-content-end">
                                     <label for="delivery_charge">Total Payable</label>
                                     <div class="form-control text-end font_20" style="width: 180px">
-                                        ৳ {{ (+tota_order_price + +shipping_charge - +total_discount).toFixed(2).toString().enToBn() }}
+                                        ৳ {{ (+tota_order_price + +shipping_charge - +total_discount).toFixed(2).enToBn() }}
                                     </div>
                                 </div>
 
@@ -145,33 +147,31 @@
                                 </div>
                                 <div class="mb-2 d-flex gap-2 justify-content-end">
                                     <label for="total_paid">Due</label>
-                                    <div class="form-control text-end font_20" style="width: 180px">
-                                        ৳ {{ (+tota_order_price + +shipping_charge  - +total_discount - +total_paid).toFixed(2).toString().enToBn() }}
+                                    <div
+                                    :class="{'bg-danger':total_due<0, 'bg-success': total_due ==0, 'bg-warning': total_due > 0}"
+                                    class="form-control text-black text-end font_20" style="width: 180px">
+                                        ৳ {{ total_due.toFixed(2).enToBn() }}
                                     </div>
+                                </div>
+
+                                <div class="mb-2">
+                                    <label class="me-2" id="cash">
+                                        <input type="radio" v-model="account_id" name="cash" id="cash" value="1">
+                                        Cash
+                                    </label>
+                                    <label class="me-2" id="bank">
+                                        <input type="radio" v-model="account_id" name="bank" id="bank" value="2">
+                                        Bank
+                                    </label>
                                 </div>
 
                                 <div class="mb-2">
                                     <label class="mb-1">Select Customer</label>
                                     <UserManagementModal :id="`customer_id`" :select_qty="1"></UserManagementModal>
                                 </div>
-                                <!-- <div class="mb-2">
-                                    <label class="mb-1">Discount %</label>
-                                    <input max="100" @keyup="set_admin_order_discount($event)" type="number" min="0" class="form-control"/>
-                                </div> -->
-                                <!-- <div class="mb-2">
-                                    <label class="mb-1">Total Amount</label>
-                                    <input class="form-control" :value="admin_cart_total" readonly name="" style="cursor: no-drop;"/>
-                                </div> -->
-                                <!-- <div class="mb-2">
-                                    <label class="mb-1">Paid Amount</label>
-                                    <input @keyup="set_admin_paid_amount($event.target.value)" class="form-control" name=""/>
-                                </div> -->
-                                <!-- <div class="mb-2">
-                                    <label class="mb-1">Due Amount</label>
-                                    <input class="form-control" :value="admin_due_amount" name="" readonly style="cursor: no-drop;"/>
-                                </div> -->
+
                                 <div class="d-flex gap-1 flex-wrap">
-                                    <button type="button" @click.prevent="store_order({shipping_charge, total_discount, total_paid})"  class="btn btn-outline-info" >
+                                    <button type="button" @click.prevent="store_order({shipping_charge, total_discount, total_paid, account_id})"  class="btn btn-outline-info" >
                                         <i class="fa fa-paper-plane"></i>
                                         Create Order
                                     </button>
@@ -211,6 +211,7 @@ export default {
             total_paid: 0,
             total_discount_percent: 0,
             search_key: '',
+            account_id: 1,
         }
     },
     created: async function () {
@@ -240,7 +241,6 @@ export default {
                     let mod_price = ((v - 10000 )/ 5000) * 50;
                     this.shipping_charge = 100 + mod_price;
                 }
-                console.log(v);
             }
         }
     },
@@ -280,6 +280,10 @@ export default {
             "admin_cart_total": "get_admin_cart_total",
             "admin_due_amount": "get_admin_due_amount",
         }),
+
+        total_due: function(){
+            return +this.tota_order_price + +this.shipping_charge - +this.total_discount - +this.total_paid;
+        }
     }
 };
 </script>

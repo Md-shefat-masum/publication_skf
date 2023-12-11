@@ -4,6 +4,12 @@
             <div class="card-header no_print">
                 <h4>Order Products</h4>
                 <div class="btns" v-if="data">
+                    <a href="#" @click.prevent="generete_sales_id(data)">
+                        <span class="btn btn-sm btn-outline-info rounded-pill me-2">
+                            Generete Sales Id
+                        </span>
+                    </a>
+
                     <a target="_blank" :href="`/invoice-printout/${data.id}`">
                         <span class="btn btn-sm btn-outline-warning rounded-pill me-2">
                             print
@@ -199,6 +205,7 @@
                                 <thead>
                                     <tr>
                                         <th>Media</th>
+                                        <th>Attachment</th>
                                         <th>Date</th>
                                         <th>Contact No</th>
                                         <th>TR No</th>
@@ -217,6 +224,11 @@
                                             &nbsp;
                                             <a href="" @click.prevent="admin_delete_branch_payment({payment:record})" class="text-danger">
                                                 delete
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a :href="record.file_url" target="_blank">
+                                                <img :src="record.file_url" height="60px" alt="">
                                             </a>
                                         </td>
                                         <td>
@@ -242,7 +254,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th colspan="5" class="text-end">Total</th>
+                                        <th colspan="6" class="text-end">Total</th>
                                         <th class="text-end">
                                             <span v-if="data.order_payments_sum_amount">
                                                 {{ data.order_payments_sum_amount.toString().enToBn() }}
@@ -297,6 +309,7 @@ export default {
             'admin_receive_due',
             'admin_delete_branch_payment',
             'admin_approve_branch_payment',
+            'generete_sales_id',
         ]),
         ...mapMutations([
             `set_${store_prefix}`

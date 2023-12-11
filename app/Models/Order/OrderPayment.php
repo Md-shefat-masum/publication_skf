@@ -37,4 +37,8 @@ class OrderPayment extends Model
     {
         return $this->belongsTo(Order::class,'order_id');
     }
+    public function attachment()
+    {
+        return $this->hasOne(OrderPaymentAttachment::class,'order_payment_id');
+    }
 }

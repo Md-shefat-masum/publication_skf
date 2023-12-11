@@ -19,7 +19,26 @@ class Product extends Model
         "stock",
         "sales",
         "returns",
-        "thumb_image_url"
+        "thumb_image_url",
+        "category",
+        "categories",
+    ];
+
+    static $common_selected_fields = [
+        "id",
+        "product_name",
+        "product_name_english",
+        "product_url",
+        "is_top_product",
+        "cost",
+        "sales_price",
+        "stock_alert_qty",
+        "thumb_image",
+        "thumb_alt",
+        "search_keywords",
+        "is_public",
+        "is_branch",
+        "custom_fields",
     ];
 
     public static function boot()
@@ -47,6 +66,16 @@ class Product extends Model
         }
     }
 
+    public function getCategoryAttribute()
+    {
+        $category = $this->categories()->select(['name', 'categories.id'])->first();
+        return $category;
+    }
+    public function getCategoriesAttribute()
+    {
+        $category = $this->categories()->select(['name', 'categories.id'])->get();
+        return $category;
+    }
     public function getStockAttribute()
     {
         $stock = ProductStockLog::where('product_id', $this->id)->sum('qty');
@@ -73,8 +102,9 @@ class Product extends Model
     {
         $discount_amount = 0;
         $discount_percent = 0;
-        $discount_price = 0;
+        $discount_price = $this->sales_price;
         $expire_date = 0;
+        $is_discount = false;
         $discount = ProductDiscount::select([
             "id",
             "product_id",
@@ -88,6 +118,7 @@ class Product extends Model
             ->orderBy('id', "DESC")
             ->first();
         if ($discount) {
+            $is_discount = true;
             if ($discount->flat_discount) {
                 $discount_amount = $discount->flat_discount;
                 $discount_percent = round(100 * $discount->flat_discount / $discount->main_price);
@@ -107,6 +138,7 @@ class Product extends Model
             "discount_percent" => $discount_percent,
             "discount_price" => $discount_price,
             "expire_date" => $expire_date,
+            "is_discount" => $is_discount,
         ];
     }
 

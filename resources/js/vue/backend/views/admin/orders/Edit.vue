@@ -1,9 +1,15 @@
 <template>
     <div class="container-fluid">
-        <div class="card list_card">
+        <div class="card list_card" v-if="data">
             <div class="card-header">
                 <h4>Edit Order</h4>
-                <div class="btns">
+                <div class="btns d-flex">
+                    <router-link
+                        :to="{name:`Details${route_prefix}`,params:{id: data.id}}">
+                        <span class="btn btn-outline-success rounded-pill me-2">
+                            Details
+                        </span>
+                    </router-link>
                     <router-link :to="{ name: `BranchOrder` }" class="btn d-flex rounded-pill btn-outline-warning" >
                         <i class="fa fa-arrow-left me-5px"></i>
                         Back
@@ -17,9 +23,9 @@
                         <div>
                             <input v-model="search_key" @keyup="set_p_search_key($event.target.value)" type="search" placeholder="search" class="form-control">
                         </div>
-                        <div class="py-3 order_search_result" v-if="search_key.length && products.data && products.data.length">
+                        <div class="py-3 order_search_result custom_scroll"  style="height: 200px;overflow-y: auto;" v-if="search_key.length && products.data && products.data.length">
                             <div class="" v-for="product in products.data" :key="product.id">
-                                <div @click="search_key = ''; add_to_cart({product, qty: product.qty?product.qty+1:1})" class="card d-flex cursor-pointer flex-row align-items-center border rounded-sm overflow-hidden" style="gap: 5px;" >
+                                <div @click="add_to_cart({product, qty: product.qty?product.qty+1:1})" class="card d-flex cursor-pointer flex-row align-items-center border rounded-sm overflow-hidden" style="gap: 5px;" >
                                     <div class="pos_card_image_card">
                                         <img :src="product.thumb_image" style="width: 50px;" alt=""/>
                                         <span class="add_icon">
@@ -50,6 +56,7 @@
                                     <table class="table ">
                                         <thead class="position-static" style="position: sticky; bottom: 0;">
                                             <tr>
+                                                <th style="width: 10px;">SL</th>
                                                 <th class="text-start">Title</th>
                                                 <th style="width: 125px;">Price</th>
                                                 <th style="width: 125px;">Qty</th>
@@ -59,7 +66,8 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-for="product in order_carts" :key="product.id">
+                                            <tr v-for="(product, index) in order_carts" :key="product.id">
+                                                <td>{{ index+1 }}</td>
                                                 <td class="text-start">
                                                     {{ product.product_name }} <br>
                                                     <!-- <br>
@@ -94,7 +102,7 @@
                                         </tbody>
                                         <tfoot style="position: sticky; bottom: 0;">
                                             <tr>
-                                                <th colspan="5" class="text-end">total</th>
+                                                <th colspan="6" class="text-end">total</th>
                                                 <th class="text-end font_20">৳ {{ tota_order_price.toFixed(2).toString().enToBn() }}</th>
                                             </tr>
                                         </tfoot>
@@ -138,17 +146,15 @@
                                         ৳ {{ (+tota_order_price + +shipping_charge - +total_discount).toFixed(2).toString().enToBn() }}
                                     </div>
                                 </div>
-
                                 <div class="mb-2 d-flex gap-2 justify-content-end">
                                     <label for="total_paid">Total Paid</label>
-                                    <div class="form-control text-end font_20" style="width: 180px">
-                                        ৳ {{ (total_paid).toFixed(2).toString().enToBn() }}
-                                    </div>
+                                    <input type="number" v-model="total_paid" step=".01" name="total_paid" id="total_paid" class="form-control text-end font_20" style="width: 180px">
                                 </div>
                                 <div class="mb-2 d-flex gap-2 justify-content-end">
                                     <label for="total_paid">Due</label>
-                                    <div class="form-control text-end font_20" style="width: 180px">
-                                        ৳ {{ (+tota_order_price + +shipping_charge  - +total_discount - +total_paid).toFixed(2).toString().enToBn() }}
+                                    <div :class="{'bg-danger':total_due<0, 'bg-success': total_due ==0, 'bg-warning': total_due > 0}"
+                                        class="form-control text-light text-end text-black font_20" style="width: 180px">
+                                        ৳ {{ (total_due).toFixed(2).toString().enToBn() }}
                                     </div>
                                 </div>
 
@@ -206,9 +212,11 @@ export default {
             this.fetch_branch_product_for_order();
         })
         this.$watch('total_discount_percent',(n,o)=>{
-            let total_payable_amout = this.tota_order_price + this.shipping_charge;
-            let discount_amount = total_payable_amout * n / 100;
+            let total_payable_amount = +this.tota_order_price + +this.shipping_charge;
+            let discount_amount = (total_payable_amount * parseInt(n) / 100 );
             this.total_discount = discount_amount;
+
+            console.log(discount_amount, total_payable_amount, n);
         })
         this.$watch('order_carts',(n,o)=>{
             // console.log(n);
@@ -239,7 +247,7 @@ export default {
                     let mod_price = ((v - 10000 )/ 5000) * 50;
                     this.shipping_charge = 100 + mod_price;
                 }
-                console.log(v);
+                // console.log(v);
             }
         }
     },
@@ -285,6 +293,9 @@ export default {
             "admin_due_amount": "get_admin_due_amount",
             'data': `get_${store_prefix}`,
         }),
+        "total_due": function(){
+            return +this.tota_order_price + +this.shipping_charge  - +this.total_discount - +this.total_paid;
+        }
     }
 };
 </script>

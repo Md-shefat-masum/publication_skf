@@ -63,6 +63,9 @@
                                             </span>
                                         @endif
                                     </div>
+                                    @php
+                                        unset($item->description);
+                                    @endphp
                                     <a href="#" onclick="
                                             event.preventDefault();
                                             cart.add_to_cart(`{{json_encode($item)}}`)

@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class OrderPaymentAttachment extends Model
 {
     use HasFactory;
+
+    protected $appends = [
+        'file_url',
+    ];
+
+    public function getFileUrlAttribute()
+    {
+        return asset($this->file);
+    }
 }

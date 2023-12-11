@@ -19,7 +19,7 @@ class AdminOrderManagementController extends Controller
         $paginate = (int) request()->paginate;
         $orderBy = request()->orderBy;
         $orderByType = request()->orderByType;
-        $order_type = "invoice";
+        $order_type = ["invoice","quotation"];
 
         $status = 1;
         if (request()->has('status')) {
@@ -27,13 +27,13 @@ class AdminOrderManagementController extends Controller
         }
 
         if (request()->has('order_type')) {
-            $order_type = request()->order_type;
+            $order_type = ["quotation",request()->order_type];
         }
 
         $query = Order::where('status', $status)
-            ->where('order_type',$order_type)
+            ->whereIn('order_type',$order_type)
             ->with(["user", "order_details"])
-            ->withSum('order_payments', 'amount')
+            ->withSum('approved_order_payments', 'amount')
             ->orderBy($orderBy, $orderByType);
 
         if (request()->has('search_key')) {

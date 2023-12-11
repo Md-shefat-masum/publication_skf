@@ -28,6 +28,11 @@
                 <table class="table" >
                     <tbody>
                         <tr>
+                            <td>Sales Id</td>
+                            <td>:</td>
+                            <td>{{ this[`get_${store_prefix}`].sales_id }}</td>
+                        </tr>
+                        <tr>
                             <td>Order Id</td>
                             <td>:</td>
                             <td>{{ this[`get_${store_prefix}`].invoice_id }}</td>

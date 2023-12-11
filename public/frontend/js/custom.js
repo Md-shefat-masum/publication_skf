@@ -195,6 +195,7 @@ let cart = {
         if (!product) {
             return 0;
         }
+
         product = JSON.parse(product);
         let item = this.find_product(product);
         if (item) {

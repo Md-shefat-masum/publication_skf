@@ -14,7 +14,7 @@
                         </span>
                     </router-link>
                     <router-link
-                        :to="{name:`Edit${route_prefix}`,params:{id: this[`get_${store_prefix}`].id}}">
+                        :to="{name:`EditAdminOrder`,params:{id: this[`get_${store_prefix}`].id}}">
                         <span class="btn btn-sm btn-outline-warning rounded-pill me-2">
                             Edit
                         </span>

@@ -98,8 +98,8 @@
                                 </span>
                             </td>
                             <td>
-                                {{ item.user.first_name  }}
-                                {{ item.user.last_name  }}
+                                {{ item.user?.first_name  }}
+                                {{ item.user?.last_name  }}
                             </td>
                             <td><b>{{ number_format(item.amount).enToBn()  }}</b> tk</td>
                             <td>{{ item.trx_id  }}</td>

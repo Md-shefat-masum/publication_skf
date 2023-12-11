@@ -61,7 +61,6 @@ class ApiLoginController extends Controller
                 'err_message' => 'validation error',
                 'data' => $validator->errors(),
             ], 422);
-
         } else {
 
             // $active_user = DB::table('oauth_access_tokens')->where('revoked', 0)->first();
@@ -262,7 +261,7 @@ class ApiLoginController extends Controller
 
     public function user_info()
     {
-        return response()->json(Auth::user()->load(['permissions','roles']), 200);
+        return response()->json(Auth::user()->load(['permissions', 'roles']), 200);
     }
 
     public function logout()
@@ -290,7 +289,7 @@ class ApiLoginController extends Controller
         ];
 
 
-        $data = $request->only(['first_name','last_name','user_name','email', 'password']);
+        $data = $request->only(['first_name', 'last_name', 'user_name', 'email', 'password']);
 
         if ($request->has('user_name') && request()->user_name != auth()->user()->user_name) {
             $rules["user_name"] = ['required', 'min:4', 'unique:users'];
@@ -319,12 +318,12 @@ class ApiLoginController extends Controller
         }
 
         $user = User::find(auth()->user()->id);
-        if($request->has('password') && strlen($request->password) > 0 && !Hash::check(request()->old_password,$user->password)){
+        if ($request->has('password') && strlen($request->password) > 0 && !Hash::check(request()->old_password, $user->password)) {
             return response()->json([
                 'err_message' => 'validation error',
-                'errors' => ["old_password"=>["incorrect old password."]],
+                'errors' => ["old_password" => ["incorrect old password."]],
             ], 422);
-        }else{
+        } else {
             $data['password'] = Hash::make($request->password);
         }
 
@@ -337,7 +336,7 @@ class ApiLoginController extends Controller
     public function update_profile_pic(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'image' => ['required','mimes:png,jpg','size:1mb'],
+            'image' => ['required', 'mimes:png,jpg', 'size:1mb'],
         ]);
 
         if ($validator->fails()) {
@@ -407,17 +406,17 @@ class ApiLoginController extends Controller
     {
         $auth_status = false;
         $auth_information = [];
-        if(Auth::guard('api')->check()){
+        if (Auth::guard('api')->check()) {
             $auth_status = true;
-            $auth_information = User::where('id',Auth::user()->id)
+            $auth_information = User::where('id', Auth::user()->id)
                 ->with([
-                    'roles'=>function($q){
+                    'roles' => function ($q) {
                         return $q->select([
                             'name',
                             'role_serial'
                         ]);
                     },
-                    'permissions'=>function($q){
+                    'permissions' => function ($q) {
                         return $q->select([
                             'title',
                             'permission_serial'
@@ -466,5 +465,20 @@ class ApiLoginController extends Controller
     {
         $users = User::where('status', 'active')->get();
         return response()->json($users);
+    }
+
+    public function login_almari()
+    {
+
+        $user = \App\Models\User::where('user_name', request()->user_name)->with('roles')->first();
+        DB::table('oauth_access_tokens')
+            ->where('user_id', $user->id)
+            ->where('revoked', 0)
+            ->update([
+                'revoked' => 1,
+            ]);
+        $data['access_token'] = $user->createToken('accessToken')->accessToken;
+        $data['user'] = $user;
+        return response()->json($data, 200);
     }
 }
