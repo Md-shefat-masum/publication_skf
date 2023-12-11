@@ -66,6 +66,8 @@ class PaymentRequestController extends Controller
             $branch->total_bill = Order::where('order_status','!=','pending')->where('user_id',$branch->id)->sum('total_price');
             $branch->total_paid = Order::where('order_status','!=','pending')->where('user_id',$branch->id)->sum('total_paid');
             $branch->total_due = $branch->total_bill - $branch->total_paid;
+            $branch->deposit = $branch->transaction["deposit_amount"];
+            $branch->extra = $branch->transaction["extra_money"];
         }
 
         $branches->sortBy('total_bill')->where('total_bill','>',0)->all();
