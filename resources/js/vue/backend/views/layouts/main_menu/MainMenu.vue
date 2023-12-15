@@ -5,6 +5,7 @@
         <div class="shadow-bottom"></div>
         <div class="main-menu-content custom_scroll">
             <super-admin-nav-list v-if="role_names.includes('super_admin')"></super-admin-nav-list>
+            <employee-nav-list v-if="role_names.includes('employee')"></employee-nav-list>
             <admin-nav-list v-if="role_names.includes('admin')"></admin-nav-list>
             <branch-nav-list v-if="role_names.includes('branch')"></branch-nav-list>
             <production-nav-list v-if="role_names.includes('production')"></production-nav-list>
@@ -23,8 +24,9 @@ import { mapGetters } from 'vuex'
 import ProductionNavList from './nav_lists/ProductionNavList.vue'
 import BranchNavList from './nav_lists/branchNavList.vue'
 import AccountantNavList from './nav_lists/AccountantNavList.vue'
+import EmployeeNavList from './nav_lists/EmployeeNavList.vue'
 export default {
-    components: { MainMenuNavbarTop, SuperAdminNavList, AdminNavList, BranchNavList,ProductionNavList, AccountantNavList },
+    components: {EmployeeNavList, MainMenuNavbarTop, SuperAdminNavList, AdminNavList, BranchNavList,ProductionNavList, AccountantNavList },
     created: function(){
 
     },

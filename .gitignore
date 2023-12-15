@@ -21,3 +21,4 @@ yarn-error.log
 /public/js/app.js
 /public/js/app.js.map
 /public/js/vue/*
+/public/vendor/*

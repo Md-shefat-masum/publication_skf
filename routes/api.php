@@ -59,6 +59,8 @@ Route::group(
             Route::group(['prefix' => 'task'], function () {
                 Route::get('/varients', 'Task\TaskController@varients');
                 Route::get('/super-admin-get-all', 'Task\TaskController@super_admin_get_all');
+                Route::get('/get_all_employee_task', 'Task\TaskController@get_all_employee_task');
+                Route::post('/update_employee_task', 'Task\TaskController@employeeUpdate');
                 Route::post('/save-varient-values', 'Task\TaskController@save_varient_values');
                 Route::post('/new-varient', 'Task\TaskController@save_new_varient');
                 Route::post('/new-task', 'Task\TaskController@save_new_task');
