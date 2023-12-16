@@ -32,29 +32,21 @@
                             <div class="col-sm-6 text-end">
                                 <h5 class="mb-3">To:</h5>
                                 <h3 class="text-dark mb-1">
-                                    {{ $customer_address->first_name }}
-                                    {{ $customer_address->last_name }}
+                                    {{ $customer_address->first_name ?? '' }}
+                                    {{ $customer_address->last_name ?? '' }}
                                 </h3>
                                 <div>
-                                    {{ $customer_address->address }}
-
-                                    {{ $customer_address->city?",":'' }}
-                                    {{ $customer_address->city }}
-
-                                    {{ $customer_address->state?",":'' }}
-                                    {{ $customer_address->state }}
+                                    {{ $customer_address->address ?? '' }}
+                                    {{ $customer_address->city ?? '' }}
+                                    {{ $customer_address->state ?? '' }}
                                 </div>
                                 <div>
-                                    {{ $customer_address->zip_code }}
-                                    {{ $customer_address->zip_code?",":'' }}
-
-                                    {{ $customer_address->zone }}
-
-                                    {{ $customer_address->country?",":'' }}
-                                    {{ $customer_address->country }}
+                                    {{ $customer_address->zip_code ?? '' }}
+                                    {{ $customer_address->zone ?? '' }}
+                                    {{ $customer_address->country ?? '' }}
                                 </div>
-                                <div>Email: {{ $customer_address->email }}</div>
-                                <div>Phone: {{ $customer_address->mobile_number }}</div>
+                                <div>Email: {{ $customer_address->email ?? '' }}</div>
+                                <div>Phone: {{ $customer_address->mobile_number ?? '' }}</div>
                             </div>
                         </div>
                         <div class="table-responsive-sm">
