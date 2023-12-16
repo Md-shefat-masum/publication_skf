@@ -7,6 +7,10 @@ use App\Models\Account\AccountLogAttachment;
 use App\Models\Account\AccountSupplierLog;
 use App\Models\ContactMessage;
 use App\Models\Order\Order;
+use App\Models\Order\OrderDetails;
+use App\Models\Order\OrderPayment;
+use App\Models\Order\OrderPaymentAttachment;
+use App\Models\Order\OrderVariant;
 use App\Models\Product\ProductCart;
 use App\Models\Product\ProductStockLog;
 use App\Models\User;
@@ -107,10 +111,17 @@ class WebsiteController extends Controller
         AccountLogAttachment::truncate();
         AccountLog::truncate();
         AccountSupplierLog::truncate();
+
         ContactMessage::truncate();
-        Order::truncate();
         PhoneNumber::truncate();
+
         ProductCart::truncate();
         ProductStockLog::truncate();
+
+        Order::truncate();
+        OrderDetails::truncate();
+        OrderPayment::truncate();
+        OrderPaymentAttachment::truncate();
+        OrderVariant::truncate();
     }
 }
