@@ -1,13 +1,13 @@
 /**
     stock alert
 
-    1. available na thakle alert deya hobe
-    2. availabel na holeo order neya jabe, pore confirm kora hobe
+    1. ok -  available na thakle alert deya hobe
+    2.ok -   availabel na holeo order neya jabe, pore confirm kora hobe
 
-    3. branch er jonno order accept korle qty wise payment hobe
+    3. ok - branch er jonno order accept korle qty wise payment hobe
 
     conditions:
-    1. order accept hole stock log e add hobe.
+    1. ok - order accept hole stock log e add hobe.
 
     order cancel korle money refund,
     stock change,
@@ -30,15 +30,15 @@
     Path: sugession.js
     Task: completed tasks
 
-    1. admin pricing management
-    2. add to top product
-    3. custom add payment
-    4. branch order payment
-    5. ecommerce order payment
-    6. order status message
-    7. checkout blade bkash numbers solve
-    8. checkout delivery cost update
-    9. paper supplier and paper stock edit
+    1. ok - admin pricing management
+    2. ok -add to top product
+    3. ok -custom add payment
+    4. ok -branch order payment
+    5. ok -ecommerce order payment
+    6. ok -order status message
+    7. ok -checkout blade bkash numbers solve
+    8. ok -checkout delivery cost update
+    9. ok -paper supplier and paper stock edit
 
 
 
@@ -50,7 +50,7 @@
     Path: sugession.js
     Task List: problem need solution
 
-    1. admin jokhon payment approve korbe receipt id kivabe generat hobe.
+    1. ok -  admin jokhon payment approve korbe receipt id kivabe generat hobe.
     2.
 
     nov 14
@@ -58,11 +58,11 @@
     1. accounts e branch due collection.
 
     nov 8
-    1. payment request accept korle sales id generate hobe.
+    1. ok - payment request accept korle sales id generate hobe.
     2.
 
     nov 19
-    1. registration ta fix korte hobe
+    1. ok - registration ta fix korte hobe
 
 
     Project: publication skf
@@ -73,12 +73,31 @@
     Path: sugession.js
     Task List: custom scripts, cart managment
 
-    1. order button baire rakha
-    2. cash taka recive
-    3. due payment e id generate hobe
+    1. ok - order button baire rakha
+    2. ok - cash taka recive
+    3. ok - due payment e id generate hobe
 
     nov 30:
 
-    1. oder create korle delivered hobe. edit korle price edit kora jabena quantity manage kora jabe
+    1. ok- oder create korle delivered hobe. edit korle price edit kora jabena quantity manage kora jabe
 
+    ******************
+
+    todo:
+    1. logo and company informations update
+    2.
+
+    test done:
+    1. ok - branch order to admin, order table, order details table
+    2. ok - branch payment submit
+    3. ok - branch order edit, after edit no modification of data
+
+    4. sales id generate howar sathe sathe stock update hobe.
+    5. production e at a glance hobe. stock out product list.
+    6. product report, branch report,
+    7. account part e at a glance.
+    8. accounts e due collection.
+    9. payroll.
+    10. employee management e ajker kaj add korte hobe.
+    11. super admin e full setup kora.
  */
