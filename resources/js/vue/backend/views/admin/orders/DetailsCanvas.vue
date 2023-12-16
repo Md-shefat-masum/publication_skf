@@ -15,12 +15,14 @@
                             Details
                         </span>
                     </router-link>
-                    <router-link
-                        :to="{name:`Edit${route_prefix}`,params:{id: this[`get_${store_prefix}`].id}}">
-                        <span class="btn btn-sm btn-outline-warning rounded-pill me-2">
-                            Edit
-                        </span>
-                    </router-link>
+                    <span v-if="!this[`get_${store_prefix}`].sales_id">
+                        <router-link
+                            :to="{name:`Edit${route_prefix}`,params:{id: this[`get_${store_prefix}`].id}}">
+                            <span class="btn btn-sm btn-outline-warning rounded-pill me-2">
+                                Edit
+                            </span>
+                        </router-link>
+                    </span>
                     <i @click="call_store(`set_${store_prefix}`,null)" class="fa fa-times"></i>
                 </div>
             </div>
@@ -173,8 +175,8 @@
                     <tbody>
                         <tr v-for="item in this[`get_${store_prefix}`].order_details" :key="item.id">
                             <td>{{ item.product_name }}</td>
-                            <td class="text-center">{{ item.discount_price.toString().enToBn() }} * {{ item.qty.toString().enToBn() }}</td>
-                            <td class="text-end">{{ number_format( item.discount_price * item.qty ).enToBn() }}</td>
+                            <td class="text-center">{{ item.sales_price.toString().enToBn() }} * {{ item.qty.toString().enToBn() }}</td>
+                            <td class="text-end">{{ number_format( item.sales_price * item.qty ).enToBn() }}</td>
                         </tr>
                     </tbody>
                     <tfoot>
@@ -215,7 +217,7 @@
                                 <b>Paid</b>
                             </td>
                             <td class="text-end text-warning">
-                                - {{ number_format( this[`get_${store_prefix}`].order_payments_sum_amount ).enToBn() }}
+                                - {{ number_format( this[`get_${store_prefix}`].total_paid ).enToBn() }}
                             </td>
                         </tr>
                         <tr>
