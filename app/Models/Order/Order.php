@@ -65,6 +65,11 @@ class Order extends Model
         return $this->hasMany(OrderPayment::class, 'order_id')->where('approved',1);
     }
 
+    public function not_approved_order_payments()
+    {
+        return $this->hasMany(OrderPayment::class, 'order_id')->where('approved',0);
+    }
+
     public function payment()
     {
         return $this->hasOne(OrderPayment::class, 'order_id')
