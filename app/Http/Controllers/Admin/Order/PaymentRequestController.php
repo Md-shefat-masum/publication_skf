@@ -72,8 +72,6 @@ class PaymentRequestController extends Controller
         foreach ($branches as $item) {
             $data[] = $item;
         }
-
-
         return $data;
     }
 
@@ -110,7 +108,7 @@ class PaymentRequestController extends Controller
                 'account_id' => $order_payment->account_id ?? 2,
                 'account_number_id' => $order_payment->account_number_id,
                 'trx_id' => $order_payment->trx_id,
-                'receipt_no' => request()->receipt_no,
+                'receipt_no' => $order_payment->order->sales_id,
                 'is_income' => 1,
                 'description' => 'admin rejected client payment',
             ]);
@@ -126,7 +124,7 @@ class PaymentRequestController extends Controller
                 'account_id' => $order_payment->account_id ?? 2, // bank account
                 'account_number_id' => $order_payment->account_number_id,
                 'trx_id' => $order_payment->trx_id,
-                'receipt_no' => request()->receipt_no,
+                'receipt_no' => $order_payment->order->sales_id,
                 'is_income' => 1,
                 'description' => 'admin accepted payment',
             ]);
