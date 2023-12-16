@@ -27,7 +27,7 @@
                                     <div class="footer-mid-menu">
                                         <ul>
                                             <li><a class="hind-siliguri" href="/contact/">যোগাযোগ করুন</a></li>
-                                            <li><a class="hind-siliguri" target="_blank" href="#" rel="noopener">ব্লগ</a></li>
+                                            {{-- <li><a class="hind-siliguri" target="_blank" href="#" rel="noopener">ব্লগ</a></li> --}}
 
                                             <li><a class="hind-siliguri" href="/frequently-asked-questions/">প্রশ্নোত্তর</a></li>
                                             <li><a class="hind-siliguri" href="/how-to-buy">কিভাবে কেনাকাটা করবেন ?</a>
@@ -47,7 +47,7 @@
                                     <div class="footer-mid-menu">
                                         <ul>
                                             <li><a class="hind-siliguri" href="/cart/">শপিং ব্যাগ</a></li>
-                                            <li><a class="hind-siliguri" href="/category/19/প্রি-অর্ডার">প্রি-অর্ডার</a></li>
+                                            {{-- <li><a class="hind-siliguri" href="/category/19/প্রি-অর্ডার">প্রি-অর্ডার</a></li> --}}
                                         </ul>
                                     </div>
                                 </div>
