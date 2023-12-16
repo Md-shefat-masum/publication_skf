@@ -241,12 +241,11 @@
                                             <td>{{ $item->qty * $item->sales_price }}</td>
                                         </tr>
                                         @endforeach
-                                    </tbody>
-                                    <tfoot>
                                         <tr>
-                                            <td colspan="6"></td>
+                                            <td colspan="5"> Service Charge</td>
+                                            <td>{{ $order->delivery_charge }}</td>
                                         </tr>
-                                    </tfoot>
+                                    </tbody>
                                 </table>
 
                             @if (count($chunk[$k])>19)
