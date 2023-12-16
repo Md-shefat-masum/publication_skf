@@ -1,6 +1,7 @@
 import axios from "axios";
 import management_router from "../../../router/router";
 import StoreModule from "../schema/StoreModule";
+import moment from "moment";
 
 let test_module = new StoreModule('admin_order', 'admin/order', 'AdminOrder');
 const { store_prefix, api_prefix, route_prefix } = test_module;
@@ -10,6 +11,7 @@ const state = {
     ...test_module.states(),
     orderByAsc: false,
     order_type: 'id',
+    order_date: moment().format('yyyy-mm-dd'),
 
     admin_product_for_order: {},
     admin_p_search_key: '',
@@ -24,7 +26,7 @@ const state = {
 // get state
 const getters = {
     ...test_module.getters(),
-
+    get_order_date: (state) => state.order_date,
     get_admin_product_for_order: (state) => state.admin_product_for_order,
     get_admin_p_search_key: (state) => state.admin_p_search_key,
     get_admin_oder_cart: (state) => state.admin_oder_cart,
@@ -49,6 +51,9 @@ const actions = {
         }
         if (state[`${store_prefix}_search_key`]) {
             url += `&search_key=${state[`${store_prefix}_search_key`]}`;
+        }
+        if (state[`order_date`]) {
+            url += `&order_date=${state[`order_date`]}`;
         }
         await axios.get(url).then((res) => {
             this.commit(`set_${store_prefix}s`, res.data);
@@ -90,7 +95,7 @@ const actions = {
         }
     },
 
-    [`store_admin_order`]: async function ({ state, rootGetters, dispatch }, { shipping_charge, total_discount, total_paid,account_id }) {
+    [`store_admin_order`]: async function ({ state, rootGetters, dispatch }, { trx_id, account_number_id, shipping_charge, total_discount, total_paid,account_id }) {
         let carts = [...state.admin_oder_cart];
         let discount = state.admin_order_discount;
         let customer_id = rootGetters.get_user_selected[0]?.id;
@@ -104,7 +109,6 @@ const actions = {
                 sales_price: i.sales_price,
                 total_price: i.total_price,
                 discount_percent: i.discount_percent,
-                account_id,
             }
         });
 
@@ -118,6 +122,9 @@ const actions = {
                     discount: total_discount,
                     shipping_charge,
                     total_paid,
+                    trx_id,
+                    account_id,
+                    account_number_id,
                 })
                 .then(res => {
                     // console.log(res.data);
@@ -131,7 +138,7 @@ const actions = {
         }
     },
 
-    [`update_admin_order`]: async function ({ state, dispatch },{shipping_charge, total_discount, total_paid }) {
+    [`update_admin_order`]: async function ({ state, dispatch },{account_id, account_number_id, trx_id, shipping_charge, total_discount, total_paid }) {
         let carts = [...state.admin_oder_cart].map(i=>{
             delete i.product;
             return i;
@@ -145,7 +152,10 @@ const actions = {
                 shipping_charge,
                 discount: total_discount,
                 total_paid,
-                total_discount
+                total_discount,
+                trx_id,
+                account_id,
+                account_number_id,
             })
                 .then(res => {
                     // console.log(res.data);
@@ -289,11 +299,27 @@ const actions = {
         }
     },
 
+    ['delete_order']: async function({ state, dispatch }, order ){
+        let cconfirm = await window.s_confirm("Delete Order");
+        if (cconfirm) {
+            await axios.post('/admin/order/destroy', {id: order.id})
+                .then(res => {
+                    state.order = null;
+                    window.s_alert(`Order Deleted.`);
+                    management_router.push({name: 'BranchOrder'})
+                })
+        }
+    }
+
 }
 
 // mutators
 const mutations = {
     ...test_module.mutations(),
+    set_admin_order_order_date: function(state, data){
+        state.order_date  = data;
+        this.dispatch(`fetch_${store_prefix}s`);
+    },
     set_get_admin_product_for_order: (state, data) => {
         state.admin_product_for_order = data;
     },
