@@ -120,6 +120,8 @@ class CommonController extends Controller
         foreach ($products as $product) {
             $qty = $product['qty'];
             $product = Product::find($product['id']);
+            $discount_price = $product->discount_info->discount_amount;
+            $sales_price = $product->discount_info->discount_price;
             OrderDetails::create([
                 "order_id" => $order->id,
                 "product_id" => $product->id,
@@ -191,6 +193,7 @@ class CommonController extends Controller
         }
 
         $payment = new OrderPayment();
+        $payment->payment_method = 'bank_account';
         $payment->order_id = request()->order_id;
         $payment->amount = request()->amount;
         $payment->trx_id = request()->trx_id;
@@ -225,7 +228,7 @@ class CommonController extends Controller
     public function dues()
     {
         $orders = Order::where('user_id', auth()->user()->id)
-            ->whereNotIn('order_status', ['canceled','pending'])
+            ->whereNotIn('order_status', ['canceled'])
             ->where('payment_status', '!=', 'paid')
             ->orderBy('id', 'DESC')
             ->with('payment')
