@@ -1,3 +1,26 @@
+@php
+    $is_active_site = \App\Models\Settings\AppSettingValue::where('title','shut_down_website')->first();
+@endphp
+@if ($is_active_site->setting_value == 'true' && $_SERVER['REQUEST_URI'] != "/login")
+    <style>
+        body{
+            margin: 0;
+            outline: 0;
+        }
+        .cooming_soon *{
+            background-color: rgb(47, 47, 47);
+            display: grid;
+            height: 100vh;
+            align-items: center;
+            justify-content: center;
+            font-family: sans-serif;
+            color: white !important;
+        }
+    </style>
+    <div class="cooming_soon">
+        <h2>Comming Soon</h2>
+    </div>
+@else
 <html>
 
 <head>
@@ -63,3 +86,4 @@
 </body>
 
 </html>
+@endif
