@@ -26,7 +26,7 @@ class Invoice extends Component
         $this->address2 = AppSettingTitle::getValue("invoice_address_line_2");
         $this->emails = AppSettingTitle::getValue("email", "values");
         $this->phones = AppSettingTitle::getValue("phone_number", "values");
-        $this->customer_address = $this->order->order_delivery_info->address;
+        $this->customer_address = $this->order->order_delivery_info?->address;
     }
 
     public function get_order()
