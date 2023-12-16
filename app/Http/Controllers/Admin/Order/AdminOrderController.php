@@ -99,18 +99,18 @@ class AdminOrderController extends Controller
             "coupon_info" => "",
         ]);
 
-        $this->make_message([
-            "message_products" => $message_products,
-            "sub_total_cost" => $sub_total_cost,
-            "shipping_cost" => $shipping_cost,
-            "coupon_discount" => 0,
-            "total_cost" => $total_cost,
-            "name" => auth()->user()->first_name . ' ' . auth()->user()->last_name,
-            "mobile_number" => auth()->user()->mobile_number,
-            "address" => "",
-            "invoice_id" => $order->invoice_id,
-            "type" => "create order",
-        ]);
+        // $this->make_message([
+        //     "message_products" => $message_products,
+        //     "sub_total_cost" => $sub_total_cost,
+        //     "shipping_cost" => $shipping_cost,
+        //     "coupon_discount" => 0,
+        //     "total_cost" => $total_cost,
+        //     "name" => auth()->user()->first_name . ' ' . auth()->user()->last_name,
+        //     "mobile_number" => auth()->user()->mobile_number,
+        //     "address" => "",
+        //     "invoice_id" => $order->invoice_id,
+        //     "type" => "create order",
+        // ]);
 
         // dd($order);
         return response()->json([
@@ -166,21 +166,21 @@ class AdminOrderController extends Controller
             "coupon_info" => "",
         ]);
 
-        $this->make_message([
-            "message_products" => $message_products,
-            "sub_total_cost" => $sub_total_cost,
-            "shipping_cost" => $shipping_cost,
-            "coupon_discount" => 0,
-            "total_cost" => $total_cost,
-            "name" => auth()->user()->first_name . ' ' . auth()->user()->last_name,
-            "mobile_number" => auth()->user()->mobile_number,
-            "address" => "",
-            "invoice_id" => $order->invoice_id,
-            "type" => "update_order",
-        ]);
+        // $this->make_message([
+        //     "message_products" => $message_products,
+        //     "sub_total_cost" => $sub_total_cost,
+        //     "shipping_cost" => $shipping_cost,
+        //     "coupon_discount" => 0,
+        //     "total_cost" => $total_cost,
+        //     "name" => auth()->user()->first_name . ' ' . auth()->user()->last_name,
+        //     "mobile_number" => auth()->user()->mobile_number,
+        //     "address" => "",
+        //     "invoice_id" => $order->invoice_id,
+        //     "type" => "update_order",
+        // ]);
 
         return response()->json([
-            "message" => "Order Completed Successfully",
+            "message" => "Order updated Successfully",
             "order" => $order->invoice_id,
             "id" => $order->id,
         ], 200);
@@ -280,7 +280,7 @@ class AdminOrderController extends Controller
             "invoice_id" => $invoice_prefix . "-" . Carbon::now()->format("Ymd"),
             "invoice_date" => Carbon::now()->toDateTimeString(),
             "order_type" => "invoice", // Quotation, Pos order, Ecomerce order
-            "order_status" => $order->order_status ? $order->order_status : "processing",
+            "order_status" => $order->order_status ? $order->order_status : "pending",
             // "order_coupon_id" => $coupon_info["order_coupon_id"],
             "order_coupon_id" => null,
 
@@ -335,9 +335,21 @@ class AdminOrderController extends Controller
         // $this->save_delivery_info($order, $request, $shipping_cost, $address);
         if (request()->total_paid && $this->type != "update") {
             $this->save_order_payments($order, $request);
-        }else if($this->type == "update"){
+        } else if ($this->type == "update") {
+            $order_payment = OrderPayment::where('order_id', $order->id)->first();
+            if ($order_payment) {
+                $order_payment->fill([
+                    'amount' => $request->total_paid,
+                    'account_id' => $request->account_id,
+                    'account_number_id' => $request->account_id != 1 ? $request->account_number_id : null,
+                    'trx_id' => $request->account_id != 1 ? $request->trx_id : null,
+                    'approved' => 1,
+                ])->save();
+            } else {
+                $this->save_order_payments($order, $request);
+            }
             $this->update_order_payment_status($order);
-        }else{
+        } else {
             // $this->attach_sales_id($order);
         }
 
@@ -726,42 +738,25 @@ class AdminOrderController extends Controller
 
     public function save_order_payments($order, $request)
     {
-        if(isset($request->account_id)){
-            $account = Account::where('id', $request->account_id)->first();
-        }else{
-            $account = Account::where('name', 'cash')->first();
+        if ($request->total_paid) {
+            if (isset($request->account_id)) {
+                $account = Account::where('id', $request->account_id)->first();
+            } else {
+                $account = Account::where('name', 'cash')->first();
+            }
+            $order_payment = OrderPayment::create([
+                "order_id" => $order->id,
+                "user_id" => $order->user_id,
+                "amount" => $request->total_paid,
+                "account_id" => $account->id,
+                "account_number_id" => $account->id != 1 ? $request->account_number_id : null,
+                "trx_id" => $account->id != 1 ? $request->trx_id : null,
+                "payment_method" => $account->name,
+                "date" => Carbon::now()->toDateString(),
+                "account_logs_id" => null,
+                "approved" => 1,
+            ]);
         }
-        $order_payment = OrderPayment::create([
-            "order_id" => $order->id,
-            "user_id" => $order->user_id,
-            "payment_method" => "cash",
-            "amount" => $request->total_paid,
-            "account_id" => $account->id,
-            "payment_method" => "cash",
-            "date" => Carbon::now()->toDateString(),
-            "account_logs_id" => null,
-            "approved" => 1,
-            // "trx_id" => $request->bkash_trx_id,
-            // "account_number_id" => null,
-        ]);
-
-        $log = AccountLog::create([
-            'date' => Carbon::now()->toDateTimeString(),
-            "name" => $order_payment->user->first_name . " " . $order_payment->user->last_name,
-            'amount' => $order_payment->amount,
-            'category_id' => 1, // ponno theke ay
-            'account_id' => $order_payment->account_id,
-            'account_number_id' => $order_payment->account_number_id,
-            'trx_id' => $order_payment->trx_id,
-            'receipt_no' => null,
-            'is_income' => 1,
-            'description' => 'admin accept payment cash',
-        ]);
-
-        $order_payment->account_logs_id = $log->id;
-        $order_payment->save();
-
-        // $this->attach_sales_id($order);
         $this->update_order_payment_status($order);
     }
 
@@ -779,6 +774,8 @@ class AdminOrderController extends Controller
         }
 
         $order = Order::find(request()->order_id);
+        $order->order_status = 'accepted';
+        $order->save();
         $this->attach_sales_id($order);
     }
 
@@ -788,8 +785,13 @@ class AdminOrderController extends Controller
             return 0;
         }
         $latest_order = Order::orderBy('sales_id', 'DESC')->first();
-        $order->sales_id = $latest_order ? $latest_order->sales_id + 1 : 0;
+        $order->sales_id = $latest_order ? $latest_order->sales_id + 1 : 1;
         $order->save();
+
+        $order_payment = OrderPayment::where('order_id', $order->id)->first();
+        if ($order_payment) {
+            $this->create_account_log($order_payment);
+        }
     }
 
     public function update_order_payment_status($order)
@@ -802,5 +804,24 @@ class AdminOrderController extends Controller
             $order->payment_status = 'partially paid';
         }
         $order->save();
+    }
+
+    public function create_account_log($order_payment)
+    {
+        $log = AccountLog::create([
+            'date' => Carbon::now()->toDateTimeString(),
+            "name" => $order_payment->user->first_name . " " . $order_payment->user->last_name,
+            'amount' => $order_payment->amount,
+            'category_id' => 1, // ponno theke ay
+            'account_id' => $order_payment->account_id,
+            'account_number_id' => $order_payment->account_number_id,
+            'trx_id' => $order_payment->trx_id,
+            'receipt_no' => $order_payment->order->sales_id,
+            'is_income' => 1,
+            'description' => 'admin received and inserted client payment',
+        ]);
+
+        $order_payment->account_logs_id = $log->id;
+        $order_payment->save();
     }
 }
