@@ -4,11 +4,11 @@ export default [
         icon: 'fas fa-home',
         pathName: 'AllAdminSetting',
     },
-    {
-        title: 'Payment Numbers',
-        icon: 'fas fa-sack-dollar',
-        pathName: 'PaymentInfoSettings',
-    },
+    // {
+    //     title: 'Payment Numbers',
+    //     icon: 'fas fa-sack-dollar',
+    //     pathName: 'PaymentInfoSettings',
+    // },
     {
         title: 'Delivery Cost',
         icon: 'fas fa-money-bills',
