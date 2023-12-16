@@ -165,13 +165,25 @@
                                     </label>
                                 </div>
 
+                                <div class="mb-2" v-if="account_id =='2'">
+                                    <select name="account_number_id" v-model="account_number_id" id="" class="form-select">
+                                        <option v-for="ac in accounts[1].numbers" :value="ac.id" :key="ac.id">
+                                            {{ ac.value }}
+                                        </option>
+                                    </select>
+                                    <div class="mt-2">
+                                        <label class="mb-1" for="">Trx ID</label>
+                                        <input type="text" v-model="trx_id" class="form-control" name="trx_id">
+                                    </div>
+                                </div>
+
                                 <div class="mb-2">
                                     <label class="mb-1">Select Customer</label>
                                     <UserManagementModal :id="`customer_id`" :select_qty="1"></UserManagementModal>
                                 </div>
 
                                 <div class="d-flex gap-1 flex-wrap">
-                                    <button type="button" @click.prevent="store_order({shipping_charge, total_discount, total_paid, account_id})"  class="btn btn-outline-info" >
+                                    <button type="button" @click.prevent="store_order({shipping_charge, total_discount, total_paid, account_id, account_number_id, trx_id})"  class="btn btn-outline-info" >
                                         <i class="fa fa-paper-plane"></i>
                                         Create Order
                                     </button>
@@ -212,11 +224,14 @@ export default {
             total_discount_percent: 0,
             search_key: '',
             account_id: 1,
+            account_number_id: null,
+            trx_id: null,
         }
     },
     created: async function () {
         document.querySelector('html').classList.add('nav-hide');
         this.clear_cart();
+        await this.fetch_payment_accounts();
         await this.fetch_branch_product_for_order();
         await this.fetch_category();
         this.$watch('p_search_key',(n,o)=>{
@@ -248,6 +263,7 @@ export default {
         ...mapActions([
             `store_${store_prefix}`,
             `fetch_branch_product_for_order`,
+            `fetch_payment_accounts`,
         ]),
         ...mapActions({
             add_to_cart: 'admin_oder_cart_add',
@@ -283,7 +299,11 @@ export default {
 
         total_due: function(){
             return +this.tota_order_price + +this.shipping_charge - +this.total_discount - +this.total_paid;
-        }
+        },
+
+        ...mapGetters({
+            accounts: `get_payment_accounts`,
+        }),
     }
 };
 </script>
