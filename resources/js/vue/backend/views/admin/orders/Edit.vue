@@ -83,12 +83,11 @@
                                                 <td class="text-center">
                                                     <input type="number" min="0"
                                                         @change="add_to_cart({product,qty: $event.target.value})"
-                                                        @keyup="add_to_cart({product,qty: $event.target.value})"
                                                         :value="product.qty" style="width: 70px;" class="form-control">
                                                 </td>
                                                 <td class="text-center">
                                                     <input type="number" min="0"
-                                                        @keyup="add_to_cart({product,qty: product.qty,commission: $event.target.value})"
+                                                        @change="add_to_cart({product,qty: product.qty,commission: $event.target.value})"
                                                         :value="product.discount_percent || 0"
                                                         style="width: 70px;" class="form-control">
                                                 </td>
@@ -103,7 +102,7 @@
                                         <tfoot style="position: sticky; bottom: 0;">
                                             <tr>
                                                 <th colspan="6" class="text-end">total</th>
-                                                <th class="text-end font_20">৳ {{ tota_order_price.toFixed(2).toString().enToBn() }}</th>
+                                                <th class="text-end text-nowrap font_20">৳ {{ tota_order_price.toFixed(2).toString().enToBn() }}</th>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -158,8 +157,31 @@
                                     </div>
                                 </div>
 
+                                <div class="mb-2">
+                                    <label class="me-2" id="cash">
+                                        <input type="radio" v-model="account_id" name="cash" id="cash" value="1">
+                                        Cash
+                                    </label>
+                                    <label class="me-2" id="bank">
+                                        <input type="radio" v-model="account_id" name="bank" id="bank" value="2">
+                                        Bank
+                                    </label>
+                                </div>
+
+                                <div class="mb-2" v-if="account_id =='2'">
+                                    <select name="account_number_id" v-model="account_number_id" id="" class="form-select">
+                                        <option v-for="ac in accounts[1].numbers" :value="ac.id" :key="ac.id">
+                                            {{ ac.value }}
+                                        </option>
+                                    </select>
+                                    <div class="mt-2">
+                                        <label class="mb-1" for="">Trx ID</label>
+                                        <input type="text" v-model="trx_id" class="form-control" name="trx_id">
+                                    </div>
+                                </div>
+
                                 <div class="d-flex gap-1 flex-wrap">
-                                    <button type="button" @click.prevent="update_order({shipping_charge, total_discount, total_paid})"  class="btn btn-outline-info" >
+                                    <button type="button" @click.prevent="update_order({account_id, account_number_id, trx_id, shipping_charge, total_discount, total_paid})"  class="btn btn-outline-info" >
                                         <i class="fa fa-paper-plane"></i>
                                         Update Order
                                     </button>
@@ -199,11 +221,15 @@ export default {
             total_paid: 0,
             total_discount_percent: 0,
             search_key: '',
+            account_id: 2,
+            account_number_id: 1,
+            trx_id: null,
         }
     },
     created: async function () {
         document.querySelector('html').classList.add('nav-hide');
         this.clear_cart();
+        await this.fetch_payment_accounts();
         await this.fetch_branch_product_for_order();
         await this.fetch_category();
         await this[`fetch_${store_prefix}`]({id: this.$route.params.id});
@@ -215,8 +241,6 @@ export default {
             let total_payable_amount = +this.tota_order_price + +this.shipping_charge;
             let discount_amount = (total_payable_amount * parseInt(n) / 100 );
             this.total_discount = discount_amount;
-
-            console.log(discount_amount, total_payable_amount, n);
         })
         this.$watch('order_carts',(n,o)=>{
             // console.log(n);
@@ -227,14 +251,14 @@ export default {
         "data" : {
             handler: function(order){
                 let that = this;
-                that.total_paid = order.total_paid;
+                that.total_paid = that.total_paid? that.total_paid :order.order_payments_sum_amount;
                 that.total_discount_percent = 0;
+                this.trx_id = order.payment_records ? order.payment_records[0].trx_id : '',
+
                 setTimeout(() => {
-                    console.log(order);
-                    that.shipping_charge = order.delivery_charge;
+                    that.shipping_charge = that.shipping_charge?that.shipping_charge:order.delivery_charge;
                     let dis_percent = Math.round(100 * order.total_price / (order.sub_total + order.delivery_charge)) - 100;
                     that.total_discount_percent = dis_percent;
-                    console.log(dis_percent);
                 }, 300);
             },
             deep: true,
@@ -242,7 +266,7 @@ export default {
         "tota_order_price": {
             handler: function(v){
                 if(v <= 10000){
-                    this.shipping_charge = 100;
+                    this.shipping_charge = this.shipping_charge?this.shipping_charge:this.data.delivery_charge;
                 }else{
                     let mod_price = ((v - 10000 )/ 5000) * 50;
                     this.shipping_charge = 100 + mod_price;
@@ -255,6 +279,7 @@ export default {
         ...mapActions([
             `update_${store_prefix}`,
             `fetch_${store_prefix}`,
+            `fetch_payment_accounts`,
         ]),
         ...mapActions([
             `store_${store_prefix}`,
@@ -295,7 +320,10 @@ export default {
         }),
         "total_due": function(){
             return +this.tota_order_price + +this.shipping_charge  - +this.total_discount - +this.total_paid;
-        }
+        },
+        ...mapGetters({
+            accounts: `get_payment_accounts`,
+        }),
     }
 };
 </script>
