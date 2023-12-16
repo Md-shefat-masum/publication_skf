@@ -16,8 +16,9 @@
                     </small>
                 </h4>
                 <div class="search">
-                    <form action="#">
+                    <form action="#" class="d-flex gap-2">
                         <input @keyup="call_store(`set_${store_prefix}_search_key`,$event.target.value)" class="form-control border border-info" placeholder="search..." type="search">
+                        <input @change="call_store(`set_${store_prefix}_order_date`,$event.target.value)" class="form-control border border-info" placeholder="search..." type="date">
                     </form>
                 </div>
                 <div class="btns d-flex gap-2 align-items-center">
@@ -84,7 +85,9 @@
                             <table-th :sort="false" :tkey="''" :title="'Paid'" />
                             <table-th :sort="false" :tkey="''" :title="'Due'" />
                             <table-th :sort="true" :tkey="'payment_status'" :title="'payment Status'" />
-                            <table-th :sort="true" :tkey="'delivery_method'" :title="'Delivery Method'" />
+                            <table-th :sort="false" :tkey="''" :title="'Payment Request'" />
+                            <table-th :sort="false" :tkey="''" :title="'Trx ID'" />
+                            <!-- <table-th :sort="true" :tkey="'delivery_method'" :title="'Delivery Method'" /> -->
                             <table-th :sort="true" :tkey="'created_at'" :title="'Date'" />
                             <table-th :sort="true" :tkey="'status'" :title="'Status'" />
                             <th aria-label="actions">Actions</th>
@@ -163,8 +166,14 @@
                                 </span>
                             </td>
                             <td>
-                                {{ item.delivery_method }}
+                                {{ item.not_approved_order_payments_sum_amount }}
                             </td>
+                            <td>
+                                {{ item.payment?.trx_id }}
+                            </td>
+                            <!-- <td>
+                                {{ item.delivery_method }}
+                            </td> -->
                             <td>{{ new Date(item.invoice_date).toDateString() }} {{ new Date(item.invoice_date).toLocaleTimeString() }}</td>
                             <td>
                                 <!-- <span :class="`badge ${order_status(item.status)} me-1`">{{ item.status }}</span> -->
@@ -262,6 +271,7 @@ export default {
             `export_selected_${store_prefix}_csv`,
         ]),
         ...mapMutations([
+            `set_${store_prefix}_order_date`,
             `set_${store_prefix}_paginate`,
             `set_${store_prefix}_page`,
             `set_${store_prefix}_search_key`,
