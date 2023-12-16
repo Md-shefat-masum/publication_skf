@@ -32,8 +32,15 @@ class AdminOrderManagementController extends Controller
 
         $query = Order::where('status', $status)
             ->whereIn('order_type',$order_type)
-            ->with(["user", "order_details"])
-            ->withSum('approved_order_payments', 'amount')
+            ->with(["user", "order_details","payment"])
+            ->withSum(
+                'approved_order_payments',
+                'amount',
+            )
+            ->withSum(
+                'not_approved_order_payments',
+                'amount',
+            )
             ->orderBy($orderBy, $orderByType);
 
         if (request()->has('search_key')) {
@@ -46,6 +53,10 @@ class AdminOrderManagementController extends Controller
                     ->orWhere('payment_status', 'LIKE', '%' . $key . '%')
                     ->orWhere('delivery_method', 'LIKE', '%' . $key . '%');
             });
+        }
+
+        if(request()->has('order_date')){
+            $query->whereDate('invoice_date',request()->order_date);
         }
 
         $users = $query->paginate($paginate);
@@ -62,6 +73,7 @@ class AdminOrderManagementController extends Controller
 
         $data->payment_records = $data->order_payments()
             ->select(['id', 'order_id', 'number', 'date', 'payment_method', 'trx_id', 'amount', 'approved'])
+            ->with('attachment')
             ->get();
 
         $data->payment_accounts = Account::select('id', 'name')
@@ -209,13 +221,28 @@ class AdminOrderManagementController extends Controller
 
     public function destroy()
     {
-        dd(request()->all());
+        $validator = Validator::make(request()->all(), [
+            'id' => ['required', 'exists:orders,id'],
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'err_message' => 'validation error',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        $order = Order::find(request()->id);
+        $order->order_details()->delete();
+        $order->order_payments()->delete();
+        $order->delete();
+
+        return 'order deleted';
     }
 
     public function restore()
     {
         $validator = Validator::make(request()->all(), [
-            'id' => ['required', 'exists:categories,id'],
+            'id' => ['required', 'exists:orders,id'],
         ]);
 
         if ($validator->fails()) {
