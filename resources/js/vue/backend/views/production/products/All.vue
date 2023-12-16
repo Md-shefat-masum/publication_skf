@@ -21,48 +21,7 @@
                     </form>
                 </div>
                 <div class="btns d-flex gap-2 align-items-center">
-                    <!-- <permission-button
-                        :permission="'can_create'"
-                        :to="{name: `Create${route_prefix}`}"
-                        :classList="'btn rounded-pill btn-outline-info'">
-                        <i class="fa fa-pencil me-5px"></i>
-                        Create
-                    </permission-button> -->
-                    <div class="table_actions">
-                        <a href="#" @click.prevent="()=>''" class="btn px-1 btn-outline-secondary">
-                            <i class="fa fa-list"></i>
-                        </a>
-                        <ul>
-                            <li>
-                                <a href="" @click.prevent="call_store(`export_${store_prefix}_all`)">
-                                    <i class="fa-regular fa-hand-point-right"></i>
-                                    Export All
-                                </a>
-                            </li>
-                            <li v-if="this[`get_${store_prefix}_selected`].length">
-                                <a href="" @click.prevent="call_store(`export_selected_${store_prefix}_csv`)">
-                                    <i class="fa-regular fa-hand-point-right"></i>
-                                    Export Selected
-                                </a>
-                            </li>
-                            <li>
-                                <router-link :to="{name:`Import${route_prefix}`}">
-                                    <i class="fa-regular fa-hand-point-right"></i>
-                                    Import
-                                </router-link>
-                            </li>
-                            <li>
-                                <a href="#" v-if="this[`get_${store_prefix}_show_active_data`]" title="display data that has been deactivated" @click.prevent="call_store(`set_${store_prefix}_show_active_data`,0)" class="d-flex">
-                                    <i class="fa-regular fa-hand-point-right"></i>
-                                    Deactivated data
-                                </a>
-                                <a href="#" v-else title="display data that are active" @click.prevent="call_store(`set_${store_prefix}_show_active_data`,1)" class="d-flex">
-                                    <i class="fa-regular fa-hand-point-right"></i>
-                                    Active data
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+
                 </div>
             </div>
             <div class="table-responsive card-body text-nowrap">
@@ -91,94 +50,127 @@
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
-                        <tr v-for="item in this[`get_${store_prefix}s`].data" :key="item.id">
-                            <td>
-                                <input v-if="check_if_data_is_selected(item)" :data-id="item.id" checked @change="call_store(`set_selected_${store_prefix}s`,item)" type="checkbox" class="form-check-input">
-                                <input v-else @change="call_store(`set_selected_${store_prefix}s`,item)" type="checkbox" class="form-check-input">
-                            </td>
-                            <td>{{ item.id }}</td>
-                            <td>
-                                <img style="height: 60px;" :src="`/${item.thumb_image}`" alt="">
-                            </td>
-                            <td>
-                                <span class="text-warning cursor_pointer" @click.prevent="call_store(`set_${store_prefix}`,item)">
-                                    {{ item.product_name }}
-                                </span>
-                            </td>
+                        <template v-for="item in this[`get_${store_prefix}s`].data">
+                            <tr :key="item.id" >
+                                <td :class="{'stock_alert': item.is_low_stock}">
+                                    <div class="stock_badge" v-if="item.is_low_stock" :class="{'badge rounded-pill': item.is_low_stock}">
+                                        stock out
+                                    </div>
+                                    <!-- <input v-if="check_if_data_is_selected(item)" :data-id="item.id" checked @change="call_store(`set_selected_${store_prefix}s`,item)" type="checkbox" class="form-check-input"> -->
+                                    <!-- <input v-else @change="call_store(`set_selected_${store_prefix}s`,item)" type="checkbox" class="form-check-input"> -->
+                                </td>
+                                <td>{{ item.id }}</td>
+                                <td>
+                                    <img style="height: 60px;" :src="`/${item.thumb_image}`" alt="">
+                                </td>
+                                <td class="position_sticky">
+                                    <span class="text-warning cursor_pointer" @click.prevent="call_store(`set_${store_prefix}`,item)">
+                                        {{ item.product_name }}
+                                    </span>
+                                </td>
 
-                            <td>{{ item.sales_price }}</td>
-                            <td>{{ item.discount_info && item.discount_info.discount_percent }}%</td>
-                            <td>- {{ item.discount_info && item.discount_info.discount_amount }} ৳</td>
-                            <td>{{ item.discount_info.discount_price ? item.discount_info.discount_price: item.sales_price }} ৳</td>
+                                <td>
+                                    <b class="text-success">
+                                        {{ item.sales_price }}
+                                    </b>
+                                </td>
+                                <td>
+                                    <b class="text-primary">
+                                        {{ item.discount_info && item.discount_info.discount_percent }}%
+                                    </b>
+                                </td>
+                                <td>
+                                    <b class="text-info">
+                                        - {{ item.discount_info && item.discount_info.discount_amount }} ৳
+                                    </b>
+                                </td>
+                                <td>
+                                    <b class="text-info">
+                                        {{ item.discount_info.discount_price ? item.discount_info.discount_price: item.sales_price }} ৳
+                                    </b>
+                                </td>
 
-                            <td>+ {{ item.stock }}</td>
-                            <td>- {{ item.sales }}</td>
-                            <td>+ {{ item.returns }}</td>
-                            <td>= {{ item.stock - item.sales + item.returns }}</td>
+                                <td>
+                                    <b class="text-">
+                                        + {{ item.stock }}
+                                    </b>
+                                </td>
+                                <td>- {{ item.sales }}</td>
+                                <td>
+                                    <b class="text-danger">
+                                        + {{ item.returns }}
+                                    </b>
+                                </td>
+                                <td>
+                                    <b class="text-success">
+                                        = {{ item.final_stock }}
+                                    </b>
+                                </td>
 
-                            <td>{{ item.isbn  }}</td>
-                            <td>{{ item.sku }}</td>
+                                <td>{{ item.isbn  }}</td>
+                                <td>{{ item.sku }}</td>
 
-                            <td>
-                                <span v-if="item.status == 1" class="badge bg-label-success me-1">active</span>
-                                <span v-if="item.status == 0" class="badge bg-label-success me-1">deactive</span>
-                            </td>
-                            <td>
-                                <div class="table_actions">
-                                    <a href="#" @click.prevent="()=>''" class="btn btn-sm btn-outline-secondary">
-                                        <i class="fa fa-gears"></i>
-                                    </a>
-                                    <ul>
-                                        <li>
-                                            <a href="" @click.prevent="call_store(`set_${store_prefix}`,item)">
-                                                <i class="fa text-info fa-eye"></i>
-                                                Quick View
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <permission-button
-                                                :permission="'can_edit'"
-                                                :to="{name:`Details${route_prefix}`,params:{id:item.id}}"
-                                                :classList="''">
-                                                <i class="fa text-secondary fa-eye"></i>
-                                                Details
-                                            </permission-button>
-                                        </li>
-                                        <!-- <li>
-                                            <permission-button
-                                                :permission="'can_edit'"
-                                                :to="{name:`Edit${route_prefix}`,params:{id: item.id}}"
-                                                :classList="''">
-                                                <i class="fa text-warning fa-pencil"></i>
-                                                Edit
-                                            </permission-button>
-                                        </li> -->
-                                        <!-- <li v-if="item.status == 1">
-                                            <permission-button
-                                                :permission="'can_delete'"
-                                                :to="{}"
-                                                :click="()=>call_store(`soft_delete_${store_prefix}`,item.id)"
-                                                :click_param="item.id"
-                                                :classList="''">
-                                                <i class="fa text-danger fa-trash"></i>
-                                                Deactive
-                                            </permission-button>
-                                        </li>
-                                        <li v-else>
-                                            <permission-button
-                                                :permission="'can_delete'"
-                                                :to="{}"
-                                                :click="()=>call_store(`restore_${store_prefix}`,item.id)"
-                                                :click_param="item.id"
-                                                :classList="''">
-                                                <i class="fa text-danger fa-recycle"></i>
-                                                Activate
-                                            </permission-button>
-                                        </li> -->
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
+                                <td>
+                                    <span v-if="item.status == 1" class="badge bg-label-success me-1">active</span>
+                                    <span v-if="item.status == 0" class="badge bg-label-success me-1">deactive</span>
+                                </td>
+                                <td>
+                                    <div class="table_actions">
+                                        <a href="#" @click.prevent="()=>''" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fa fa-gears"></i>
+                                        </a>
+                                        <ul>
+                                            <li>
+                                                <a href="" @click.prevent="call_store(`set_${store_prefix}`,item)">
+                                                    <i class="fa text-info fa-eye"></i>
+                                                    Quick View
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <permission-button
+                                                    :permission="'can_edit'"
+                                                    :to="{name:`Details${route_prefix}`,params:{id:item.id}}"
+                                                    :classList="''">
+                                                    <i class="fa text-secondary fa-eye"></i>
+                                                    Details
+                                                </permission-button>
+                                            </li>
+                                            <li>
+                                                <permission-button
+                                                    :permission="'can_edit'"
+                                                    :to="{name:`Edit${route_prefix}`,params:{id: item.id}}"
+                                                    :classList="''">
+                                                    <i class="fa text-warning fa-pencil"></i>
+                                                    Edit
+                                                </permission-button>
+                                            </li>
+                                            <li v-if="item.status == 1">
+                                                <permission-button
+                                                    :permission="'can_delete'"
+                                                    :to="{}"
+                                                    :click="()=>call_store(`soft_delete_${store_prefix}`,item.id)"
+                                                    :click_param="item.id"
+                                                    :classList="''">
+                                                    <i class="fa text-danger fa-trash"></i>
+                                                    Deactive
+                                                </permission-button>
+                                            </li>
+                                            <li v-else>
+                                                <permission-button
+                                                    :permission="'can_delete'"
+                                                    :to="{}"
+                                                    :click="()=>call_store(`restore_${store_prefix}`,item.id)"
+                                                    :click_param="item.id"
+                                                    :classList="''">
+                                                    <i class="fa text-danger fa-recycle"></i>
+                                                    Activate
+                                                </permission-button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        </template>
                     </tbody>
                 </table>
             </div>
@@ -239,6 +231,8 @@ export default {
             `restore_${store_prefix}`,
             `export_${store_prefix}_all`,
             `export_selected_${store_prefix}_csv`,
+            `admin_add_to_top_product`,
+            `admin_add_to_public`,
         ]),
         ...mapMutations([
             `set_${store_prefix}_paginate`,
@@ -287,4 +281,3 @@ export default {
 
 </style>
 
-PermissionButton
