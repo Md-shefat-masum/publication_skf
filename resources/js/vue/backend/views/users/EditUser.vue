@@ -96,12 +96,16 @@
 </template>
 
 <script>
-import { mapActions, mapMutations } from 'vuex';
+import { mapActions, mapGetters, mapMutations } from 'vuex';
 import RoleManagementModal from '../user_roles/components/ManagementModal.vue'
 export default {
     components: { RoleManagementModal },
-    created: function () {
-        this.fetch_user({id: this.$route.params.id, render_to_form: true})
+    created: async function () {
+        await this.fetch_user({id: this.$route.params.id, render_to_form: true})
+        console.log(this.get_user);
+        this.get_user.roles.forEach(element => {
+            this.set_selected_user_roles(element);
+        });
     },
     methods: {
         ...mapActions([
@@ -109,9 +113,13 @@ export default {
             'fetch_user',
         ]),
         ...mapMutations([
-            'set_user'
+            'set_user',
+            'set_selected_user_roles',
         ]),
     },
+    computed: {
+        ...mapGetters(['get_user'])
+    }
 };
 </script>
 
