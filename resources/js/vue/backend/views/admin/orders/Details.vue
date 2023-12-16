@@ -4,9 +4,15 @@
             <div class="card-header no_print">
                 <h4>Order Products</h4>
                 <div class="btns" v-if="data">
-                    <a href="#" @click.prevent="generete_sales_id(data)">
+                    <a href="#" v-if="!data.sales_id" @click.prevent="delete_order(data)">
+                        <span class="btn btn-sm btn-outline-danger rounded-pill me-2">
+                            Delete Order
+                        </span>
+                    </a>
+
+                    <a href="#" v-if="!data.sales_id" @click.prevent="generete_sales_id(data)">
                         <span class="btn btn-sm btn-outline-info rounded-pill me-2">
-                            Generete Sales Id
+                            Approve &amp; Generete Sales Id
                         </span>
                     </a>
 
@@ -16,12 +22,14 @@
                         </span>
                     </a>
 
-                    <router-link
-                        :to="{name:`Edit${route_prefix}`,params:{id: data.id}}">
-                        <span class="btn btn-sm btn-outline-warning rounded-pill me-2">
-                            Edit
-                        </span>
-                    </router-link>
+                    <span v-if="!data.sales_id">
+                        <router-link
+                            :to="{name:`Edit${route_prefix}`,params:{id: data.id}}">
+                            <span class="btn btn-sm btn-outline-warning rounded-pill me-2">
+                                Edit
+                            </span>
+                        </router-link>
+                    </span>
 
                     <a href="" @click.prevent="call_store(`set_${store_prefix}`,null), $router.push({ name: `BranchOrder` })"  class="btn btn-sm rounded-pill btn-outline-warning" >
                         <i class="fa fa-arrow-left me-5px"></i>
@@ -45,8 +53,8 @@
                             <tbody>
                                 <tr v-for="item in data.order_details" :key="item.id">
                                     <td class="font_20">{{ item.product_name }}</td>
-                                    <td class="text-end font_20">{{ item.discount_price }} * {{ item.qty }}</td>
-                                    <td class="text-end font_20">{{ (item.discount_price * item.qty)?.toFixed(2) }}</td>
+                                    <td class="text-end font_20">{{ item.sales_price }} * {{ item.qty }}</td>
+                                    <td class="text-end font_20">{{ (item.sales_price * item.qty)?.toFixed(2) }}</td>
                                 </tr>
                             </tbody>
                             <tfoot>
@@ -207,7 +215,7 @@
                                         <th>Media</th>
                                         <th>Attachment</th>
                                         <th>Date</th>
-                                        <th>Contact No</th>
+                                        <!-- <th>Contact No</th> -->
                                         <th>TR No</th>
                                         <th>Approved</th>
                                         <th>Amount</th>
@@ -218,25 +226,27 @@
                                         <td>
                                             {{ record.payment_method }}
                                             <br>
-                                            <a href="" v-if="![1,2].includes(record.approved)" @click.prevent="admin_approve_branch_payment({payment:record})" class="text-success">
-                                                approve
-                                            </a>
-                                            &nbsp;
-                                            <a href="" @click.prevent="admin_delete_branch_payment({payment:record})" class="text-danger">
-                                                delete
-                                            </a>
+                                            <div v-if="!data.sales_id">
+                                                <a href="" v-if="![1,2].includes(record.approved)" @click.prevent="admin_approve_branch_payment({payment:record})" class="text-success">
+                                                    approve
+                                                </a>
+                                                &nbsp;
+                                                <a href="" @click.prevent="admin_delete_branch_payment({payment:record})" class="text-danger">
+                                                    delete
+                                                </a>
+                                            </div>
                                         </td>
                                         <td>
-                                            <a :href="record.file_url" target="_blank">
-                                                <img :src="record.file_url" height="60px" alt="">
+                                            <a v-if="record.attachment" :href="record.attachment.file_url" target="_blank">
+                                                <img :src="record.attachment.file_url" height="60px" alt="">
                                             </a>
                                         </td>
                                         <td>
                                             {{ record.date }}
                                         </td>
-                                        <td>
+                                        <!-- <td>
                                             {{ record.number }}
-                                        </td>
+                                        </td> -->
                                         <td>
                                             {{ record.trx_id }}
                                         </td>
@@ -254,7 +264,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th colspan="6" class="text-end">Total</th>
+                                        <th colspan="5" class="text-end">Total</th>
                                         <th class="text-end">
                                             <span v-if="data.order_payments_sum_amount">
                                                 {{ data.order_payments_sum_amount.toString().enToBn() }}
@@ -310,6 +320,7 @@ export default {
             'admin_delete_branch_payment',
             'admin_approve_branch_payment',
             'generete_sales_id',
+            'delete_order',
         ]),
         ...mapMutations([
             `set_${store_prefix}`
