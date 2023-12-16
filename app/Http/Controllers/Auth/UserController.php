@@ -105,10 +105,10 @@ class UserController extends Controller
     {
         $validator = Validator::make(request()->all(), [
             'first_name' => ['required'],
-            'last_name' => ['required'],
+            // 'last_name' => ['required'],
             'user_name' => ['required', 'unique:users'],
             'user_role_id' => ['required', 'array'],
-            'email' => ['required', 'unique:users'],
+            // 'email' => ['required', 'unique:users'],
             'mobile_number' => ['required', 'unique:users'],
             'password' => ['required', 'min:8', 'confirmed'],
             'password_confirmation' => ['required']
@@ -226,9 +226,9 @@ class UserController extends Controller
         $rules = [
             'id' => ['required'],
             'first_name' => ['required'],
-            'last_name' => ['required'],
+            // 'last_name' => ['required'],
             'user_name' => ['required'],
-            'email' => ['required'],
+            // 'email' => ['required'],
             'mobile_number' => ['required'],
             'user_role_id' => ['required', 'array'],
         ];
