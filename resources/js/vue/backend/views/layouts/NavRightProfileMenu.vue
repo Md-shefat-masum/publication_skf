@@ -18,15 +18,22 @@
                 <span class="avatar-status-online"></span>
             </span>
         </a>
-        <div :class="{show:show_menu}" style="position: absolute; right: 0;" class="dropdown-menu dropdown-menu-end">
+        <!-- <div :class="{show:show_menu}" style="position: absolute; right: 0;"
+            class="dropdown-menu dropdown-menu-end">
             <a class="dropdown-item" href="#">
                 <i class="me-50" data-feather="user"> </i>
                 Profile
             </a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#"><i class="me-50" data-feather="settings"></i> Settings</a>
-            <a class="dropdown-item" href="#"><i class="me-50" data-feather="power"></i> Logout</a>
-        </div>
+            <a class="dropdown-item" href="#">
+                <i class="me-50" data-feather="settings"></i>
+                Settings
+            </a>
+            <a class="dropdown-item" href="#">
+                <i class="me-50" data-feather="power"></i>
+                Logout
+            </a>
+        </div> -->
     </li>
 </template>
 
