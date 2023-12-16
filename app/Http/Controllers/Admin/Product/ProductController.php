@@ -44,7 +44,7 @@ class ProductController extends Controller
         $data = $query->paginate($paginate);
 
         foreach ($data->items() as $item) {
-            $item->final_stock = $item->stock + $item->sales + $item->returns;
+            $item->final_stock = $item->stock - $item->sales + $item->returns;
             $item->is_low_stock = $item->final_stock <= $item->stock_alert_qty? 1: 0;
             // dd($item);
         }
