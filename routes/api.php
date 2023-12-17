@@ -44,6 +44,11 @@ Route::group(
                 Route::get('/orders/{id}','AppApi\CommonController@order');
             });
 
+            Route::group( ['prefix'=>'common' ],function(){
+                Route::get('/all-stock-in-products','Api\AdminCommonApiController@all_stock_in_products');
+                Route::get('/all-stock-out-products','Api\AdminCommonApiController@all_stock_out_products');
+            });
+
             Route::group(['prefix' => 'user'], function () {
                 Route::get('/auth-check', 'Auth\ApiLoginController@auth_check');
                 Route::post('/check-code', 'Auth\ApiLoginController@check_code');
@@ -112,12 +117,18 @@ Route::group(
             });
 
             Route::group(['prefix' => 'production'], function () {
+                Route::get('/at-a-glance','Production\AtAGlanceController@at_a_glance');
+
                 Route::group(['prefix' => 'product'], function () {
                     Route::get('/all', 'Production\Product\ProductController@all');
                     Route::get('/{id}', 'Production\Product\ProductController@show');
                 });
 
                 Route::group(['prefix' => 'production'], function () {
+                    Route::get('/running-productions', 'Production\ProductionController@running_productions');
+                    Route::post('/update-status', 'Production\ProductionController@update_status');
+                    Route::post('/complete-production', 'Production\ProductionController@complete_production');
+
                     Route::get('/all', 'Production\ProductionController@all');
                     Route::post('/store', 'Production\ProductionController@store');
                     Route::post('/store-cost', 'Production\ProductionController@store_cost');
@@ -375,6 +386,7 @@ Route::group(
                     Route::get('/statements','Accountant\ReportController@statements');
                     Route::get('/income-expense-closing-in-range','Accountant\ReportController@income_expense_closing_in_range');
                 });
+
                 Route::group(['prefix' => 'account-category'], function () {
                     Route::get('/income-expese', 'Accountant\AccountCategoryController@income_and_expense');
                     Route::get('/previous-extra-money', 'Accountant\AccountCategoryController@previous_extra_money');
