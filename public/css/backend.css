@@ -1397,7 +1397,7 @@ td.stock_alert .stock_badge {
   margin: auto;
   height: calc(100vh - 200px);
   overflow: auto;
-  margin-bottom: 5px;
+  margin-bottom: 45px;
 }
 .accounts_at_a_glance table tfoot tr td:nth-child(1), .accounts_at_a_glance table tfoot tr td:nth-child(3),
 .accounts_at_a_glance table tbody tr td:nth-child(1),
@@ -1448,7 +1448,7 @@ td.stock_alert .stock_badge {
   .footer_fixed {
     -webkit-box-shadow: unset;
             box-shadow: unset;
-    display: none;
+    position: unset;
   }
 }
 .footer_fixed td {
@@ -2013,6 +2013,38 @@ label {
 }
 .task_list .task_item .emergency img {
   height: 50px;
+}
+
+.today_tasks ul {
+  padding: 0;
+  margin: 0;
+  height: 300px;
+  overflow-y: scroll;
+}
+.today_tasks ul li {
+  list-style-type: none;
+  background-color: #3b4253;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 3px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 5px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.today_tasks ul li .left {
+  width: 50px;
+}
+.today_tasks ul li .left input {
+  margin-right: 3px;
+}
+.today_tasks ul li .right {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
 }
 
 @media print {
