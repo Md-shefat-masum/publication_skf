@@ -2,6 +2,7 @@ import SuperAdminDashboard from "../../views/SuperAdminDashboard.vue"
 import SuperAdminLayout from "../../views/SuperAdminLayout.vue"
 
 import task from "./sub_routes/task"
+import report from "./sub_routes/report"
 
 export default {
     path: "/super-admin",
@@ -13,5 +14,6 @@ export default {
             component: SuperAdminDashboard,
         },
         task,
+        report,
     ],
 };
