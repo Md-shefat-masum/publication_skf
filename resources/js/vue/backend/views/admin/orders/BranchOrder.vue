@@ -18,7 +18,7 @@
                 <div class="search">
                     <form action="#" class="d-flex gap-2">
                         <input @keyup="call_store(`set_${store_prefix}_search_key`,$event.target.value)" class="form-control border border-info" placeholder="search..." type="search">
-                        <input @change="call_store(`set_${store_prefix}_order_date`,$event.target.value)" class="form-control border border-info" placeholder="search..." type="date">
+                        <input @change="call_store(`set_${store_prefix}_order_date`,$event.target.value)" :value="get_order_date" class="form-control border border-info" placeholder="search..." type="date">
                     </form>
                 </div>
                 <div class="btns d-flex gap-2 align-items-center">
@@ -330,6 +330,7 @@ export default {
             `get_${store_prefix}s`,
             `get_${store_prefix}_selected`,
             `get_${store_prefix}_show_active_data`,
+            `get_order_date`,
         ]),
     }
 }

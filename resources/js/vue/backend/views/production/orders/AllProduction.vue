@@ -74,7 +74,8 @@
                             <table-th :sort="false" :tkey="''" :title="'Image'" />
                             <table-th :sort="false" :tkey="''" :title="'Title'" />
                             <table-th :sort="true" :tkey="'print_qty'" :title="'Print Qty'" />
-                            <table-th :sort="false" :tkey="''" :title="'Status'" />
+                            <table-th :sort="false" :tkey="''" :title="'Production Status'" />
+                            <table-th :sort="false" :tkey="''" :title="'Present Status'" />
                             <table-th :sort="false" :tkey="''" :title="'Description'" />
                             <th aria-label="actions">Actions</th>
                         </tr>
@@ -91,11 +92,15 @@
                                 <img style="height: 40px;" :src="item.product_info.thumb_image_url" alt="">
                             </td>
                             <td>
-                                <span class="text-warning cursor_pointer" @click.prevent="call_store(`set_${store_prefix}`,item)">
+                                <router-link :to="{name:`Details${route_prefix}`,params:{id:item.id}}" class="text-warning cursor_pointer" >
                                     {{ item.product_info.product_name }}
-                                </span>
+                                </router-link>
                             </td>
                             <td>{{ item.print_qty }}</td>
+                            <td>
+                                <span v-if="item.is_complete">Complete</span>
+                                <span class="badge bg-danger text-light" v-else>Not Complete</span>
+                            </td>
                             <td>
                                 <span v-if="item.production_status[item.production_status.length-1]" class="badge bg-label-success me-1">
                                     {{ item.production_status[item.production_status.length-1]["status"] }}
@@ -118,6 +123,11 @@
                                                 Quick View
                                             </a>
                                         </li> -->
+                                        <li v-if="item.is_complete == 0">
+                                            <router-link :to="{name: 'UpdateStatus' ,params:{id:item.id}}">
+                                                Update Status
+                                            </router-link>
+                                        </li>
                                         <li>
                                             <permission-button
                                                 :permission="'can_edit'"
@@ -127,7 +137,7 @@
                                                 Details
                                             </permission-button>
                                         </li>
-                                        <li>
+                                        <li v-if="item.is_complete == 0">
                                             <permission-button
                                                 :permission="'can_edit'"
                                                 :to="{name:`ProductionProductionEdit`,params:{id: item.id}}"
@@ -136,27 +146,11 @@
                                                 Edit
                                             </permission-button>
                                         </li>
-                                        <li v-if="item.status == 1">
-                                            <permission-button
-                                                :permission="'can_delete'"
-                                                :to="{}"
-                                                :click="()=>call_store(`soft_delete_${store_prefix}`,item.id)"
-                                                :click_param="item.id"
-                                                :classList="''">
+                                        <li v-if="item.is_complete == 0">
+                                            <a @click.prevent="delete_production(item.id)" href="#">
                                                 <i class="fa text-danger fa-trash"></i>
-                                                Deactive
-                                            </permission-button>
-                                        </li>
-                                        <li v-else>
-                                            <permission-button
-                                                :permission="'can_delete'"
-                                                :to="{}"
-                                                :click="()=>call_store(`restore_${store_prefix}`,item.id)"
-                                                :click_param="item.id"
-                                                :classList="''">
-                                                <i class="fa text-danger fa-recycle"></i>
-                                                Activate
-                                            </permission-button>
+                                                Delete
+                                            </a>
                                         </li>
                                     </ul>
                                 </div>
@@ -210,56 +204,7 @@ export default {
         return {
             store_prefix,
             route_prefix,
-            data: [
-                {
-                    title: 'ক্যারিয়ার বিকশিত জীবনের দ্বার',
-                    image: 'http://almari.info/uploads/product/product_main_image/dh2QioXn122GuTfvBBcrEkDKM0XAEiG2z63zwRKC.png',
-                    status: 'designing',
-                    qty: 300,
-                },
-                {
-                    title: 'বিষয়ভিত্তিক আয়াত ও হাদিস সংকলন (ছোটো)',
-                    image: 'http://almari.info/uploads/product/product_main_image/PWGp7nvai1IYlG3xbEt8WBmV6nZ7V0Rmc3FeM2eP.jpeg',
-                    status: 'binding',
-                    qty: 500,
-                },
-                {
-                    title: 'এসো আলোর পথে',
-                    image: 'http://almari.info/uploads/product/product_main_image/juRgRV0pxxjFkulEA4flJI1UAKSr966a9JFgyKyb.jpeg',
-                    status: 'printing',
-                    qty: 450,
-                },
-                {
-                    title: 'বর্ণমালা',
-                    image: 'http://almari.info/uploads/product/product_main_image/1SNDUyvzYwCSyXJHOSAtiVCYj8DinhqVjGEuuwXK.jpeg',
-                    status: 'covering',
-                    qty: 1000,
-                },
-                {
-                    title: 'মুক্তির পয়গাম',
-                    image: 'http://almari.info/uploads/product/product_main_image/ZzXiMQqsyqql8YZ91f4WAxWDxdQHeNKaOzAwhDde.jpeg',
-                    status: 'pending',
-                    qty: 1000,
-                },
-                {
-                    title: 'আমরা কী চাই কেন চাই কীভাবে চাই?',
-                    image: 'http://almari.info/uploads/product/product_main_image/yYfE1q73QFxVmnelrkF9cwgY5526DLlSOfAOVswh.jpeg',
-                    status: 'processing',
-                    qty: 1000,
-                },
-                {
-                    title: 'মোরা বড়ো হতে চাই',
-                    image: 'http://almari.info/uploads/product/product_main_image/vmp4VInfAjPB5c8wRn1Ml7v6IIuARtnSr8NTmCna.jpeg',
-                    status: 'stored',
-                    qty: 1000,
-                },
-                {
-                    title: 'ইসলামের প্রাথমিক পরিচয়',
-                    image: 'http://almari.info/uploads/product/product_main_image/LzOJjXBYq3LBCaXTu4tikhhBXUQ6Np01Tq45732a.jpeg',
-                    status: 'completed',
-                    qty: 1000,
-                },
-            ]
+
         }
     },
     created: function(){
@@ -273,6 +218,7 @@ export default {
             `restore_${store_prefix}`,
             `export_${store_prefix}_all`,
             `export_selected_${store_prefix}_csv`,
+            'delete_production',
         ]),
         ...mapMutations([
             `set_${store_prefix}_paginate`,

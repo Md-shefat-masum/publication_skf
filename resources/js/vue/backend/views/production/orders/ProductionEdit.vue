@@ -45,7 +45,7 @@
                                         :type="`number`"
                                     />
                                 </div>
-                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                <!-- <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <label for="">Production Progress</label>
                                     <select class="form-control form-select" name="status" id="production_status">
                                         <option value="planning">Planning</option>
@@ -55,7 +55,7 @@
                                         <option value="binding">Binding</option>
                                         <option value="complete">Complete</option>
                                     </select>
-                                </div>
+                                </div> -->
 
                                 <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
                                     <label>Paper Supplier and Paper amount</label>
@@ -118,15 +118,15 @@
                                     </div>
                                 </div>
 
-                                <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
+                                <!-- <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
                                     <label for="production_description">Progress description</label>
                                     <textarea class="form-control" id="production_description" name="description"></textarea>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="card-footer text-center">
+                <div v-if="data.is_complete == 0" class="card-footer text-center">
                     <button type="submit" class="btn btn-outline-info" >
                         <i class="fa fa-upload"></i>
                         Submit

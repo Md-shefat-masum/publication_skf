@@ -42,6 +42,7 @@
                             <table-th :sort="false" :tkey="''" :title="'sales'" />
                             <table-th :sort="false" :tkey="''" :title="'returns'" />
                             <table-th :sort="false" :tkey="''" :title="'Current stock'" />
+                            <table-th :sort="false" :tkey="''" :title="'Stock Alert'" />
 
                             <table-th :sort="false" :tkey="''" :title="'ISBN'" />
                             <table-th :sort="false" :tkey="''" :title="'SKU'" />
@@ -104,6 +105,11 @@
                                 <td>
                                     <b class="text-success">
                                         = {{ item.final_stock }}
+                                    </b>
+                                </td>
+                                <td>
+                                    <b class="text-warning">
+                                        {{ item.stock_alert_qty }}
                                     </b>
                                 </td>
 
@@ -272,6 +278,7 @@ export default {
         ...mapGetters({
             data: `get_${store_prefix}s`,
             selected_data: `get_${store_prefix}_selected`,
+            selected_data: `get_order_date`,
         }),
     }
 }

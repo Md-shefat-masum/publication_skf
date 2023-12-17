@@ -672,6 +672,13 @@ html.nav-hide-hover .header-navbar.floating-nav {
   top: unset;
   bottom: -15px;
 }
+.list_card tbody tr:nth-child(2) td .table_actions:hover ul, .list_card tbody tr:nth-child(3) td .table_actions:hover ul {
+  -webkit-transform: translate(0, 0) scale(1);
+      -ms-transform: translate(0, 0) scale(1);
+          transform: translate(0, 0) scale(1);
+  top: unset;
+  bottom: -64px;
+}
 .list_card tbody tr td {
   text-align: center;
 }

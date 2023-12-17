@@ -2,7 +2,7 @@
     <div class="container">
         <div class="card list_card">
             <div class="card-header">
-                <h4>Details</h4>
+                <h4>Complete Production</h4>
                 <div class="btns">
                     <a href="" @click.prevent="call_store(`set_${store_prefix}`,null), $router.push({ name: `AllProductions` })"  class="btn rounded-pill btn-outline-warning" >
                         <i class="fa fa-arrow-left me-5px"></i>
@@ -25,7 +25,7 @@
                                 <td>{{ data.product_info.product_name }}</td>
                             </tr>
                             <tr>
-                                <td>print qty</td>
+                                <td>print ordered qty</td>
                                 <td>{{ data.print_qty }}</td>
                             </tr>
                             <tr>
@@ -44,61 +44,20 @@
                                 <td>Binding</td>
                                 <td>{{ data.binding?.company_name }}</td>
                             </tr>
-
-                            <!-- <tr>
-                                <td>status </td>
-                                <td>
-                                    <span v-if="this[`get_${store_prefix}`].status == 1" class="badge bg-label-success me-1">active</span>
-                                    <span v-if="this[`get_${store_prefix}`].status == 0" class="badge bg-label-success me-1">deactive</span>
-                                </td>
-                            </tr> -->
-                            <!-- <tr>
-                                <td>created at </td>
-                                <td>
-                                    {{ new Date(this[`get_${store_prefix}`].created_at).toDateString()  }}, &nbsp;
-                                    {{ new Date(this[`get_${store_prefix}`].created_at).toLocaleTimeString()  }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>updated at </td>
-                                <td>
-                                    {{ new Date(this[`get_${store_prefix}`].updated_at).toDateString()  }}, &nbsp;
-                                    {{ new Date(this[`get_${store_prefix}`].updated_at).toLocaleTimeString()  }}
-                                </td>
-                            </tr> -->
                         </table>
                     </div>
                     <div class="mt-2" v-if="data">
-                        <h4>production statuses</h4>
-                        <table class="table">
-                            <tr v-for="(statuss, index) in data.production_status" :key="statuss.id">
-                                <td style="width: 120px; text-wrap: nowrap;">
-                                    <b>{{index+1}}. {{ statuss.status }}</b>
-                                </td>
-                                <td style="width:5px;">:</td>
-                                <td style="width: 80px;">{{ new Date(statuss.created_at).toLocaleDateString() }}</td>
-                                <td>
-                                    {{ statuss.description }}
-                                </td>
-                            </tr>
-                        </table>
+                        <h4>Producted Quantity</h4>
+                        <input v-model="qty" class="form-control" type="number">
+                        <div class="form-group mt-2">
+                            <label for="">Comment</label>
+                            <textarea id="description" name="description" v-model="description" class="form-control"></textarea>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div v-if="data && data.is_complete == 0" class="card-footer text-center">
-                <permission-button
-                    :permission="'can_edit'"
-                    :to="{name:`EditContactMessage`,params:{id:$route.params.id}}"
-                    :classList="'btn btn-outline-info'">
-                    <i class="fa text-info fa-pencil"></i> &nbsp;
-                    Edit
-                </permission-button>
-                <router-link class="btn btn-outline-warning ms-2" :to="{name: 'UpdateStatus' ,params:{id:$route.params.id}}">
-                    Update Status
-                </router-link>
-                <router-link class="btn btn-outline-primary ms-2" :to="{name: 'CompleteProduction' ,params:{id:$route.params.id}}">
-                    Complete Production
-                </router-link>
+            <div v-if="data.is_complete == 0" class="card-footer text-center">
+                <button @click.prevent="complete_production" class="btn btn-warning">Complete Production State</button>
             </div>
         </div>
     </div>
@@ -118,6 +77,8 @@ export default {
             /** store prefix for JSX */
             store_prefix,
             route_prefix,
+            qty: 0,
+            description: '',
         }
     },
     created: function () {
@@ -133,6 +94,26 @@ export default {
         call_store: function(name, params=null){
             this[name](params)
         },
+        complete_production: async function(){
+            let params = {
+                id: this.$route.params.id,
+                qty: this.qty,
+                description: this.description,
+            }
+            if(this.qty < 5){
+                alert('quantity should be greater than 5');
+                return 0;
+            }
+            let that = this;
+            let cconfirm = await window.s_confirm("Complete Production");
+            if (cconfirm) {
+                axios.post('/production/production/complete-production',params)
+                    .then(res=>{
+                        this.$router.push({name: `DetailsProductionOrder`,params: {id: that.data.id}});
+                    })
+            }
+
+        }
     },
     computed: {
         ...mapGetters([`get_${store_prefix}`]),

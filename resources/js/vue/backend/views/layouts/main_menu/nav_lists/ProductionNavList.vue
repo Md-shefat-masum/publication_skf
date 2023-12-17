@@ -12,7 +12,8 @@
 
             <left-nav-list-group :role_permissions="['production']" :icon="`fa fa-shop`" :text="`Inventory`" :alert_count="0">
                 <left-nav-list-item :to="'AllProductionProduct'" :text="'All Products'" />
-                <!-- <left-nav-list-item :to="'AllProductionProductCategory'" :text="'Product Category'" /> -->
+                <left-nav-list-item :to="'AllOutStockProducts'" :text="'Stock Out'" />
+                <left-nav-list-item :to="'AllInStockProducts'" :text="'Stock In'" />
                 <!-- <left-nav-list-item :to="'CreateProductionProduct'" :text="'Create Product'" /> -->
             </left-nav-list-group>
 

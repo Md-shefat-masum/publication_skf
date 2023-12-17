@@ -221,6 +221,21 @@
                 }
             }
 
+            &:nth-child(2),
+            &:nth-child(3) {
+                td {
+                    .table_actions {
+                        &:hover {
+                            ul {
+                                transform: translate(0, 0) scale(1);
+                                top: unset;
+                                bottom: -64px;
+                            }
+                        }
+                    }
+                }
+            }
+
             td {
                 text-align: center;
             }
