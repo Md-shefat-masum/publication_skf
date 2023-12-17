@@ -3,7 +3,7 @@
     margin: auto;
     height: calc(100vh - 200px);
     overflow: auto;
-    margin-bottom: 5px;
+    margin-bottom: 45px;
 
     table {
 
@@ -59,7 +59,7 @@
 
     @media print {
         box-shadow: unset;
-        display: none;
+        position: unset;
     }
 
     td {
