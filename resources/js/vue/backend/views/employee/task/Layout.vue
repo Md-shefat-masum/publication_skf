@@ -3,10 +3,10 @@
         <div class="d-flex flex-wrap justify-content-between gap-2">
             <h3 class="mb-2">{{ layout_title }}</h3>
             <div class="">
-                <router-link :to="{name: 'SuperAdminTaskVarient'}" class="btn btn-sm rounded-pill btn-outline-info">
+                <router-link :to="{name: 'EmployeeTaskVarient'}" class="btn btn-sm rounded-pill btn-outline-info">
                     varients
                 </router-link>
-                <router-link :to="{name: 'SuperAdminTaskCreate'}" class="btn ms-2 btn-sm rounded-pill btn-outline-info">
+                <router-link :to="{name: 'EmployeeTaskCreate'}" class="btn ms-2 btn-sm rounded-pill btn-outline-info">
                     Tasks
                 </router-link>
             </div>
