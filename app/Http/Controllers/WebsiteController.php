@@ -108,15 +108,13 @@ class WebsiteController extends Controller
 
     public function reset()
     {
-        AccountLogAttachment::truncate();
+        // AccountSupplierLog::truncate();
+        // AccountLogAttachment::truncate();
+        // ContactMessage::truncate();
+        // PhoneNumber::truncate();
+
         AccountLog::truncate();
-        AccountSupplierLog::truncate();
-
-        ContactMessage::truncate();
-        PhoneNumber::truncate();
-
         ProductCart::truncate();
-        ProductStockLog::truncate();
 
         Order::truncate();
         OrderDetails::truncate();
