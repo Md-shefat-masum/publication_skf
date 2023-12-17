@@ -14,6 +14,9 @@ class Order extends Model
     protected $casts = [
         "invoice_date" => 'date',
     ];
+    protected $appends = [
+        'due_amount',
+    ];
 
     public static function boot()
     {
@@ -27,6 +30,11 @@ class Order extends Model
         });
     }
 
+    public function getDueAmountAttribute()
+    {
+        $paid = OrderPayment::where('order_id',$this->id)->where('approved',1)->sum('amount');
+        return $this->total_price - $paid;
+    }
     public function order_details()
     {
         return $this->hasMany(OrderDetails::class, 'order_id')->select([
