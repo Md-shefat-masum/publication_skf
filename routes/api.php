@@ -47,6 +47,7 @@ Route::group(
             Route::group( ['prefix'=>'common' ],function(){
                 Route::get('/all-stock-in-products','Api\AdminCommonApiController@all_stock_in_products');
                 Route::get('/all-stock-out-products','Api\AdminCommonApiController@all_stock_out_products');
+                Route::get('/product-report','Api\AdminCommonApiController@product_report');
             });
 
             Route::group(['prefix' => 'user'], function () {
@@ -221,6 +222,7 @@ Route::group(
             });
 
             Route::get('/all-dues', 'Admin\Order\PaymentRequestController@all_dues');
+            Route::get('/all-dues/{branch_id}', 'Admin\Order\PaymentRequestController@branch_all_dues');
 
             Route::group(['prefix' => 'admin'], function () {
                 Route::get('/at-a-glance','AtaGlance\AdminAtaGlanceController@analytics');
@@ -380,6 +382,7 @@ Route::group(
             });
 
             Route::group(['prefix' => 'accountant'], function () {
+                Route::get('/at-a-glance','AtaGlance\AccountantAtaGlanceController@analytics');
 
                 Route::group(['prefix' => 'report'], function () {
                     Route::get('/ledger','Accountant\ReportController@ledger');
@@ -427,8 +430,11 @@ Route::group(
 
                 Route::group(['prefix' => 'account-entry'], function () {
                     Route::get('/all', 'Accountant\AccountEntryController@all');
+
                     Route::post('/store', 'Accountant\AccountEntryController@store');
                     Route::post('/store/expense', 'Accountant\AccountEntryController@expense');
+                    Route::post('/store/due', 'Accountant\AccountEntryController@due_entry');
+
                     Route::post('/canvas-store', 'Accountant\AccountEntryController@canvas_store');
                     Route::post('/update', 'Accountant\AccountEntryController@update');
                     Route::post('/canvas-update', 'Accountant\AccountEntryController@canvas_update');
