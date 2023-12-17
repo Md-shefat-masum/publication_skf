@@ -11,10 +11,12 @@ use App\Models\Order\OrderDeliveryInfo;
 use App\Models\Order\OrderDetails;
 use App\Models\Order\OrderPayment;
 use App\Models\Product\Product;
+use App\Models\Product\ProductStockLog;
 use App\Models\Settings\AppSettingTitle;
 use App\Models\User\Address;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 
@@ -23,39 +25,6 @@ class AdminOrderController extends Controller
     public $message = "";
     public $order_id = null;
     public $type = "create";
-
-    public function all_products(Request $request)
-    {
-        $paginate = (int) 10;
-        $orderBy = "id";
-        $orderByType = "ASC";
-
-
-        $status = 1;
-        if (request()->has('status')) {
-            $status = request()->status;
-        }
-
-
-        $query = Product::where('status', $status)->orderBy($orderBy, $orderByType);
-
-        if (request()->has('search_key')) {
-            $key = request()->search_key;
-            $query->where(function ($q) use ($key) {
-                return $q->where('id', $key)
-                    ->orWhere('product_name', $key)
-                    ->orWhere('product_name_english', $key)
-                    ->orWhere('sales_price', $key)
-                    ->orWhere('product_name', 'LIKE', '%' . $key . '%')
-                    ->orWhere('product_name_english', 'LIKE', '%' . $key . '%')
-                    ->orWhere('sales_price', 'LIKE', '%' . $key . '%');
-            });
-        }
-        $query->withSum('stocks', 'qty');
-        $query->withSum('sales', 'qty');
-        $users = $query->paginate($paginate);
-        return response()->json($users);
-    }
 
     public function store_order()
     {
@@ -408,89 +377,6 @@ class AdminOrderController extends Controller
         return $address;
     }
 
-    /**
-     * ```php
-     make_message([
-        "message_products" => $message_products,
-        "sub_total_cost" => $sub_total_cost,
-        "shipping_cost" => $shipping_cost,
-        "coupon_discount" => 0,
-        "total_cost" => $total_cost,
-        "name" => auth()->user()->first_name.' '.auth()->user()->last_name,
-        "mobile_number" => auth()->user()->mobile_number,
-        "address" => "",
-        "invoice_id" => $order->invoice_id,
-        "type" => "update_order",
-     ]);
-     *```
-     */
-    public function make_message($data)
-    {
-        $message_products = $data["message_products"];
-        $sub_total_cost = $data["sub_total_cost"];
-        $shipping_cost = $data["shipping_cost"];
-        $coupon_discount = $data["coupon_discount"];
-        $total_cost = $data["total_cost"];
-        $name = $data["name"];
-        $mobile_number = $data["mobile_number"];
-        $address = $data["address"];
-        $invoice_id = $data["invoice_id"];
-        $type = $data["type"];
-
-        $now = Carbon::now()->format("d M, Y h:i a");
-        $invoice_url = url("/invoice/$invoice_id");
-        $this->message .= "আসসালামু আলাইকুম ওয়ারহমাতুল্লাহ। \n";
-
-        if ($type == "update_order") {
-            $this->message .= "একটি অর্ডার আপডেট হয়েছে \n";
-        } else {
-            $this->message .= "নতুন অর্ডার এসেছে \n";
-        }
-
-        $this->message .= "অর্ডার এর সময়:  $now \n";
-        $this->message .= "অর্ডার এর বিবরণ \n";
-
-        $this->message .= "------------------- \n";
-        $this->message .= $message_products;
-
-        $this->message .= "------------------- \n";
-        $this->message .= enToBn("সাবটোটাল - ৳ $sub_total_cost \n");
-        $this->message .= enToBn("ডেলিভারি চার্জ - ৳ $shipping_cost \n");
-        if ($coupon_discount) {
-            $this->message .= enToBn("কুপন ছাড় - ৳ -$coupon_discount \n");
-        }
-        $this->message .= enToBn("সর্বমোট মূল্য - ৳ $total_cost \n");
-
-        $this->message .= "------------------- \n";
-        $this->message .= "অর্ডারকারীর বিবরণ \n";
-        $this->message .= "নাম : $name \n";
-        $this->message .= "মোবাইল নাম্বার : $mobile_number \n";
-        $this->message .= "ঠিকানা : $address \n";
-        $this->message .= "------------------- \n";
-        $this->message .= "বিস্তারিত : $invoice_url";
-        $this->send_telegram($this->message);
-    }
-
-    public function send_telegram($message)
-    {
-        try {
-            $bot_token = env('BOT_TOKEN');
-            $method = "sendMessage";
-
-            $parameters = [
-                'chat_id' => 812239513,
-                'text' => $message,
-            ];
-
-            $url = "https://api.telegram.org/bot$bot_token/$method";
-
-            $response = Http::get($url . '?chat_id=' . $parameters['chat_id'] . '&text=' . $parameters['text']);
-            return $response->json();
-        } catch (\Throwable $th) {
-            //throw $th;
-        }
-    }
-
     public function receive_due()
     {
         // dd(request()->all());
@@ -784,9 +670,12 @@ class AdminOrderController extends Controller
         if ($order->sales_id > 0) {
             return 0;
         }
+
         $latest_order = Order::orderBy('sales_id', 'DESC')->first();
         $order->sales_id = $latest_order ? $latest_order->sales_id + 1 : 1;
         $order->save();
+
+        $this->stock_update($order->id);
 
         $order_payment = OrderPayment::where('order_id', $order->id)->first();
         if ($order_payment) {
@@ -823,5 +712,102 @@ class AdminOrderController extends Controller
 
         $order_payment->account_logs_id = $log->id;
         $order_payment->save();
+    }
+
+    public function stock_update($order_id)
+    {
+        $order = Order::find($order_id);
+        foreach ($order->products as $order_product) {
+            $product = $order_product->product()->first();
+            if ($product) {
+                $product->total_stock = $product->stock;
+                $product->total_sales = $product->sales;
+                $product->is_in_stock = ($product->stock - $product->stock_alert_qty) > $product->sales;
+                $product->save();
+            }
+        }
+    }
+
+    /**
+     * ```php
+     make_message([
+        "message_products" => $message_products,
+        "sub_total_cost" => $sub_total_cost,
+        "shipping_cost" => $shipping_cost,
+        "coupon_discount" => 0,
+        "total_cost" => $total_cost,
+        "name" => auth()->user()->first_name.' '.auth()->user()->last_name,
+        "mobile_number" => auth()->user()->mobile_number,
+        "address" => "",
+        "invoice_id" => $order->invoice_id,
+        "type" => "update_order",
+     ]);
+     *```
+     */
+    public function make_message($data)
+    {
+        $message_products = $data["message_products"];
+        $sub_total_cost = $data["sub_total_cost"];
+        $shipping_cost = $data["shipping_cost"];
+        $coupon_discount = $data["coupon_discount"];
+        $total_cost = $data["total_cost"];
+        $name = $data["name"];
+        $mobile_number = $data["mobile_number"];
+        $address = $data["address"];
+        $invoice_id = $data["invoice_id"];
+        $type = $data["type"];
+
+        $now = Carbon::now()->format("d M, Y h:i a");
+        $invoice_url = url("/invoice/$invoice_id");
+        $this->message .= "আসসালামু আলাইকুম ওয়ারহমাতুল্লাহ। \n";
+
+        if ($type == "update_order") {
+            $this->message .= "একটি অর্ডার আপডেট হয়েছে \n";
+        } else {
+            $this->message .= "নতুন অর্ডার এসেছে \n";
+        }
+
+        $this->message .= "অর্ডার এর সময়:  $now \n";
+        $this->message .= "অর্ডার এর বিবরণ \n";
+
+        $this->message .= "------------------- \n";
+        $this->message .= $message_products;
+
+        $this->message .= "------------------- \n";
+        $this->message .= enToBn("সাবটোটাল - ৳ $sub_total_cost \n");
+        $this->message .= enToBn("ডেলিভারি চার্জ - ৳ $shipping_cost \n");
+        if ($coupon_discount) {
+            $this->message .= enToBn("কুপন ছাড় - ৳ -$coupon_discount \n");
+        }
+        $this->message .= enToBn("সর্বমোট মূল্য - ৳ $total_cost \n");
+
+        $this->message .= "------------------- \n";
+        $this->message .= "অর্ডারকারীর বিবরণ \n";
+        $this->message .= "নাম : $name \n";
+        $this->message .= "মোবাইল নাম্বার : $mobile_number \n";
+        $this->message .= "ঠিকানা : $address \n";
+        $this->message .= "------------------- \n";
+        $this->message .= "বিস্তারিত : $invoice_url";
+        $this->send_telegram($this->message);
+    }
+
+    public function send_telegram($message)
+    {
+        try {
+            $bot_token = env('BOT_TOKEN');
+            $method = "sendMessage";
+
+            $parameters = [
+                'chat_id' => 812239513,
+                'text' => $message,
+            ];
+
+            $url = "https://api.telegram.org/bot$bot_token/$method";
+
+            $response = Http::get($url . '?chat_id=' . $parameters['chat_id'] . '&text=' . $parameters['text']);
+            return $response->json();
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
 }
