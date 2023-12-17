@@ -92,7 +92,7 @@
     2. ok - branch payment submit
     3. ok - branch order edit, after edit no modification of data
 
-    4. sales id generate howar sathe sathe stock update hobe.
+    4. ok - sales id generate howar sathe sathe stock update hobe.alada vabe mange hobe.
     5. production e at a glance hobe. stock out product list.
     6. product report, branch report,
     7. account part e at a glance.
