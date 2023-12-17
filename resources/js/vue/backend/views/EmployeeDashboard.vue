@@ -22,15 +22,69 @@
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card  my-4">
+                    <div class="card-header d-flex justify-content-between">
+                        <div>
+                            Task List
+                        </div>
+                        <div>
+                            <button @click="employeeFetchAllTasks" class="btn me-1">all</button>
+                            <input type="date" @change="employeeFetchAllTasks({date: $event.target.value})" @click="$event.target.showPicker();">
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="today_tasks">
+                            <ul class="custom_scroll">
+                                <li v-for="task in get_employee_taks.data" :key="task.id">
+                                    <div class="left">
+                                        <input :checked="task.complete" @change="complete_task(task.id)" type="checkbox" class="form-check-input">
+                                        <router-link :to="{ name: 'TaskDetailsEmployee', params: { id: task.id } }"
+                                            class="text-warning">
+                                            <i class="fa fa-pencil"></i>
+                                        </router-link>
+                                    </div>
+                                    <div class="right">
+                                        {{ format_date(task.target_date) }} -
+                                        {{ task.title }}
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <form @submit.prevent="create_new_task" class="d-flex justify-content-between" action="">
+                            <div class="flex-1">
+                                <input type="text" name="title" id="title" class="form-control">
+                            </div>
+                            <div class="d-flex align-items-center justify-content-center ms-1">
+                                <label for="target_date">
+                                    <i class="fa fa-calendar"></i>
+                                    <input id="target_date" @focus="$event.target.showPicker();" type="date" style="width: 0px;height:0;" name="target_date">
+                                </label>
+                            </div>
+                            <button class="btn">
+                                <i class="fa fa-paper-plane"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </section>
 </template>
 
 <script>
+import moment from 'moment';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
     components: {},
     data() {
         return {
+            task_title: '',
             analytics: {},
             titles: [
                 "total_order",
@@ -55,8 +109,14 @@ export default {
     },
     created: async function(){
         await this.get_analytics();
+        await this.employeeFetchAllTasks();
     },
     methods: {
+        ...mapActions([
+            'employeeFetchAllTasks',
+            'complete_task',
+            'new_task',
+        ]),
         get_analytics: async function(){
             let res = await axios.get('admin/at-a-glance');
             // console.log(res.data);
@@ -64,7 +124,22 @@ export default {
             this.titles = res.data.keys;
             this.account_titles = res.data.account_keys;
             this.task_titles = res.data.task_keys;
+        },
+        create_new_task: async function(){
+            await this.new_task();
+            await this.employeeFetchAllTasks();
+        },
+        format_date: function(date){
+            if(date){
+                return moment(date).format('DD-MMM-YY')
+            }
+            return '';
         }
+    },
+    computed: {
+        ...mapGetters([
+            'get_employee_taks'
+        ])
     }
 }
 </script>
