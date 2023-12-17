@@ -5,6 +5,9 @@ import Edit from "../../../views/production/products/Edit";
 import Details from "../../../views/production/products/Details";
 import Import from "../../../views/production/products/Import";
 
+import AllOutStockProducts from "../../../views/common_pages/AllOutStockProducts.vue";
+import AllInStockProducts from "../../../views/common_pages/AllInStockProducts.vue";
+
 export default {
     path: "product",
     component: Layout,
@@ -22,6 +25,16 @@ export default {
             path: "import",
             name: "ImportProductionProduct",
             component: Import,
+        },
+        {
+            path: "stock-in-products",
+            name: "AllInStockProducts",
+            component: AllInStockProducts,
+        },
+        {
+            path: "stock-out-products",
+            name: "AllOutStockProducts",
+            component: AllOutStockProducts,
         },
         {
             path: "create",
