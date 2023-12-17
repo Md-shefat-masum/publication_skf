@@ -44,6 +44,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 
 export default {
     data: function () {
@@ -56,6 +57,7 @@ export default {
         console.log("datatask",this.all_tasks);
     },
     methods: {
+        ...mapActions(['complete_task']),
         async employeeFetchAllTasks() {
             try {
                 const res = await axios.get('task/get_all_employee_task');
