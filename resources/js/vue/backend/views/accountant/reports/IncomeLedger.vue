@@ -11,12 +11,12 @@
                     <input type="date" v-model="to_date" class="income_expense_date_field" @click="$event.target.showPicker();">
                 </div>
                 <div class="btns d-flex gap-2 align-items-center">
-                    <button
+                    <!-- <button
                         type="button"
                         :class="'btn rounded-pill btn-outline-info'">
                         <i class="fa fa-print me-5px"></i>
                         Export
-                    </button>
+                    </button> -->
                 </div>
             </div>
             <div class="ledger_book card-body text-nowrap">
@@ -32,7 +32,7 @@
 
                 <div class="ledger_row" v-for="i in ledgers" :key="i.id">
                     <div class="ledger_col date text-start">{{ new Date(i.date).toDateString() }}</div>
-                    <div class="ledger_col receipt">{{ i.receipt_no }}</div>
+                    <div class="ledger_col receipt">{{ i.income_id }}</div>
                     <div class="ledger_col name">{{ i.name }}</div>
                     <div class="ledger_col">{{ i.amount }}</div>
                     <div class="ledger_col" v-for="j in categories" :key="j.id">
@@ -85,7 +85,7 @@ export default {
     created: async function(){
         document.querySelector('html').classList.add('nav-hide');
         this.from_date = moment().subtract(30,'d').format('YYYY-MM-DD');
-        this.to_date = moment().format('YYYY-MM-DD');
+        this.to_date = moment().add(1,'d').format('YYYY-MM-DD');
         this.date_title = moment(this.from_date).format('MMM DD - ');
         this.date_title += moment(this.to_date).format('MMM DD');
 
