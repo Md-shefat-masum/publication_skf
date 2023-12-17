@@ -87,7 +87,7 @@ class SupplierLogController extends Controller
             'payment_type' => ['required'],
             'supplier_type' => ['required'],
             'supplier_id' => ['required'],
-            
+
         ]);
 
         if ($validator->fails()) {
@@ -130,6 +130,11 @@ class SupplierLogController extends Controller
                 'is_income' => 0,
                 'amount' => request()->amount,
                 'description' => request()->description,
+                'reference' => request()->reference,
+
+                "name" => request()->name,
+                "customer_id" => request()->supplier_id,
+                "related_table" => "supplier_".(request()->supplier_type)."s",
             ]);
 
             $data->account_log_id = $ac_log->id;
