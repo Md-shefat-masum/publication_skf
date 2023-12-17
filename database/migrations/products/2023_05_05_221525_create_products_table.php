@@ -22,7 +22,11 @@ class CreateProductsTable extends Migration
             $table->tinyInteger("is_top_product")->default("0");
             $table->double("cost")->unsigned()->default(0);
             $table->double("sales_price")->unsigned()->default(0);
+
             $table->integer("stock_alert_qty")->unsigned()->default(10);
+            $table->integer("total_stock")->unsigned()->default(0);
+            $table->integer("total_sales")->unsigned()->default(0);
+            $table->tinyInteger("is_in_stock")->unsigned()->default(0);
 
             $table->integer("pages")->unsigned()->default(0);
 
@@ -30,10 +34,11 @@ class CreateProductsTable extends Migration
             $table->string("isbn",20)->nullable();
             $table->string("sku",20)->nullable();
 
-            $table->float("height",10)->unsigned()->default(0);
-            $table->float("width",10)->unsigned()->default(0);
-            $table->float("weight",10)->unsigned()->default(0);
-            $table->float("depth",10)->unsigned()->default(0);
+            $table->float("height")->unsigned()->default(0);
+            $table->float("width")->unsigned()->default(0);
+            $table->float("weight")->unsigned()->default(0);
+            $table->float("depth")->unsigned()->default(0);
+
 
             $table->longText("description")->nullable();
             $table->longText("specification")->nullable();
