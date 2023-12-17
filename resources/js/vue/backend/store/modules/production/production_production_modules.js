@@ -57,8 +57,18 @@ const actions = {
         rootState.production_print_modules.production_print_selected = [data.print];
 
         setTimeout(() => {
-            document.querySelector('#production_status').value = data.production_status[data.production_status.length-1]?.status;
-            document.querySelector('#production_description').value = data.production_status[data.production_status.length-1]?.description;
+            let production_status = document.querySelector('#production_status');
+            if (production_status) {
+                production_status.value = data.production_status[data.production_status.length - 1]?.status;
+            }
+            let production_description = document.querySelector('#production_description')
+            if (production_description) {
+                production_description.value = data.production_status[data.production_status.length - 1]?.description;
+            }
+            let description = document.querySelector('#description');
+            if (description) {
+                document.querySelector('#description').value = data.production_status[data.production_status.length - 1]?.description;
+            }
         }, 500);
     },
 
@@ -77,17 +87,17 @@ const actions = {
         formData.append("supplier_prints_id", prints[0].id);
         formData.append("supplier_bindings_id", bindings[0].id);
 
-        axios.post(`/${api_prefix}/store`,formData)
-            .then(res=>{
+        axios.post(`/${api_prefix}/store`, formData)
+            .then(res => {
                 $('.create_form input').val('');
                 rootState.production_product_modules.production_product_selected = [];
                 rootState.production_designer_modules.production_designer_selected = [];
                 rootState.production_print_modules.production_print_selected = [];
                 rootState.production_binding_modules.production_binding_selected = [];
                 window.s_alert('new data has been created');
-                management_router.push({name:`AllProductions`})
+                management_router.push({ name: `AllProductions` })
             })
-            .catch(error=>{
+            .catch(error => {
 
             })
     },
@@ -101,7 +111,7 @@ const actions = {
         let { get_production_print_selected: prints } = getters;
         let { get_production_binding_selected: bindings } = getters;
 
-        console.log(getters);
+        // console.log(getters);
         let formData = new FormData(target);
         formData.append("id", state[`${store_prefix}`].id);
         formData.append("product_id", products[0].id);
@@ -109,8 +119,8 @@ const actions = {
         formData.append("supplier_prints_id", prints[0].id);
         formData.append("supplier_bindings_id", bindings[0].id);
 
-        axios.post(`/${api_prefix}/update`,formData)
-            .then(res=>{
+        axios.post(`/${api_prefix}/update`, formData)
+            .then(res => {
                 // $('.create_form input').val('');
                 // rootState.production_product_modules.production_product_selected = [];
                 // rootState.production_designer_modules.production_designer_selected = [];
@@ -119,7 +129,7 @@ const actions = {
                 window.s_alert('data has been updated');
                 // management_router.push({name:`All${route_prefix}`})
             })
-            .catch(error=>{
+            .catch(error => {
                 console.log(error);
             })
     },
@@ -132,17 +142,27 @@ const actions = {
         let formData = new FormData(target);
         formData.append("product_id", products[0]?.id);
 
-        axios.post(`/${api_prefix}/store-cost`,formData)
-            .then(res=>{
+        axios.post(`/${api_prefix}/store-cost`, formData)
+            .then(res => {
                 $('.create_form input').val('');
                 rootState.production_product_modules.production_product_selected = [];
                 window.s_alert('new data has been created');
                 // management_router.push({name:`All${route_prefix}`})
             })
-            .catch(error=>{
+            .catch(error => {
 
             })
     },
+
+    delete_production: async function({dispatch}, id){
+        let cconfirm = await window.s_confirm("Complete Production");
+        if (cconfirm) {
+            axios.post('/production/production/destroy',{id})
+                .then(res=>{
+                    dispatch('fetch_all_productions')
+                })
+        }
+    }
 };
 
 // mutators
