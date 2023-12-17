@@ -17,11 +17,15 @@ class CreateProductionsTable extends Migration
             $table->id();
             $table->bigInteger("product_id")->unsigned()->nullable();
             $table->float("paper_amount")->nullable();
-            $table->bigInteger("print_qty")->unsigned()->nullable();
+
+            $table->bigInteger("print_qty")->unsigned()->nullable()->comment('ordered print qty');
+            $table->bigInteger("final_print_qty")->unsigned()->nullable()->comment('after print qty');
+
             $table->bigInteger("book_cover_designer")->nullable();
             $table->bigInteger("supplier_prints_id")->unsigned()->nullable();
             $table->bigInteger("supplier_bindings_id")->unsigned()->nullable();
             $table->bigInteger("total_sales")->default(0);
+            $table->bigInteger("is_complete")->default(0);
 
             $table->bigInteger('creator')->unsigned()->nullable();
             $table->string('slug', 50)->nullable();
