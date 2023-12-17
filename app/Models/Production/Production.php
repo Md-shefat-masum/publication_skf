@@ -17,7 +17,8 @@ class Production extends Model
 
     public function getProductionStatusAttribute()
     {
-        return ProductionStatus::select('id','production_id','status','description')->where('production_id',$this->id)->get();
+        return ProductionStatus::select('id','production_id','status','description','created_at')
+            ->where('production_id',$this->id)->get();
     }
 
     public function getProductInfoAttribute()
