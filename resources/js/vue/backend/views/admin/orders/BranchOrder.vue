@@ -152,12 +152,12 @@
                             </td>
                             <td>
                                 <strong class="text-warning">
-                                   - {{ item.order_payments_sum_amount  }}
+                                   - {{ item.total_paid  }}
                                 </strong>
                             </td>
                             <td>
                                 <strong class="text-warning">
-                                   {{ (item.total_price - (item.order_payments_sum_amount || 0)).toFixed(2)  }}
+                                   {{ item.due_amount.toFixed(2)  }}
                                 </strong>
                             </td>
                             <td>
