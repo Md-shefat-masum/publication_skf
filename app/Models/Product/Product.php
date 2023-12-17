@@ -39,6 +39,9 @@ class Product extends Model
         "is_public",
         "is_branch",
         "custom_fields",
+        'total_stock',
+        'total_sales',
+        'is_in_stock',
     ];
 
     public static function boot()
@@ -93,7 +96,7 @@ class Product extends Model
                 $query->select(DB::raw("*"))
                     ->from('orders')
                     ->whereColumn('orders.id', 'order_details.order_id')
-                    ->where('orders.order_status', '!=', 'pending');
+                    ->whereNotIn('orders.order_status', ['pending','canceled']);
             })
             ->sum('qty');
         return $sales;
