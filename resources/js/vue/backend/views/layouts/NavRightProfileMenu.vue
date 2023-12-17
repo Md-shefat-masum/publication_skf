@@ -2,7 +2,7 @@
     <li class="nav-item dropdown dropdown-user">
         <a @click.prevent="show_menu=!show_menu" class="nav-link dropdown-toggle align-items-center gap-2 d-flex dropdown-user-link"
             id="dropdown-user" href="#" data-bs-toggle="dropdown">
-            <div class="user-nav">
+            <div class="user-nav d-grid">
                 <span class="user-name fw-bolder">
                     {{ get_auth_information.first_name }}
                     {{ get_auth_information.last_name }}
