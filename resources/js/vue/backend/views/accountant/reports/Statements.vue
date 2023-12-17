@@ -11,12 +11,12 @@
                     <input type="date" v-model="to_date" class="income_expense_date_field" @click="$event.target.showPicker();">
                 </div>
                 <div class="btns d-flex gap-2 align-items-center">
-                    <button
+                    <!-- <button
                         type="button"
                         :class="'btn rounded-pill btn-outline-info'">
                         <i class="fa fa-print me-5px"></i>
                         Export
-                    </button>
+                    </button> -->
                 </div>
             </div>
             <div class="ledger_book card-body text-nowrap">
