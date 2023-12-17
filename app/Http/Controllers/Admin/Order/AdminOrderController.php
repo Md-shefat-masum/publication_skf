@@ -672,7 +672,7 @@ class AdminOrderController extends Controller
         }
 
         $latest_order = Order::orderBy('sales_id', 'DESC')->first();
-        $order->sales_id = $latest_order ? $latest_order->sales_id + 1 : 1;
+        $order->sales_id = $latest_order ? $latest_order->sales_id + 1 : 1001;
         $order->save();
 
         $this->stock_update($order->id);
@@ -685,7 +685,7 @@ class AdminOrderController extends Controller
 
     public function update_order_payment_status($order)
     {
-        $order->total_paid = $order->order_payments()->where('approved', 1)->sum('amount');
+        $order->total_paid = round($order->order_payments()->where('approved', 1)->sum('amount'));
         $order->payment_status = "due";
         if ($order->total_paid >= $order->total_price) {
             $order->payment_status = 'paid';
@@ -700,6 +700,8 @@ class AdminOrderController extends Controller
         $log = AccountLog::create([
             'date' => Carbon::now()->toDateTimeString(),
             "name" => $order_payment->user->first_name . " " . $order_payment->user->last_name,
+            "customer_id" => $order_payment->user_id,
+            "related_table" => "users",
             'amount' => $order_payment->amount,
             'category_id' => 1, // ponno theke ay
             'account_id' => $order_payment->account_id,
