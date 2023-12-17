@@ -11,7 +11,7 @@ const state = {
     ...test_module.states(),
     orderByAsc: false,
     order_type: 'id',
-    order_date: moment().format('yyyy-mm-dd'),
+    order_date: null,
 
     admin_product_for_order: {},
     admin_p_search_key: '',
