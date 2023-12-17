@@ -16,6 +16,7 @@ const state = {
 
     transaction_accounts: [],
     all_dues: [],
+    all_branch_due_orders: [],
 };
 
 // get state
@@ -23,6 +24,7 @@ const getters = {
     ...test_module.getters(),
     get_transaction_accounts: (state) => state.transaction_accounts,
     all_dues: (state) => state.all_dues,
+    all_branch_due_orders: (state) => state.all_branch_due_orders,
 };
 
 // actions
@@ -33,6 +35,13 @@ const actions = {
         let url = `/all-dues`;
         await axios.get(url).then((res) => {
             state.all_dues = res.data;
+        });
+    },
+
+    [`branch_all_dues_by_id`]: async function ({ state },id) {
+        let url = `/all-dues/`+id;
+        await axios.get(url).then((res) => {
+            state.all_branch_due_orders = res.data;
         });
     },
 
