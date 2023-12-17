@@ -75,6 +75,11 @@
                                     <label for="description">Entry Description</label>
                                     <textarea class="form-control" id="description" name="description"></textarea>
                                 </div>
+
+                                <div class=" form-group d-grid full_width align-content-start gap-1 mb-2 " >
+                                    <label for="reference">Entry Reference</label>
+                                    <textarea class="form-control" id="reference" name="reference"></textarea>
+                                </div>
                                 <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Attachment`"
