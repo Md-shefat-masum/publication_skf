@@ -21,12 +21,20 @@ class TaskController extends Controller
     }
     public function get_all_employee_task()
     {
-        $tasks = Task::whereExists(function ($query) {
+        $query = Task::whereExists(function ($query) {
             $query->select(DB::raw(1))
                 ->from('task_users')
                 ->where('task_users.user_id', auth()->id())
                 ->whereColumn('task_users.task_id', 'tasks.id');
-        })->orderBy('id', 'DESC')->with(['variants'])->paginate(20);
+        })
+        ->orderBy('id', 'DESC')
+        ->with(['variants']);
+
+        if(request()->has('date')){
+            $query->whereDate('target_date',request()->date);
+        }
+
+        $tasks = $query->paginate(25);
         return $tasks;
     }
 
@@ -92,19 +100,22 @@ class TaskController extends Controller
                     "title" => $item->title,
                     "task_variant_title" => $item->task_variant_title,
                     "task_variant_id" => $item->task_variant_id,
+                    "creator" => auth()->user()->id,
                 ]);
                 $ids[] = $varient_value->id;
             }
         }
 
-        TaskVariantValue::where('task_variant_id', $task_variant_id)->whereNotIn('id', $ids)->delete();
+        TaskVariantValue::where('task_variant_id', $task_variant_id)
+            ->whereNotIn('id', $ids)
+            ->where('creator',auth()->user()->id)
+            ->delete();
         return response()->json('success');
     }
 
 
     public function save_new_task()
     {
-
 
         $validator = Validator::make(request()->all(), [
             "title" => 'required'
