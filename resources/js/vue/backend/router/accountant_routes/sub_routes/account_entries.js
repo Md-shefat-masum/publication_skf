@@ -7,6 +7,8 @@ import Import from "../../../views/accountant/account_entries/Import";
 
 import Income from "../../../views/accountant/account_entries/Income";
 import Expense from "../../../views/accountant/account_entries/Expense";
+import BranchDue from "../../../views/accountant/account_entries/BranchDue.vue";
+import BranchDuePayment from "../../../views/accountant/account_entries/BranchDuePayment.vue";
 
 let prefix = `AcountantEntries`
 export default {
@@ -41,6 +43,16 @@ export default {
             path: `expense`,
             name: `Expense${prefix}`,
             component: Expense,
+        },
+        {
+            path: `branch-due`,
+            name: `AccountBranchDue`,
+            component: BranchDue,
+        },
+        {
+            path: `branch-due-payment/:user_id`,
+            name: `BranchDuePayment`,
+            component: BranchDuePayment,
         },
         {
             path: `edit/:id`,
