@@ -8,6 +8,8 @@ import Pricing from "../../../views/production/orders/Pricing";
 import Edit from "../../../views/production/orders/Edit";
 import Details from "../../../views/production/orders/Details";
 import Import from "../../../views/production/orders/Import";
+import UpdateStatus from "../../../views/production/orders/UpdateStatus";
+import CompleteProduction from "../../../views/production/orders/CompleteProduction";
 
 export default {
     path: "order",
@@ -41,6 +43,16 @@ export default {
             path: "production",
             name: "ProductionProductionOrder",
             component: Production,
+        },
+        {
+            path: "update-status/:id",
+            name: "UpdateStatus",
+            component: UpdateStatus,
+        },
+        {
+            path: "complete-production/:id",
+            name: "CompleteProduction",
+            component: CompleteProduction,
         },
         {
             path: "production/:id",
