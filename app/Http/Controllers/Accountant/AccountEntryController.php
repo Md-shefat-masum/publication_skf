@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers\Accountant;
 
+use App\Http\Controllers\Admin\Order\AdminOrderController;
 use App\Http\Controllers\Controller;
+use App\Models\Account\Account;
 use App\Models\Account\AccountCategory;
 use App\Models\Account\AccountEntry;
 use App\Models\Account\AccountLog;
 use App\Models\Account\AccountLogAttachment;
+use App\Models\Order\Order;
+use App\Models\Order\OrderPayment;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -112,11 +117,12 @@ class AccountEntryController extends Controller
         }
 
         $account_log = new AccountLog();
-        $account_log->date = Carbon::now()->toDateString();
+        $account_log->date = Carbon::now()->toDateTimeString();
         $account_log->category_id = $category->id;
 
         $account_log->name = $request->name;
         $account_log->customer_id = $request->customer_id;
+        $account_log->related_table = "account_customers";
 
         $account_log->receipt_no = $request->receipt_no;
         $account_log->account_id = $request->account_id;
@@ -178,8 +184,9 @@ class AccountEntryController extends Controller
 
         $account_log->name = $request->name;
         $account_log->customer_id = $request->customer_id;
+        $account_log->related_table = "account_customers";
 
-        $account_log->date = Carbon::now()->toDateString();
+        $account_log->date = Carbon::now()->toDateTimeString();
         $account_log->category_id = $category->id;
         $account_log->trx_id = $request->trx_id;
         $account_log->account_id = $request->account_id;
@@ -205,6 +212,82 @@ class AccountEntryController extends Controller
 
         return response()->json($account_log, 200);
     }
+
+    public function due_entry(Request $request)
+    {
+        $validator = Validator::make(request()->all(), [
+            'orders' => ['required'],
+            'account_id' => ['required'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'err_message' => 'validation error',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        $category = AccountCategory::where('title','পণ্য বিক্রি আয়')->first();
+        $user = User::find(request()->user_id);
+        $payment_method = (object) [];
+        try {
+            $payment_method = json_decode(request()->account_number_id);
+        } catch (\Throwable $th) {
+        }
+
+        $account = Account::find(request()->account_id);
+
+        // dd(request()->all());
+
+        foreach (request()->orders as $order_info) {
+            $order_info = (object) $order_info;
+            $order = Order::find($order_info->id);
+            $total_paid = $order_info->pay_amount;
+            if($total_paid > 0){
+                $order_payment = OrderPayment::create([
+                    "order_id" => $order->id,
+                    "user_id" => $order->user_id,
+                    "amount" => $total_paid,
+                    "account_id" => request()->account_id,
+                    "account_number_id" => $account->id != 1 ? $payment_method->id : null,
+                    "trx_id" => $account->id != 1 ? $request->trx_id : null,
+                    "payment_method" => $account->name,
+                    "date" => Carbon::now()->toDateString(),
+                    "account_logs_id" => null,
+                    "approved" => 1,
+                ]);
+
+                $account_log = new AccountLog();
+
+                $account_log->name = $user->first_name . ' '. $user->last_name;
+                $account_log->customer_id = $user->id;
+                $account_log->related_table = "users";
+
+                $account_log->date = Carbon::now()->toDateTimeString();
+                $account_log->category_id = $category->id;
+                $account_log->trx_id = $order_payment->trx_id;
+                $account_log->account_id = $order_payment->account_id;
+                $account_log->account_number_id = $payment_method->id ?? 0;
+                $account_log->is_expense = 0;
+                $account_log->is_income = 1;
+                $account_log->amount = $order_payment->amount;
+                $account_log->description = "Customer due collection";
+                $account_log->creator = Auth::user()->id;
+                $account_log->save();
+
+                $order_payment->account_logs_id = $account_log->id;
+                $order_payment->save();
+
+                $oderController = new AdminOrderController();
+                $oderController->update_order_payment_status($order);
+            }
+        }
+
+        return response()->json("success", 200);
+    }
+
+
+    /********************* */
 
     public function canvas_store(Request $request)
     {
