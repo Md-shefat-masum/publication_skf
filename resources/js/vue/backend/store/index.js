@@ -36,6 +36,8 @@ import accountant_customer_modules from './modules/accountant/accountant_custome
 
 import superadmin_task from './modules/superadmin/superadmin_task';
 
+import common_store from './modules/common_store';
+
 const store = new Vuex.Store({
     modules: {
         auth_modules,
@@ -70,6 +72,8 @@ const store = new Vuex.Store({
         accountant_customer_modules,
 
         superadmin_task,
+
+        common_store,
     },
     state: {},
     getters: {},
