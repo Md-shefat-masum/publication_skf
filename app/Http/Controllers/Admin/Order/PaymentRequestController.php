@@ -68,11 +68,20 @@ class PaymentRequestController extends Controller
             $branch->total_due = $branch->total_bill - $branch->total_paid;
         }
 
-        $branches->sortBy('total_due')->where('total_bill','>',0)->all();
+        $branches->sortBy('total_bill')->where('total_bill','>',0)->all();
         foreach ($branches as $item) {
             $data[] = $item;
         }
         return $data;
+    }
+
+    public function branch_all_dues($branch_id)
+    {
+        $orders = Order::where('user_id',$branch_id)
+            ->where('payment_status','!=', 'paid')
+            ->whereNotIn('order_status',['pending','canceled'])
+            ->get();
+        return $orders;
     }
 
     public function approve()
