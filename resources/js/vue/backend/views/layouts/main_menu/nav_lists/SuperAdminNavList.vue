@@ -4,6 +4,13 @@
 
             <left-nav-list-group :role_permissions="['super_admin','admin']" :icon="`fa fa-home`" :text="`Dashboard`" :alert_count="2">
                 <left-nav-list-item :to="'SuperAdminDashboard'" :text="'Analytics'" />
+                <left-nav-list-item :to="'SuperAllincomeExpense'" :text="'Income and Expense'" />
+                <left-nav-list-item :to="'SuperAdminIncomeLedger'" :text="'Income Ledger'" />
+                <left-nav-list-item :to="'SuperAdminExpenseLedger'" :text="'Expense Ledger'" />
+                <left-nav-list-item :to="'SuperAdminStatements'" :text="'Account Statements'" />
+                <left-nav-list-item :to="'SuperAllOutStockProducts'" :text="'Stock Out Products'" />
+                <left-nav-list-item :to="'SuperAllInStockProducts'" :text="'Stock In Products'" />
+                <left-nav-list-item :to="'SuperProductReport'" :text="'Product Report'" />
             </left-nav-list-group>
 
             <li class="navigation-header">
