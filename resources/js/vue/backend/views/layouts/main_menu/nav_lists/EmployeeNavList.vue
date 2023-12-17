@@ -2,7 +2,7 @@
     <div @mouseover="mouseover" @mouseleave="mouseleave">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
 
-            <left-nav-list-group :role_permissions="['employee','admin']" :icon="`fa fa-home`" :text="`Dashboard`" :alert_count="2">
+            <left-nav-list-group :role_permissions="['employee','admin']" :icon="`fa fa-home`" :text="`Dashboard`" :alert_count="0">
                 <left-nav-list-item :to="'EmployeeDashboard'" :text="'Analytics'" />
             </left-nav-list-group>
 
@@ -10,7 +10,7 @@
                 <span data-i18n="Apps &amp; Pages">managements</span>
             </li>
 
-            <left-nav-list-single :role_permissions="['employee','admin']" :icon="'fa fa-list'" :to="`EmployeeTaskCreate`" :text="'Tasks'" :alert_count="incomplete_task_count" />
+            <left-nav-list-single :role_permissions="['employee','admin']" :icon="'fa fa-list'" :to="`EmployeeTaskCreate`" :text="'Tasks'" :alert_count="0" />
 
             <left-nav-list-group :role_permissions="['employee','admin','user']" :icon="`fa fa-gears`" :text="`Settings`" :alert_count="0">
                 <left-nav-list-item :to="'settingProfile'" :text="'Profile'" />
