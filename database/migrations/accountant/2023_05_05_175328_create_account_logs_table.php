@@ -15,10 +15,14 @@ class CreateAccountLogsTable extends Migration
     {
         Schema::create('account_logs', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('income_id')->nullable();
+            $table->bigInteger('expense_id')->nullable();
 
             $table->timestamp('date')->nullable();
             $table->string('name',200)->nullable();
             $table->bigInteger('customer_id')->nullable();
+            $table->string('related_table',40)->nullable()
+                ->comment('table name of customers, users or account customer or suppliers');
             $table->float('amount')->nullable();
 
             $table->bigInteger('category_id')->nullable();
@@ -31,6 +35,8 @@ class CreateAccountLogsTable extends Migration
             $table->tinyInteger('is_income')->default(0);
 
             $table->text('description')->nullable();
+            $table->text('reference')->nullable()
+                ->comment('reference for attachment, such as where is office rent receipt. or where is the related vouchers');
 
             $table->bigInteger('creator')->unsigned()->nullable();
             $table->string('slug', 50)->nullable();
