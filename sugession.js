@@ -93,11 +93,10 @@
     3. ok - branch order edit, after edit no modification of data
 
     4. ok - sales id generate howar sathe sathe stock update hobe.alada vabe mange hobe.
-    5. production e at a glance hobe. stock out product list.
-    6. product report, branch report,
-    7. account part e at a glance.
-    8. accounts e due collection.
-    9. payroll.
-    10. employee management e ajker kaj add korte hobe.
-    11. super admin e full setup kora.
+    5. ok - production e at a glance hobe. stock out product list.
+    6. ok - product report, branch report,
+    7. ok - account part e at a glance.
+    8. ok - accounts e due collection.
+    10. ok - employee management e ajker kaj add korte hobe.
+    11. ok - super admin e full setup kora.
  */
