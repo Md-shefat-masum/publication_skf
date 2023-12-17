@@ -1,5 +1,5 @@
 <template>
-    <section class="dashboard_analytics custom_scroll" style="height: calc(100vh - 90px); overflow: auto;">
+    <section class="dashboard_analytics custom_scroll pb-5" style="height: calc(100vh - 90px); overflow: auto;">
         <h5 class="card-title mb-3">Sales At a Glance</h5>
 
         <div class="analytics_list">
