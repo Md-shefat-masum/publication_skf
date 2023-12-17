@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Production;
 use App\Http\Controllers\Controller;
 use App\Models\Product\Product;
 use App\Models\Product\ProductDiscount;
+use App\Models\Product\ProductStockLog;
 use App\Models\Production\Production;
 use App\Models\Production\ProductionCost;
 use App\Models\Production\ProductionDesigner;
@@ -47,6 +48,12 @@ class ProductionController extends Controller
 
         $users = $query->paginate($paginate);
         return response()->json($users);
+    }
+
+    public function running_productions()
+    {
+        $data = Production::where('is_complete',0)->get();
+        return $data;
     }
 
     public function show($id)
@@ -215,8 +222,8 @@ class ProductionController extends Controller
             'book_cover_designer' => ['required'],
             'supplier_prints_id' => ['required'],
             'supplier_bindings_id' => ['required'],
-            'status' => ['required'],
-            'description' => ['required'],
+            // 'status' => ['required'],
+            // 'description' => ['required'],
         ]);
 
         if ($validator->fails()) {
@@ -229,15 +236,9 @@ class ProductionController extends Controller
         $data->fill(request()->except(['status', 'description', 'paper_supplier']));
         $data->save();
 
-        $production_status = ProductionStatus::create([
-            "production_id" => $data->id,
-            "status" => request()->status,
-            "description" => request()->description,
-        ]);
-
         $total_paper_amount = 0;
 
-        // delete recod if supplier id not in new selection
+        // delete record if supplier id not in new selection
         $supplier_papers_ids = [];
         foreach (request()->paper_supplier as $item) {
             $supplier_papers_ids[] = $item["supplier_paper_id"];
@@ -273,6 +274,89 @@ class ProductionController extends Controller
         $data->save();
 
         return response()->json($data, 200);
+    }
+
+    public function update_status()
+    {
+        $data = Production::find(request()->id);
+        if (!$data) {
+            return response()->json([
+                'err_message' => 'validation error',
+                'errors' => ['production_description' => ['data not found by given id ' . (request()->id ? request()->id : 'null')]],
+            ], 422);
+        }
+
+        $validator = Validator::make(request()->all(), [
+            'status' => ['required'],
+            'description' => ['required'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'err_message' => 'validation error',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        $production_status = ProductionStatus::create([
+            "production_id" => $data->id,
+            "status" => request()->status,
+            "description" => request()->description,
+        ]);
+
+        return $production_status;
+    }
+
+    public function complete_production()
+    {
+        $data = Production::find(request()->id);
+        if (!$data) {
+            return response()->json([
+                'err_message' => 'validation error',
+                'errors' => ['production_description' => ['data not found by given id ' . (request()->id ? request()->id : 'null')]],
+            ], 422);
+        }
+
+        $validator = Validator::make(request()->all(), [
+            'qty' => ['required'],
+            'description' => ['required'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'err_message' => 'validation error',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        if($data->is_complete == 0){
+            $data->is_complete = 1;
+            $data->final_print_qty = request()->qty;
+            $data->save();
+
+            $production_status = ProductionStatus::create([
+                "production_id" => $data->id,
+                "status" => "complete",
+                "description" => request()->description,
+            ]);
+
+            $stock_log = ProductStockLog::create([
+                'product_id' => $data->product_id,
+                'qty' => request()->qty,
+                'type' => "production",
+                'productions_id' => $data->id,
+            ]);
+
+            $product = Product::find($data->product_id);
+            if ($product) {
+                $product->total_stock = $product->stock;
+                $product->total_sales = $product->sales;
+                $product->is_in_stock = ($product->stock - $product->stock_alert_qty) > $product->sales;
+                $product->save();
+            }
+        }
+
+        return $data;
     }
 
     public function canvas_update()
@@ -336,6 +420,24 @@ class ProductionController extends Controller
 
     public function destroy()
     {
+        $validator = Validator::make(request()->all(), [
+            'id' => ['required', 'exists:productions,id'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'err_message' => 'validation error',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        $data = Production::find(request()->id);
+        if($data->is_complete == 0){
+            ProductionUsedPaper::where('production_id',$data->id)->delete();
+            $data->delete();
+        }
+
+        return 'production deleted';
     }
 
     public function restore()
