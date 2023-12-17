@@ -157,6 +157,10 @@
                                 <textarea type="text" class="form-control" name="description"></textarea>
                             </div>
                             <div class="form-group mb-2">
+                                <label>Reference</label>
+                                <textarea type="text" class="form-control" name="reference"></textarea>
+                            </div>
+                            <div class="form-group mb-2">
                                 <button class="btn btn-sm btn-outline-info">Submit</button>
                             </div>
                         </form>
