@@ -18,6 +18,7 @@ class CreateProductionsTable extends Migration
             $table->bigInteger("product_id")->unsigned()->nullable();
             $table->float("paper_amount")->nullable();
 
+            $table->integer("no")->unsigned()->nullable();
             $table->date("date")->nullable();
             $table->date("order_date")->nullable();
             $table->date("delivery_date")->nullable();
