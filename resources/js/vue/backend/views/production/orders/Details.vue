@@ -1,7 +1,7 @@
 <template>
-    <div class="container">
+    <div class="container-fluid print_body">
         <div class="card list_card">
-            <div class="card-header">
+            <div class="card-header no_print">
                 <h4>Details</h4>
                 <div class="btns">
                     <a href="" @click.prevent="call_store(`set_${store_prefix}`,null), $router.push({ name: `AllProductions` })"  class="btn rounded-pill btn-outline-warning" >
@@ -12,62 +12,81 @@
                     </a>
                 </div>
             </div>
-            <div class="card-body pb-5 ">
-                <div class="row justify-content-center">
-                    <div class="col-12">
-                        <table v-if="this[`get_${store_prefix}`]" class="table table-bordered details_table">
+            <div class="card-body  pb-5 text-nowrap" v-if="this[`get_${store_prefix}`]">
+                <div class="production_details_invoice  mb-4">
+                    <table class="table table-bordered font_bn">
+                        <thead>
                             <tr>
-                                <td>id</td>
-                                <td>{{ this[`get_${store_prefix}`].id }}</td>
+                                <th class="font_20 text-start ps-0" style="width: 133px;">
+                                    নং :
+                                </th>
+                                <th class="font_20 text-start"> {{ data.no }} </th>
+                                <th class="text-end font_20" >
+                                    তারিখ :
+                                </th>
+                                <th class="text-start" style="width: 230px;"> {{ data.date }}</th>
                             </tr>
                             <tr>
-                                <td>product</td>
-                                <td>{{ data.product_info.product_name }}</td>
+                                <th class="font_20 text-start ps-0">
+                                    পণ্যের নাম :
+                                </th>
+                                <th class="font_20 text-start"> {{ data.product_info.product_name }}</th>
+                                <th class="text-end font_20">
+                                    উৎপাদনের পরিমাণ :
+                                </th>
+                                <th class="text-start"> {{ data.print_qty }}</th>
                             </tr>
-                            <tr>
-                                <td>print qty</td>
-                                <td>{{ data.print_qty }}</td>
-                            </tr>
-                            <tr>
-                                <td>Paper amount</td>
-                                <td>{{ data.paper_amount }} ream</td>
-                            </tr>
-                            <tr>
-                                <td>Designer</td>
-                                <td>{{ data.design?.name }}</td>
-                            </tr>
-                            <tr>
-                                <td>Print</td>
-                                <td>{{ data.print?.company_name }}</td>
-                            </tr>
-                            <tr>
-                                <td>Binding</td>
-                                <td>{{ data.binding?.company_name }}</td>
-                            </tr>
+                        </thead>
+                    </table>
+                    <table class="table table-bordered font_bn">
+                        <tbody>
 
-                            <!-- <tr>
-                                <td>status </td>
-                                <td>
-                                    <span v-if="this[`get_${store_prefix}`].status == 1" class="badge bg-label-success me-1">active</span>
-                                    <span v-if="this[`get_${store_prefix}`].status == 0" class="badge bg-label-success me-1">deactive</span>
+                            <tr class="">
+                                <th class="text-start font_20">বিষয়</th>
+                                <th class="font_20 text-center">উৎপাদনকারী প্রতিষ্ঠান সমূহের নাম ও ঠিকানা</th>
+                                <th class="font_20" style="width:100px;">পরিমান</th>
+                                <th class="font_20" style="width:100px;">মূল্য</th>
+                                <th class="font_20" style="width:100px;">অর্ডার নাম্বার</th>
+                                <th class="font_20" style="width:100px;">মন্তব্য</th>
+                            </tr>
+                            <tr v-for="supplier in data.related_suppliers" :key="supplier.id">
+                                <td class="text-start">{{ supplier.category_name }}</td>
+                                <td>{{ supplier.supplier_name }}</td>
+                                <td>{{ supplier.amount }}</td>
+                                <td>{{ supplier.price }}</td>
+                                <td>{{ supplier.order_number }}</td>
+                                <td>{{ supplier.comment }}</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" class="text-end font_bn font_20">
+                                    মোট সম্ভাব্য ব্যয়
                                 </td>
-                            </tr> -->
-                            <!-- <tr>
-                                <td>created at </td>
-                                <td>
-                                    {{ new Date(this[`get_${store_prefix}`].created_at).toDateString()  }}, &nbsp;
-                                    {{ new Date(this[`get_${store_prefix}`].created_at).toLocaleTimeString()  }}
+                                <td class="text-center">
+                                    {{ total_cost }}
+                                </td>
+                                <td class="text-end font_bn font_20">
+                                    প্রতি কপির মূল্য
+                                </td>
+                                <td class="text-center">
+                                    {{ data.each_copy_price }}
                                 </td>
                             </tr>
-                            <tr>
-                                <td>updated at </td>
-                                <td>
-                                    {{ new Date(this[`get_${store_prefix}`].updated_at).toDateString()  }}, &nbsp;
-                                    {{ new Date(this[`get_${store_prefix}`].updated_at).toLocaleTimeString()  }}
-                                </td>
-                            </tr> -->
-                        </table>
+                        </tfoot>
+                    </table>
+
+                    <div class="mt-2 font_bn font_20">
+                        পণ্য অর্ডার দেয়ার তারিখ :  {{ data.order_date }}
                     </div>
+                    <div class="mt-2 font_bn font_20">
+                        পণ্য সম্ভাব্য ডেলিভারী দেয়ার তারিখ : {{ data.delivery_date }}
+                    </div>
+
+                </div>
+
+                <div class="break_after"></div>
+                <div class="row justify-content-center break_before">
                     <div class="mt-2" v-if="data">
                         <h4>production statuses</h4>
                         <table class="table">
@@ -85,11 +104,15 @@
                     </div>
                 </div>
             </div>
-            <div v-if="data && data.is_complete == 0" class="card-footer text-center">
+            <div v-if="data && data.is_complete == 0" class="card-footer text-center no_print">
+                <button class="btn btn-outline-primary" type="button" @click="print_page">
+                    <i class="fa fa-print"></i>
+                    Print
+                </button>
                 <permission-button
                     :permission="'can_edit'"
-                    :to="{name:`EditContactMessage`,params:{id:$route.params.id}}"
-                    :classList="'btn btn-outline-info'">
+                    :to="{name:`ProductionProductionEdit`,params:{id:$route.params.id}}"
+                    :classList="'btn btn-outline-info ms-2'">
                     <i class="fa text-info fa-pencil"></i> &nbsp;
                     Edit
                 </permission-button>
@@ -133,12 +156,18 @@ export default {
         call_store: function(name, params=null){
             this[name](params)
         },
+        print_page: function(){
+            window.print();
+        }
     },
     computed: {
         ...mapGetters([`get_${store_prefix}`]),
         ...mapGetters({
             data: `get_${store_prefix}`
         }),
+        total_cost: function(){
+            return this.data.related_suppliers.reduce((t,i) => t + (+i.price * (+i.amount || 1)), 0);
+        },
     }
 }
 </script>
