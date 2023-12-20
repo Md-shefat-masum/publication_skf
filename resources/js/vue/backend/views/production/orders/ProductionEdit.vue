@@ -22,6 +22,14 @@
 
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
+                                        :label="`Order no`"
+                                        :name="`no`"
+                                        :type="`number`"
+                                    />
+                                </div>
+
+                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                    <input-field
                                         :label="`Plan Date`"
                                         :name="`date`"
                                         :type="`date`"
@@ -110,7 +118,9 @@
                                                     প্রতি কপির মূল্য
                                                 </td>
                                                 <td>
-                                                    <input name="each_copy_price" class="form-control form-control-sm" style="width:100px;" type="text">
+                                                    <div>
+                                                        <input name="each_copy_price" id="each_copy_price" class="form-control form-control-sm" style="width:100px;" type="text">
+                                                    </div>
                                                 </td>
                                             </tr>
                                         </tfoot>
@@ -274,12 +284,13 @@ export default {
     },
     computed: {
         ...mapGetters(['get_production_papers']),
-        total_cost: function(){
-            return this.categories.reduce((t,i) => t + +i.price, 0);
-        },
         ...mapGetters({
             data: `get_${store_prefix}`,
         }),
+        total_cost: function(){
+            return this.categories.reduce((t,i) => t + (+i.price * (+i.amount || 1)), 0);
+        },
+
     }
 };
 </script>
