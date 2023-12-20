@@ -101,7 +101,6 @@ class ProductionController extends Controller
 
     public function store(Request $request)
     {
-
         $validator = Validator::make(request()->all(), [
             'product_id' => ['required'],
             'print_qty' => ['required'],
@@ -111,6 +110,7 @@ class ProductionController extends Controller
             // 'supplier_bindings_id' => ['required'],
             'status' => ['required'],
             'description' => ['required'],
+            'each_copy_price' => ['required'],
         ]);
 
         if ($validator->fails()) {
@@ -133,10 +133,12 @@ class ProductionController extends Controller
                 ->where('name',$categroy->selected_name)->first();
 
             if(($categroy->selected_name && !$categroy->selected_id) || !$supplier && $categroy->selected_name){
-                $supplier = ProductionSupplier::create([
-                    'category_id' => $categroy->id,
-                    'name' => $categroy->selected_name,
-                ]);
+                if(!$supplier){
+                    $supplier = ProductionSupplier::create([
+                        'category_id' => $categroy->id,
+                        'name' => $categroy->selected_name,
+                    ]);
+                }
                 $categroy->selected_id = $supplier->id;
             }
 
@@ -309,7 +311,8 @@ class ProductionController extends Controller
             // 'supplier_prints_id' => ['required'],
             // 'supplier_bindings_id' => ['required'],
             // 'status' => ['required'],
-            // 'description' => ['required'],
+            'description' => ['required'],
+            'each_copy_price' => ['required','numeric','min:5'],
         ]);
 
         if ($validator->fails()) {
@@ -329,10 +332,12 @@ class ProductionController extends Controller
                 ->where('name',$categroy->selected_name)->first();
 
             if(($categroy->selected_name && !$categroy->selected_id) || !$supplier && $categroy->selected_name){
-                $supplier = ProductionSupplier::create([
-                    'category_id' => $categroy->id,
-                    'name' => $categroy->selected_name,
-                ]);
+                if(!$supplier){
+                    $supplier = ProductionSupplier::create([
+                        'category_id' => $categroy->id,
+                        'name' => $categroy->selected_name,
+                    ]);
+                }
                 $categroy->selected_id = $supplier->id;
             }
 
