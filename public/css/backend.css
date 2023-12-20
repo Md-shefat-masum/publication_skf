@@ -501,6 +501,39 @@ html.nav-hide-hover .header-navbar.floating-nav {
   color: yellow;
 }
 
+.production_details_invoice table thead {
+  position: unset;
+}
+.production_details_invoice table th,
+.production_details_invoice table td {
+  font-weight: normal;
+  font-size: 20px;
+  padding: 10px 15px;
+}
+.production_details_invoice table th:nth-child(3), .production_details_invoice table th:nth-child(4), .production_details_invoice table th:nth-child(5), .production_details_invoice table th:nth-child(6),
+.production_details_invoice table td:nth-child(3),
+.production_details_invoice table td:nth-child(4),
+.production_details_invoice table td:nth-child(5),
+.production_details_invoice table td:nth-child(6) {
+  text-align: center;
+}
+.production_details_invoice table th {
+  font-size: 23px !important;
+}
+.production_details_invoice .table-bordered > :not(caption) > * {
+  border-width: 1px 1px;
+}
+.dark-layout .production_details_invoice thead th, .dark-layout .production_details_invoice thead td, .dark-layout .production_details_invoice thead tr,
+.production_details_invoice thead tr,
+.production_details_invoice thead th, .production_details_invoice thead td {
+  border-width: 0 !important;
+  background-color: transparent !important;
+}
+.production_details_invoice thead tr:last-child td,
+.production_details_invoice thead tr:last-child th {
+  padding-bottom: 40px !important;
+}
+
 .table_actions {
   position: relative;
   display: inline-block;
@@ -1454,6 +1487,7 @@ td.stock_alert .stock_badge {
   .row_sticky {
     -webkit-box-shadow: unset;
             box-shadow: unset;
+    position: unset;
   }
 }
 .row_sticky td {
@@ -2129,6 +2163,33 @@ label {
   th {
     color: black !important;
     border-color: black !important;
+  }
+}
+@media print {
+  .no_print {
+    display: none !important;
+  }
+}
+
+@media print {
+  .card-body {
+    overflow: unset;
+  }
+  .production_details_invoice {
+    padding: 20px;
+  }
+  .print_body {
+    padding-bottom: 50px;
+  }
+  .break_before {
+    -webkit-column-break-before: always;
+       -moz-column-break-before: always;
+            break-before: always;
+  }
+  .break_after {
+    -webkit-column-break-after: always;
+       -moz-column-break-after: always;
+            break-after: always;
   }
 }
 
