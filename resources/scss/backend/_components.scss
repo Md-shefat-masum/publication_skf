@@ -56,6 +56,52 @@
     }
 }
 
+.production_details_invoice{
+    table{
+        thead{
+            position: unset;
+        }
+
+        th,
+        td{
+            font-weight: normal;
+            font-size: 20px;
+            padding: 10px 15px;
+            &:nth-child(3),
+            &:nth-child(4),
+            &:nth-child(5),
+            &:nth-child(6){
+                text-align: center;
+            }
+        }
+        th{
+            font-size: 23px !important;
+        }
+    }
+    .table-bordered>:not(caption)>* {
+        border-width: 1px 1px;
+    }
+    thead{
+        .dark-layout & th,
+        .dark-layout & td,
+        .dark-layout & tr,
+        tr,
+        th, td{
+            border-width: 0 !important;
+            background-color: transparent !important;
+        }
+
+        tr{
+            &:last-child{
+                td,
+                th{
+                    padding-bottom: 40px !important;
+                }
+            }
+        }
+    }
+}
+
 .table_actions {
     position: relative;
     display: inline-block;
