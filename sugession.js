@@ -99,4 +99,13 @@
     8. ok - accounts e due collection.
     10. ok - employee management e ajker kaj add korte hobe.
     11. ok - super admin e full setup kora.
+
+
+    12. ok - party payment e bill number ta lagbe
+    13. branch theke advanced management
+    14. ok - invoice e striped print hobe
+    15. ok - stock out e order kora jabena
+    16. sob gulo option abar check deya. form gulor validation check kora.
+
+
  */
