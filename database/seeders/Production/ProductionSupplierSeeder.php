@@ -8,7 +8,9 @@ use Illuminate\Database\Seeder;
 
 class ProductionSupplierSeeder extends Seeder
 {
-    /** Database\Seeders\Production\ProductionSupplierSeeder
+    /**
+     Database\Seeders\Production\ProductionSupplierSeeder
+
      * Run the database seeds.
      *
      * @return void
