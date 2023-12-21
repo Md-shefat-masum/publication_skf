@@ -18,9 +18,9 @@
                 <span class="avatar-status-online"></span>
             </span>
         </a>
-        <!-- <div :class="{show:show_menu}" style="position: absolute; right: 0;"
+        <div :class="{show:show_menu}" style="position: absolute; right: 0;"
             class="dropdown-menu dropdown-menu-end">
-            <a class="dropdown-item" href="#">
+            <!-- <a class="dropdown-item" href="#">
                 <i class="me-50" data-feather="user"> </i>
                 Profile
             </a>
@@ -28,22 +28,25 @@
             <a class="dropdown-item" href="#">
                 <i class="me-50" data-feather="settings"></i>
                 Settings
-            </a>
-            <a class="dropdown-item" href="#">
+            </a> -->
+            <a @click.prevent="fetch_logout()" class="dropdown-item" href="#">
                 <i class="me-50" data-feather="power"></i>
                 Logout
             </a>
-        </div> -->
+        </div>
     </li>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
     data: function(){
         return {
             show_menu: false,
         }
+    },
+    methods: {
+        ...mapActions(['fetch_logout']),
     },
     computed: {
         ...mapGetters(['get_auth_information'])
