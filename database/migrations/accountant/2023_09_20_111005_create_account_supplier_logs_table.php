@@ -19,6 +19,7 @@ class CreateAccountSupplierLogsTable extends Migration
             $table->bigInteger('supplier_id')->unsigned()->nullable();
             $table->enum('supplier_type',['paper','binding','print','designer'])->nullable();
             $table->enum('payment_type',['opening','bill','payment'])->nullable();
+            $table->string('bill',100)->nullable()->comment('bill no from supplier invoice.');
             $table->float('amount')->nullable();
             $table->string('name',200)->nullable();
             $table->text('description')->nullable();
