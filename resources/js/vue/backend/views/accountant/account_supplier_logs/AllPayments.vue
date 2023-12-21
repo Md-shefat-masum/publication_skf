@@ -19,9 +19,9 @@
                     </small>
                 </h4>
                 <div class="search">
-                    <!-- <form action="#">
+                    <form action="#">
                         <input @keyup="call_store(`set_${store_prefix}_search_key`,$event.target.value)" class="form-control border border-info" placeholder="search..." type="search">
-                    </form> -->
+                    </form>
                 </div>
                 <div class="btns d-flex gap-2 align-items-center">
                     <a  href="#"
@@ -70,6 +70,7 @@
             <div class="table-responsive card-body text-nowrap">
                 <div class="row">
                     <div class="col-lg-8 mb-3">
+
                         <table class="table table-hover table-bordered">
                             <thead class="table-light">
                                 <tr>
@@ -77,6 +78,7 @@
                                     <table-th :sort="true" :tkey="'id'" :title="'ID'" :ariaLable="'id'"/>
                                     <!-- <table-th :sort="true" :tkey="'name'" :title="'Supplier'" /> -->
                                     <table-th :sort="true" :tkey="'date'" :title="'Date'" />
+                                    <table-th :sort="true" :tkey="'bill'" :title="'Bill'" />
                                     <table-th :sort="true" :tkey="'amount'" :title="'Amount'" />
                                     <!-- <th aria-label="actions">Actions</th> -->
                                 </tr>
@@ -98,12 +100,13 @@
                                         </span>
                                     </td> -->
                                     <td>{{ item.formated_date }} </td>
+                                    <td>{{ item.bill }} </td>
                                     <td class="text-end">{{ item.amount }} </td>
                                 </tr>
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td colspan="2" class="text-right">Total</td>
+                                    <td colspan="3" class="text-right">Total</td>
                                     <td class="text-right">{{ get_supplier_total_amount }}</td>
                                 </tr>
                             </tfoot>
@@ -112,6 +115,10 @@
                     <div class="col-lg-4">
                         <h5>Insert New {{ $route.query.payment_type }}</h5>
                         <form action="" @submit.prevent="call_store(`store_${store_prefix}`,$event.target)">
+                            <div class="form-group mb-2">
+                                <label>Bill NO</label>
+                                <input type="text" class="form-control" name="bill">
+                            </div>
                             <div class="form-group mb-2">
                                 <label>Date</label>
                                 <input type="date" class="form-control" @click="$event.target.showPicker();" name="date">
@@ -191,8 +198,8 @@
             </div>
         </div>
 
-        <details-canvas/>
-        <selected-canvas/>
+        <!-- <details-canvas/> -->
+        <!-- <selected-canvas/> -->
     </div>
 </template>
 
