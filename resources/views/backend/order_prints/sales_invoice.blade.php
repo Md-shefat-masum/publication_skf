@@ -163,6 +163,7 @@
         ini_set("memory_limit", -1);
         $chunk = $order->details->chunk(22);
         $total_chunk = count($chunk);
+        $i = 1;
     @endphp
 
     <div class="wrapper">
@@ -228,6 +229,7 @@
                                         @foreach ($chunk[$k] as $item)
                                         <tr>
                                             <td>
+                                                {{ $i++ }}.
                                                 {{ $item->product->product_name_english }}
                                             </td>
                                             <td>{{ $item->qty }}</td>
