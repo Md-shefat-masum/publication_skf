@@ -24,3 +24,4 @@ yarn-error.log
 /public/js/vue/*
 /public/vendor/*
 public/uploads/supplier_payments/*.jpg
+*.zip
