@@ -29,13 +29,15 @@ class SupplierLogController extends Controller
 
         $query = AccountSupplierLog::orderBy($orderBy, $orderByType);
 
-        // if (request()->has('search_key')) {
-        //     $key = request()->search_key;
-        //     $query->where(function ($q) use ($key) {
-        //         return $q->where('id', $key)
-        //             ->orWhere('id', 'LIKE', '%' . $key . '%');
-        //     });
-        // }
+        if (request()->has('search_key')) {
+            $key = request()->search_key;
+            $query->where(function ($q) use ($key) {
+                return $q->where('id', $key)
+                    ->orWhere('bill', $key )
+                    ->orWhere('bill', 'LIKE', '%' . $key . '%')
+                    ->orWhere('id', 'LIKE', '%' . $key . '%');
+            });
+        }
 
         $query->where('supplier_id', request()->supplier_id);
         $query->where('supplier_type', request()->supplier_type);
@@ -82,6 +84,7 @@ class SupplierLogController extends Controller
     {
         $validator = Validator::make(request()->all(), [
             'date' => ['required'],
+            // 'bill' => ['required'],
             'name' => ['required'],
             'amount' => ['required', 'numeric'],
             'payment_type' => ['required'],
@@ -141,6 +144,7 @@ class SupplierLogController extends Controller
         }
 
         $data->date = request()->date;
+        $data->bill = request()->bill;
         $data->name = request()->name;
         $data->amount = request()->amount;
         $data->payment_type = request()->payment_type;
