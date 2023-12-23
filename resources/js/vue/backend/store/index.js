@@ -27,6 +27,9 @@ import production_binding_modules from './modules/production/production_binding_
 import production_designer_modules from './modules/production/production_designer_modules';
 import production_production_modules from './modules/production/production_production_modules';
 
+import production_suppliers_modules from './modules/production/production_suppliers_modules';
+import production_supplier_categories_modules from './modules/production/production_supplier_categories_modules';
+
 import accountant_category_modules from './modules/accountant/accountant_category_modules';
 import accountant_category_type_modules from './modules/accountant/accountant_category_type_modules';
 import accountant_entry_modules from './modules/accountant/accountant_entry_modules';
@@ -71,8 +74,10 @@ const store = new Vuex.Store({
         accountant_report_modules,
         accountant_customer_modules,
 
-        superadmin_task,
+        production_suppliers_modules,
+        production_supplier_categories_modules,
 
+        superadmin_task,
         common_store,
     },
     state: {},
