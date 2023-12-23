@@ -144,6 +144,35 @@ Route::group(
                     Route::get('/{id}', 'Production\ProductionController@show');
                 });
 
+                Route::group(['prefix' => 'supplier-categories'], function () {
+                    Route::get('/all-json', 'Production\Supplier\CategoryController@all_json');
+                    Route::get('/all', 'Production\Supplier\CategoryController@all');
+                    Route::post('/store', 'Production\Supplier\CategoryController@store');
+                    Route::post('/canvas-store', 'Production\Supplier\CategoryController@canvas_store');
+                    Route::post('/update', 'Production\Supplier\CategoryController@update');
+                    Route::post('/delete-related-image', 'Production\Supplier\CategoryController@delete_related_image');
+                    Route::post('/canvas-update', 'Production\Supplier\CategoryController@canvas_update');
+                    Route::post('/soft-delete', 'Production\Supplier\CategoryController@soft_delete');
+                    Route::post('/destroy', 'Production\Supplier\CategoryController@destroy');
+                    Route::post('/restore', 'Production\Supplier\CategoryController@restore');
+                    Route::post('/bulk-import', 'Production\Supplier\CategoryController@bulk_import');
+                    Route::get('/{id}', 'Production\Supplier\CategoryController@show');
+                });
+
+                Route::group(['prefix' => 'suppliers'], function () {
+                    Route::get('/all', 'Production\Supplier\SupplierController@all');
+                    Route::post('/store', 'Production\Supplier\SupplierController@store');
+                    Route::post('/canvas-store', 'Production\Supplier\SupplierController@canvas_store');
+                    Route::post('/update', 'Production\Supplier\SupplierController@update');
+                    Route::post('/delete-related-image', 'Production\Supplier\SupplierController@delete_related_image');
+                    Route::post('/canvas-update', 'Production\Supplier\SupplierController@canvas_update');
+                    Route::post('/soft-delete', 'Production\Supplier\SupplierController@soft_delete');
+                    Route::post('/destroy', 'Production\Supplier\SupplierController@destroy');
+                    Route::post('/restore', 'Production\Supplier\SupplierController@restore');
+                    Route::post('/bulk-import', 'Production\Supplier\SupplierController@bulk_import');
+                    Route::get('/{id}', 'Production\Supplier\SupplierController@show');
+                });
+
                 Route::group(['prefix' => 'paper'], function () {
                     Route::get('/all', 'Production\Supplier\PaperController@all');
                     Route::post('/store', 'Production\Supplier\PaperController@store');
