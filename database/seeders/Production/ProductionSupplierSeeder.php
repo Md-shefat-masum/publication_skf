@@ -9,7 +9,7 @@ use Illuminate\Database\Seeder;
 class ProductionSupplierSeeder extends Seeder
 {
     /**
-     Database\Seeders\Production\ProductionSupplierSeeder
+    php artisan db:seed --class="Database\Seeders\Production\ProductionSupplierSeeder"
 
      * Run the database seeds.
      *
