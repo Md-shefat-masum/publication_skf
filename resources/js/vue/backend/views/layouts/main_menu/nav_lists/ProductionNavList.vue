@@ -25,11 +25,14 @@
             </left-nav-list-group>
 
             <left-nav-list-group :role_permissions="['production']" :icon="`fa fa-users`" :text="`Suppliers`" :alert_count="0">
-                <left-nav-list-item :to="'AllProductionPaper'" :text="'Paper'" />
+                <!-- <left-nav-list-item :to="'AllProductionPaper'" :text="'Paper'" />
                 <left-nav-list-item :to="'AllProductionPaperStock'" :text="'Paper Stock'" />
                 <left-nav-list-item :to="'AllProductionPrinting'" :text="'Print'" />
                 <left-nav-list-item :to="'AllProductionBinding'" :text="'Binding'" />
-                <left-nav-list-item :to="'AllProductionDesigner'" :text="'Designer'" />
+                <left-nav-list-item :to="'AllProductionDesigner'" :text="'Designer'" /> -->
+                <left-nav-list-item :to="'AllProductionSupplierCategories'" :text="'Supplier Type'" />
+                <left-nav-list-item :to="'AllProductionSuppliers'" :text="'Suppliers'" />
+
             </left-nav-list-group>
 
             <li class="nav-item">

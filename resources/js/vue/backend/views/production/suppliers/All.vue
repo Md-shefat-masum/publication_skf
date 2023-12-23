@@ -71,11 +71,9 @@
                         <tr>
                             <th><input @click="call_store(`set_select_all_${store_prefix}s`)" type="checkbox" class="form-check-input check_all"></th>
                             <table-th :sort="true" :tkey="'id'" :title="'ID'" :ariaLable="'id'"/>
-                            <table-th :sort="true" :tkey="'company_name'" :title="'Company'" />
-                            <table-th :sort="true" :tkey="'binding_cost'" :title="'Each Book Binding Cost'" />
-                            <table-th :sort="true" :tkey="'total_book'" :title="'Total Book'" />
-                            <!-- <table-th :sort="false" :tkey="'subject'" :title="'Total Cost'" /> -->
-                            <table-th :sort="true" :tkey="'status'" :title="'Status'" />
+                            <table-th :sort="true" :tkey="'name'" :title="'Supplier Name'" />
+                            <table-th :sort="false" :tkey="'category'" :title="'Category'" />
+                            <!-- <table-th :sort="true" :tkey="'status'" :title="'Status'" /> -->
                             <th aria-label="actions">Actions</th>
                         </tr>
                     </thead>
@@ -88,18 +86,16 @@
                             <td>{{ item.id }}</td>
                             <td>
                                 <span class="text-warning cursor_pointer" @click.prevent="call_store(`set_${store_prefix}`,item)">
-                                    {{ item.company_name }}
+                                    {{ item.name }}
                                 </span>
                             </td>
                             <td>
-                                {{ item.binding_cost }}
+                                {{ item.category?.title }}
                             </td>
-                            <td>{{ item.total_book }}</td>
-                            <!-- <td>{{ item.total_book * item.binding_cost }}</td> -->
-                            <td>
+                            <!-- <td>
                                 <span v-if="item.status == 1" class="badge bg-label-success me-1">active</span>
                                 <span v-if="item.status == 0" class="badge bg-label-success me-1">deactive</span>
-                            </td>
+                            </td> -->
                             <td>
                                 <div class="table_actions">
                                     <a href="#" @click.prevent="()=>''" class="btn btn-sm btn-outline-secondary">
@@ -130,7 +126,7 @@
                                                 Edit
                                             </permission-button>
                                         </li>
-                                        <li v-if="item.status == 1">
+                                        <li>
                                             <permission-button
                                                 :permission="'can_delete'"
                                                 :to="{}"
@@ -138,20 +134,10 @@
                                                 :click_param="item.id"
                                                 :classList="''">
                                                 <i class="fa text-danger fa-trash"></i>
-                                                Deactive
+                                                Delete
                                             </permission-button>
                                         </li>
-                                        <li v-else>
-                                            <permission-button
-                                                :permission="'can_delete'"
-                                                :to="{}"
-                                                :click="()=>call_store(`restore_${store_prefix}`,item.id)"
-                                                :click_param="item.id"
-                                                :classList="''">
-                                                <i class="fa text-danger fa-recycle"></i>
-                                                Activate
-                                            </permission-button>
-                                        </li>
+
                                     </ul>
                                 </div>
                             </td>

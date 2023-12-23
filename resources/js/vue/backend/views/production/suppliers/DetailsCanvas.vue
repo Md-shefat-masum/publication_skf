@@ -16,41 +16,14 @@
                         <tr>
                             <td>Company Name</td>
                             <td>:</td>
-                            <td>{{ this[`get_${store_prefix}`].company_name }}</td>
+                            <td>{{ this[`get_${store_prefix}`].name }}</td>
                         </tr>
                         <tr>
-                            <td>Binding Cost</td>
+                            <td>Category</td>
                             <td>:</td>
-                            <td>{{ this[`get_${store_prefix}`].binding_cost }}</td>
+                            <td>{{ this[`get_${store_prefix}`].category?.title }}</td>
                         </tr>
-                        <tr>
-                            <td>Total Book</td>
-                            <td>:</td>
-                            <td>{{ this[`get_${store_prefix}`].total_book }}</td>
-                        </tr>
-                        <tr>
-                            <td>Description</td>
-                            <td>:</td>
-                            <td>{{ this[`get_${store_prefix}`].description }}</td>
-                        </tr>
-                        <tr>
-                            <td>Status</td>
-                            <td>:</td>
-                            <td>
-                                <span v-if="this[`get_${store_prefix}`].status == 1" class="badge bg-label-success me-1">active</span>
-                                <span v-if="this[`get_${store_prefix}`].status == 0" class="badge bg-label-success me-1">deactive</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>created at</td>
-                            <td>:</td>
-                            <td>{{ new Date(this[`get_${store_prefix}`].created_at).toLocaleString() }}</td>
-                        </tr>
-                        <tr>
-                            <td>udpated at</td>
-                            <td>:</td>
-                            <td>{{ new Date(this[`get_${store_prefix}`].updated_at).toLocaleString() }}</td>
-                        </tr>
+
                     </tbody>
                 </table>
             </div>
