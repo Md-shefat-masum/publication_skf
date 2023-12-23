@@ -8,6 +8,8 @@ import print from "./sub_routes/print";
 import binding from "./sub_routes/binding";
 import designer from "./sub_routes/designer";
 import paper_stock from "./sub_routes/paper_stock";
+import suppliers from "./sub_routes/suppliers";
+import supplier_categories from "./sub_routes/supplier_categories";
 
 export default {
     path: "/production",
@@ -27,5 +29,7 @@ export default {
         binding,
         designer,
 
+        suppliers,
+        supplier_categories,
     ],
 };
