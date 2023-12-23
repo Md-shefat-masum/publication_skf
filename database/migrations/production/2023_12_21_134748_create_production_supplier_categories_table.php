@@ -17,6 +17,11 @@ class CreateProductionSupplierCategoriesTable extends Migration
             $table->id();
             $table->string('title',100)->nullable();
 
+
+            $table->bigInteger('creator')->unsigned()->nullable();
+            $table->string('slug',50)->nullable();
+            $table->tinyInteger('status')->unsigned()->default(1);
+
             $table->timestamps();
         });
     }
