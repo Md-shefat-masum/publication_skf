@@ -72,7 +72,8 @@ const actions = {
         }, 500);
     },
 
-    [`store_production_production_order`]: function (
+    /**
+    [`store_production_production_order_old`]: function (
         { commit, dispatch, getters, rootGetters, rootState, state },
         target
     ) {
@@ -101,10 +102,50 @@ const actions = {
 
             })
     },
+     */
+
+    [`store_production_production_order`]: function (
+        { commit, dispatch, getters, rootGetters, rootState, state },
+        {target, categories}
+    ) {
+        let { get_production_product_selected: products } = getters;
+        let { get_production_designer_selected: designers } = getters;
+        let { get_production_print_selected: prints } = getters;
+        let { get_production_binding_selected: bindings } = getters;
+
+        let formData = new FormData(target);
+        formData.append("categories", JSON.stringify(categories));
+
+        if(products && products.length > 0)
+        formData.append("product_id", products[0].id);
+
+        if(designers && designers.length > 0)
+        formData.append("book_cover_designer", designers[0].id);
+
+        if(prints && prints.length > 0)
+        formData.append("supplier_prints_id", prints[0].id);
+
+        if(bindings && bindings.length > 0)
+        formData.append("supplier_bindings_id", bindings[0].id);
+
+        axios.post(`/${api_prefix}/store`, formData)
+            .then(res => {
+                $('.create_form input').val('');
+                rootState.production_product_modules.production_product_selected = [];
+                rootState.production_designer_modules.production_designer_selected = [];
+                rootState.production_print_modules.production_print_selected = [];
+                rootState.production_binding_modules.production_binding_selected = [];
+                window.s_alert('new data has been created');
+                management_router.push({ name: `AllProductions` });
+            })
+            .catch(error => {
+
+            })
+    },
 
     [`update_production_production_order`]: function (
         { commit, dispatch, getters, rootGetters, rootState, state },
-        target
+        {target, categories}
     ) {
         let { get_production_product_selected: products } = getters;
         let { get_production_designer_selected: designers } = getters;
@@ -115,9 +156,17 @@ const actions = {
         let formData = new FormData(target);
         formData.append("id", state[`${store_prefix}`].id);
         formData.append("product_id", products[0].id);
-        formData.append("book_cover_designer", designers[0].id);
-        formData.append("supplier_prints_id", prints[0].id);
-        formData.append("supplier_bindings_id", bindings[0].id);
+
+        if(designers && designers.length && designers[0])
+            formData.append("book_cover_designer", designers[0].id );
+
+        if(prints && prints.length && designers[0])
+            formData.append("supplier_prints_id", prints[0].id );
+
+        if(bindings && bindings.length && designers[0])
+            formData.append("supplier_bindings_id", bindings[0].id );
+
+        formData.append("categories", JSON.stringify(categories));
 
         axios.post(`/${api_prefix}/update`, formData)
             .then(res => {
