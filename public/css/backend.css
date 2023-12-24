@@ -112,6 +112,10 @@ html.dark-layout .watch.to_nav_watch {
   line-height: 20px !important;
 }
 
+.font_bn {
+  font-family: "bangla";
+}
+
 .pos_card_image_card {
   position: relative;
 }
@@ -471,6 +475,30 @@ html.nav-hide-hover .header-navbar.floating-nav {
 .badge_padding {
   padding: 10px;
   letter-spacing: 1px;
+}
+
+.supplier_list_dropdown {
+  position: absolute;
+  background: #161d31;
+  width: 100%;
+  z-index: 7;
+  padding: 10px;
+  top: calc(100% + 5px);
+  border-radius: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+.supplier_list_dropdown li {
+  list-style-type: none;
+  text-align: left;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+.supplier_list_dropdown li:first-child {
+  margin-bottom: 0;
+}
+.supplier_list_dropdown li:hover {
+  color: yellow;
 }
 
 .table_actions {
