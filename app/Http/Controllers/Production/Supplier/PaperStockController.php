@@ -69,9 +69,10 @@ class PaperStockController extends Controller
             'supplier_paper_id' => ['required'],
             'paper_name' => ['required'],
             'paper_type' => ['required'],
-            'cost_per_paper' => ['required'],
-            'cost_per_ream' => ['required'],
             'purchase_date' => ['required'],
+            // 'cost_per_paper' => ['required','numeric'],
+            'cost_per_ream' => ['required','numeric'],
+            'stock' => ['required','numeric'],
         ]);
 
         if ($validator->fails()) {
@@ -142,7 +143,7 @@ class PaperStockController extends Controller
             'supplier_paper_id' => ['required'],
             'paper_name' => ['required'],
             'paper_type' => ['required'],
-            'cost_per_paper' => ['required', 'numeric'],
+            // 'cost_per_paper' => ['required', 'numeric'],
             'cost_per_ream' => ['required', 'numeric'],
             'stock' => ['required', 'numeric'],
             'purchase_date' => ['required'],
