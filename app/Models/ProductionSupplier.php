@@ -15,7 +15,4 @@ class ProductionSupplier extends Model
     {
         return $this->belongsTo(ProductionSupplierCategory::class,'category_id');
     }
-
-
-
 }
