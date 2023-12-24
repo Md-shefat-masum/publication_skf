@@ -49,4 +49,9 @@ class Production extends Model
         return $this->hasMany(ProductionUsedPaper::class,'production_id');
     }
 
+    public function related_suppliers()
+    {
+        return $this->hasMany(ProductionRelatedSuppliers::class,'production_id');
+    }
+
 }
