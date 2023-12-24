@@ -31,6 +31,31 @@
     letter-spacing: 1px;
 }
 
+.supplier_list_dropdown{
+    position: absolute;
+    background: #161d31;
+    width: 100%;
+    z-index: 7;
+    padding: 10px;
+    top: calc(100% + 5px);
+    border-radius: 4px;
+    max-height: 200px;
+    overflow-y: auto;
+
+    li{
+        list-style-type: none;
+        text-align: left;
+        cursor: pointer;
+        margin-bottom: 20px;
+        &:first-child{
+            margin-bottom: 0;
+        }
+        &:hover{
+            color: yellow;
+        }
+    }
+}
+
 .table_actions {
     position: relative;
     display: inline-block;
