@@ -18,6 +18,12 @@ class CreateProductionsTable extends Migration
             $table->bigInteger("product_id")->unsigned()->nullable();
             $table->float("paper_amount")->nullable();
 
+            $table->date("date")->nullable();
+            $table->date("order_date")->nullable();
+            $table->date("delivery_date")->nullable();
+
+            $table->integer("each_copy_price")->unsigned()->nullable();
+
             $table->bigInteger("print_qty")->unsigned()->nullable()->comment('ordered print qty');
             $table->bigInteger("final_print_qty")->unsigned()->nullable()->comment('after print qty');
 
