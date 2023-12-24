@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container-fluid">
         <div class="card list_card">
             <div class="card-header">
                 <h4>Create</h4>
@@ -13,30 +13,91 @@
             <form @submit.prevent="call_store(`store_production_production_order`,$event.target)" autocomplete="false">
                 <div class="card-body">
                     <div class="row justify-content-center">
-                        <div class="col-lg-10">
+                        <div class="col-12">
                             <div class="admin_form form_1">
                                 <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
                                     <label for="">Select Product</label>
                                     <ProductModal :select_qty="1"></ProductModal>
                                 </div>
-                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
-                                    <label for="">Designer</label>
-                                    <designer-modal :select_qty="1"></designer-modal>
-                                </div>
-                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
-                                    <label for="">Print Company</label>
-                                    <print-modal :select_qty="1"></print-modal>
-                                </div>
-                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
-                                    <label for="">Bind Company</label>
-                                    <binding-modal :select_qty="1"></binding-modal>
-                                </div>
 
+                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                    <input-field
+                                        :label="`Date`"
+                                        :name="`date`"
+                                        :type="`date`"
+                                    />
+                                </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Print Qty <sub>pcs</sub>`"
                                         :name="`print_qty`"
                                     />
+                                </div>
+                                <div class="full_width text-nowrap mb-4">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr class="font_bn font_20">
+                                                <th class="text-start font_20">বিষয়</th>
+                                                <th class="font_20">উৎপাদন কারী প্রতিষ্ঠান সমূহের নাম ও ঠিকানা</th>
+                                                <th class="font_20">পরিমান</th>
+                                                <th class="font_20">মূল্য</th>
+                                                <th class="font_20">অর্ডার নাম্বার</th>
+                                                <th class="font_20">মন্তব্য</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="(i,index) in categories" :key="index" class="text-nowrap">
+                                                <td class="text-start font_bn font_20">{{ i.title }}</td>
+                                                <td>
+                                                    <div class="position-relative custom_scroll" @click="i.show_suppliers = i.show_suppliers?0:1">
+
+                                                        <input type="text" v-model="i.selected_name" class="form-control form-control-sm">
+
+                                                        <ul v-if="i.show_suppliers == 1" class="supplier_list_dropdown">
+
+                                                            <li class="text-end" @click.stop="i.show_suppliers = i.show_suppliers?0:1">
+                                                                <i class="fa fa-close"></i>
+                                                            </li>
+
+                                                            <li @click.stop="i.selected_name = s.name; i.selected_id = s.id;"
+                                                                v-for="s in i.suppliers" :key="s.id">
+                                                                {{ s.name }}
+                                                            </li>
+                                                        </ul>
+
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <input type="text" style="width:100px;" class="form-control form-control-sm">
+                                                </td>
+                                                <td>
+                                                    <input type="text" style="width:100px;" class="form-control form-control-sm">
+                                                </td>
+                                                <td>
+                                                    <input type="text" style="width:100px;" class="form-control form-control-sm">
+                                                </td>
+                                                <td>
+                                                    <textarea type="text" class="form-control form-control-sm"></textarea>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="3" class="text-end font_bn font_20">
+                                                    মোট সম্ভাব্য ব্যয়
+                                                </td>
+                                                <td>
+
+                                                </td>
+                                                <td class="text-end font_bn font_20">
+                                                    প্রতি কপির মূল্য
+                                                </td>
+                                                <td>
+                                                    <input style="width:100px;" type="text">
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <label for="">Production Progress</label>
@@ -126,14 +187,16 @@ export default {
             store_prefix,
             route_prefix,
             suppliers: [1],
+            categories: [],
         }
     },
-    created: function () {
+    created: async function () {
         this[`set_clear_selected_production_products`](false);
         this[`set_clear_selected_production_designers`](false);
         this[`set_clear_selected_production_prints`](false);
         this[`set_clear_selected_production_bindings`](false);
-        this[`set_production_paper_paginate`](1000)
+        this[`set_production_paper_paginate`](1000);
+        await this.get_categories();
     },
     methods: {
         ...mapActions([
@@ -156,6 +219,12 @@ export default {
         delete_suppliers: function(index){
             this.suppliers.splice(index,1);
         },
+        get_categories: function(){
+            let url = `/production/supplier-categories/all-with-suppliers`;
+            axios.get(url).then(res => {
+                this.categories = res.data;
+            });
+        }
     },
     computed: {
         ...mapGetters(['get_production_papers']),
