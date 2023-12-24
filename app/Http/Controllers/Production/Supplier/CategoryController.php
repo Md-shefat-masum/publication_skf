@@ -22,6 +22,11 @@ class CategoryController extends Controller
         return response()->json(ProductionSupplierCategory::orderBy("title",'ASC')->get(), 200);
     }
 
+    public function all_with_suppliers()
+    {
+        return response()->json(ProductionSupplierCategory::orderBy("title",'ASC')->with('suppliers')->get(), 200);
+    }
+
     public function all()
     {
         $paginate = (int) request()->paginate;
