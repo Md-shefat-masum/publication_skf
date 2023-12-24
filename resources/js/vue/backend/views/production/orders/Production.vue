@@ -10,7 +10,7 @@
                     </router-link>
                 </div>
             </div>
-            <form @submit.prevent="call_store(`store_production_production_order`,$event.target)" autocomplete="false">
+            <form @submit.prevent="call_store(`store_production_production_order`,{target: $event.target, categories: categories})" autocomplete="false">
                 <div class="card-body">
                     <div class="row justify-content-center">
                         <div class="col-12">
@@ -22,11 +22,28 @@
 
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
-                                        :label="`Date`"
+                                        :label="`Plan Date`"
                                         :name="`date`"
                                         :type="`date`"
                                     />
                                 </div>
+
+                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                    <input-field
+                                        :label="`Order Date`"
+                                        :name="`order_date`"
+                                        :type="`date`"
+                                    />
+                                </div>
+
+                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                    <input-field
+                                        :label="`Delivery Date`"
+                                        :name="`delivery_date`"
+                                        :type="`date`"
+                                    />
+                                </div>
+
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Print Qty <sub>pcs</sub>`"
@@ -38,7 +55,7 @@
                                         <thead>
                                             <tr class="font_bn font_20">
                                                 <th class="text-start font_20">বিষয়</th>
-                                                <th class="font_20">উৎপাদন কারী প্রতিষ্ঠান সমূহের নাম ও ঠিকানা</th>
+                                                <th class="font_20">উৎপাদনকারী প্রতিষ্ঠান সমূহের নাম ও ঠিকানা</th>
                                                 <th class="font_20">পরিমান</th>
                                                 <th class="font_20">মূল্য</th>
                                                 <th class="font_20">অর্ডার নাম্বার</th>
@@ -51,7 +68,7 @@
                                                 <td>
                                                     <div class="position-relative custom_scroll" @click="i.show_suppliers = i.show_suppliers?0:1">
 
-                                                        <input type="text" v-model="i.selected_name" class="form-control form-control-sm">
+                                                        <textarea type="text" v-model="i.selected_name" class="form-control form-control-sm"></textarea>
 
                                                         <ul v-if="i.show_suppliers == 1" class="supplier_list_dropdown">
 
@@ -68,16 +85,16 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <input type="text" style="width:100px;" class="form-control form-control-sm">
+                                                    <input type="text" v-model="i.amount" style="width:100px;" class="form-control form-control-sm">
                                                 </td>
                                                 <td>
-                                                    <input type="text" style="width:100px;" class="form-control form-control-sm">
+                                                    <input type="text" v-model="i.price" style="width:100px;" class="form-control form-control-sm">
                                                 </td>
                                                 <td>
-                                                    <input type="text" style="width:100px;" class="form-control form-control-sm">
+                                                    <input type="text" v-model="i.order_number" style="width:100px;" class="form-control form-control-sm">
                                                 </td>
                                                 <td>
-                                                    <textarea type="text" class="form-control form-control-sm"></textarea>
+                                                    <textarea type="text" v-model="i.comment" class="form-control form-control-sm"></textarea>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -87,13 +104,13 @@
                                                     মোট সম্ভাব্য ব্যয়
                                                 </td>
                                                 <td>
-
+                                                    {{ total_cost }}
                                                 </td>
                                                 <td class="text-end font_bn font_20">
                                                     প্রতি কপির মূল্য
                                                 </td>
                                                 <td>
-                                                    <input style="width:100px;" type="text">
+                                                    <input name="each_copy_price" class="form-control form-control-sm" style="width:100px;" type="text">
                                                 </td>
                                             </tr>
                                         </tfoot>
@@ -228,6 +245,9 @@ export default {
     },
     computed: {
         ...mapGetters(['get_production_papers']),
+        total_cost: function(){
+            return this.categories.reduce((t,i) => t + +i.price, 0);
+        }
     }
 };
 </script>
