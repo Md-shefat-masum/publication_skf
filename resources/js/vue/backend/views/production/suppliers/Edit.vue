@@ -14,8 +14,6 @@
             </div>
             <!-- /.card-header -->
 
-
-
             <form @submit.prevent="call_store(`update_${store_prefix}`,$event.target)" autocomplete="false">
                 <div class="card-body">
                     <div class="row justify-content-center" v-if="data">
