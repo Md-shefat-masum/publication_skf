@@ -146,6 +146,7 @@ Route::group(
 
                 Route::group(['prefix' => 'supplier-categories'], function () {
                     Route::get('/all-json', 'Production\Supplier\CategoryController@all_json');
+                    Route::get('/all-with-suppliers', 'Production\Supplier\CategoryController@all_with_suppliers');
                     Route::get('/all', 'Production\Supplier\CategoryController@all');
                     Route::post('/store', 'Production\Supplier\CategoryController@store');
                     Route::post('/canvas-store', 'Production\Supplier\CategoryController@canvas_store');
