@@ -13,6 +13,10 @@ class ProductionSupplierCategory extends Model
         'show_suppliers',
         'selected_id',
         'selected_name',
+        'amount',
+        'price',
+        'order_number',
+        'comment',
     ];
 
     public function suppliers()
@@ -29,6 +33,22 @@ class ProductionSupplierCategory extends Model
         return null;
     }
     public function getSelectedNameAttribute()
+    {
+        return null;
+    }
+    public function getAmountAttribute()
+    {
+        return null;
+    }
+    public function getPriceAttribute()
+    {
+        return null;
+    }
+    public function getOrderNumberAttribute()
+    {
+        return null;
+    }
+    public function getCommentAttribute()
     {
         return null;
     }
