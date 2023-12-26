@@ -63,7 +63,7 @@
                                         <td colspan="4" class="text-end">Advance Paid</td>
                                         <td class="text-end ">
                                             <b class="pe-1">
-                                                {{  advance_paid }}
+                                                {{  advance_paid.toFixed(2) }}
                                             </b>
                                         </td>
                                     </tr>
@@ -82,7 +82,7 @@
                                         <td v-else colspan="4" class="text-end text-warning">Present Extra Money</td>
                                         <td class="text-end ">
                                             <b class="pe-1">
-                                                {{  Math.abs(total_due - total_paid - advance_paid) }}
+                                                {{  Math.abs(total_due - total_paid - advance_paid).toFixed(2) }}
                                             </b>
                                         </td>
                                     </tr>
