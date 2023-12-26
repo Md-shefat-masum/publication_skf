@@ -21,6 +21,12 @@
                                         <management-modal :select_qty="1"></management-modal>
                                     </div>
                                 </div>
+                                <div class=" full_width form-group d-grid align-content-start gap-1 mb-2 " >
+                                    <input-field
+                                        :label="`Project Name`"
+                                        :name="`project_name`"
+                                    />
+                                </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Paper Name`"
@@ -33,10 +39,16 @@
                                         :name="`paper_type`"
                                     />
                                 </div>
-                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                <!-- <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Cost Per Page`"
                                         :name="`cost_per_paper`"
+                                    />
+                                </div> -->
+                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                    <input-field
+                                        :label="`Forma Amount`"
+                                        :name="`forma_amount`"
                                     />
                                 </div>
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
