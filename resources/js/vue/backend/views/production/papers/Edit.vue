@@ -25,13 +25,16 @@
                                         :value="this[`get_${store_prefix}`]['supplier_name']"
                                     />
                                 </div>
-                                <!-- <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
-                                    <input-field
-                                        :label="`Paper Name`"
-                                        :name="`paper_name`"
-                                        :value="this[`get_${store_prefix}`]['paper_name']"
-                                    />
+
+                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                    <div class="field_wrapper">
+                                        <date-field
+                                            :value="this[`get_${store_prefix}`]['last_contact_date']"
+                                            :label="`Last Contact Date`"
+                                            :name="`last_contact_date`" />
+                                    </div>
                                 </div>
+
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Paper Type`"
@@ -39,33 +42,30 @@
                                         :value="this[`get_${store_prefix}`]['paper_type']"
                                     />
                                 </div>
+
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
-                                        :label="`Cost Per Page`"
-                                        :name="`cost_per_paper`"
+                                        :label="`Each Ream Price`"
+                                        :name="`each_ream_price`"
                                         :type="`number`"
-                                        :value="this[`get_${store_prefix}`]['cost_per_paper']"
+                                        :value="this[`get_${store_prefix}`]['each_ream_price']"
                                     />
                                 </div>
+
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
-                                        :label="`Cost Per Ream`"
-                                        :name="`cost_per_ream`"
+                                        :label="`Paper Amount (ream)`"
+                                        :name="`paper_amount`"
                                         :type="`number`"
-                                        :value="this[`get_${store_prefix}`]['cost_per_ream']"
+                                        :value="this[`get_${store_prefix}`]['paper_amount']"
                                     />
                                 </div>
-                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
-                                    <input-field
-                                        :label="`Purchase date`"
-                                        :name="`purchase_date`"
-                                        :type="`date`"
-                                        :value="
-                                            (this[`get_${store_prefix}`]['purchase_date']) &&
-                                            (this[`get_${store_prefix}`]['purchase_date']).split(' ')[0]
-                                        "
-                                    />
-                                </div> -->
+
+                                <div class=" form-group d-grid full_width align-content-start gap-1 mb-2 " >
+                                    <label for="project_name">Project Name</label>
+                                    <textarea class="form-control" id="project_name" :value="this[`get_${store_prefix}`]['project_name']" name="project_name"></textarea>
+                                </div>
+                                
                                 <div class=" form-group d-grid full_width align-content-start gap-1 mb-2 " >
                                     <label for="description">Description</label>
                                     <textarea class="form-control" id="description" :value="this[`get_${store_prefix}`]['description']" name="description"></textarea>
@@ -80,14 +80,14 @@
                                                 :value="this[`get_${store_prefix}`]['mobile_number_1']"
                                             />
                                         </div>
-                                        <div class="col-lg-6 mb-2">
+                                        <!-- <div class="col-lg-6 mb-2">
                                             <input-field
                                                 :label="`mobile number 2`"
                                                 :name="`mobile_number[]`"
                                                 :id="`mobile_number_2`"
                                                 :value="this[`get_${store_prefix}`]['mobile_number_2']"
                                             />
-                                        </div>
+                                        </div> -->
                                         <!-- <div class="col-lg-6 mb-2">
                                             <input-field
                                                 :label="`mobile number 3`"
