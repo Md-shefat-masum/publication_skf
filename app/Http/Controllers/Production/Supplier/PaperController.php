@@ -82,11 +82,17 @@ class PaperController extends Controller
 
         $data = new SupplierPaper();
         $data->supplier_name = $request->supplier_name;
+        $data->last_contact_date = $request->last_contact_date;
+        $data->paper_type = $request->paper_type;
+        $data->each_ream_price = $request->each_ream_price;
+        $data->paper_amount = $request->paper_amount;
+
         // $data->paper_name = $request->paper_name;
         // $data->paper_type = $request->paper_type;
         // $data->cost_per_paper = $request->cost_per_paper;
         // $data->cost_per_ream = $request->cost_per_ream;
         // $data->purchase_date = $request->purchase_date;
+
         $data->description = $request->description;
         $data->creator = Auth::user()->id;
         $data->save();
@@ -155,6 +161,13 @@ class PaperController extends Controller
         $data->supplier_name = request()->supplier_name;
         $data->purchase_date = request()->purchase_date;
         $data->description = request()->description;
+
+        $data->last_contact_date = request()->last_contact_date;
+        $data->project_name = request()->project_name;
+        $data->paper_type = request()->paper_type;
+        $data->each_ream_price = request()->each_ream_price;
+        $data->paper_amount = request()->paper_amount;
+
         $data->save();
 
         if (request()->has('mobile_number') && count(request()->mobile_number)) {
