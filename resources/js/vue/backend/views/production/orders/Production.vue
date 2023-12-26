@@ -30,34 +30,35 @@
 
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
-                                        :label="`Plan Date`"
-                                        :name="`date`"
-                                        :type="`date`"
+                                        :label="`Work Type (বই, ক্যালেন্ডার)`"
+                                        :name="`work_type`"
+                                        :type="`text`"
                                     />
                                 </div>
 
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
-                                        :label="`Order Date`"
-                                        :name="`order_date`"
-                                        :type="`date`"
+                                        :label="`Forma Amount`"
+                                        :name="`forma_amount`"
+                                        :type="`number`"
                                     />
                                 </div>
 
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
-                                    <input-field
-                                        :label="`Delivery Date`"
-                                        :name="`delivery_date`"
-                                        :type="`date`"
-                                    />
+                                    <div class="field_wrapper">
+                                        <date-field :label="`Plan Date`" :name="`date`" />
+                                    </div>
                                 </div>
 
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
-                                    <input-field
-                                        :label="`Print Qty <sub>pcs</sub>`"
-                                        :name="`print_qty`"
-                                    />
+                                    <date-field :label="`Order Date`" :name="`order_date`" />
+
                                 </div>
+
+                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                    <date-field :label="`Delivery Date`" :name="`delivery_date`" />
+                                </div>
+
                                 <div class="full_width text-nowrap mb-4">
                                     <table class="table table-bordered">
                                         <thead>
@@ -65,8 +66,11 @@
                                                 <th class="text-start font_20">বিষয়</th>
                                                 <th class="font_20">উৎপাদনকারী প্রতিষ্ঠান সমূহের নাম ও ঠিকানা</th>
                                                 <th class="font_20">পরিমান</th>
-                                                <th class="font_20">মূল্য</th>
-                                                <th class="font_20">অর্ডার নাম্বার</th>
+                                                <th class="font_20">একক মূল্য</th>
+                                                <th class="font_20">একক</th>
+                                                <th class="font_20">খরচ</th>
+                                                <th class="font_20">টোটাল</th>
+                                                <th class="font_20">বিল নাম্বার</th>
                                                 <th class="font_20">মন্তব্য</th>
                                             </tr>
                                         </thead>
@@ -93,39 +97,65 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <input type="text" v-model="i.amount" style="width:100px;" class="form-control form-control-sm">
+                                                    <input type="number" v-model="i.amount" style="width:100px;" class="form-control form-control-sm">
                                                 </td>
                                                 <td>
-                                                    <input type="text" v-model="i.price" style="width:100px;" class="form-control form-control-sm">
+                                                    <input type="number" v-model="i.price" style="width:100px;" class="form-control form-control-sm">
+                                                </td>
+                                                <td>
+                                                    <input type="text" v-model="i.unit" style="width:100px;" class="form-control form-control-sm">
+                                                </td>
+                                                <td>
+                                                    <input type="number" v-model="i.cost" style="width:100px;" class="form-control form-control-sm">
+                                                </td>
+                                                <td>
+                                                    {{ calc_unit_total(i) }}
+                                                    <!-- <input type="number" v-model="i.cost" style="width:100px;" class="form-control form-control-sm"> -->
                                                 </td>
                                                 <td>
                                                     <input type="text" v-model="i.order_number" style="width:100px;" class="form-control form-control-sm">
                                                 </td>
                                                 <td>
-                                                    <textarea type="text" v-model="i.comment" class="form-control form-control-sm"></textarea>
+                                                    <textarea type="text" v-model="i.comment" style="width: 150px;" class="form-control form-control-sm"></textarea>
                                                 </td>
                                             </tr>
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                                <td colspan="3" class="text-end font_bn font_20">
+                                                <td colspan="6" class="text-end font_bn font_20">
                                                     মোট সম্ভাব্য ব্যয়
                                                 </td>
-                                                <td>
+                                                <td class="text-center">
                                                     {{ total_cost }}
                                                 </td>
                                                 <td class="text-end font_bn font_20">
-                                                    প্রতি কপির মূল্য
+
                                                 </td>
                                                 <td>
-                                                    <div>
-                                                        <input name="each_copy_price" id="each_copy_price" class="form-control form-control-sm" style="width:100px;" type="text">
-                                                    </div>
+
                                                 </td>
                                             </tr>
                                         </tfoot>
                                     </table>
                                 </div>
+
+                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                    <label>Print Qty <sub>pcs</sub></label>
+                                    <div>
+                                        <input type="number" name="print_qty"
+                                            v-model="printing_qty"
+                                            @keyup="each_copy_price = total_cost / printing_qty;"
+                                            class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                    <label>প্রতি কপির মূল্য</label>
+                                    <div>
+                                        <input type="number" step=".02" name="each_copy_price" v-model="each_copy_price" class="form-control">
+                                    </div>
+                                </div>
+
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <label for="">Production Progress</label>
                                     <select class="form-control form-select" name="status" id="">
@@ -143,34 +173,36 @@
                                     </select>
                                 </div>
 
-                                <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
-                                    <label>Paper Supplier and Paper amount</label>
-                                    <div class="production_supplier_selection_table_body">
-                                        <div class="production_supplier_selection_table">
-                                            <div class="supplier">
-                                                <h5>Supplier</h5>
+                                <div class="full_width">
+                                    <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                        <label>Paper Supplier and Paper amount</label>
+                                        <div class="production_supplier_selection_table_body">
+                                            <div class="production_supplier_selection_table">
+                                                <div class="supplier">
+                                                    <h5>Supplier</h5>
+                                                </div>
+                                                <div class="stock text-center">
+                                                    <h5>Paper amt (rm)</h5>
+                                                </div>
+                                                <div class="action">
+                                                    <h5>action </h5>
+                                                </div>
                                             </div>
-                                            <div class="stock text-center">
-                                                <h5>Paper amt (rm)</h5>
-                                            </div>
-                                            <div class="action">
-                                                <h5>action </h5>
-                                            </div>
-                                        </div>
-                                        <div v-for="(i, index) in suppliers" :key="i" class="production_supplier_selection_table">
-                                            <div class="supplier">
-                                                <select :name="`paper_supplier[${index}][supplier_paper_id]`" id="" class="form-select">
-                                                    <option v-for="i in get_production_papers.data" :key="i.id" :value="i.id">
-                                                        {{ i.supplier_name }} - {{ i.stock }} rm
-                                                    </option>
-                                                </select>
-                                            </div>
-                                            <div class="stock">
-                                                <input :name="`paper_supplier[${index}][amount]`" value="0" type="text" class="form-control">
-                                            </div>
-                                            <div class="action">
-                                                <a href="" v-if="suppliers.length > 1" @click.prevent="delete_suppliers(index)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash"></i></a>
-                                                <a href="" @click.prevent="add_suppliers(i+1)" class="btn btn-sm btn-outline-info"><i class="fa fa-plus"></i></a>
+                                            <div v-for="(i, index) in suppliers" :key="i" class="production_supplier_selection_table">
+                                                <div class="supplier">
+                                                    <select :name="`paper_supplier[${index}][supplier_paper_id]`" id="" class="form-select">
+                                                        <option v-for="i in get_production_papers.data" :key="i.id" :value="i.id">
+                                                            {{ i.supplier_name }} - {{ i.stock }} rm
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="stock">
+                                                    <input :name="`paper_supplier[${index}][amount]`" value="0" type="text" class="form-control">
+                                                </div>
+                                                <div class="action">
+                                                    <a href="" v-if="suppliers.length > 1" @click.prevent="delete_suppliers(index)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash"></i></a>
+                                                    <a href="" @click.prevent="add_suppliers(i+1)" class="btn btn-sm btn-outline-info"><i class="fa fa-plus"></i></a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -215,6 +247,8 @@ export default {
             route_prefix,
             suppliers: [1],
             categories: [],
+            printing_qty: 0,
+            each_copy_price: 0,
         }
     },
     created: async function () {
@@ -251,12 +285,16 @@ export default {
             axios.get(url).then(res => {
                 this.categories = res.data;
             });
+        },
+        calc_unit_total: function(item){
+            let sum = (+item.amount || 0) + (+item.price || 0) + (+item.cost || 0);
+            return sum;
         }
     },
     computed: {
         ...mapGetters(['get_production_papers']),
         total_cost: function(){
-            return this.categories.reduce((t,i) => t + (+i.price * (+i.amount || 1)), 0);
+            return this.categories.reduce((t,i) => t + (+i.price * (+i.amount || 1) + (+i.cost || 0)), 0);
         }
     }
 };
