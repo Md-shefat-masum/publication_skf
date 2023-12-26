@@ -113,6 +113,7 @@ import PageSetup from '../PageSetup';
 const {route_prefix, store_prefix} = PageSetup;
 
 export default {
+    name: "product-management-modal",
     components: { TableTh, CreateCanvas, EditCanvas },
     props: {
         'select_qty': Number,
