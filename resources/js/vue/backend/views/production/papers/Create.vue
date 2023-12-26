@@ -21,6 +21,34 @@
                                         :name="`supplier_name`"
                                     />
                                 </div>
+                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                    <div class="field_wrapper">
+                                        <date-field :label="`Last Contact Date`" :name="`last_contact_date`" />
+                                    </div>
+                                </div>
+
+                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                    <input-field
+                                        :label="`Paper Type`"
+                                        :name="`paper_type`"
+                                    />
+                                </div>
+
+                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                    <input-field
+                                        :label="`Each Ream Price`"
+                                        :name="`each_ream_price`"
+                                        :type="`number`"
+                                    />
+                                </div>
+
+                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                    <input-field
+                                        :label="`Paper Amount (ream)`"
+                                        :name="`paper_amount`"
+                                        :type="`number`"
+                                    />
+                                </div>
                                 <!-- -->
                                 <div class=" form-group d-grid full_width align-content-start gap-1 mb-2 " >
                                     <label for="description">Description</label>
@@ -34,12 +62,12 @@
                                                 :name="`mobile_number[]`"
                                             />
                                         </div>
-                                        <div class="col-lg-6 mb-2">
+                                        <!-- <div class="col-lg-6 mb-2">
                                             <input-field
-                                                :label="`mobile_number 2`"
+                                                :label="`mobile number 2`"
                                                 :name="`mobile_number[]`"
                                             />
-                                        </div>
+                                        </div> -->
                                         <!-- <div class="col-lg-6 mb-2">
                                             <input-field
                                                 :label="`mobile_number 3`"
