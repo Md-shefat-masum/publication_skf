@@ -4,6 +4,7 @@ import Create from "../../../views/production/papers/Create";
 import Edit from "../../../views/production/papers/Edit";
 import Details from "../../../views/production/papers/Details";
 import Import from "../../../views/production/papers/Import";
+import PaperPlan from "../../../views/production/papers/PaperPlan";
 
 let prefix = "Paper"
 export default {
@@ -18,6 +19,11 @@ export default {
             path: ``,
             name: `AllProduction${prefix}`,
             component: All,
+        },
+        {
+            path: `paper-plan`,
+            name: `PaperPlan`,
+            component: PaperPlan,
         },
         {
             path: `import`,
