@@ -154,6 +154,9 @@ class ProductionController extends Controller
 
                     'amount' => $categroy->amount,
                     'price' => $categroy->price,
+                    'unit' => $categroy->unit,
+                    'cost' => $categroy->cost,
+                    'total_price' => $categroy->amount * $categroy->price * $categroy->cost,
                     'order_number' => $categroy->order_number,
                     'comment' => $categroy->comment,
 
