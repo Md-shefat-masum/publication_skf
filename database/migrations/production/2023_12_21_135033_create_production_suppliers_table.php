@@ -17,6 +17,7 @@ class CreateProductionSuppliersTable extends Migration
             $table->id();
             $table->bigInteger('category_id')->nullable();
             $table->string('name',200)->nullable();
+            $table->string('mobile_number',20)->nullable();
 
             $table->bigInteger('creator')->unsigned()->nullable();
             $table->string('slug',50)->nullable();
