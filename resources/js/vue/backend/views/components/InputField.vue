@@ -18,6 +18,7 @@
                 @keyup="keyup_handler"
                 :readonly="readonly"
                 ref="input_el"
+                step=".02"
                 :style="styles"
             />
             <span v-if="input_not_text" class="ps-1">
