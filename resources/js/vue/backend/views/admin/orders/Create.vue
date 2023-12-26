@@ -48,7 +48,7 @@
                             <div class="table">
                                 <div class="border border-1 position-sticky top-0 borde-info p-1 rounded-sm mb-2">
                                     <table class="table ">
-                                        <thead class="position-static" style="position: sticky; bottom: 0;">
+                                        <thead class="position-sticky" style="position: sticky; top: 0;">
                                             <tr>
                                                 <th style="width: 10px;">SL</th>
                                                 <th class="text-start">Title</th>
@@ -97,7 +97,7 @@
                                         <tfoot style="position: sticky; bottom: 0;">
                                             <tr>
                                                 <th colspan="6" class="text-end">total</th>
-                                                <th class="text-end font_20">৳ {{ tota_order_price.toFixed(2).toString().enToBn() }}</th>
+                                                <th class="text-end font_20 text-nowrap">৳ {{ tota_order_price.toFixed(2).toString().enToBn() }}</th>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -114,7 +114,10 @@
                                 </div>
 
                                 <div class="mb-2 d-flex gap-2 justify-content-end">
-                                    <label for="delivery_charge">Delivery Charge</label>
+                                    <label for="delivery_charge">
+                                        Delivery Charge <br>
+                                        <span @click.stop="balance_fraction" class="text-warning">Balance Amount</span>
+                                    </label>
                                     <input type="number" v-model="shipping_charge" step=".01" name="delivery_charge" id="delivery_charge" class="form-control text-end font_20" style="width: 180px">
                                 </div>
                                 <!-- <div  class="mb-2 d-flex gap-2 justify-content-end">
@@ -142,7 +145,9 @@
                                 </div>
 
                                 <div class="mb-2 d-flex gap-2 justify-content-end">
-                                    <label for="total_paid">Total Paid</label>
+                                    <label for="total_paid">
+                                        Total Paid
+                                    </label>
                                     <input type="number" v-model="total_paid" step=".01" name="total_paid" id="total_paid" class="form-control text-end font_20" style="width: 180px">
                                 </div>
                                 <div class="mb-2 d-flex gap-2 justify-content-end">
@@ -283,6 +288,10 @@ export default {
         },
         bn_price: function(price){
             return price.toString().enToBn();
+        },
+        balance_fraction: function(){
+            this.shipping_charge = 100 - +this.tota_order_price % 1;
+            this.shipping_charge = +(this.shipping_charge.toFixed(2));
         }
     },
     computed: {
