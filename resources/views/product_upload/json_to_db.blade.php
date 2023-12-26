@@ -44,7 +44,7 @@
                                             $old_price = $data->where('mode_name',$english_name)->first();
 
 
-                                            $product = \App\Models\Product\Product::where('product_name', $bangla_name)->first();
+                                            $product = \App\Models\Product\Product::where('product_url', \Str::slug($bangla_name))->first();
                                             if($old_price){
                                                 $price = $old_price->price;
                                                 $discount = $old_price->discount;
