@@ -24,7 +24,10 @@ class CreateProductionRelatedSuppliersTable extends Migration
             $table->string('supplier_name',250)->nullable();
 
             $table->integer('amount')->unsigned()->nullable();
-            $table->integer('price')->unsigned()->nullable();
+            $table->float('price')->unsigned()->nullable();
+            $table->string('unit',100)->nullable();
+            $table->float('cost')->unsigned()->nullable();
+            $table->float('total_price')->unsigned()->nullable();
             $table->string('order_number',50)->nullable();
             $table->text('comment')->nullable();
 
