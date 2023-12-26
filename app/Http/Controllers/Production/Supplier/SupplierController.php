@@ -79,6 +79,7 @@ class SupplierController extends Controller
 
         $data = new ProductionSupplier();
         $data->name = $request->name;
+        $data->mobile_number = $request->mobile_number;
         $data->category_id = $request->category_id;
         $data->save();
 
@@ -100,6 +101,7 @@ class SupplierController extends Controller
 
         $data = new ProductionSupplier();
         $data->name = $request->name;
+        $data->mobile_number = $request->mobile_number;
         $data->save();
 
         return response()->json($data, 200);
@@ -127,6 +129,7 @@ class SupplierController extends Controller
         }
 
         $data->name = request()->name;
+        $data->mobile_number = request()->mobile_number;
         $data->category_id = request()->category_id;
         $data->update();
 
