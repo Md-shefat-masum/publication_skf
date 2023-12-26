@@ -54,7 +54,7 @@
                             <div class="table">
                                 <div class="border border-1 position-sticky top-0 borde-info p-1 rounded-sm mb-2">
                                     <table class="table ">
-                                        <thead class="position-static" style="position: sticky; bottom: 0;">
+                                        <thead class="position-sticky" style="position: sticky; top: 0;">
                                             <tr>
                                                 <th style="width: 10px;">SL</th>
                                                 <th class="text-start">Title</th>
@@ -119,7 +119,10 @@
                                 </div>
 
                                 <div class="mb-2 d-flex gap-2 justify-content-end">
-                                    <label for="delivery_charge">Delivery Charge</label>
+                                    <label for="delivery_charge">
+                                        Delivery Charge <br>
+                                        <span @click.stop="balance_fraction" class="text-warning">Balance Amount</span>
+                                    </label>
                                     <input type="number" v-model="shipping_charge" step=".01" name="delivery_charge" id="delivery_charge" class="form-control text-end font_20" style="width: 180px">
                                 </div>
                                 <!-- <div  class="mb-2 d-flex gap-2 justify-content-end">
@@ -304,6 +307,10 @@ export default {
         },
         bn_price: function(price){
             return price.toString().enToBn();
+        },
+        balance_fraction: function(){
+            this.shipping_charge = 100 - +this.tota_order_price % 1;
+            this.shipping_charge = +(this.shipping_charge.toFixed(2));
         }
     },
     computed: {
