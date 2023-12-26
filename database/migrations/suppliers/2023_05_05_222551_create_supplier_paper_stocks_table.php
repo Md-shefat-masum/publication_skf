@@ -16,11 +16,13 @@ class CreateSupplierPaperStocksTable extends Migration
         Schema::create('supplier_paper_stocks', function (Blueprint $table) {
             $table->id();
             $table->bigInteger("supplier_paper_id")->unsigned()->nullable();
+            $table->text('project_name')->nullable();
             $table->string("paper_name", 45)->nullable();
             $table->string("paper_type", 45)->nullable();
             $table->float("cost_per_paper")->nullable();
             $table->float("cost_per_ream")->nullable();
             $table->float("stock")->default(0);
+            $table->integer('forma_amount')->nullable();
             $table->date("purchase_date")->nullable();
             $table->text("description")->nullable();
 
