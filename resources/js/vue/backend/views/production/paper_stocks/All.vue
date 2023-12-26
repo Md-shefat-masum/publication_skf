@@ -76,7 +76,7 @@
                             <table-th :sort="true" :tkey="'stock'" :title="'Stock Amount'" />
                             <table-th :sort="true" :tkey="'purchase_date'" :title="'Date'" />
                             <table-th :sort="true" :tkey="'paper_type'" :title="'Paper Type'" />
-                            <table-th :sort="true" :tkey="'cost_per_paper'" :title="'Cost Per Paper'" />
+                            <!-- <table-th :sort="true" :tkey="'cost_per_paper'" :title="'Cost Per Paper'" /> -->
                             <table-th :sort="true" :tkey="'cost_per_ream'" :title="'Cost Per Ream'" />
                             <table-th :sort="true" :tkey="'status'" :title="'Status'" />
                             <th aria-label="actions">Actions</th>
@@ -102,7 +102,7 @@
                             </td>
                             <td>{{ format_date(item.purchase_date) }}</td>
                             <td>{{ item.paper_type }}</td>
-                            <td>{{ item.cost_per_paper }} TK</td>
+                            <!-- <td>{{ item.cost_per_paper }} TK</td> -->
                             <td>{{ item.cost_per_ream }} TK</td>
                             <td>
                                 <span v-if="item.status == 1" class="badge bg-label-success me-1">active</span>
