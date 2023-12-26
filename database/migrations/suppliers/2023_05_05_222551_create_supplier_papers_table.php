@@ -19,6 +19,12 @@ class CreateSupplierPapersTable extends Migration
             $table->float("stock")->default(0); // total stock sum
             $table->date("purchase_date")->nullable(); // latest purchase date
             $table->text("description")->nullable();
+
+            $table->date('last_contact_date')->nullable();
+            $table->text('project_name')->nullable();
+            $table->text('paper_type')->nullable();
+            $table->float('each_ream_price')->nullable();
+            $table->float('paper_amount')->nullable();
             // phone number into phone_numbers table
 
             $table->bigInteger('creator')->unsigned()->nullable();
