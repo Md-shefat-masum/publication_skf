@@ -23,6 +23,13 @@
                                     />
                                 </div>
                                 <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
+                                    <input-field
+                                        :label="`Mobile Number`"
+                                        :name="`mobile_number`"
+                                        :type="`text`"
+                                    />
+                                </div>
+                                <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
                                     <label for="category_id" class="form-label">Supplier Category</label>
                                     <select name="category_id" class="form-select" id="category_id">
                                         <option v-for="category in all_categories" :value="category.id" :key="category.id">
