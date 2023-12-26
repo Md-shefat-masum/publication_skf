@@ -12,7 +12,7 @@
 
         <div class="multiple_select_modal" v-if="this[`get_${store_prefix}_show_management_modal`]">
             <div class="multiple_select_modal_backdrop" @click="call_store(`set_${store_prefix}_show_management_modal`,false)"></div>
-            <div class="multiple_select_modal_body custom_scroll">
+            <div class="multiple_select_modal_body custom_scroll" style="max-width: 95vw;">
                 <div class="header">
                     <div class="search">
                         <input @keyup="call_store(`set_${store_prefix}_search_key`,($event.target.value))" type="text" class="rounded-pill form-control">
@@ -38,9 +38,15 @@
                         <thead class="table-light">
                             <tr>
                                 <th><input @click="call_store(`set_selected_all_${store_prefix}s`)" type="checkbox" class="form-check-input"></th>
-                                <table-th :sort="true" :ariaLable="'id'" :tkey="'id'" :title="'ID'" />
-                                <table-th :sort="true" :tkey="'supplier_name'" :title="'Supplier Name'" />
+                                <table-th :sort="true" :tkey="'id'" :title="'ID'" :ariaLable="'id'"/>
+                                <table-th :sort="true" :tkey="'supplier_name'" :title="'Supplier'" />
+                                <table-th :sort="false" :tkey="''" :title="'Mobile Number'" />
                                 <table-th :sort="true" :tkey="'stock'" :title="'Stock'" />
+                                <table-th :sort="true" :tkey="'last_contact_date'" :title="'Last Contact'" />
+                                <table-th :sort="true" :tkey="'paper_type'" :title="'Paper Type'" />
+                                <table-th :sort="true" :tkey="'each_ream_price'" :title="'Each Ream Price'" />
+                                <table-th :sort="true" :tkey="'paper_amount'" :title="'Paper Amount'" />
+                                <table-th :sort="true" :tkey="'project_name'" :title="'Last Project'" />
                                 <!-- <th aria-label="actions">Actions</th> -->
                             </tr>
                         </thead>
@@ -57,8 +63,20 @@
                                     </span>
                                 </td>
                                 <td>
-                                    {{ item.stock }}
+                                    <span v-if="item.mobile_numbers.length">
+                                        {{ item.mobile_numbers[0].mobile_number }}
+                                    </span>
                                 </td>
+                                <td>{{ item.stock }} Ream</td>
+                                <td>
+                                    <span v-if="item.last_contact_date">
+                                        {{ formatDate(item.last_contact_date) }}
+                                    </span>
+                                </td>
+                                <td>{{ item.paper_type }}</td>
+                                <td>{{ item.each_ream_price }}</td>
+                                <td>{{ item.paper_amount }}</td>
+                                <td>{{ item.project_name }}</td>
                                 <!-- <td>
                                     <div class="table_actions">
                                         <a href="#" @click.prevent="()=>''" class="btn btn-sm btn-outline-secondary">
