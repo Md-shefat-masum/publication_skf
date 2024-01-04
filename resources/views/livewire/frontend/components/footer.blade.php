@@ -129,7 +129,7 @@
                     </div>
                     <div class="col-lg-6 col-md-6 col-12">
                         <div class="payment-img text-end">
-                            <a href="#"><img src="/frontend/img/1.png" alt="payment" /></a>
+                            {{-- <a href="#"><img src="/frontend/img/1.png" alt="payment" /></a> --}}
                         </div>
                     </div>
                 </div>

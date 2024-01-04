@@ -12,7 +12,7 @@
                         </div>
                         <div class="card-info flex-1">
                             <h5 class="mb-0">
-                                {{ analytics["net_income"] }} ৳
+                                {{ analytics["net_income"].toFixed(2) }} ৳
                             </h5>
                             <small class="text-capitalize">
                                 Net Incomes
@@ -29,7 +29,7 @@
                         </div>
                         <div class="card-info flex-1">
                             <h5 class="mb-0">
-                                {{ analytics["life_time_income"] }} ৳
+                                {{ analytics["life_time_income"].toFixed(2) }} ৳
                             </h5>
                             <small class="text-capitalize">
                                 total Income

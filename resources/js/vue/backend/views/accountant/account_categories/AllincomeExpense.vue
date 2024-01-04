@@ -41,7 +41,7 @@
                                     <td>{{ data[0].categories[i-1].title }}</td>
                                     <td>
                                         <span v-if="data[0].categories[i-1].logs_sum_total">
-                                            {{ data[0].categories[i-1].logs_sum_total?.toString().enToBn() }}
+                                            {{ data[0].categories[i-1].logs_sum_total?.toFixed(2).enToBn() }}
                                         </span>
                                     </td>
                                 </template>
@@ -53,7 +53,7 @@
                                     <td>{{ data[1].categories[i-1].title }}</td>
                                     <td>
                                         <span v-if="data[1].categories[i-1].logs_sum_total">
-                                            {{ data[1].categories[i-1].logs_sum_total?.toString().enToBn() }}
+                                            {{ data[1].categories[i-1].logs_sum_total?.toFixed(2).enToBn() }}
                                         </span>
                                     </td>
                                 </template>
@@ -75,19 +75,19 @@
                         <tr>
                             <td colspan="3" class="text-end">উদ্ধৃত্ত</td>
                             <td>
-                                {{ (get_sum(data[0]).en - get_sum(data[1]).en).toString().enToBn() }}
+                                {{ (get_sum(data[0]).en - get_sum(data[1]).en).toFixed(2).enToBn() }}
                             </td>
                         </tr>
                         <tr>
                             <td colspan="3" class="text-end">বিগত উদ্ধৃত্ত</td>
                             <td>
-                                {{ get_previous_extra_money.toString().enToBn() }}
+                                {{ get_previous_extra_money.toFixed(2).enToBn() }}
                             </td>
                         </tr>
                         <tr>
                             <td colspan="3" class="text-end">বর্তমান উদ্ধৃত্ত</td>
                             <td>
-                                {{ (get_previous_extra_money + (get_sum(data[0]).en - get_sum(data[1]).en)).toString().enToBn() }}
+                                {{ (get_previous_extra_money + (get_sum(data[0]).en - get_sum(data[1]).en)).toFixed(2).enToBn() }}
                             </td>
                         </tr>
                         <tr class="footer_fixed" v-if="data.length">
@@ -219,7 +219,7 @@ export default {
             }
             let sum = array.categories.reduce((t , i) => t += (+i.logs_sum_total) , 0);
             return {
-                bn: sum.toString().enToBn(),
+                bn: sum.toFixed(2).enToBn(),
                 en: sum,
             };
         }

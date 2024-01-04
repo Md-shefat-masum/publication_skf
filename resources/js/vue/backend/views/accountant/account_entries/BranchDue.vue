@@ -48,11 +48,11 @@
                             <td>{{ index + 1 }}</td>
                             <td>{{ branch.first_name }} {{ branch.last_name }}</td>
                             <td>{{ branch.mobile_number }}</td>
-                            <td>{{ branch.transaction.deposit_amount }}</td>
-                            <td>{{ branch.total_bill }}</td>
-                            <td>{{ branch.total_paid }}</td>
-                            <td>{{ branch.total_due }}</td>
-                            <td>{{ branch.transaction.extra_money }}</td>
+                            <td>{{ branch.transaction.deposit_amount.toFixed(2) }}</td>
+                            <td>{{ branch.total_bill.toFixed(2) }}</td>
+                            <td>{{ branch.total_paid.toFixed(2) }}</td>
+                            <td>{{ branch.total_due.toFixed(2) }}</td>
+                            <td>{{ branch.transaction.extra_money.toFixed(2) }}</td>
                             <td>
                                 <router-link :to="{name:`BranchDuePayment`,params:{user_id:branch.id}}" class="btn btn-sm btn-outline-success">
                                     Payment

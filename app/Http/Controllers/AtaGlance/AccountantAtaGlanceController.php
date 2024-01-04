@@ -40,11 +40,11 @@ class AccountantAtaGlanceController extends Controller{
         $at_a_glance["life_time_expense"] = AccountLog::where('is_expense',1)->sum("amount");
         $at_a_glance["net_income"] = $at_a_glance["life_time_income"] - $at_a_glance["life_time_expense"];
 
-        $at_a_glance["today_total_income"] = AccountLog::whereMonth('date',Carbon::now()->month())->where('is_income',1)->sum("amount");
-        $at_a_glance["today_total_expense"] = AccountLog::whereMonth('date',Carbon::now()->month())->where('is_expense',1)->sum("amount");
+        $at_a_glance["today_total_income"] = AccountLog::whereDate('date',Carbon::now()->toDateString())->where('is_income',1)->sum("amount");
+        $at_a_glance["today_total_expense"] = AccountLog::whereDate('date',Carbon::now()->toDateString())->where('is_expense',1)->sum("amount");
 
-        $at_a_glance["this_month_total_income"] = AccountLog::whereMonth('date',Carbon::now()->month())->where('is_income',1)->sum("amount");
-        $at_a_glance["this_month_total_expense"] = AccountLog::whereMonth('date',Carbon::now()->month())->where('is_expense',1)->sum("amount");
+        $at_a_glance["this_month_total_income"] = AccountLog::whereYear('date',Carbon::now()->format('Y'))->whereMonth('date',Carbon::now()->month())->where('is_income',1)->sum("amount");
+        $at_a_glance["this_month_total_expense"] = AccountLog::whereYear('date',Carbon::now()->format('Y'))->whereMonth('date',Carbon::now()->month())->where('is_expense',1)->sum("amount");
 
         $at_a_glance["this_year_total_income"] = AccountLog::whereYear('date',Carbon::now()->format('Y'))->where('is_income',1)->sum("amount");
         $at_a_glance["this_year_total_expense"] = AccountLog::whereYear('date',Carbon::now()->format('Y'))->where('is_expense',1)->sum("amount");
