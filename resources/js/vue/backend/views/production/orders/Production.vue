@@ -144,8 +144,15 @@
                                     <div>
                                         <input type="number" name="print_qty"
                                             v-model="printing_qty"
-                                            @keyup="each_copy_price = total_cost / printing_qty;"
+                                            @keyup="each_copy_price = total_cost / printing_qty;each_copy_cost = total_cost / printing_qty;"
                                             class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                    <label>প্রতি কপির খরচ</label>
+                                    <div>
+                                        {{ each_copy_cost }}
                                     </div>
                                 </div>
 
@@ -169,7 +176,7 @@
                                         <option value="plate">Plate</option>
                                         <option value="printing">Printing</option>
                                         <option value="binding">Binding</option>
-                                        <option value="complete">Complete</option>
+                                        <!-- <option value="complete">Complete</option> -->
                                     </select>
                                 </div>
 
@@ -249,6 +256,7 @@ export default {
             categories: [],
             printing_qty: 0,
             each_copy_price: 0,
+            each_copy_cost: 0,
         }
     },
     created: async function () {

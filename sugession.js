@@ -108,4 +108,5 @@
     16. sob gulo option abar check deya. form gulor validation check kora.
 
 
+    prodcution complete e stock add hobe.
  */

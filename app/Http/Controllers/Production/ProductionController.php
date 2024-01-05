@@ -54,7 +54,7 @@ class ProductionController extends Controller
 
     public function running_productions()
     {
-        $data = Production::where('is_complete',0)->get();
+        $data = Production::where('is_complete', 0)->get();
         return $data;
     }
 
@@ -123,17 +123,17 @@ class ProductionController extends Controller
         // dd(request()->all(), $categories);
 
         $categories = json_decode(request()->categories);
-        $data = Production::create(request()->except(['status', 'description', 'paper_supplier','categories']));
+        $data = Production::create(request()->except(['status', 'description', 'paper_supplier', 'categories']));
         $data->creator = Auth::user()->id;
         $data->save();
 
         ProductionRelatedSuppliers::where('production_id', $data->id)->delete();
         foreach ($categories as $categroy) {
-            $supplier = ProductionSupplier::where('category_id',$categroy->id)
-                ->where('name',$categroy->selected_name)->first();
+            $supplier = ProductionSupplier::where('category_id', $categroy->id)
+                ->where('name', $categroy->selected_name)->first();
 
-            if(($categroy->selected_name && !$categroy->selected_id) || !$supplier && $categroy->selected_name){
-                if(!$supplier){
+            if (($categroy->selected_name && !$categroy->selected_id) || !$supplier && $categroy->selected_name) {
+                if (!$supplier) {
                     $supplier = ProductionSupplier::create([
                         'category_id' => $categroy->id,
                         'name' => $categroy->selected_name,
@@ -142,7 +142,7 @@ class ProductionController extends Controller
                 $categroy->selected_id = $supplier->id;
             }
 
-            if($categroy->selected_name && $categroy->selected_id ){
+            if ($categroy->selected_name && $categroy->selected_id) {
                 ProductionRelatedSuppliers::create([
                     'production_id' => $data->id,
                     'product_id' => $data->product_id,
@@ -152,13 +152,13 @@ class ProductionController extends Controller
                     'category_name' => $categroy->title,
                     'supplier_name' => $categroy->selected_name,
 
-                    'amount' => $categroy->amount,
-                    'price' => $categroy->price,
-                    'unit' => $categroy->unit,
-                    'cost' => $categroy->cost,
+                    'amount' => $categroy->amount ?? '',
+                    'price' => $categroy->price ?? '',
+                    'unit' => $categroy->unit ?? '',
+                    'cost' => $categroy->cost ?? '',
                     'total_price' => $categroy->amount * $categroy->price * $categroy->cost,
-                    'order_number' => $categroy->order_number,
-                    'comment' => $categroy->comment,
+                    'order_number' => $categroy->order_number ?? '',
+                    'comment' => $categroy->comment ?? '',
 
                     'creator' => auth()->user()->id,
                 ]);
@@ -315,7 +315,7 @@ class ProductionController extends Controller
             // 'supplier_bindings_id' => ['required'],
             // 'status' => ['required'],
             'description' => ['required'],
-            'each_copy_price' => ['required','numeric','min:5'],
+            'each_copy_price' => ['required', 'numeric', 'min:5'],
         ]);
 
         if ($validator->fails()) {
@@ -331,11 +331,11 @@ class ProductionController extends Controller
         $categories = json_decode(request()->categories);
         ProductionRelatedSuppliers::where('production_id', $data->id)->delete();
         foreach ($categories as $categroy) {
-            $supplier = ProductionSupplier::where('category_id',$categroy->id)
-                ->where('name',$categroy->selected_name)->first();
+            $supplier = ProductionSupplier::where('category_id', $categroy->id)
+                ->where('name', $categroy->selected_name)->first();
 
-            if(($categroy->selected_name && !$categroy->selected_id) || !$supplier && $categroy->selected_name){
-                if(!$supplier){
+            if (($categroy->selected_name && !$categroy->selected_id) || !$supplier && $categroy->selected_name) {
+                if (!$supplier) {
                     $supplier = ProductionSupplier::create([
                         'category_id' => $categroy->id,
                         'name' => $categroy->selected_name,
@@ -344,7 +344,7 @@ class ProductionController extends Controller
                 $categroy->selected_id = $supplier->id;
             }
 
-            if($categroy->selected_name && $categroy->selected_id ){
+            if ($categroy->selected_name && $categroy->selected_id) {
                 ProductionRelatedSuppliers::create([
                     'production_id' => $data->id,
                     'product_id' => $data->product_id,
@@ -354,10 +354,13 @@ class ProductionController extends Controller
                     'category_name' => $categroy->title,
                     'supplier_name' => $categroy->selected_name,
 
-                    'amount' => $categroy->amount,
-                    'price' => $categroy->price,
-                    'order_number' => $categroy->order_number,
-                    'comment' => $categroy->comment,
+                    'amount' => $categroy->amount ?? '',
+                    'price' => $categroy->price ?? '',
+                    'unit' => $categroy->unit ?? '',
+                    'cost' => $categroy->cost ?? '',
+                    'total_price' => $categroy->amount * $categroy->price * $categroy->cost,
+                    'order_number' => $categroy->order_number ?? '',
+                    'comment' => $categroy->comment ?? '',
 
                     'creator' => auth()->user()->id,
                 ]);
@@ -458,7 +461,7 @@ class ProductionController extends Controller
             ], 422);
         }
 
-        if($data->is_complete == 0){
+        if ($data->is_complete == 0) {
             $data->is_complete = 1;
             $data->final_print_qty = request()->qty;
             $data->save();
@@ -561,8 +564,8 @@ class ProductionController extends Controller
         }
 
         $data = Production::find(request()->id);
-        if($data->is_complete == 0){
-            ProductionUsedPaper::where('production_id',$data->id)->delete();
+        if ($data->is_complete == 0) {
+            ProductionUsedPaper::where('production_id', $data->id)->delete();
             $data->delete();
         }
 
