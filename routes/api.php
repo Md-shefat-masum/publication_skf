@@ -293,6 +293,7 @@ Route::group(
                     Route::post('/store', 'Admin\Product\ProductController@store');
                     Route::post('/store-cost', 'Production\ProductionController@store_cost');
                     Route::post('/store-discount', 'Admin\Product\ProductController@store_discount');
+                    Route::post('/store-stock', 'Admin\Product\ProductController@store_stock');
                     Route::post('/canvas-store', 'Admin\Product\ProductController@canvas_store');
                     Route::post('/update', 'Admin\Product\ProductController@update');
                     Route::post('/add-to-top-product', 'Admin\Product\ProductController@add_to_top_product');

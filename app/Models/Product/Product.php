@@ -91,16 +91,19 @@ class Product extends Model
     }
     public function getSalesAttribute()
     {
-        $sales = OrderDetails::where('product_id', $this->id)
-            ->whereExists(function ($query) {
-                $query->select(DB::raw("*"))
-                    ->from('orders')
-                    ->whereColumn('orders.id', 'order_details.order_id')
-                    ->whereNotIn('orders.order_status', ['pending','canceled']);
-            })
-            ->sum('qty');
+        // $sales = OrderDetails::where('product_id', $this->id)
+        //     ->whereExists(function ($query) {
+        //         $query->select(DB::raw("*"))
+        //             ->from('orders')
+        //             ->whereColumn('orders.id', 'order_details.order_id')
+        //             ->whereNotIn('orders.order_status', ['pending','canceled']);
+        //     })
+        //     ->sum('qty');
+
+        $sales = ProductStockLog::where('product_id', $this->id)->where('type', 'sales')->sum('qty');
         return $sales;
     }
+
     public function getDiscountInfoAttribute()
     {
         $discount_amount = 0;
@@ -117,31 +120,25 @@ class Product extends Model
             "expire_date",
         ])
             ->where('product_id', $this->id)
-            ->where('expire_date', '>', Carbon::today()->toDateString())
+            ->where('expire_date', '>=', Carbon::now()->toDateString())
             ->orderBy('id', "DESC")
             ->first();
+
+
         if ($discount) {
             $is_discount = true;
-            if ($discount->flat_discount) {
-                $discount_amount = $discount->flat_discount;
-                $discount_percent = round(100 * $discount->flat_discount / $discount->main_price);
-                $discount_price =  $discount->main_price - $discount->flat_discount;
-                $expire_date = Carbon::parse($discount->expire_date)->format('Y-m-d H:i');
-            } else if ($discount->parcent_discount) {
-                $discount_amount = ($discount->main_price * $discount->parcent_discount / 100); // no round price
-                $discount_amount = $discount_amount;
-                $discount_percent  = $discount->parcent_discount;
-                $discount_price =  $discount->main_price - $discount_amount;
-                $expire_date = Carbon::parse($discount->expire_date)->format('Y-m-d H:i');
-            }
+            $discount_amount = $discount->main_price - $discount->flat_discount;
+            $discount_percent = $discount->parcent_discount;
+            $discount_price =  $discount->flat_discount;
+            $expire_date = Carbon::parse($discount->expire_date)->format('Y-m-d H:i');
         }
 
         return (object) [
+            "is_discount" => $is_discount,
             "discount_amount" => $discount_amount,
             "discount_percent" => $discount_percent,
             "discount_price" => $discount_price,
             "expire_date" => $expire_date,
-            "is_discount" => $is_discount,
         ];
     }
 

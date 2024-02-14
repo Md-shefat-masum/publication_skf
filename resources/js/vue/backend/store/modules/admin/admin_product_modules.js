@@ -127,6 +127,33 @@ const actions = {
         }
     },
 
+    /** store stock */
+    [`store_stock_${store_prefix}`]: async function ({ state, getters, commit, rootState }) {
+
+        const { form_values, form_inputs, form_data } = window.get_form_data('.create_form');
+        let { get_admin_product_selected: product } = getters;
+        product = product[0] || {};
+        form_data.append('product_id', (product.id) || '');
+        form_data.append('main_price', (product.sales_price) || '');
+
+        let cconfirm = await window.s_confirm("confirm to upload.");
+        if (cconfirm) {
+            axios.post(`/${api_prefix}/store-stock`, form_data)
+                .then(res => {
+                    $('.create_form input').val('');
+                    rootState.admin_product_modules.admin_product_selected = [];
+
+                    if (res.data.status == 'success') {
+                        window.s_alert('product stock has been updated.');
+                    }
+                    // management_router.push({name:`Edit${route_prefix}`,params:{id:res.data.product.id}})
+                })
+                .catch(error => {
+
+                })
+        }
+    },
+
     [`admin_store_production_cost`]: function (
         { commit, dispatch, getters, rootGetters, rootState, state },
         target

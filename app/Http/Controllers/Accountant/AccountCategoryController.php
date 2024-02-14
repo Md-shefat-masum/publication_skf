@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
+
 class AccountCategoryController extends Controller
 {
     public function all()
@@ -133,6 +134,7 @@ class AccountCategoryController extends Controller
                 'errors' => ['role' => ['data not found']],
             ], 422);
         }
+        
         return response()->json($data, 200);
     }
 

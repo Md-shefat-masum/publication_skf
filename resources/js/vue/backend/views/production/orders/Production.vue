@@ -295,14 +295,15 @@ export default {
             });
         },
         calc_unit_total: function(item){
-            let sum = (+item.amount || 0) + (+item.price || 0) + (+item.cost || 0);
+            let sum = ( (+item.amount || 0) * (+item.price || 0) ) + (+item.cost || 0);
             return sum;
         }
     },
     computed: {
+
         ...mapGetters(['get_production_papers']),
         total_cost: function(){
-            return this.categories.reduce((t,i) => t + (+i.price * (+i.amount || 1) + (+i.cost || 0)), 0);
+            return this.categories.reduce((t,i) => t +=  (+i.price * (+i.amount || 0) + (+i.cost || 0)), 0);
         }
     }
 };

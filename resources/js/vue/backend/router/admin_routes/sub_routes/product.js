@@ -6,6 +6,7 @@ import Details from "../../../views/admin/products/Details";
 import Pricing from "../../../views/admin/products/Pricing.vue";
 import Import from "../../../views/admin/products/Import";
 import SetDiscount from "../../../views/admin/products/SetDiscount";
+import SetStock from "../../../views/admin/products/SetStock.vue";
 
 let prefix = `AdminProduct`;
 export default {
@@ -50,6 +51,11 @@ export default {
             path: `set-discount`,
             name: `SetDiscount${prefix}`,
             component: SetDiscount,
+        },
+        {
+            path: `set-stock`,
+            name: `SetStock${prefix}`,
+            component: SetStock,
         },
     ],
 };

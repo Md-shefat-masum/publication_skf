@@ -46,6 +46,7 @@ class CommonController extends Controller
         $products = Product::where('is_top_product', 1)
             ->where('status', 1)
             ->select(Product::$common_selected_fields)
+            ->where('sales_price','>',0)
             ->latest()
             ->get();
         return $products;
@@ -55,6 +56,7 @@ class CommonController extends Controller
     {
         $products = Product::where('status', 1)
             ->latest()
+            ->where('sales_price','>',0)
             ->get();
         return $products;
     }

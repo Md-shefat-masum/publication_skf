@@ -44,7 +44,10 @@
                                                     <th style="width: 3px;">:</th>
                                                     <th>
                                                         {{ selected.discount_info.discount_price }} tk
-                                                         ( -{{ selected.discount_info.discount_percent }} %)
+                                                         (
+                                                            -{{ selected.discount_info.discount_percent }}%
+                                                            -{{ selected.discount_info.discount_amount }}TK
+                                                         )
                                                     </th>
                                                 </tr>
                                             </tbody>
@@ -64,7 +67,7 @@
                                         :label="`Flat Discount`"
                                         :name="`flat_discount`"
                                         :mutator="flat_discount_change"
-                                        :value="selected.discount_info.discount_amount"
+                                        :value="selected.discount_info.discount_price"
                                     />
                                 </div>
                                 <div v-if="Object.keys(selected).length" class=" form-group d-grid align-content-start gap-1 mb-2 " >
@@ -72,7 +75,7 @@
                                         :label="`Expire Date`"
                                         :name="`expire_date`"
                                         :type="'datetime-local'"
-                                        :value="selected.discount_info.expire_date"
+                                        :value="formatDate(selected.discount_info.expire_date,'YYYY-MM-DD HH:MM')"
                                     />
                                 </div>
                                 <div v-if="Object.keys(selected).length" class=" form-group d-grid align-content-start gap-1 mb-2 " >
@@ -82,7 +85,7 @@
                                         :type="'text'"
                                         :readonly="true"
                                         :styles="'cursor:not-allowed;'"
-                                        :value="discount_amount || selected.discount_info.discount_price"
+                                        :value="discount_amount || selected.discount_info.discount_amount"
                                     />
                                 </div>
                             </div>
@@ -168,7 +171,7 @@ export default {
             }
             if(type=='flat'){
                 this.discount_amount = this.selected.sales_price - value;
-                document.querySelector('input[name="percent_discount"]').value = Math.round(100*value/this.selected.sales_price);
+                document.querySelector('input[name="percent_discount"]').value = 100 - Math.round(100*value/this.selected.sales_price);
             }
             this.discount_amount = Math.round(this.discount_amount);
         }

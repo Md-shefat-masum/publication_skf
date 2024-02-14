@@ -109,4 +109,5 @@
 
 
     prodcution complete e stock add hobe.
+    production costing fix kora
  */

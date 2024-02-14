@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin\Product;
 
 use App\Http\Controllers\Controller;
 use App\Models\ProductImage;
-use App\Models\ProductStock;
-use App\Models\ProductStockLog;
+use App\Models\Product\ProductStock;
+use App\Models\Product\ProductStockLog;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -42,7 +42,7 @@ class ProductStockController extends Controller
 
     public function show($id)
     {
-        $data = ProductStock::where('id',$id)->with(['product', 'supplier'])->first();
+        $data = ProductStockLog::where('id',$id)->with(['product', 'supplier'])->first();
         if(!$data){
             return response()->json([
                 'err_message' => 'not found',
@@ -67,39 +67,39 @@ class ProductStockController extends Controller
                 'errors' => $validator->errors(),
             ], 422);
         }
-        
-        /* 
+
+        /*
             First insert the qty data in product stock table
         */
-        $data = new ProductStock();
+        $data = new ProductStockLog();
         $data->supplier_id = request()->selected_supplier[0];
-        $data->product_id = request()->selected_product[0]; 
-        $data->qty = request()->qty; 
+        $data->product_id = request()->selected_product[0];
+        $data->qty = request()->qty;
         $data->purchase_date = Carbon::parse(request()->purchase_date)->toDateString();
-        
+
         $data->save();
 
-        /* 
+        /*
             Insert the data in stock log table,
             type="sales" || insert when a product is ordered
-            type="purchase" || inserted when a 
+            type="purchase" || inserted when a
         */
 
         $dataStock = new ProductStockLog();
         $dataStock->product_id = $data->product_id;
-        $dataStock->qty = $data->qty; 
-        $dataStock->type = "purchase"; 
-        $dataStock->creator = Auth::user()->id; 
+        $dataStock->qty = $data->qty;
+        $dataStock->type = "purchase";
+        $dataStock->creator = Auth::user()->id;
         $dataStock->save();
 
         return response()->json($data, 200);
     }
 
-   
+
 
     public function canvas_store()
     {
-        
+
     }
 
     public function update()
@@ -118,49 +118,49 @@ class ProductStockController extends Controller
                 'errors' => $validator->errors(),
             ], 422);
         }
-        
-        $stock_quantity = ProductStock::find(request()->id);
+
+        $stock_quantity = ProductStockLog::find(request()->id);
         if(request()->qty < -$stock_quantity->qty || request()->qty > 0) {
-            
+
             return response()->json([
                 'err_message' => 'Stock quantity cannot be less then the original stock',
                 'err_type' => 'quantity_invalid'
             ], 400);
-            
+
         }else {
             return 0;
-            /* 
+            /*
             First insert the qty data in product stock table
             */
-            $data = new ProductStock();
+            $data = new ProductStockLog();
             $data->supplier_id = request()->selected_supplier[0];
-            $data->product_id = request()->selected_product[0]; 
-            $data->qty = request()->qty; 
+            $data->product_id = request()->selected_product[0];
+            $data->qty = request()->qty;
             $data->purchase_date = Carbon::parse(request()->purchase_date)->toDateString();
-            
+
             $data->save();
 
-            /* 
+            /*
                 Insert the data in stock log table,
                 type="sales" || insert when a product is ordered
-                type="purchase" || inserted when a 
+                type="purchase" || inserted when a
             */
 
             $dataStock = new ProductStockLog();
             $dataStock->product_id = $data->product_id;
-            $dataStock->qty = $data->qty; 
-            $dataStock->type = "purchase"; 
-            $dataStock->creator = Auth::user()->id; 
+            $dataStock->qty = $data->qty;
+            $dataStock->type = "purchase";
+            $dataStock->creator = Auth::user()->id;
             $dataStock->save();
 
             return response()->json($data, 200);
         }
-        
+
     }
 
     public function canvas_update()
     {
-        $data = ProductStock::find(request()->id);
+        $data = ProductStockLog::find(request()->id);
         if(!$data){
             return response()->json([
                 'err_message' => 'validation error',
@@ -204,7 +204,7 @@ class ProductStockController extends Controller
             ], 422);
         }
 
-        $data = ProductStock::find(request()->id);
+        $data = ProductStockLog::find(request()->id);
         $data->status = 0;
         $data->save();
 
@@ -230,7 +230,7 @@ class ProductStockController extends Controller
             ], 422);
         }
 
-        $data = ProductStock::find(request()->id);
+        $data = ProductStockLog::find(request()->id);
         $data->status = 1;
         $data->save();
 
@@ -256,10 +256,10 @@ class ProductStockController extends Controller
             $item['created_at'] = $item['created_at'] ? Carbon::parse($item['created_at']): Carbon::now()->toDateTimeString();
             $item['updated_at'] = $item['updated_at'] ? Carbon::parse($item['updated_at']): Carbon::now()->toDateTimeString();
             $item = (object) $item;
-            $check = ProductStock::where('id',$item->id)->first();
+            $check = ProductStockLog::where('id',$item->id)->first();
             if(!$check){
                 try {
-                    ProductStock::create((array) $item);
+                    ProductStockLog::create((array) $item);
                 } catch (\Throwable $th) {
                     return response()->json([
                         'err_message' => 'validation error',

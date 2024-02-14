@@ -30,7 +30,7 @@
                                         <h6 style="flex:1" class="mb-0">{{ product.product_name }}</h6>
                                         <h6 style="flex:1" class="mb-0">{{ product.product_name_english }}</h6>
                                         <div class="mt-1">
-                                            <span v-if="product.discount_info && product.discount_info.discount_price">
+                                            <span v-if="product.discount_info && product.discount_info.discount_amount">
                                                 <b>৳ {{ product.discount_info.discount_price.toString().enToBn() }}</b>
                                                 <del>৳ {{ product.sales_price.toString().enToBn() }}</del>
                                             </span>
@@ -78,7 +78,8 @@
                                                     <input type="number" min="0"
                                                         @change="add_to_cart({product,qty: $event.target.value})"
                                                         @keyup="add_to_cart({product,qty: $event.target.value})"
-                                                        :value="product.qty" style="width: 70px;" class="form-control">
+                                                        :value="product.qty"
+                                                        style="width: 70px;" class="form-control">
                                                 </td>
                                                 <td class="text-center">
                                                     <input type="number" min="0"

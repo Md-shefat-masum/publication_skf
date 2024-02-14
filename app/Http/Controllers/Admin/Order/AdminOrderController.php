@@ -663,7 +663,10 @@ class AdminOrderController extends Controller
         $order->order_status = 'accepted';
         $order->save();
         $this->attach_sales_id($order);
+
     }
+
+
 
     public function attach_sales_id($order)
     {
@@ -726,6 +729,7 @@ class AdminOrderController extends Controller
                 $product->total_sales = $product->sales;
                 $product->is_in_stock = ($product->stock - $product->stock_alert_qty) > $product->sales;
                 $product->save();
+                set_stock_log($product->id, $order_product->qty, 'sales');
             }
         }
     }

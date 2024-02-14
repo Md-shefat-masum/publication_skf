@@ -502,4 +502,37 @@ class ProductController extends Controller
 
         return response()->json(request()->all(), 200);
     }
+
+    public function store_stock()
+    {
+        $validator = Validator::make(request()->all(), [
+            'product_id' => ['required','numeric','exists:products,id'],
+            'new_stock' => ['required','numeric'],
+            'stock_alert_qty' => ['required','min:1','numeric'],
+        ],[
+            'new_stock.required' => ["discount not set"],
+            'stock_alert_qty.required' => ["numeric"=>"discount not set"],
+            'product_id.required' => ["no product is selected"],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'err_message' => 'validation error',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        $product = Product::find(request()->product_id);
+        if(request()->stock_type == 'sales'){
+            $product->total_stock = $product->total_stock - request()->new_stock;
+        }else{
+            $product->total_stock = $product->total_stock + request()->new_stock;
+        }
+        $product->stock_alert_qty = request()->stock_alert_qty;
+        $product->save();
+
+        set_stock_log($product->id, request()->new_stock, request()->stock_type);
+
+        return response()->json($product, 200);
+    }
 }

@@ -236,7 +236,7 @@
                                             <td>{{ $item->product_price }}</td>
                                             <td>
                                                 @if ($item->discount_price != 0 && $item->product_price != 0)
-                                                    {{ round((100 * $item->discount_price) / $item->product_price) }} %
+                                                    {{ 100 - round((100 * $item->discount_price) / $item->product_price) }} %
                                                 @endif
                                             </td>
                                             <td>{{ $item->sales_price }}</td>
@@ -284,6 +284,7 @@
                                 </div>
                                 <footer>
                                     <br>
+                                    <p class="footer_text" style="margin-bottom: 5px;">{{$order->user->mobile_number}}</p>
                                     <p class="footer_text">বিক্রিত মাল কোন অবস্থাতেই ফেরৎ নেয়া হয়না।</p>
                                 </footer>
                             </div>

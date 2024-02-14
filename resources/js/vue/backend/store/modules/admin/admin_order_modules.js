@@ -72,11 +72,11 @@ const actions = {
             // console.log(res.data);
             res.data.order_details.forEach(el => {
                 // console.log(el);
-                el.total_price = el.discount_price? el.discount_price * el.qty : el.sales_price * el.qty;
-                el.current_price = el.discount_price? el.discount_price : el.product_price;
+                el.total_price = el.discount_price ? el.discount_price * el.qty : el.sales_price * el.qty;
+                el.current_price = el.discount_price ? el.discount_price : el.product_price;
                 el.id = el.product_id;
 
-                if(el.product.discount_info.discount_percent){
+                if (el.product.discount_info.discount_percent) {
                     el.product.discount_info.discount_percent = el.discount_percent;
                 }
                 // el.discount_percent = el.discount_percent? el.discount_percent : 0;
@@ -95,12 +95,12 @@ const actions = {
         }
     },
 
-    [`store_admin_order`]: async function ({ state, rootGetters, dispatch }, { trx_id, account_number_id, shipping_charge, total_discount, total_paid,account_id }) {
+    [`store_admin_order`]: async function ({ state, rootGetters, dispatch }, { trx_id, account_number_id, shipping_charge, total_discount, total_paid, account_id }) {
         let carts = [...state.admin_oder_cart];
         let discount = state.admin_order_discount;
         let customer_id = rootGetters.get_user_selected[0]?.id;
         // console.log(carts);
-        carts = carts.map(i=>{
+        carts = carts.map(i => {
             return {
                 id: i.id,
                 product_name: i.product_name,
@@ -115,31 +115,31 @@ const actions = {
         let cconfirm = await window.s_confirm("submit order");
         if (cconfirm) {
             axios.post('/admin/order/store-order', {
-                    carts,
-                    customer_id,
-                    type: 'create',
-                    order_id: state.admin_order?.id,
-                    discount: total_discount,
-                    shipping_charge,
-                    total_paid,
-                    trx_id,
-                    account_id,
-                    account_number_id,
-                })
+                carts,
+                customer_id,
+                type: 'create',
+                order_id: state.admin_order?.id,
+                discount: total_discount,
+                shipping_charge,
+                total_paid,
+                trx_id,
+                account_id,
+                account_number_id,
+            })
                 .then(res => {
                     // console.log(res.data);
                     dispatch('clear_cart');
                     state.admin_oder_cart = [];
                     window.s_alert(`order created successfully.`);
                     setTimeout(() => {
-                        management_router.push({name:`Details${route_prefix}`,params:{id: res.data.id}})
+                        management_router.push({ name: `Details${route_prefix}`, params: { id: res.data.id } })
                     }, 200);
                 })
         }
     },
 
-    [`update_admin_order`]: async function ({ state, dispatch },{account_id, account_number_id, trx_id, shipping_charge, total_discount, total_paid }) {
-        let carts = [...state.admin_oder_cart].map(i=>{
+    [`update_admin_order`]: async function ({ state, dispatch }, { account_id, account_number_id, trx_id, shipping_charge, total_discount, total_paid }) {
+        let carts = [...state.admin_oder_cart].map(i => {
             delete i.product;
             return i;
         });
@@ -160,10 +160,10 @@ const actions = {
                 .then(res => {
                     // console.log(res.data);
                     dispatch('clear_cart');
-                    state.admin_oder_cart  = [];
+                    state.admin_oder_cart = [];
                     window.s_alert(`order updated successfully.`);
                     setTimeout(() => {
-                        management_router.push({name:`Details${route_prefix}`,params:{id: res.data.id}})
+                        management_router.push({ name: `Details${route_prefix}`, params: { id: res.data.id } })
                     }, 200);
                 })
         }
@@ -236,18 +236,22 @@ const actions = {
             product.qty = 1;
             product.product_id = product.id;
             product.product = product;
-            // console.log(product);
-            commission = product.discount_info.discount_percent?product.discount_info.discount_percent:0;
+            product.discount_percent = product.discount_info.discount_percent;
             cart_product = product;
             products.push(cart_product);
         }
 
-        cart_product.discount_percent = commission || 0;
         cart_product.current_price = product.sales_price;
         cart_product.total_price = product.sales_price * cart_product.qty;
 
         if (commission) {
+            cart_product.discount_percent = commission;
             let d_price = product.sales_price - (cart_product.current_price * commission / 100);
+            cart_product.total_price = cart_product.qty * d_price;
+            cart_product.current_price = d_price;
+        }
+        else if (cart_product.discount_percent) {
+            let d_price = product.sales_price - (cart_product.current_price * cart_product.discount_percent / 100);
             cart_product.total_price = cart_product.qty * d_price;
             cart_product.current_price = d_price;
         }
@@ -299,14 +303,14 @@ const actions = {
         }
     },
 
-    ['delete_order']: async function({ state, dispatch }, order ){
+    ['delete_order']: async function ({ state, dispatch }, order) {
         let cconfirm = await window.s_confirm("Delete Order");
         if (cconfirm) {
-            await axios.post('/admin/order/destroy', {id: order.id})
+            await axios.post('/admin/order/destroy', { id: order.id })
                 .then(res => {
                     state.order = null;
                     window.s_alert(`Order Deleted.`);
-                    management_router.push({name: 'BranchOrder'})
+                    management_router.push({ name: 'BranchOrder' })
                 })
         }
     }
@@ -316,8 +320,8 @@ const actions = {
 // mutators
 const mutations = {
     ...test_module.mutations(),
-    set_admin_order_order_date: function(state, data){
-        state.order_date  = data;
+    set_admin_order_order_date: function (state, data) {
+        state.order_date = data;
         this.dispatch(`fetch_${store_prefix}s`);
     },
     set_get_admin_product_for_order: (state, data) => {

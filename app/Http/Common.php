@@ -1,5 +1,9 @@
 <?php
 
+use App\Models\Product\Product;
+use App\Models\Product\ProductStockLog;
+use Illuminate\Support\Facades\Auth;
+
 function enToBn($NRS)
 {
     $englDTN = array(
@@ -25,18 +29,28 @@ function enToBn($NRS)
 function setting($key, $multiple = false)
 {
     try {
-        if(!$multiple){
+        if (!$multiple) {
             $value = $GLOBALS['app_settings']->where("title", $key)->first();
             if ($value) {
                 return $value->setting_value;
             } else {
                 return '';
             }
-        }else{
+        } else {
             $values = $GLOBALS['app_settings']->where("title", $key)->all();
             return $values;
         }
     } catch (\Throwable $th) {
         var_dump($th->getMessage());
     }
+}
+
+function set_stock_log($product_id, $qty, $type)
+{
+    $dataStock = new ProductStockLog();
+    $dataStock->product_id = $product_id;
+    $dataStock->qty = $qty;
+    $dataStock->type = $type;
+    $dataStock->creator = Auth::user()?Auth::user()->id: 2;
+    $dataStock->save();
 }

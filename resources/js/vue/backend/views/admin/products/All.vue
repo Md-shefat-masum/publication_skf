@@ -127,17 +127,17 @@
                                 </td>
                                 <td>
                                     <b class="text-primary">
-                                        {{ item.discount_info && item.discount_info.discount_percent }}%
+                                        {{ item.discount_info && item.discount_info.discount_percent.toFixed(0) }}%
                                     </b>
                                 </td>
                                 <td>
                                     <b class="text-info">
-                                        - {{ item.discount_info && item.discount_info.discount_amount }} ৳
+                                        - {{ item.discount_info && item.discount_info.discount_amount.toFixed(2) }} ৳
                                     </b>
                                 </td>
                                 <td>
                                     <b class="text-info">
-                                        {{ item.discount_info.discount_price ? item.discount_info.discount_price: item.sales_price }} ৳
+                                        {{ item.discount_info.discount_price ? item.discount_info.discount_price: item.sales_price.toFixed(2) }} ৳
                                     </b>
                                 </td>
 

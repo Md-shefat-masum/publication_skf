@@ -1,9 +1,24 @@
 <?php
 
+use App\Models\Account\AccountLog;
+use App\Models\Account\AccountSupplierLog;
+use App\Models\Order\Order;
+use App\Models\Order\OrderCoupon;
+use App\Models\Order\OrderDeliveryInfo;
+use App\Models\Order\OrderDetails;
+use App\Models\Order\OrderPayment;
+use App\Models\Order\OrderPaymentAttachment;
+use App\Models\Order\OrderVariant;
 use App\Models\Product\Category;
 use App\Models\Product\Product;
+use App\Models\Product\ProductDiscount;
 use App\Models\Product\ProductStockLog;
+use App\Models\Production\Production;
+use App\Models\Production\ProductionCost;
+use App\Models\Production\ProductionStatus;
+use App\Models\Production\ProductionUsedPaper;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
@@ -95,11 +110,11 @@ Route::get('/old-users', function () {
         while ($row = $result->fetch_object()) {
             try {
                 // dd($row);
-                $product = Product::where('product_name',$row->product_title)->first();
-                if($product){
-                    $product->is_top_product = 1;
-                    $product->save();
-                }
+                // $product = Product::where('product_name', $row->product_title)->first();
+                // if ($product) {
+                //     $product->is_top_product = 1;
+                //     $product->save();
+                // }
             } catch (\Throwable $th) {
                 //throw $th;
                 dump($row);
@@ -110,6 +125,77 @@ Route::get('/old-users', function () {
     }
     $conn->close();
 });
+
+Route::get('/set-discount', function () {
+    $products = Product::get();
+    $file = file_get_contents(public_path('jsons/products.json'));
+    $data = collect(json_decode($file));
+
+    // ProductDiscount::truncate();
+    foreach ($products as $product) {
+        $p = $data->where('product_title', $product->product_name)->first();
+
+        // try {
+        //     $price = $product->sales_price;
+        //     $discount = 100 - round((100 * $price/  $product->cost));
+        //     ProductDiscount::create([
+        //         'product_id' => $product->id,
+        //         'main_price' => $product->cost,
+        //         'parcent_discount' => $discount,
+        //         'flat_discount' => $price,
+        //         'expire_date' => Carbon::now()->addYears(1)->toDateTimeString(),
+        //     ]);
+        //     $product->sales_price = $product->cost;
+        //     $product->save();
+        // } catch (\Throwable $th) {
+        //     //throw $th;
+        // }
+
+        // try {
+        //     $product->total_stock = $p->product_quantity;
+        //     $product->is_in_stock = 1;
+        //     $product->save();
+        //     set_stock_log($product->id, $p->product_quantity, 'initial');
+        // } catch (\Throwable $th) {
+        //     //throw $th;
+        // }
+
+        // dd();
+
+        // if(!$product->cost){
+        //     $product->cost = $product->sales_price;
+        //     $product->save();
+        // }
+
+
+        // $product->sales_price = $product->cost;
+        // $product->save();
+    }
+});
+
+Route::get('/clean-db', function () {
+    // AccountLog::truncate();
+    // AccountSupplierLog::truncate();
+
+    // OrderCoupon::truncate();
+    // OrderDeliveryInfo::truncate();
+    // OrderDetails::truncate();
+    // OrderPaymentAttachment::truncate();
+    // OrderPayment::truncate();
+    // OrderVariant::truncate();
+    // Order::truncate();
+
+    // ProductStockLog::truncate();
+    // Product::where('id', '>', 0)->update(['total_stock' => 0, 'total_sales' => 0]);
+
+    // ProductionCost::truncate();
+    // ProductionStatus::truncate();
+    // ProductionUsedPaper::truncate();
+    // Production::truncate();
+
+    // return redirect()->back();
+});
+
 
 // Route::get('/data-reload', function () {
 //     \Illuminate\Support\Facades\Artisan::call('migrate:fresh', ['--seed' => true]);
