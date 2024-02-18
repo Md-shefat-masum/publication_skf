@@ -174,6 +174,7 @@ Route::get('/set-discount', function () {
 });
 
 Route::get('/clean-db', function () {
+    dd(Hash::make('12345678'));
     // AccountLog::truncate();
     // AccountSupplierLog::truncate();
 
